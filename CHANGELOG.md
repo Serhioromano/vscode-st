@@ -6,7 +6,7 @@ All notable changes to the "st" extension will be documented in this file.
 
 - Initial release
 
-## [1.0.2-beta1] - 2018-04-05
+## [1.0.3] - 2018-04-05
 
 ### Added
 
