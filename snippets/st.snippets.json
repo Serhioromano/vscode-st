@@ -8,5 +8,15 @@
 			""
 		],
 		"description": "Define program"
+    },
+	"FOR …": {
+		"prefix": "for",
+		"body": [
+			"FOR ${1:Var} TO ${2:Num} DO",
+			"\t$0",
+			"END_FOR;",
+			""
+		],
+		"description": "Define FOR cycle"
     }
 }

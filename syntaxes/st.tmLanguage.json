@@ -12,19 +12,22 @@
 			"include": "#comment_g"
 		},
 		{
+			"include": "#strings_dq"
+		},
+		{
+			"include": "#strings_sq"
+		},
+		{
 			"include": "#meta"
 		},
 		{
-			"include": "#numbers"
+			"include": "#variables"
 		},
 		{
 			"include": "#keywords"
 		},
 		{
-			"include": "#strings_dq"
-		},
-		{
-			"include": "#strings_sq"
+			"include": "#numbers"
 		}
 	],
 	"repository": {
@@ -96,12 +99,9 @@
 				}
 			]
 		},
-		"meta":{
+		"variables":{
 			"patterns": [
-				{
-					"name": "meta.braces.st",
-					"match": "[\\[\\]\\(\\)\\{\\}]"
-				},
+
 				{
 					"name": "variable.other.constant",
 					"match": "\\b(T|DT|TOD)#[0-9:-_shmyd]*\\b"
@@ -133,6 +133,14 @@
 				{
 					"name": "variable.parameter.st",
 					"match": "\\b\\.[A-Za-z_]*\\b"
+				}
+			]
+		},
+		"meta":{
+			"patterns": [
+				{
+					"name": "meta.braces.st",
+					"match": "[\\[\\]\\(\\)\\{\\}]"
 				}
 			]
 		},
