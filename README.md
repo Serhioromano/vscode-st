@@ -9,6 +9,6 @@ Structured Text language support. Includes syntax highlight, snippets.
 
 ## Release Notes
 
-### 1.0.3
+### 1.0.4
 
-Initial release
+- add- new file extensions to support logi.CAD 3 projects.
