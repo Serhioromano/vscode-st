@@ -1,7 +1,14 @@
 # Change Log
+
 All notable changes to the "st" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
 ## [Unreleased]
+
 - Initial release
+
+## [1.0.0-beta1] - 2018-04-05
+
+### Added
+
+- Syntax highlights
+- Some snippets
