@@ -3,6 +3,18 @@
 	"name": "Structured Text",
 	"patterns": [
 		{
+			"include": "#comment_l"
+		},
+		{
+			"include": "#comment_st"
+		},
+		{
+			"include": "#comment_g"
+		},
+		{
+			"include": "#meta"
+		},
+		{
 			"include": "#numbers"
 		},
 		{
@@ -44,19 +56,116 @@
 				},
 				{
 					"name": "keyword.control.st",
-					"match": "\\b(END_)?(WHILE|FOR|REPEAT|DO|TO|BY|AT|TASK|WITH)\\b"
-				},
-				{
-					"name": "keyword.operator.logical.st",
-					"match": "\\b(OR|AND)\\b"
+					"match": "\\b(END_)?(WHILE|FOR|REPEAT|DO|TO|BY|AT|TASK|WITH|RETURN|EXIT|CONTINUE)\\b"
 				},
 				{
 					"name": "keyword.operator.assignment.st",
 					"match": "(:=|\\^)"
 				},
 				{
+					"name": "keyword.operator.logical.st",
+					"match": "\\b(OR|AND|NOT|GE|LE|EQ|NE)\\b"
+				},
+				{
+					"name": "keyword.operator.logical.st",
+					"match": "(&|\\+|\\/|\\-|\\<|\\=|\\>)"
+				},
+				{
 					"name": "keyword.operator.arithmetic.st",
-					"match": "\\b(ABS|SIN|MOD)\\b"
+					"match": "(\\+|\\-|\\/|\\*)"
+				},
+				{
+					"name": "keyword.operator.arithmetic.st",
+					"match": "\\b(ABS|SIN|MOD|ABS|ACOS|ASIN|ATAN|COS|EXP|EXPT|LN|LOG|SIN|SQRT|TAN|SEL|MAX|MIN|LIMIT|MUX|SHL|SHR|ROL|ROR|ADD|DIV|MUL|SUB|ROUND)\\b"
+				},
+				{
+					"name": "storage.type.st",
+					"match": "\\b(INT|SINT|DINT|LINT|USINT|UINT|UDINT|ULINT|REAL|LREAL|TIME|DATE|TIME_OF_DAY|DATE_AND_TIME|STRING|BOOL|BYTE|WORLD|DWORLD|ARRAY|POINTER|LWORLD)\\b"
+				},
+				{
+					"name": "entity.name.constant.st",
+					"match": "\\b(TRUE|FALSE|NULL)\\b"
+				},
+				{
+					"name": "entity.name.struct.st",
+					"match": "\\b(END_)?(PROGRAM|CONFIGURATION|TCP|RECOURCE|CHANNEL|LIBRARY|FOLDER|BINARIES|INCLUDES|SOURCES|ACTION|STEP|INITIAL_STEP|TRANSACTION|TYPE|STRUCT|FUNCTION|FUNCTION_BLOCK)\\b"
+				},
+				{
+					"name": "entity.name.type.st",
+					"match": "\\b(VAR|VAR_INPUT|VAR_OUTPUT|VAR_IN_OUT|VAR_TEMP|VAR_GLOBAL|VAR_ACCESS|VAR_EXTERNAL|END_VAR)\\b"
+				}
+			]
+		},
+		"meta":{
+			"patterns": [
+				{
+					"name": "meta.braces.st",
+					"match": "[\\[\\]\\(\\)\\{\\}]"
+				},
+				{
+					"name": "variable.other.constant",
+					"match": "\\b(T|DT|TOD)#[0-9:-_shmyd]*\\b"
+				},
+				{
+					"name": "variable.other.constant",
+					"match": "\\b[A-Za-z]{1,6}#[0-9]**\\b"
+				},
+				{
+					"name": "variable.other.constant",
+					"match": "\\%(I|Q|M)(X|B|W|D|L)[0-9\\.]*\\b"
+				},
+				{
+					"name": "variable.other.constant",
+					"match": "\\%(I|Q|M)[0-9\\.]*\\b"
+				},
+				{
+					"name": "variable.function.st",
+					"match": "\\b(RS|SR|TON|TP|TOF|TRUNC|CTD|CTU|CTUD|R_TRIG|F_TRIG|MOVE|CONCAT|DELETE|FIND|INSERT|LEFT|LEN|REPLACE|RIGHT|RTC)\\b"
+				},
+				{
+					"name": "variable.function.st",
+					"match": "\\b[A-Za-z_]*(_TO_)[A-Za-z_]*\\b"
+				},
+				{
+					"name": "variable.function.st",
+					"match": "\\b(TO_)[A-Za-z_]*\\b"
+				},
+				{
+					"name": "variable.parameter.st",
+					"match": "\\b\\.[A-Za-z_]*\\b"
+				}
+			]
+		},
+		"comment_l": {
+			"name": "comment.line.st",
+			"begin": "\\/\\/",
+			"end": "$",
+			"patterns": [
+				{
+					"name": "constant.character.escape.st",
+					"match": "\\\\."
+				}
+			]
+		},
+		"comment_st": {
+			"name": "comment.block.st",
+			"begin": "\\(\\*",
+			"end": "\\*\\)",
+			"patterns": [
+				{
+					"name": "constant.character.escape.st",
+					"match": "\\\\."
+				}
+			]
+		},
+		"comment_g": {
+			"name": "comment.block.st",
+			"begin": "\\/\\*",
+			"end": "\\*\\/",
+			"patterns": [
+				{
+					"name": "constant.character.escape.st",
+					"match": "\\\\."
 				}
 			]
 		},
