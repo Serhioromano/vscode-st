@@ -1,0 +1,40 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Structured Text",
+	"patterns": [
+		{"include": "#keywords"},
+		{"include": "#strings_dq"},
+		{"include": "#strings_sq"}
+	],
+	"repository": {
+		"keywords": {
+			"patterns": [{
+				"name": "keyword.control.st",
+				"match": "\\b(if|while|for|return)\\b"
+			}]
+		},
+		"strings_dq": {
+			"name": "string.quoted.double.st",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.st",
+					"match": "\\\\."
+				}
+			]
+		},
+		"strings_sq": {
+			"name": "string.single.double.st",
+			"begin": "'",
+			"end": "'",
+			"patterns": [
+				{
+					"name": "constant.character.escape.st",
+					"match": "\\\\."
+				}
+			]
+		}
+	},
+	"scopeName": "source.st"
+}

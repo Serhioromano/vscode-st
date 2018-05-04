@@ -1,0 +1,12 @@
+{
+	"PROGRAM …": {
+		"prefix": "prog",
+		"body": [
+			"PROGRAM ${1:PLC_PRG}",
+			"\t$0",
+			"END_PROGRAM",
+			""
+		],
+		"description": "Define program"
+    }
+}
