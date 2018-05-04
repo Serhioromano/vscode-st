@@ -22,11 +22,12 @@
   },
   "homepage": "https://github.com/Serhioromano/vscode-st#readme",
   "engines": {
-    "vscode": "^1.23.0"
+    "vscode": "^1.11.0"
   },
   "activationEvents": [
     "onLanguage:st"
   ],
+  "main": "index.js",
   "categories": [
     "Languages",
     "Snippets"
@@ -37,7 +38,7 @@
         "id": "st",
         "aliases": [
           "Structured Text",
-          "st"
+          "ST"
         ],
         "extensions": [
           ".st",

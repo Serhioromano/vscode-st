@@ -2,16 +2,63 @@
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "Structured Text",
 	"patterns": [
-		{"include": "#keywords"},
-		{"include": "#strings_dq"},
-		{"include": "#strings_sq"}
+		{
+			"include": "#numbers"
+		},
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#strings_dq"
+		},
+		{
+			"include": "#strings_sq"
+		}
 	],
 	"repository": {
+		"numbers": {
+			"patterns": [
+				{
+					"name": "constant.numeric.integer.st",
+					"match": "\\b(2#[0-9_]*)+\\b"
+				},
+				{
+					"name": "constant.numeric.hex.st",
+					"match": "\\b(16#[0-9A-Fa-f]*)+\\b"
+				},
+				{
+					"name": "constant.numeric.float.st",
+					"match": "\\b\\d*\\.\\d+([eE][\\-+]?\\d+)?\\b"
+				},
+				{
+					"name": "constant.numeric.integer.st",
+					"match": "\\b(\\d)+\\b"
+				}
+			]
+		},
 		"keywords": {
-			"patterns": [{
-				"name": "keyword.control.st",
-				"match": "\\b(if|while|for|return)\\b"
-			}]
+			"patterns": [
+				{
+					"name": "keyword.control.conditional.st",
+					"match": "\\b(END_)?(IF|CASE|OF|ELSE|ELSIF|THEN)\\b"
+				},
+				{
+					"name": "keyword.control.st",
+					"match": "\\b(END_)?(WHILE|FOR|REPEAT|DO|TO|BY|AT|TASK|WITH)\\b"
+				},
+				{
+					"name": "keyword.operator.logical.st",
+					"match": "\\b(OR|AND)\\b"
+				},
+				{
+					"name": "keyword.operator.assignment.st",
+					"match": "(:=|\\^)"
+				},
+				{
+					"name": "keyword.operator.arithmetic.st",
+					"match": "\\b(ABS|SIN|MOD)\\b"
+				}
+			]
 		},
 		"strings_dq": {
 			"name": "string.quoted.double.st",
