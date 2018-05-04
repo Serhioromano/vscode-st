@@ -59,7 +59,7 @@
 				},
 				{
 					"name": "keyword.control.st",
-					"match": "\\b(END_)?(WHILE|FOR|REPEAT|DO|TO|BY|AT|TASK|WITH|RETURN|EXIT|CONTINUE)\\b"
+					"match": "\\b(END_)?(WHILE|FOR|REPEAT|DO|TO|BY|AT|TASK|WITH|RETURN|EXIT|CONTINUE|USE)\\b"
 				},
 				{
 					"name": "keyword.operator.assignment.st",
@@ -67,7 +67,7 @@
 				},
 				{
 					"name": "keyword.operator.logical.st",
-					"match": "\\b(OR|AND|NOT|GE|LE|EQ|NE)\\b"
+					"match": "\\b(OR|AND|NOT|XOR|GE|LE|EQ|NE|GT|LT)\\b"
 				},
 				{
 					"name": "keyword.operator.logical.st",
@@ -79,7 +79,7 @@
 				},
 				{
 					"name": "keyword.operator.arithmetic.st",
-					"match": "\\b(ABS|SIN|MOD|ABS|ACOS|ASIN|ATAN|COS|EXP|EXPT|LN|LOG|SIN|SQRT|TAN|SEL|MAX|MIN|LIMIT|MUX|SHL|SHR|ROL|ROR|ADD|DIV|MUL|SUB|ROUND)\\b"
+					"match": "\\b(ABS|SIN|MOD|ABS|ACOS|ASIN|ATAN|COS|EXP|EXPT|LN|LOG|SIN|SQRT|TAN|SEL|MUX|SHL|SHR|ROL|ROR|ADD|DIV|MUL|SUB)\\b"
 				},
 				{
 					"name": "storage.type.st",
@@ -91,7 +91,7 @@
 				},
 				{
 					"name": "entity.name.struct.st",
-					"match": "\\b(END_)?(PROGRAM|CONFIGURATION|TCP|RECOURCE|CHANNEL|LIBRARY|FOLDER|BINARIES|INCLUDES|SOURCES|ACTION|STEP|INITIAL_STEP|TRANSACTION|TYPE|STRUCT|FUNCTION|FUNCTION_BLOCK)\\b"
+					"match": "\\b(END_)?(PROGRAM|CONFIGURATION|TCP|RESOURCE|CHANNEL|LIBRARY|FOLDER|BINARIES|INCLUDES|SOURCES|ACTION|STEP|INITIAL_STEP|TRANSACTION|TYPE|STRUCT|FUNCTION|FUNCTION_BLOCK|NAMESPACE)\\b"
 				},
 				{
 					"name": "entity.name.type.st",
@@ -116,11 +116,15 @@
 				},
 				{
 					"name": "variable.other.constant",
-					"match": "\\%(I|Q|M)[0-9\\.]*\\b"
+					"match": "\\%(I|Q)[0-9\\.]*\\b"
 				},
 				{
 					"name": "variable.function.st",
-					"match": "\\b(RS|SR|TON|TP|TOF|TRUNC|CTD|CTU|CTUD|R_TRIG|F_TRIG|MOVE|CONCAT|DELETE|FIND|INSERT|LEFT|LEN|REPLACE|RIGHT|RTC)\\b"
+					"match": "\\b(RS|SR|TON|TP|TOF|TRUNC|CTD|CTU|CTUD|R_TRIG|F_TRIG|MOVE|CONCAT|DELETE|FIND|INSERT|LEFT|LEN|REPLACE|RIGHT|RTC|MID|SEMA|ROUND|FLOOR|CEIL|UNPACK|LIMIT|MAX|MIN)\\b"
+				},
+				{
+					"name": "variable.function.st",
+					"match": "\\b(SEL_|MUX_)[A-Za-z]*\\b"
 				},
 				{
 					"name": "variable.function.st",
@@ -128,7 +132,7 @@
 				},
 				{
 					"name": "variable.function.st",
-					"match": "\\b(TO_)[A-Za-z_]*\\b"
+					"match": "\\b(TO_|FROM_|TRUNC_)[A-Za-z_]*\\b"
 				},
 				{
 					"name": "variable.parameter.st",
