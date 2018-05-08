@@ -66,6 +66,10 @@
 					"match": "(:=|\\^)"
 				},
 				{
+					"name": "punctuation.terminator.statement.st",
+					"match": "[;:]"
+				},
+				{
 					"name": "keyword.operator.logical.st",
 					"match": "\\b(OR|AND|NOT|XOR|GE|LE|EQ|NE|GT|LT)\\b"
 				},
@@ -82,15 +86,15 @@
 					"match": "\\b(ABS|SIN|MOD|ABS|ACOS|ASIN|ATAN|COS|EXP|EXPT|LN|LOG|SIN|SQRT|TAN|SEL|MUX|SHL|SHR|ROL|ROR|ADD|DIV|MUL|SUB)\\b"
 				},
 				{
-					"name": "storage.type.st",
-					"match": "\\b(INT|SINT|DINT|LINT|USINT|UINT|UDINT|ULINT|REAL|LREAL|TIME|DATE|TIME_OF_DAY|DATE_AND_TIME|STRING|BOOL|BYTE|WORLD|DWORLD|ARRAY|POINTER|LWORLD)\\b"
+					"name": "support.type.primitives.st",
+					"match": "\\b(INT|SINT|DINT|LINT|USINT|UINT|UDINT|ULINT|REAL|LREAL|TIME|DATE|TIME_OF_DAY|DATE_AND_TIME|STRING|BOOL|BYTE|WORLD|DWORLD|ARRAY|POINTER TO|LWORLD)\\b"
 				},
 				{
 					"name": "entity.name.constant.st",
 					"match": "\\b(TRUE|FALSE|NULL)\\b"
 				},
 				{
-					"name": "entity.name.struct.st",
+					"name": "storage.type.class.st",
 					"match": "\\b(END_)?(PROGRAM|CONFIGURATION|TCP|RESOURCE|CHANNEL|LIBRARY|FOLDER|BINARIES|INCLUDES|SOURCES|ACTION|STEP|INITIAL_STEP|TRANSITION|TYPE|STRUCT|FUNCTION|FUNCTION_BLOCK|NAMESPACE)\\b"
 				},
 				{
@@ -120,7 +124,7 @@
 				},
 				{
 					"name": "variable.function.st",
-					"match": "\\b(RS|SR|TON|TP|TOF|TRUNC|CTD|CTU|CTUD|R_TRIG|F_TRIG|MOVE|CONCAT|DELETE|FIND|INSERT|LEFT|LEN|REPLACE|RIGHT|RTC|MID|SEMA|ROUND|FLOOR|CEIL|UNPACK|LIMIT|MAX|MIN)\\b"
+					"match": "\\b(RS|SR|TON|TP|TOF|TRUNC|CTD|CTU|CTUD|R_TRIG|F_TRIG|MOVE|CONCAT|DELETE|FIND|INSERT|LEFT|LEN|REPLACE|RIGHT|RTC|MID|SEMA|ROUND|FLOOR|CEIL|UNPACK|LIMIT|MAX|MIN|ADR|SIZEOF|SIZE|BIT_ADR)\\b"
 				},
 				{
 					"name": "variable.function.st",
@@ -135,8 +139,8 @@
 					"match": "\\b(TO_|FROM_|TRUNC_)[A-Za-z_]*\\b"
 				},
 				{
-					"name": "variable.parameter.st",
-					"match": "\\b\\.[A-Za-z_]*\\b"
+					"name": "punctuation.accessor.st",
+					"match": "\\."
 				}
 			]
 		},

@@ -20,9 +20,10 @@ This extension is a project as a part of my "Structured Text Bible" book which I
 
 ## Release Notes
 
-### 1.0.6
+### 1.0.7
 
 - improve - readme file
+- improve - syntax highlights scopes
 
 ### 1.0.5
 
