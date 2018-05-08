@@ -59,7 +59,7 @@
 				},
 				{
 					"name": "keyword.control.st",
-					"match": "\\b(END_)?(WHILE|FOR|REPEAT|DO|TO|BY|AT|TASK|WITH|RETURN|EXIT|CONTINUE|USING|FROM)\\b"
+					"match": "\\b(END_)?(WHILE|FOR|REPEAT|DO|TO|BY|AT|TASK|WITH|RETURN|EXIT|CONTINUE|USING|FROM|UNTIL)\\b"
 				},
 				{
 					"name": "keyword.operator.assignment.st",

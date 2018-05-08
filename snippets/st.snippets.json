@@ -9,10 +9,128 @@
 		],
 		"description": "Define program"
     },
+	"IF END_IF...": {
+		"prefix": "if",
+		"body": [
+			"IF ${1:Condition} THEN",
+			"\t$0",
+			"END_IF;",
+			""
+		],
+		"description": "Define IF condition"
+    },
+	"IF ELSE END_IF...": {
+		"prefix": "ifelse",
+		"body": [
+			"IF ${1:Condition} THEN",
+			"\t$0",
+			"ELSE",
+			"\t$0",
+			"END_IF;",
+			""
+		],
+		"description": "Define IF condition with ELSE"
+    },
+	"IF ELSIF ELSE END_IF...": {
+		"prefix": "ifelse",
+		"body": [
+			"IF ${1:Condition} THEN",
+			"\t$0",
+			"ELSIF ${2:Condition2} THEN",
+			"\t",
+			"ELSE",
+			"\t",
+			"END_IF;",
+			""
+		],
+		"description": "Define IF condition with ELSIF and ELSE"
+    },
+	"WHILE …": {
+		"prefix": "while",
+		"body": [
+			"WHILE ${1:Condition} DO",
+			"\t$0",
+			"END_WHILE;",
+			""
+		],
+		"description": "Define WHILE cycle"
+    },
+	"REPEAT …": {
+		"prefix": "repeat",
+		"body": [
+			"REPEAT",
+			"\t$0",
+			"UNTIL ${1:Condition};",
+			""
+		],
+		"description": "Define REPEAT cycle"
+    },
+	"CASE …": {
+		"prefix": "repeat",
+		"body": [
+			"CASE ${1:ANY_NUM} OF",
+			"\t0: $0",
+			"\t1:",
+			"\t2:",
+			"END_CASE;",
+			""
+		],
+		"description": "Define CASE condition"
+    },
+	"ACTION …": {
+		"prefix": "action",
+		"body": [
+			"ACTION ${1:Name}:",
+			"\t$0",
+			"END_ACTION;",
+			""
+		],
+		"description": "Define ACTION"
+    },
+	"STEP …": {
+		"prefix": "step",
+		"body": [
+			"STEP ${1:Name}:",
+			"\t$0",
+			"END_STEP;",
+			""
+		],
+		"description": "Define STEP"
+    },
+	"INITIAL_STEP …": {
+		"prefix": "init",
+		"body": [
+			"INITIAL_STEP ${1:Name}:",
+			"\t$0",
+			"END_STEP;",
+			""
+		],
+		"description": "Define Initial STEP"
+    },
+	"TRANSITION …": {
+		"prefix": "trans",
+		"body": [
+			"TRANSITION ${1:Name} FROM ${2:Step1} TO ${3:Step2}",
+			"\t$0",
+			"END_TRANSITION;",
+			""
+		],
+		"description": "Define ACTION"
+    },
 	"FOR …": {
 		"prefix": "for",
 		"body": [
 			"FOR ${1:Var} TO ${2:Num} DO",
+			"\t$0",
+			"END_FOR;",
+			""
+		],
+		"description": "Define FOR cycle"
+    },
+	"FOR BY…": {
+		"prefix": "forby",
+		"body": [
+			"FOR ${1:Var} TO ${2:Num} BY ${3:1} DO",
 			"\t$0",
 			"END_FOR;",
 			""

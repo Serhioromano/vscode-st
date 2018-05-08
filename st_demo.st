@@ -19,6 +19,7 @@ PROGRAM PLC_PRG
     /* This is 
     another commentr
     */
+    
     WHILE tTime > & TON.Q AND 123 > INT#25 DO
         10 + INT_TO_BOOL(100 / (12));
         TO_REAL();
