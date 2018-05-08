@@ -59,7 +59,7 @@
 				},
 				{
 					"name": "keyword.control.st",
-					"match": "\\b(END_)?(WHILE|FOR|REPEAT|DO|TO|BY|AT|TASK|WITH|RETURN|EXIT|CONTINUE|USE)\\b"
+					"match": "\\b(END_)?(WHILE|FOR|REPEAT|DO|TO|BY|AT|TASK|WITH|RETURN|EXIT|CONTINUE|USING|FROM|UNTIL)\\b"
 				},
 				{
 					"name": "keyword.operator.assignment.st",
@@ -91,7 +91,7 @@
 				},
 				{
 					"name": "entity.name.struct.st",
-					"match": "\\b(END_)?(PROGRAM|CONFIGURATION|TCP|RESOURCE|CHANNEL|LIBRARY|FOLDER|BINARIES|INCLUDES|SOURCES|ACTION|STEP|INITIAL_STEP|TRANSACTION|TYPE|STRUCT|FUNCTION|FUNCTION_BLOCK|NAMESPACE)\\b"
+					"match": "\\b(END_)?(PROGRAM|CONFIGURATION|TCP|RESOURCE|CHANNEL|LIBRARY|FOLDER|BINARIES|INCLUDES|SOURCES|ACTION|STEP|INITIAL_STEP|TRANSITION|TYPE|STRUCT|FUNCTION|FUNCTION_BLOCK|NAMESPACE)\\b"
 				},
 				{
 					"name": "entity.name.type.st",
