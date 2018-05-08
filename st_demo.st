@@ -1,17 +1,16 @@
 (* Program comment *)
-{
-    Attribute: pragma;
-}
+{ Attribute: pragma; }
 PROGRAM PLC_PRG
     VAR
-        sDoubleQuoted : STRING := "test";
-        sSingleQuoted: STRING := 'Another WHILE string';
+        sDoubleQuoted: STRING    := "test";
+        sSingleQuoted: STRING    := 'Another WHILE string';
         xStart AT %IX0.0.1: BOOL := TRUE;
         rTest: REAL := 12.3e4;
         iTest: INT  := 1234;
         bTest: BYTE := 2#0010_0110; 
         tTest: TIME := T#20s;
         pTest: POINTER TO BOOL;
+        aTest: ARRAY[1..2] OF strName;
     END_VAR
     
     // Single line comment
@@ -27,7 +26,7 @@ PROGRAM PLC_PRG
     END_WHILE;
     
     CASE iTest OF
-        TON(IN := TRUE );
+        TON(IN := TRUE);
         CTU.OUT();
     END_CASE;
 END_PROGRAM
@@ -35,7 +34,7 @@ END_PROGRAM
 /* This is 
 multiple lines comment */
 TYPE
-    name: STRUCT
+    strName: STRUCT
         another: INT;
         xother AT %IX0.0.1 : BOOL;
         some: ARRAY[0..9] OF BOOL := [TRUE, FALSE, TRUE, TRUE];
