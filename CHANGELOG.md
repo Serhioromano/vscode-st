@@ -2,6 +2,12 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+## [1.0.6] - 2018-08-05
+
+### Improved
+
+- Improved readme file description
+
 ## [1.0.5] - 2018-08-05
 
 ### Added

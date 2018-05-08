@@ -1,24 +1,25 @@
-(* Programm comment *)
+(* Program comment *)
 {
-    Attribute this one
+    Attribute: pragma;
 }
 PROGRAM PLC_PRG
     VAR
-        sTest : STRING := "test";
-        stest2: STRING := 'Another WHILE string';
+        sDoubleQuoted : STRING := "test";
+        sSingleQuoted: STRING := 'Another WHILE string';
         xStart AT %IX0.0.1: BOOL := TRUE;
-        rTemp: REAL := 12.3e4;
-        iTest: INT := 1234;
-        bTest: BYTE := 2#0010_0110; // Comment line
+        rTest: REAL := 12.3e4;
+        iTest: INT  := 1234;
+        bTest: BYTE := 2#0010_0110; 
         tTest: TIME := T#20s;
+        pTest: POINTER TO BOOL;
     END_VAR
-    IF xStart^ OR (bTest > 16#2F3C)) THEN
+    
+    // Single line comment
+    pTest := ADR(xStart);
+    
+    IF pTest^ OR (bTest > 16#2F)) THEN
         rTemp := ABS(100.5);
-        MUX_SOMETHING()
     END_IF;
-    /* This is 
-    another commentr
-    */
     
     WHILE tTime > & TON.Q AND 123 > INT#25 DO
         10 + INT_TO_BOOL(100 / (12));
@@ -31,6 +32,8 @@ PROGRAM PLC_PRG
     END_CASE;
 END_PROGRAM
 
+/* This is 
+multiple lines comment */
 TYPE
     name: STRUCT
         another: INT;
