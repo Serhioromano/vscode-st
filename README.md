@@ -20,6 +20,12 @@ This extension is a project as a part of my "Structured Text Bible" book which I
 
 ## Release Notes
 
+### 1.0.8
+
+- fix - close `[` bracket
+- add - region folding
+- improve - keywords case
+
 ### 1.0.7
 
 - improve - readme file
