@@ -2,15 +2,16 @@
 
 Most complete Structured Text language support.
 
-Includes syntax highlight based on IEC 61131-3 draft, includes namespaces, SFC elements (STEP, ACTION, TRANSITION), constant variables and more.
+Includes syntax highlight based on IEC 61131-3 draft, including namespaces, SFC elements (STEP, ACTION, TRANSITION), constant variables (2#000_1010, 16#1E, INT#23) and more.
 
 Fast growing snippets library.
 
-![](https://raw.githubusercontent.com/Serhioromano/vscode-st/master/example.png)
+![Structured Text syntax highlights example](https://raw.githubusercontent.com/Serhioromano/vscode-st/master/example.png)
 
 ## Note
 
-This extension is a project as a part of my "Structured Text Bible" book which I am working on right now.
+- The same Author contributed ST support for Monaco Editor and highlight.js.
+- This extension project is a part of my "Structured Text Bible" book which I am working on right now.
 
 ## Roadmap
 
