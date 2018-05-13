@@ -1,7 +1,7 @@
 'use strict';
 
 //import * as vscode from 'vscode';
-import { window, workspace, commands, Disposable, ExtensionContext, TextDocument, Position, Range } from 'vscode';
+import { window, workspace, commands, Disposable, ExtensionContext, Position, Range } from 'vscode';
 
 export function activate(context: ExtensionContext) {
 
