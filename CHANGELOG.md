@@ -2,6 +2,16 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+## [1.2.0] - 2018-13-05
+
+Big step forward. Now it is not only language configuration it is JS code that can enhance codding experience.
+
+- add - Command pallet `Ctrl+Shift+P` command `ST: Format`
+- add - same command context menu
+- add - user parameter `st.autoFormat`
+
+All 3 make the same. Capitalize constants like `TRUE`, `FALSE`, `EXIT` and others. Right now only few. This is only proof of concept. Later we will add more beautifications.
+
 ## [1.1.0] - 2018-13-05
 
 - add - a lot of different snippets
