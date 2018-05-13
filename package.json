@@ -13,10 +13,10 @@
   },
   "keywords": [
     "ST",
-    "PLC",
-    "logi.CAD 3",
+    "Structured Text",
     "IEC 61131-3",
-    "Structured Text"
+    "PLC",
+    "logi.CAD 3"
   ],
   "author": "Sergey Romanov",
   "license": "MIT",
@@ -33,7 +33,7 @@
   ],
   "main": "index.js",
   "categories": [
-    "Languages",
+    "Programming Languages",
     "Snippets"
   ],
   "icon": "st-icon.png",

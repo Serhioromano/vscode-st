@@ -12,7 +12,7 @@ PROGRAM PLC_PRG
         pTest: POINTER TO BOOL;
         aTest: ARRAY[1..2] OF strName;
     END_VAR
-
+    
     // Single line comment
     pTest := ADR(xStart);
     
