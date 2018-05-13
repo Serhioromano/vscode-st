@@ -20,6 +20,12 @@ This extension is a project as a part of my "Structured Text Bible" book which I
 
 ## Release Notes
 
+### 1.0.9
+
+- fix - extensions metadata tags
+- add - new functions to support logi.CAD 3 reference variables.
+- enhance - auto indentations inside IF, PROGRAM, VAR, ...
+
 ### 1.0.8
 
 - fix - close `[` bracket
