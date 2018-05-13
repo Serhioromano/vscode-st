@@ -20,6 +20,11 @@ This extension is a project as a part of my "Structured Text Bible" book which I
 
 ## Release Notes
 
+### 1.1.0
+
+- add - a lot of different snippets
+- enhance - syntax highlight like function names, program and function definitions, etc..
+
 ### 1.0.9
 
 - fix - extensions metadata tags

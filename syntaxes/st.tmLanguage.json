@@ -3,6 +3,9 @@
 	"name": "Structured Text",
 	"patterns": [
 		{
+			"include": "#system"
+		},
+		{
 			"include": "#comment_l"
 		},
 		{
@@ -31,6 +34,60 @@
 		}
 	],
 	"repository": {
+		"system": {
+			"patterns": [
+				{
+					"match": "\\n",
+					"name": "meta.ending-space"
+				},
+				{
+					"begin": "^(?=\\t)",
+					"end": "(?=[^\\t])",
+					"name": "meta.leading-space",
+					"patterns": [
+						{
+							"captures": {
+								"1": {
+									
+									"name": "meta.odd-tab.tabs"
+								},
+								"2": {
+									"name": "meta.even-tab.tabs"
+								}
+							},
+							"match": "(\\t)(\\t)?"
+						}
+					]
+				},
+				{
+					"begin": "^(?= )",
+					"end": "(?=[^ ])",
+					"name": "meta.leading-space",
+					"patterns": [
+						{
+							"captures": {
+								"1": {
+									"name": "meta.odd-tab.spaces"
+								},
+								"2": {
+									"name": "meta.even-tab.spaces"
+								}
+							},
+							"match": "(  )(  )?"
+						}
+					]
+				},
+				{
+					"captures": {
+						"2": {
+							"name": "entity.name.function.st"
+						}
+					},
+					"match": "\\s*(PROGRAM|FUNCTION|FUNCTION_BLOCK)\\s*([a-zA-Z_]\\w*)\\s*\\n?",
+					"name": "storage.type.class.st"
+				}
+			]
+		},
 		"numbers": {
 			"patterns": [
 				{
@@ -48,6 +105,16 @@
 				{
 					"name": "constant.numeric.integer.st",
 					"match": "\\b(\\d)+\\b"
+				},
+				{
+			
+					"captures": {
+						"1": {
+							"name": "entity.name.function.st"
+						}
+					},
+					"match": "(?i:(\\b[a-zA-Z_x7f-xff][a-zA-Z0-9_x7f-xff]*?\\b)(?=\\(\\)?))",
+					"name": "support.function.st"
 				}
 			]
 		},
@@ -87,7 +154,11 @@
 				},
 				{
 					"name": "support.type.primitives.st",
-					"match": "\\b(INT|SINT|DINT|LINT|USINT|UINT|UDINT|ULINT|REAL|LREAL|TIME|DATE|TIME_OF_DAY|DATE_AND_TIME|STRING|BOOL|BYTE|WORLD|DWORLD|ARRAY|POINTER TO|REF TO|LWORLD)\\b"
+					"match": "\\b(INT|SINT|DINT|LINT|USINT|UINT|UDINT|ULINT|REAL|LREAL|TIME|DATE|TIME_OF_DAY|DATE_AND_TIME|STRING|BOOL|BYTE|WORLD|DWORLD|ARRAY|POINTER TO|REF TO|LWORLD|ANY)\\b"
+				},
+				{
+					"name": "support.type.primitives.st",
+					"match": "\\b(ANY_)?(DERIVED|ELEMENTARY|MAGNITUDE|NUM|REAL|INT|UNSIGNED|SIGNED|DURATION|BIT|CHARS|STRING|CHAR|DATE)\\b"
 				},
 				{
 					"name": "entity.name.constant.st",
@@ -95,7 +166,7 @@
 				},
 				{
 					"name": "storage.type.class.st",
-					"match": "\\b(END_)?(PROGRAM|CONFIGURATION|TCP|RESOURCE|CHANNEL|LIBRARY|FOLDER|BINARIES|INCLUDES|SOURCES|ACTION|STEP|INITIAL_STEP|TRANSITION|TYPE|STRUCT|FUNCTION|FUNCTION_BLOCK|NAMESPACE)\\b"
+					"match": "\\b(END_)?(PROGRAM|CONFIGURATION|TCP|RESOURCE|CHANNEL|LIBRARY|FOLDER|BINARIES|INCLUDES|SOURCES|ACTION|STEP|INITIAL_STEP|TRANSITION|TYPE|STRUCT|FUNCTION|FUNCTION_BLOCK|NAMESPACE|IMPLEMENTATION)\\b"
 				},
 				{
 					"name": "entity.name.type.st",
