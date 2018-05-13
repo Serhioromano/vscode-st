@@ -2,15 +2,24 @@
 
 Most complete Structured Text language support.
 
-Includes syntax highlight based on IEC 61131-3 draft, includes namespaces, SFC elements (STEP, ACTION, TRANSITION), constant variables and more.
+## Syntax Highlights
 
-Fast growing snippets library.
+Includes syntax highlight based on IEC 61131-3 draft, including namespaces, SFC elements (STEP, ACTION, TRANSITION), constant variables (2#000_1010, 16#1E, INT#23) and more.
 
-![](https://raw.githubusercontent.com/Serhioromano/vscode-st/master/example.png)
+![Structured Text syntax highlights example](https://raw.githubusercontent.com/Serhioromano/vscode-st/master/example.png)
+
+## Snippets
+
+Fast growing snippets library. All cycles, conditions and declarations.
+
+## Commands
+
+Can automatically capitalize constants like `TRUE`, `FALSE`. Either use command `ST: Format` from command pallet, of from editor context menu. There is also user setting `st.autoFormat` which is set `true` by default, you can turn it off.
 
 ## Note
 
-This extension is a project as a part of my "Structured Text Bible" book which I am working on right now.
+- The same Author contributed ST support for Monaco Editor and highlight.js.
+- This extension project is a part of my "Structured Text Bible" book which I am working on right now.
 
 ## Roadmap
 
@@ -19,6 +28,16 @@ This extension is a project as a part of my "Structured Text Bible" book which I
 - Lints
 
 ## Release Notes
+
+### 1.2.0
+
+Big step forward. Now it is not only language configuration it is JS code that can enhance codding experience.
+
+- add - Command pallet `Ctrl+Shift+P` command `ST: Format`
+- add - same command context menu
+- add - user parameter `st.autoFormat`
+
+All 3 make the same. Capitalize constants like `TRUE`, `FALSE`, `EXIT` and others. Right now only few. This is only proof of concept. Later we will add more beautifications.
 
 ### 1.1.0
 
