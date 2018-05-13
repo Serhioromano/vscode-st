@@ -2,6 +2,12 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+## [1.0.9] - 2018-13-05
+
+- fix - extensions metadata tags
+- add - new functions to support logi.CAD 3 reference variables.
+- enhance - auto indentations inside IF, PROGRAM, VAR, ...
+
 ## [1.0.8] - 2018-10-05
 
 - fix - close `[` bracket
