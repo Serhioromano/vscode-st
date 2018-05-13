@@ -2,6 +2,11 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+## [1.1.0] - 2018-13-05
+
+- add - a lot of different snippets
+- enhance - syntax highlight like function names, program and function definitions, etc..
+
 ## [1.0.9] - 2018-13-05
 
 - fix - extensions metadata tags
