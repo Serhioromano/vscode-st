@@ -20,7 +20,7 @@
 		"description": "Define IF condition"
     },
 	"IF ELSE END_IF...": {
-		"prefix": "ifelse",
+		"prefix": "if",
 		"body": [
 			"IF ${1:Condition} THEN",
 			"\t$0",
@@ -32,7 +32,7 @@
 		"description": "Define IF condition with ELSE"
     },
 	"IF ELSIF ELSE END_IF...": {
-		"prefix": "ifelse",
+		"prefix": "if",
 		"body": [
 			"IF ${1:Condition} THEN",
 			"\t$0",
@@ -66,7 +66,7 @@
 		"description": "Define REPEAT cycle"
     },
 	"CASE …": {
-		"prefix": "repeat",
+		"prefix": "case",
 		"body": [
 			"CASE ${1:ANY_NUM} OF",
 			"\t0: $0",
@@ -76,6 +76,19 @@
 			""
 		],
 		"description": "Define CASE condition"
+    },
+	"CASE … ELSE": {
+		"prefix": "case",
+		"body": [
+			"CASE ${1:ANY_NUM} OF",
+			"\t0: $0",
+			"\t1:",
+			"ELSE",
+			"\t",
+			"END_CASE;",
+			""
+		],
+		"description": "Define CASE condition with ELSE"
     },
 	"ACTION …": {
 		"prefix": "action",
@@ -98,7 +111,7 @@
 		"description": "Define STEP"
     },
 	"INITIAL_STEP …": {
-		"prefix": "init",
+		"prefix": "step",
 		"body": [
 			"INITIAL_STEP ${1:Name}:",
 			"\t$0",
@@ -128,7 +141,7 @@
 		"description": "Define FOR cycle"
     },
 	"FOR BY…": {
-		"prefix": "forby",
+		"prefix": "for",
 		"body": [
 			"FOR ${1:Var} TO ${2:Num} BY ${3:1} DO",
 			"\t$0",
@@ -136,5 +149,86 @@
 			""
 		],
 		"description": "Define FOR cycle"
-    }
+	},
+	"NAMESPACE ... END_NAMESPACE": {
+		"prefix": "name",
+		"body": [
+			"NAMESPACE ${1:Name}",
+			"\t$0",
+			"END_NAMESPACE"
+		],
+		"description": "Define NAMESPACE"
+	},
+	"FUNCTION ... END_FUNCTION": {
+		"prefix": "func",
+		"body": [
+			"FUNCTION ${1:Name} : ${2:Type}",
+			"\t$0",
+			"END_FUNCTION"
+		],
+		"description": "Define FUNCTION"
+	},
+	"FUNCTION_BLOCK ... END_FUNCTION_BLOCK": {
+		"prefix": "func",
+		"body": [
+			"FUNCTION_BLOCK ${1:Name}",
+			"\t$0",
+			"END_FUNCTION_BLOCK"
+		],
+		"description": "Define FUNCTION_BLOCK"
+	},
+	"IMPLEMENTATION ... END_IMPLEMENTATION": {
+		"prefix": "imp",
+		"body": [
+			"IMPLEMENTATION",
+			"\t$0",
+			"END_IMPLEMENTATION"
+		],
+		"description": "Define IMPLEMENTATION"
+	},
+	"VAR ... END_VAR": {
+		"prefix": "var",
+		"body": [
+			"VAR",
+			"\t$0 ${1:Variable} : ${2:Type}",
+			"END_VAR"
+		],
+		"description": "Define VAR"
+	},
+	"VAR_GLOBAL ... END_VAR": {
+		"prefix": "var",
+		"body": [
+			"VAR_GLOBAL",
+			"\t$0 ${1:Variable} : ${2:Type}",
+			"END_VAR"
+		],
+		"description": "Define VAR_GLOBAL"
+	},
+	"VAR_IN_OUT ... END_VAR": {
+		"prefix": "var",
+		"body": [
+			"VAR_IN_OUT",
+			"\t$0 ${1:Variable} : ${2:Type}",
+			"END_VAR"
+		],
+		"description": "Define VAR_IN_OUT"
+	},
+	"VAR_INPUT ... END_VAR": {
+		"prefix": "var",
+		"body": [
+			"VAR_INPUT",
+			"\t$0 ${1:Variable} : ${2:Type}",
+			"END_VAR"
+		],
+		"description": "Define VAR_INPUT"
+	},
+	"VAR_OUTPUT ... END_VAR": {
+		"prefix": "var",
+		"body": [
+			"VAR_OUTPUT",
+			"\t$0 ${1:Variable} : ${2:Type}",
+			"END_VAR"
+		],
+		"description": "Define VAR_OUTPUT"
+	}
 }
