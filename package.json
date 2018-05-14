@@ -39,7 +39,8 @@
   "main": "./out/extension",
   "categories": [
     "Programming Languages",
-    "Snippets"
+    "Snippets",
+    "Formatters"
   ],
   "icon": "st-icon.png",
   "devDependencies": {
