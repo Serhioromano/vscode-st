@@ -55,7 +55,7 @@
       "type": "object",
       "title": "Structured Text configuration",
       "properties": {
-        "st.autoFormat": {
+        "st.format.enable": {
           "type": "boolean",
           "default": true,
           "description": "Automatically convert constants like TRUE, FALSE, NULL, or types like INT, BOOL, ...and other keywords to upper case."
