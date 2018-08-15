@@ -29,7 +29,7 @@ Can automatically capitalize constants like `TRUE`, `FALSE`. Either use command 
 
 ## Release Notes
 
-### 1.2.2
+### 1.2.3
 
 - fix - Notification "This file not a structured text language!" #6
 
