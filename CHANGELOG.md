@@ -2,7 +2,7 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
-## [1.2.2] - 2018-13-05
+## [1.2.3] - 2018-13-05
 
 - fix - Notification "This file not a structured text language!" #6
 
