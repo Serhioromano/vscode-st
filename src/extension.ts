@@ -36,7 +36,7 @@ export class StUpdater {
     Update(Cntx: boolean = false) {
         let editor = window.activeTextEditor;
         if (!editor || (editor.document.languageId != 'st')) {
-            window.showErrorMessage('No editor!')
+            //window.showErrorMessage('No editor!')
             return;
         }
 
