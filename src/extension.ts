@@ -1,7 +1,7 @@
 'use strict';
 
 //import * as vscode from 'vscode';
-import { window, workspace, commands, Disposable, ExtensionContext, TextDocument, Position, Range } from 'vscode';
+import { window, workspace, commands, Disposable, ExtensionContext, TextEdit, Position, Range, WorkspaceEdit } from 'vscode';
 
 export function activate(context: ExtensionContext) {
 
@@ -35,17 +35,12 @@ export class StUpdater {
 
     Update(Cntx: boolean = false) {
         let editor = window.activeTextEditor;
-        if (!editor) {
+        if (!editor || (editor.document.languageId != 'st')) {
             window.showErrorMessage('No editor!')
             return;
         }
 
         let doc = editor.document;
-
-        if (doc.languageId != "st") {
-            window.showErrorMessage('This file is not a structured text language!')
-            return;
-        }
 
         if (Cntx == false) {
             if (this._lines >= doc.lineCount) {
@@ -54,7 +49,7 @@ export class StUpdater {
             }
             this._lines = doc.lineCount;
 
-            let AutoFormat = workspace.getConfiguration('st').get('autoFormat');
+            let AutoFormat = workspace.getConfiguration('st').get('format.enable');
 
             if (!AutoFormat) {
                 return;
@@ -62,27 +57,29 @@ export class StUpdater {
         }
 
 
-        editor.edit((edit) => {
-            let lines = doc.getText().split('\n');
-            for (let line = 0; line < lines.length; line++) {
-                const element = lines[line];
-                for (let i = 0; i < this._strings.length; i++) {
-                    let str = this._strings[i];
-                    let char = element.indexOf(str);
-                    if (char >= 0) {
-                        //console.log(line, char);
-                        edit.replace(
-                            new Range(
-                                new Position(line, char),
-                                new Position(line, char + str.length)
-                            ),
-                            str.toUpperCase()
-                        );
-                    }
+        let edit = new WorkspaceEdit();
+        
+        for (let line = 0; line < doc.lineCount; line++) {
+            const element = doc.lineAt(line);
+            for (let i = 0; i < this._strings.length; i++) {
+                let str = this._strings[i];
+                let last_char = 0;
+                while (element.text.indexOf(str, last_char) >= 0) {
+                    let char = element.text.indexOf(str, last_char);
+                    last_char = char + str.length;
+                    edit.replace(
+                        doc.uri,
+                        new Range(
+                            new Position(line, char),
+                            new Position(line, last_char)
+                        ),
+                        str.toUpperCase()
+                    );
                 }
-
             }
-        });
+        }
+
+        return workspace.applyEdit(edit);
     }
 
     public dispose() {

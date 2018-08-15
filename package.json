@@ -2,7 +2,7 @@
   "name": "vscode-st",
   "displayName": "Structured Text language Support",
   "description": "Supports for syntax highlights, snippets for IEC 61131-3 Structured Text",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "publisher": "Serhioromano",
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -39,7 +39,8 @@
   "main": "./out/extension",
   "categories": [
     "Programming Languages",
-    "Snippets"
+    "Snippets",
+    "Formatters"
   ],
   "icon": "st-icon.png",
   "devDependencies": {
@@ -54,7 +55,7 @@
       "type": "object",
       "title": "Structured Text configuration",
       "properties": {
-        "st.autoFormat": {
+        "st.format.enable": {
           "type": "boolean",
           "default": true,
           "description": "Automatically convert constants like TRUE, FALSE, NULL, or types like INT, BOOL, ...and other keywords to upper case."

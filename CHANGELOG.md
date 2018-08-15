@@ -2,6 +2,10 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+## [1.2.1] - 2018-13-05
+
+- fix - Notification "This file not a structured text language!" #6
+
 ## [1.2.0] - 2018-13-05
 
 Big step forward. Now it is not only language configuration it is JS code that can enhance codding experience.
