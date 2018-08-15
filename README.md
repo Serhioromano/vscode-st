@@ -29,6 +29,10 @@ Can automatically capitalize constants like `TRUE`, `FALSE`. Either use command 
 
 ## Release Notes
 
+### 1.2.1
+
+- fix - Notification "This file not a structured text language!" #6
+
 ### 1.2.0
 
 Big step forward. Now it is not only language configuration it is JS code that can enhance codding experience.
