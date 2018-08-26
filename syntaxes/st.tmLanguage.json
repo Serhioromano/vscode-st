@@ -154,7 +154,7 @@
 				},
 				{
 					"name": "support.type.primitives.st",
-					"match": "\\b(INT|SINT|DINT|LINT|USINT|UINT|UDINT|ULINT|REAL|LREAL|TIME|DATE|TIME_OF_DAY|DATE_AND_TIME|STRING|BOOL|BYTE|WORLD|DWORLD|ARRAY|POINTER TO|REF TO|LWORLD|ANY)\\b"
+					"match" : "\\b(BOOL|BYTE|(?:D|L)?WORD|U?(?:S|D|L)?INT|L?REAL|TIME(?:_OF_DAY)?|TOD|DT|DATE(?:_AND_TIME)?|STRING|ARRAY|(?:POINTER|REF)\\s+TO|ANY|REF_TO)\\b"
 				},
 				{
 					"name": "support.type.primitives.st",
