@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Serhioromano/vscode-st.git"
+    "url": "https://github.com/Serhioromano/vscode-st"
   },
   "keywords": [
     "ST",
