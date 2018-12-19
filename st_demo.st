@@ -9,6 +9,7 @@ PROGRAM PLC_PRG
         iTest: INT  := 1234;
         bTest: BYTE := 2#0010_0110; 
         tTest: TIME := T#20s;
+        dtTest: TIME := DT#2018-12-12-00:00:00;
         pTest: POINTER TO BOOL;
         aTest: ARRAY[1..2] OF strName;
     END_VAR
@@ -23,6 +24,8 @@ PROGRAM PLC_PRG
     WHILE tTime > & TON.Q AND 123 > INT#25 DO
         10 + INT_TO_BOOL(100 / (12));
         TO_REAL();
+        SR()
+        SEL();
     END_WHILE;
     
     CASE iTest OF
