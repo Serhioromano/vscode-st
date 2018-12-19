@@ -108,13 +108,13 @@
 				},
 				{
 			
+					"name": "support.function.st",
+					"match": "(?i:(\\b[a-zA-Z_x7f-xff][a-zA-Z0-9_x7f-xff]*?\\b)(?=\\(\\)?))",
 					"captures": {
 						"1": {
 							"name": "entity.name.function.st"
 						}
-					},
-					"match": "(?i:(\\b[a-zA-Z_x7f-xff][a-zA-Z0-9_x7f-xff]*?\\b)(?=\\(\\)?))",
-					"name": "support.function.st"
+					}
 				}
 			]
 		},
