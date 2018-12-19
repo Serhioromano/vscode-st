@@ -8,7 +8,7 @@ PROGRAM PLC_PRG
         rTest: REAL := 12.3e4;
         iTest: INT  := 1234;
         bTest: BYTE := 2#0010_0110; 
-        tTest: TIME := T#20s;
+        tTest: TIME := T#20s; 
         dtTest: TIME := DT#2018-12-12-00:00:00;
         pTest: POINTER TO BOOL;
         aTest: ARRAY[1..2] OF strName;

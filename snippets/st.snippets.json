@@ -230,5 +230,19 @@
 			"END_VAR"
 		],
 		"description": "Define VAR_OUTPUT"
+	},
+	"comment": {
+		"prefix": "comment",
+		"body": "$BLOCK_COMMENT_START $0 $BLOCK_COMMENT_END",
+		"description": "Define comment"
+	},
+	"block comment": {
+		"prefix": "commentb",
+		"body": [
+			"$BLOCK_COMMENT_START ************************************* $BLOCK_COMMENT_END",
+			"$BLOCK_COMMENT_START $0 $BLOCK_COMMENT_END",
+			"$BLOCK_COMMENT_START ************************************* $BLOCK_COMMENT_END"
+		],
+		"description": "Define comment"
 	}
 }
