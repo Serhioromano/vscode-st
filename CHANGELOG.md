@@ -2,6 +2,13 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+### [1.3.0] - 2018-19-12
+
+More stable version
+
+- fix - Auto close comments `/*`. `(*`.
+- enhance - revision of highlights much better now.
+
 ## [1.2.3] - 2018-13-05
 
 - fix - Insert `END_VAR` after `VAR` is inserted.

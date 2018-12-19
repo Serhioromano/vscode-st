@@ -21,7 +21,7 @@
 			"include": "#strings_sq"
 		},
 		{
-			"include": "#meta"
+			"include": "#numbers"
 		},
 		{
 			"include": "#variables"
@@ -30,7 +30,7 @@
 			"include": "#keywords"
 		},
 		{
-			"include": "#numbers"
+			"include": "#meta"
 		}
 	],
 	"repository": {
@@ -78,13 +78,13 @@
 					]
 				},
 				{
+					"name": "storage.type.class.st",
+					"match": "\\s*(PROGRAM|FUNCTION|FUNCTION_BLOCK)\\s*([a-zA-Z_]\\w*)\\s*\\n?",
 					"captures": {
 						"2": {
 							"name": "entity.name.function.st"
 						}
-					},
-					"match": "\\s*(PROGRAM|FUNCTION|FUNCTION_BLOCK)\\s*([a-zA-Z_]\\w*)\\s*\\n?",
-					"name": "storage.type.class.st"
+					}
 				}
 			]
 		},
@@ -92,11 +92,15 @@
 			"patterns": [
 				{
 					"name": "constant.numeric.integer.st",
-					"match": "\\b(2#[0-9_]*)+\\b"
+					"match": "\\b(2#[0-9\\_]*)+\\b"
 				},
 				{
 					"name": "constant.numeric.hex.st",
-					"match": "\\b(16#[0-9A-Fa-f]*)+\\b"
+					"match": "\\b(16#[0-9A-Fa-f\\_]*)+\\b"
+				},
+				{
+					"name": "constant.numeric.integer.st",
+					"match": "\\b(8#[0-9\\_]*)+\\b"
 				},
 				{
 					"name": "constant.numeric.float.st",
@@ -105,21 +109,31 @@
 				{
 					"name": "constant.numeric.integer.st",
 					"match": "\\b(\\d)+\\b"
-				},
-				{
-			
-					"captures": {
-						"1": {
-							"name": "entity.name.function.st"
-						}
-					},
-					"match": "(?i:(\\b[a-zA-Z_x7f-xff][a-zA-Z0-9_x7f-xff]*?\\b)(?=\\(\\)?))",
-					"name": "support.function.st"
 				}
 			]
 		},
 		"keywords": {
 			"patterns": [
+				{
+					"name": "storage.type.class.st",
+					"match": "\\b(END_)?(PROGRAM|CONFIGURATION|TCP|RESOURCE|CHANNEL|LIBRARY|FOLDER|BINARIES|INCLUDES|SOURCES|ACTION|STEP|INITIAL_STEP|TRANSITION|TYPE|STRUCT|FUNCTION|FUNCTION_BLOCK|NAMESPACE|IMPLEMENTATION)\\b"
+				},
+				{
+					"name": "variable.function.st",
+					"match": "\\b(RS|SR|TON|TP|TOF|TRUNC|CTD|CTU|CTUD|R_TRIG|F_TRIG|MOVE|CONCAT|DELETE|FIND|INSERT|LEFT|LEN|REPLACE|RIGHT|RTC|MID|SEMA|ROUND|FLOOR|CEIL|UNPACK|LIMIT|MAX|MIN|ADR|SIZEOF|SIZE|BIT_ADR|REF)\\b"
+				},
+				{
+					"name": "variable.function.st",
+					"match": "\\b(SEL_|MUX_)[A-Za-z]*\\b"
+				},
+				{
+					"name": "variable.function.st",
+					"match": "\\b[A-Za-z_]*(_TO_)[A-Za-z_]*\\b"
+				},
+				{
+					"name": "variable.function.st",
+					"match": "\\b(TO_|FROM_|TRUNC_)[A-Za-z_]*\\b"
+				},
 				{
 					"name": "keyword.control.conditional.st",
 					"match": "\\b(END_)?(IF|CASE|OF|ELSE|ELSIF|THEN)\\b"
@@ -142,7 +156,7 @@
 				},
 				{
 					"name": "keyword.operator.logical.st",
-					"match": "(&|\\+|\\/|\\-|\\<|\\=|\\>)"
+					"match": "(&|\\<\\>|\\<|\\=|\\>)"
 				},
 				{
 					"name": "keyword.operator.arithmetic.st",
@@ -165,25 +179,30 @@
 					"match": "\\b(TRUE|FALSE|NULL)\\b"
 				},
 				{
-					"name": "storage.type.class.st",
-					"match": "\\b(END_)?(PROGRAM|CONFIGURATION|TCP|RESOURCE|CHANNEL|LIBRARY|FOLDER|BINARIES|INCLUDES|SOURCES|ACTION|STEP|INITIAL_STEP|TRANSITION|TYPE|STRUCT|FUNCTION|FUNCTION_BLOCK|NAMESPACE|IMPLEMENTATION)\\b"
-				},
-				{
 					"name": "entity.name.type.st",
 					"match": "\\b(VAR|VAR_INPUT|VAR_OUTPUT|VAR_IN_OUT|VAR_TEMP|VAR_GLOBAL|VAR_ACCESS|VAR_EXTERNAL|END_VAR)\\b"
+				},
+				{
+			
+					"name": "support.function.st",
+					"match": "(?i:(\\b[a-zA-Z_x7f-xff][a-zA-Z0-9_x7f-xff]*?\\b)(?=\\(\\)?))",
+					"captures": {
+						"1": {
+							"name": "entity.name.function.st"
+						}
+					}
 				}
 			]
 		},
 		"variables":{
 			"patterns": [
-
 				{
 					"name": "variable.other.constant",
-					"match": "\\b(T|DT|TOD)#[0-9:-_shmyd]*\\b"
+					"match": "\\b(T|DT|TOD|D)#[0-9\\:\\-\\_shmyd]*\\b"
 				},
 				{
 					"name": "variable.other.constant",
-					"match": "\\b[A-Za-z]{1,6}#[0-9]**\\b"
+					"match": "\\b[A-Za-z]{1,6}#[0-9\\_]**\\b"
 				},
 				{
 					"name": "variable.other.constant",
@@ -192,22 +211,6 @@
 				{
 					"name": "variable.other.constant",
 					"match": "\\%(I|Q)[0-9\\.]*\\b"
-				},
-				{
-					"name": "variable.function.st",
-					"match": "\\b(RS|SR|TON|TP|TOF|TRUNC|CTD|CTU|CTUD|R_TRIG|F_TRIG|MOVE|CONCAT|DELETE|FIND|INSERT|LEFT|LEN|REPLACE|RIGHT|RTC|MID|SEMA|ROUND|FLOOR|CEIL|UNPACK|LIMIT|MAX|MIN|ADR|SIZEOF|SIZE|BIT_ADR|REF)\\b"
-				},
-				{
-					"name": "variable.function.st",
-					"match": "\\b(SEL_|MUX_)[A-Za-z]*\\b"
-				},
-				{
-					"name": "variable.function.st",
-					"match": "\\b[A-Za-z_]*(_TO_)[A-Za-z_]*\\b"
-				},
-				{
-					"name": "variable.function.st",
-					"match": "\\b(TO_|FROM_|TRUNC_)[A-Za-z_]*\\b"
 				},
 				{
 					"name": "punctuation.accessor.st",
@@ -268,7 +271,7 @@
 			]
 		},
 		"strings_sq": {
-			"name": "string.single.double.st",
+			"name": "string.quoted.single.st",
 			"begin": "'",
 			"end": "'",
 			"patterns": [

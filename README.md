@@ -29,6 +29,13 @@ Can automatically capitalize constants like `TRUE`, `FALSE`. Either use command 
 
 ## Release Notes
 
+### 1.3.0
+
+More stable version
+
+- fix - Auto close comments `/*`. `(*`.
+- enhance - revision of highlights much better now.
+
 ### 1.2.4
 
 - fix - Insert `END_VAR` after `VAR` is inserted.
