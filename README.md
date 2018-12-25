@@ -6,7 +6,7 @@ Most complete Structured Text language support.
 
 Includes syntax highlight based on IEC 61131-3 draft, including namespaces, SFC elements (STEP, ACTION, TRANSITION), constant variables (2#000_1010, 16#1E, INT#23) and more.
 
-![Structured Text syntax highlights example](https://raw.githubusercontent.com/Serhioromano/vscode-st/master/example.png)
+![Structured Text syntax highlights example](https://raw.githubusercontent.com/msftrncs/vscode-st/msftrncs-branch/example.png)
 
 ## Snippets
 
