@@ -404,7 +404,7 @@
 				},
 				{
 					"name": "keyword.operator.logical.st",
-					"match": "\\b(?:OR(?:_ELSE)?|AND(?:_ALSO)?|NOT|XOR|GE|LE|EQ|NE|GT|LT)\\b"
+					"match": "\\b(?:OR(?:_ELSE)?|AND(?:_THEN)?|NOT|XOR|GE|LE|EQ|NE|GT|LT)\\b|&"
 				},
 				{
 					"name": "keyword.operator.comparison.st",
