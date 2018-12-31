@@ -2,6 +2,13 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+### [1.3.1] - 2018-31-12
+
+- add - TYPE creation snippets (enumerations ans structure) and enhance it's syntax highlights
+- enhance - Select type out of suggestion list when inset variable in declaration area from snippet
+- enhance - Utilise [October 2018](https://code.visualstudio.com/updates/v1_28#_project-level-snippets) feature for multiple prefixes in snippets and add multiple prefixes to some snippets.
+- fix - syntax highlights for function_block
+
 ### [1.3.0] - 2018-19-12
 
 More stable version
