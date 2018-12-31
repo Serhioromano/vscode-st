@@ -148,10 +148,10 @@
 			"END_FOR;",
 			""
 		],
-		"description": "Define FOR cycle"
+		"description": "Define FOR cycle with BY"
 	},
 	"NAMESPACE ... END_NAMESPACE": {
-		"prefix": "name",
+		"prefix": "namespace",
 		"body": [
 			"NAMESPACE ${1:Name}",
 			"\t$0",
@@ -160,7 +160,7 @@
 		"description": "Define NAMESPACE"
 	},
 	"FUNCTION ... END_FUNCTION": {
-		"prefix": "func",
+		"prefix": "function",
 		"body": [
 			"FUNCTION ${1:Name} : ${2:Type}",
 			"\t$0",
@@ -169,7 +169,7 @@
 		"description": "Define FUNCTION"
 	},
 	"FUNCTION_BLOCK ... END_FUNCTION_BLOCK": {
-		"prefix": "func",
+		"prefix": "function_block",
 		"body": [
 			"FUNCTION_BLOCK ${1:Name}",
 			"\t$0",
@@ -186,49 +186,91 @@
 		],
 		"description": "Define IMPLEMENTATION"
 	},
+	"Variable declaration": {
+		"prefix": ["var", "declare"],
+		"body": [
+			"${1:Variable}: ${2|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${3:Comment} *)$0"
+		],
+		"description": "Define new variable"
+	},
 	"VAR ... END_VAR": {
 		"prefix": "var",
 		"body": [
 			"VAR",
-			"\t$0 ${1:Variable} : ${2:Type}",
+			"\t${1:Variable}: ${2|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${3:Comment} *)$0",
 			"END_VAR"
 		],
 		"description": "Define VAR"
 	},
 	"VAR_GLOBAL ... END_VAR": {
-		"prefix": "var",
+		"prefix": ["var", "global"],
 		"body": [
 			"VAR_GLOBAL",
-			"\t$0 ${1:Variable} : ${2:Type}",
+			"\t${1:Variable}: ${2|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${3:Comment} *)$0",
 			"END_VAR"
 		],
 		"description": "Define VAR_GLOBAL"
 	},
 	"VAR_IN_OUT ... END_VAR": {
-		"prefix": "var",
+		"prefix": ["var", "inout"],
 		"body": [
 			"VAR_IN_OUT",
-			"\t$0 ${1:Variable} : ${2:Type}",
+			"\t${1:Variable}: ${2|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${3:Comment} *)$0",
 			"END_VAR"
 		],
 		"description": "Define VAR_IN_OUT"
 	},
 	"VAR_INPUT ... END_VAR": {
-		"prefix": "var",
+		"prefix": ["var", "input"],
 		"body": [
 			"VAR_INPUT",
-			"\t$0 ${1:Variable} : ${2:Type}",
+			"\t${1:Variable}: ${2|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${3:Comment} *)$0",
 			"END_VAR"
 		],
 		"description": "Define VAR_INPUT"
 	},
 	"VAR_OUTPUT ... END_VAR": {
-		"prefix": "var",
+		"prefix": ["var", "output"],
 		"body": [
 			"VAR_OUTPUT",
-			"\t$0 ${1:Variable} : ${2:Type}",
+			"\t${1:Variable}: ${2|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${3:Comment} *)$0",
 			"END_VAR"
 		],
 		"description": "Define VAR_OUTPUT"
+	},
+	"TYPE ... END_TYPE": {
+		"prefix": ["type", "enum"],
+		"body": [
+			"TYPE ${1:EnumName} (",
+			"\t${2:Variable1}, ${3:Variable2}$0",
+			")",
+			"END_TYPE"
+		],
+		"description": "Define TYPE Enumeration"
+	},
+	"TYPE ... STRUCT ...END_STRUCT END_TYPE": {
+		"prefix": ["type", "struct"],
+		"body": [
+			"TYPE ${1:StructName} : STRUCT",
+			"\t\t${2:Variable} : ${3|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${4:Comment} *)",
+			"\t\t${5:Variable} : ${6|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${7:Comment} *)$0",
+			"\tEND_STRUCT",
+			"END_TYPE"
+		],
+		"description": "Define STRUCT"
+	},
+	"comment": {
+		"prefix": "comment",
+		"body": "$BLOCK_COMMENT_START $0 $BLOCK_COMMENT_END",
+		"description": "Define comment"
+	},
+	"block comment": {
+		"prefix": "comment_block",
+		"body": [
+			"$BLOCK_COMMENT_START ************************************* $BLOCK_COMMENT_END",
+			"$BLOCK_COMMENT_START $0 $BLOCK_COMMENT_END",
+			"$BLOCK_COMMENT_START ************************************* $BLOCK_COMMENT_END"
+		],
+		"description": "Define comment"
 	}
 }

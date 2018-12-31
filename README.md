@@ -29,6 +29,13 @@ Can automatically capitalize constants like `TRUE`, `FALSE`. Either use command 
 
 ## Release Notes
 
+### 1.3.1
+
+- add - TYPE creation snippets (enumerations ans structure) and enhance it's syntax highlights
+- enhance - Select type out of suggestion list when inset variable in declaration area from snippet
+- enhance - Utilise [October 2018](https://code.visualstudio.com/updates/v1_28#_project-level-snippets) feature for multiple prefixes in snippets and add multiple prefixes to some snippets.
+- fix - syntax highlights for function_block
+
 ### 1.3.0
 
 More stable version

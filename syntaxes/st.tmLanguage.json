@@ -79,7 +79,7 @@
 				},
 				{
 					"name": "storage.type.class.st",
-					"match": "\\s*(PROGRAM|FUNCTION|FUNCTION_BLOCK)\\s*([a-zA-Z_]\\w*)\\s*\\n?",
+					"match": "\\s*(PROGRAM|FUNCTION_BLOCK|FUNCTION|TYPE)\\s*([a-zA-Z_]\\w*)\\s*\\n?",
 					"captures": {
 						"2": {
 							"name": "entity.name.function.st"

@@ -1,3 +1,26 @@
+VAR
+    xStart: BOOL; (* Start motor *)
+    xStop: BOOL; (* Stop Motor *)
+    bSteps: BYTE; (* Stepst in a sequence *)
+END_VAR
+TYPE StructName: STRUCT
+        xStart : BOOL; (* Comemtn *)
+        xStop : BOOL; (* Commetn 2 *)
+    END_STRUCT
+END_TYPE
+CASE bStep OF
+    1: sColor := "Green";
+        fbTon1(IN := TRUE, PT := T#10s);
+        IF (fbTon1.Q) THEN
+            bstep := 2;
+            fbTon1(IN := FALSE);
+        END_IF;
+    2: sColor := "Yellow";
+    3: sColor := "Red";
+ELSE
+     sColor := "White";
+END_CASE
+
 PROGRAM PLC_PRG
     VAR
          Test : WORD;

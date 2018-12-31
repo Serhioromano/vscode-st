@@ -9,6 +9,7 @@ export function activate(context: ExtensionContext) {
         window.showInformationMessage('Open a file first to manipulate text selections');
         return;
     }
+    
     let Updater = new StUpdater();
     let UpdaterControl = new StUpdaterController(Updater);
     context.subscriptions.push(UpdaterControl);
