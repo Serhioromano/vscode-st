@@ -134,10 +134,15 @@
 							"end": "(?<=END_PROGRAM|END_FUNCTION|END_ACTION|END_METHOD|END_PROPERTY|END_INTERFACE|END_FUNCTION_BLOCK)",
 							"patterns": [
 								{
+									"include": "#type_declaration"
+								},
+								{
 									"include": "$self"
 								}
-							],
-							"comment": "/* functions / methods / property's have `: TYPE` designations!! */ /* all these items might need to allow spanning lines.*/"
+							]
+						},
+						{
+							"include": "#type_declaration"
 						},
 						{
 							"include": "$self"
@@ -169,6 +174,9 @@
 							"begin": "\\b[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*\\b",
 							"end": "(?<=END_TYPE)",
 							"patterns": [
+								{
+									"include": "#type_declaration"
+								},
 								{
 									"include": "$self"
 								}
@@ -229,6 +237,9 @@
 						{
 							"name": "keyword.other.st",
 							"match": "\\b(?:OF|TO)\\b"
+						},
+						{
+							"include": "#system"
 						},
 						{
 							"include": "#keywords"
@@ -498,7 +509,7 @@
 					"name": "variable.language.st"
 				},
 				{
-					"match": "\\b[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*(?=\\()",
+					"match": "\\b[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*(?=\\()(?!\\(\\*)",
 					"name": "variable.function.st"
 				},
 				{
