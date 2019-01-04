@@ -1,3 +1,32 @@
+PROGRAM PLC_PRG
+    VAR
+        xStart: BOOL; (* Start motor *)
+        xStop: BOOL; (* Stop Motor *)
+        tDelay: TON; (* Delay to start *)
+    END_VAR
+
+    (* ************************************* *)
+    (* Start main programm here              *)
+    (* ************************************* *)
+    IF xStart THEN
+        tDelay(IN := TRUE, PT := T#3s);
+        IF tDelay.Q THEN
+            tDelay(IN := FALSE);
+        END_IF;
+    ELSE
+        
+    END_IF;
+    
+
+END_PROGRAM
+
+
+
+
+
+
+
+
 VAR
     xStart: BOOL; (* Start motor *)
     xStop: BOOL; (* Stop Motor *)

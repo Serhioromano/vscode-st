@@ -44,6 +44,14 @@
 			""
 		],
 		"description": "Define IF condition with ELSIF and ELSE"
+	},
+	"ELSIF…": {
+		"prefix": "elsif ",
+		"body": [
+			"ELSIF (${1:Condition1}) THEN",
+			"\t$0"
+		],
+		"description": "Define ELSIF condition"
     },
 	"WHILE …": {
 		"prefix": "while",
@@ -203,7 +211,7 @@
 		"description": "Define VAR"
 	},
 	"VAR_GLOBAL ... END_VAR": {
-		"prefix": ["var", "global"],
+		"prefix": ["var_global", "global"],
 		"body": [
 			"VAR_GLOBAL",
 			"\t${1:Variable}: ${2|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${3:Comment} *)$0",
@@ -212,7 +220,7 @@
 		"description": "Define VAR_GLOBAL"
 	},
 	"VAR_IN_OUT ... END_VAR": {
-		"prefix": ["var", "inout"],
+		"prefix": ["var_in_out", "inout"],
 		"body": [
 			"VAR_IN_OUT",
 			"\t${1:Variable}: ${2|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${3:Comment} *)$0",
@@ -221,7 +229,7 @@
 		"description": "Define VAR_IN_OUT"
 	},
 	"VAR_INPUT ... END_VAR": {
-		"prefix": ["var", "input"],
+		"prefix": ["var_input", "input"],
 		"body": [
 			"VAR_INPUT",
 			"\t${1:Variable}: ${2|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${3:Comment} *)$0",
@@ -230,7 +238,7 @@
 		"description": "Define VAR_INPUT"
 	},
 	"VAR_OUTPUT ... END_VAR": {
-		"prefix": ["var", "output"],
+		"prefix": ["var_output", "output"],
 		"body": [
 			"VAR_OUTPUT",
 			"\t${1:Variable}: ${2|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${3:Comment} *)$0",
