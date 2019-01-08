@@ -134,7 +134,7 @@
 							"end": "(?<=END_PROGRAM|END_FUNCTION|END_ACTION|END_METHOD|END_PROPERTY|END_INTERFACE|END_FUNCTION_BLOCK)",
 							"patterns": [
 								{
-									"include": "#type_declaration"
+									"comment": "#type_declaration"
 								},
 								{
 									"include": "$self"
@@ -142,7 +142,7 @@
 							]
 						},
 						{
-							"include": "#type_declaration"
+							"comment": "#type_declaration"
 						},
 						{
 							"include": "$self"
@@ -232,7 +232,7 @@
 			"patterns": [
 				{
 					"begin": "(?=OF|:)",
-					"end": "(?<=;|:=|END_VAR|END_TYPE|END_STRUCT|END_UNION|END_PROGRAM|END_INTERFACE|END_FUNCTION_BLOCK|END_FUNCTION|END_METHOD|END_PROPERTY)",
+					"end": "(?<=;|:=|END_VAR|END_TYPE|END_STRUCT|END_UNION|END_PROGRAM|END_INTERFACE|END_FUNCTION_BLOCK|END_ACTION|END_FUNCTION|END_METHOD|END_PROPERTY)",
 					"patterns": [
 						{
 							"name": "keyword.other.st",
@@ -269,10 +269,10 @@
 								}
 							},
 							"begin": "\\b[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*\\b",
-							"end": "(?<=;|:=|END_VAR|END_TYPE|END_STRUCT|END_UNION|END_PROGRAM|END_INTERFACE|END_FUNCTION_BLOCK|END_FUNCTION|END_METHOD|END_PROPERTY)",
+							"end": "(?<=;|:=|END_VAR|END_TYPE|END_STRUCT|END_UNION|END_PROGRAM|END_INTERFACE|END_FUNCTION_BLOCK|END_ACTION|END_FUNCTION|END_METHOD|END_PROPERTY)",
 							"patterns": [
 								{
-									"include": "#type_declaration"
+									"comment": "#type_declaration"
 								},
 								{
 									"include": "$self"
