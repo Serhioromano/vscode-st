@@ -280,7 +280,7 @@
 			"patterns": [
 				{
 					"begin": "(?=OF|:(?!=))",
-					"end": "\\b[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*\\b|(?=:=|;)",
+					"end": "\\b(?:(?=(?:END_)?TYPE|STRUCT|UNION)|[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*)\\b|(?=:=|;)",
 					"endCaptures": {
 						"0": {
 							"patterns": [
@@ -313,6 +313,12 @@
 						{
 							"name": "punctuation.separator.st",
 							"match": ":(?!=)|,"
+						},
+						{
+							"include": "#meta"
+						},
+						{
+							"include": "#comments"
 						}
 					]
 				}
@@ -621,7 +627,7 @@
 					},
 					"patterns": [
 						{
-							"include": "$self"
+							"comment": "$self"
 						}
 					]
 				}
