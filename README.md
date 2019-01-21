@@ -8,6 +8,8 @@ Includes syntax highlight based on IEC 61131-3 draft, including namespaces, SFC 
 
 ![Structured Text syntax highlights example](https://raw.githubusercontent.com/msftrncs/vscode-st/msftrncs-branch/example.png)
 
+(Note example is using custom theme)
+
 ## Snippets
 
 Fast growing snippets library. All cycles, conditions and declarations.

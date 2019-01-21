@@ -76,7 +76,7 @@
 				{
 					"beginCaptures": {
 						"0": {
-							"name": "storage.type.st"
+							"name": "keyword.other.class.st"
 						}
 					},
 					"begin": "\\b(FUNCTION_BLOCK|INTERFACE)\\b",
@@ -111,10 +111,10 @@
 				{
 					"beginCaptures": {
 						"0": {
-							"name": "storage.type.st"
+							"name": "keyword.other.function.st"
 						}
 					},
-					"begin": "\\b(PROGRAM|FUNCTION|ACTION|METHOD|PROPERTY)\\b",
+					"begin": "\\b(PROGRAM|ACTION)\\b",
 					"end": "(?<=END_\\1|END_INTERFACE|END_FUNCTION_BLOCK)",
 					"name": "meta.function.st",
 					"patterns": [
@@ -134,15 +134,9 @@
 							"end": "(?<=END_PROGRAM|END_FUNCTION|END_ACTION|END_METHOD|END_PROPERTY|END_INTERFACE|END_FUNCTION_BLOCK)",
 							"patterns": [
 								{
-									"comment": "#type_declaration"
-								},
-								{
 									"include": "$self"
 								}
 							]
-						},
-						{
-							"comment": "#type_declaration"
 						},
 						{
 							"include": "$self"
@@ -152,7 +146,48 @@
 				{
 					"beginCaptures": {
 						"0": {
-							"name": "storage.type.st"
+							"name": "keyword.other.function.st"
+						}
+					},
+					"begin": "\\b(FUNCTION|METHOD|PROPERTY)\\b",
+					"end": "(?<=END_\\1|END_INTERFACE|END_FUNCTION_BLOCK|END_PROGRAM)",
+					"name": "meta.function.st",
+					"patterns": [
+						{
+							"include": "#keywords"
+						},
+						{
+							"include": "#comments"
+						},
+						{
+							"beginCaptures": {
+								"0": {
+									"name": "entity.name.function.st"
+								}
+							},
+							"begin": "\\b[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*\\b",
+							"end": "(?<=END_PROGRAM|END_FUNCTION|END_ACTION|END_METHOD|END_PROPERTY|END_INTERFACE|END_FUNCTION_BLOCK)",
+							"patterns": [
+								{
+									"include": "#type_declaration"
+								},
+								{
+									"include": "$self"
+								}
+							]
+						},
+						{
+							"include": "#type_declaration"
+						},
+						{
+							"include": "$self"
+						}
+					]
+				},
+				{
+					"beginCaptures": {
+						"0": {
+							"name": "keyword.other.type.st"
 						}
 					},
 					"begin": "\\b(TYPE)\\b",
@@ -193,7 +228,7 @@
 				{
 					"beginCaptures": {
 						"0": {
-							"name": "storage.type.st"
+							"name": "keyword.other.struct.st"
 						}
 					},
 					"begin": "\\b(STRUCT|UNION)\\b",
@@ -225,65 +260,59 @@
 							"include": "$self"
 						}
 					]
+				},
+				{
+					"begin": "(?=\\bCASE\\b)",
+					"end": "(?<=END_CASE|END_PROGRAM|END_INTERFACE|END_FUNCTION_BLOCK|END_FUNCTION|END_METHOD|END_PROPERTY|END_ACTION)",
+					"name": "meta.switch.st",
+					"patterns": [
+						{
+							"include": "#keywords"
+						},
+						{
+							"include": "$self"
+						}
+					]
 				}
 			]
 		},
 		"type_declaration": {
 			"patterns": [
 				{
-					"begin": "(?=OF|:)",
-					"end": "(?<=;|:=|END_VAR|END_TYPE|END_STRUCT|END_UNION|END_PROGRAM|END_INTERFACE|END_FUNCTION_BLOCK|END_ACTION|END_FUNCTION|END_METHOD|END_PROPERTY)",
-					"patterns": [
-						{
-							"name": "keyword.other.st",
-							"match": "\\b(?:OF|TO)\\b"
-						},
-						{
-							"include": "#system"
-						},
-						{
-							"include": "#keywords"
-						},
-						{
-							"beginCaptures": {
-								"0": {
-									"patterns": [
-										{
-											"include": "#primitives"
-										},
-										{
-											"include": "#keywords"
-										},
-										{
-											"name": "support.type.st",
-											"match": "\\b(RS|SR|TON|TP|TOF|CTD|CTU|CTUD|R_TRIG|F_TRIG|UNPACK)\\b"
-										},
-										{
-											"name": "entity.name.type.st",
-											"match": "\\b[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*\\b"
-										},
-										{
-											"include": "$self"
-										}
-									]
-								}
-							},
-							"begin": "\\b[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*\\b",
-							"end": "(?<=;|:=|END_VAR|END_TYPE|END_STRUCT|END_UNION|END_PROGRAM|END_INTERFACE|END_FUNCTION_BLOCK|END_ACTION|END_FUNCTION|END_METHOD|END_PROPERTY)",
+					"begin": "(?=OF|:(?!=))",
+					"end": "\\b[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*\\b|(?=:=|;)",
+					"endCaptures": {
+						"0": {
 							"patterns": [
 								{
-									"comment": "#type_declaration"
+									"include": "#primitives"
+								},
+								{
+									"include": "#keywords"
+								},
+								{
+									"name": "support.type.st",
+									"match": "\\b(RS|SR|TON|TP|TOF|CTD|CTU|CTUD|R_TRIG|F_TRIG|UNPACK)\\b"
+								},
+								{
+									"name": "entity.name.type.st",
+									"match": "\\b[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*\\b"
 								},
 								{
 									"include": "$self"
 								}
 							]
+						}
+					},
+					"applyEndPatternLast": true,
+					"patterns": [
+						{
+							"name": "keyword.other.st",
+							"match": "\\b(?:OF|TO|POINTER|REF(?:ERENCE)?|REF_TO)\\b"
 						},
 						{
-							"include": "#type_declaration"
-						},
-						{
-							"include": "$self"
+							"name": "punctuation.separator.st",
+							"match": ":(?!=)|,"
 						}
 					]
 				}
@@ -431,7 +460,7 @@
 				},
 				{
 					"name": "keyword.other.storage.st",
-					"match": "\\b(?:(?:POINTER|REF(?:ERENCE)?)|REF_TO|AT|TASK|WITH|USING|FROM)\\b"
+					"match": "\\b(?:OF|TO|POINTER|REF(?:ERENCE)?|REF_TO|AT|TASK|WITH|USING|FROM)\\b"
 				},
 				{
 					"name": "storage.modifier.st",
@@ -454,8 +483,8 @@
 					"match": "\\b(?:(?:UPPER|LOWER)_BOUND|CONCAT|DELETE|FIND|INSERT|LEFT|LEN|REPLACE|RIGHT|RTC|MID|SEMA|ROUND|FLOOR|CEIL|REF)\\b"
 				},
 				{
-					"name": "storage.type.st",
-					"match": "\\b(?:END_)?(?:PROGRAM|CONFIGURATION|TCP|RESOURCE|CHANNEL|LIBRARY|FOLDER|BINARIES|INCLUDES|SOURCES|ACTION|(?:INITIAL_)?STEP|TRANSITION|TYPE|STRUCT|UNION|FUNCTION(?:_BLOCK)?|NAMESPACE|INTERFACE|METHOD|PROPERTY)\\b"
+					"name": "keyword.other.st",
+					"match": "\\b(?:END_)?(?:PROGRAM|CONFIGURATION|TCP|RESOURCE|LIBRARY|FOLDER|BINARIES|INCLUDES|SOURCES|ACTION|(?:INITIAL_)?STEP|TRANSITION|TYPE|STRUCT|UNION|FUNCTION(?:_BLOCK)?|NAMESPACE|INTERFACE|METHOD|PROPERTY)\\b"
 				},
 				{
 					"captures": {
