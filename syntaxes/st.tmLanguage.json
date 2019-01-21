@@ -115,7 +115,7 @@
 						}
 					},
 					"begin": "\\b(PROGRAM|ACTION)\\b",
-					"end": "(?<=END_\\1|END_INTERFACE|END_FUNCTION_BLOCK)",
+					"end": "(?<=END_\\1|END_INTERFACE|END_FUNCTION_BLOCK|END_PROGRAM)",
 					"name": "meta.function.st",
 					"patterns": [
 						{
