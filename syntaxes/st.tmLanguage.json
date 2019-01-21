@@ -281,6 +281,7 @@
 				{
 					"begin": "(?=OF|:(?!=))",
 					"end": "\\b(?:(?=(?:END_)?TYPE|STRUCT|UNION)|[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*)\\b|(?=:=|;)",
+					"applyEndPatternLast": true,
 					"endCaptures": {
 						"0": {
 							"patterns": [
@@ -304,7 +305,6 @@
 							]
 						}
 					},
-					"applyEndPatternLast": true,
 					"patterns": [
 						{
 							"name": "keyword.other.st",
@@ -315,10 +315,10 @@
 							"match": ":(?!=)|,"
 						},
 						{
-							"include": "#meta"
+							"include": "#comments"
 						},
 						{
-							"include": "#comments"
+							"include": "#meta"
 						}
 					]
 				}
