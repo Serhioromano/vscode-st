@@ -84,10 +84,10 @@
 					"name": "meta.class.st",
 					"patterns": [
 						{
-							"include": "#keywords"
+							"include": "#comments"
 						},
 						{
-							"include": "#comments"
+							"include": "#keywords"
 						},
 						{
 							"beginCaptures": {
@@ -99,9 +99,15 @@
 							"end": "(?<=END_FUNCTION_BLOCK|END_INTERFACE)",
 							"patterns": [
 								{
+									"include": "#type_declaration"
+								},
+								{
 									"include": "$self"
 								}
 							]
+						},
+						{
+							"include": "#type_declaration"
 						},
 						{
 							"include": "$self"
@@ -119,10 +125,10 @@
 					"name": "meta.function.st",
 					"patterns": [
 						{
-							"include": "#keywords"
+							"include": "#comments"
 						},
 						{
-							"include": "#comments"
+							"include": "#keywords"
 						},
 						{
 							"beginCaptures": {
@@ -154,10 +160,10 @@
 					"name": "meta.function.st",
 					"patterns": [
 						{
-							"include": "#keywords"
+							"include": "#comments"
 						},
 						{
-							"include": "#comments"
+							"include": "#keywords"
 						},
 						{
 							"beginCaptures": {
@@ -195,10 +201,10 @@
 					"name": "meta.type.st",
 					"patterns": [
 						{
-							"include": "#keywords"
+							"include": "#comments"
 						},
 						{
-							"include": "#comments"
+							"include": "#keywords"
 						},
 						{
 							"beginCaptures": {
@@ -267,6 +273,9 @@
 					"name": "meta.switch.st",
 					"patterns": [
 						{
+							"include": "#comments"
+						},
+						{
 							"include": "#keywords"
 						},
 						{
@@ -279,7 +288,8 @@
 		"type_declaration": {
 			"patterns": [
 				{
-					"begin": "(?=OF|:(?!=))",
+					"comment": "in look behind, '\\WX|^X' is equivelent to '\\bX' that cannot be used in look behinds",
+					"begin": "(?<=\\WEXTENDS|^EXTENDS|\\WIMPLEMENTS|^IMPLEMENTS)\\b|(?=\\bOF\\b)|(?<=:)",
 					"end": "\\b(?:(?=(?:END_)?TYPE|STRUCT|UNION)|[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*)\\b|(?=:=|;)",
 					"applyEndPatternLast": true,
 					"endCaptures": {
@@ -309,10 +319,6 @@
 						{
 							"name": "keyword.other.st",
 							"match": "\\b(?:OF|TO|POINTER|REF(?:ERENCE)?|REF_TO)\\b"
-						},
-						{
-							"name": "punctuation.separator.st",
-							"match": ":(?!=)|,"
 						},
 						{
 							"include": "#comments"
@@ -466,7 +472,7 @@
 				},
 				{
 					"name": "keyword.other.storage.st",
-					"match": "\\b(?:OF|TO|POINTER|REF(?:ERENCE)?|REF_TO|AT|TASK|WITH|USING|FROM)\\b"
+					"match": "\\b(?:POINTER|REF(?:ERENCE)?|REF_TO|AT|TASK|WITH|USING|FROM)\\b"
 				},
 				{
 					"name": "storage.modifier.st",
@@ -501,7 +507,8 @@
 							"name": "entity.other.inherited-class.st"
 						}
 					},
-					"match": "\\b(EXTENDS|IMPLEMENTS)(?:\\s+([A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*))?\\b"
+					"match": "\\b(EXTENDS|IMPLEMENTS)\\b",
+					"comment": ",(?:\\s+([A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*))?\\b"
 				},
 				{
 					"name": "invalid.st",
@@ -648,7 +655,7 @@
 		},
 		"comment_l": {
 			"name": "comment.line.st",
-			"begin": "\\/\\/",
+			"begin": "//",
 			"end": "$",
 			"patterns": [
 				{
@@ -673,8 +680,8 @@
 		},
 		"comment_g": {
 			"name": "comment.block.st",
-			"begin": "\\/\\*",
-			"end": "\\*\\/",
+			"begin": "/\\*",
+			"end": "\\*/",
 			"patterns": [
 				{
 					"name": "constant.character.escape.st",
