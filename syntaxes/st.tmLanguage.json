@@ -472,11 +472,11 @@
 				},
 				{
 					"name": "keyword.other.storage.st",
-					"match": "\\b(?:POINTER|REF(?:ERENCE)?|REF_TO|AT|TASK|WITH|USING|FROM)\\b"
+					"match": "\\b(?:POINTER|REF(?:ERENCE)?|REF_TO|AT|OVERLAP|TASK|WITH|USING|FROM)\\b"
 				},
 				{
 					"name": "storage.modifier.st",
-					"match": "\\b(?:CONSTANT|RETAIN|PERSISTENT|PUBLIC|PRIVATE|PROTECTED|INTERNAL|FINAL)\\b"
+					"match": "\\b(?:ABSTRACT|CONSTANT|RETAIN|PERSISTENT|PUBLIC|PRIVATE|PROTECTED|INTERNAL|FINAL)\\b"
 				},
 				{
 					"name": "constant.language.st",
