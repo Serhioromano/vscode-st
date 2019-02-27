@@ -1,6 +1,6 @@
 {
 	"PROGRAM …": {
-		"prefix": "prog",
+		"prefix": "program ",
 		"body": [
 			"PROGRAM ${1:PLC_PRG}",
 			"\t$0",
@@ -9,30 +9,30 @@
 		],
 		"description": "Define program"
     },
-	"IF END_IF...": {
-		"prefix": "if",
+	"IF END_IF…": {
+		"prefix": "if ",
 		"body": [
 			"IF ${1:Condition} THEN",
 			"\t$0",
-			"END_IF;",
+			"END_IF",
 			""
 		],
 		"description": "Define IF condition"
     },
-	"IF ELSE END_IF...": {
-		"prefix": "if",
+	"IF ELSE END_IF…": {
+		"prefix": "if ",
 		"body": [
 			"IF ${1:Condition} THEN",
 			"\t$0",
 			"ELSE",
 			"\t$0",
-			"END_IF;",
+			"END_IF",
 			""
 		],
 		"description": "Define IF condition with ELSE"
     },
-	"IF ELSIF ELSE END_IF...": {
-		"prefix": "if",
+	"IF ELSIF ELSE END_IF…": {
+		"prefix": "if ",
 		"body": [
 			"IF ${1:Condition} THEN",
 			"\t$0",
@@ -40,52 +40,61 @@
 			"\t",
 			"ELSE",
 			"\t",
-			"END_IF;",
+			"END_IF",
 			""
 		],
 		"description": "Define IF condition with ELSIF and ELSE"
     },
+	"ELSIF…": {
+		"prefix": "elsif ",
+		"body": [
+			"ELSIF ${1:Condition1} THEN",
+			"\t$0"
+		],
+		"description": "Define ELSIF condition"
+    },
 	"WHILE …": {
-		"prefix": "while",
+		"prefix": "while ",
 		"body": [
 			"WHILE ${1:Condition} DO",
 			"\t$0",
-			"END_WHILE;",
+			"END_WHILE",
 			""
 		],
-		"description": "Define WHILE cycle"
+		"description": "Define WHILE loop"
     },
 	"REPEAT …": {
-		"prefix": "repeat",
+		"prefix": "repeat ",
 		"body": [
 			"REPEAT",
 			"\t$0",
-			"UNTIL ${1:Condition};",
+			"UNTIL ${1:Condition}",
+			"END_REPEAT",
 			""
 		],
-		"description": "Define REPEAT cycle"
+		"description": "Define REPEAT loop"
     },
 	"CASE …": {
-		"prefix": "case",
+		"prefix": "case ",
 		"body": [
 			"CASE ${1:ANY_NUM} OF",
 			"\t0: $0",
 			"\t1:",
 			"\t2:",
-			"END_CASE;",
+			"END_CASE",
 			""
 		],
 		"description": "Define CASE condition"
     },
 	"CASE … ELSE": {
-		"prefix": "case",
+		"prefix": "case ",
 		"body": [
 			"CASE ${1:ANY_NUM} OF",
 			"\t0: $0",
 			"\t1:",
 			"ELSE",
 			"\t",
-			"END_CASE;",
+			"END_CASE",
 			""
 		],
 		"description": "Define CASE condition with ELSE"
@@ -95,7 +104,7 @@
 		"body": [
 			"ACTION ${1:Name}:",
 			"\t$0",
-			"END_ACTION;",
+			"END_ACTION",
 			""
 		],
 		"description": "Define ACTION"
@@ -105,53 +114,53 @@
 		"body": [
 			"STEP ${1:Name}:",
 			"\t$0",
-			"END_STEP;",
+			"END_STEP",
 			""
 		],
 		"description": "Define STEP"
     },
 	"INITIAL_STEP …": {
-		"prefix": "step",
+		"prefix": "initial_step",
 		"body": [
 			"INITIAL_STEP ${1:Name}:",
 			"\t$0",
-			"END_STEP;",
+			"END_STEP",
 			""
 		],
 		"description": "Define Initial STEP"
     },
 	"TRANSITION …": {
-		"prefix": "trans",
+		"prefix": "transition ",
 		"body": [
 			"TRANSITION ${1:Name} FROM ${2:Step1} TO ${3:Step2}",
 			"\t$0",
-			"END_TRANSITION;",
+			"END_TRANSITION",
 			""
 		],
 		"description": "Define ACTION"
     },
 	"FOR …": {
-		"prefix": "for",
+		"prefix": "for ",
 		"body": [
 			"FOR ${1:Var} TO ${2:Num} DO",
 			"\t$0",
-			"END_FOR;",
+			"END_FOR",
 			""
 		],
 		"description": "Define FOR cycle"
     },
 	"FOR BY…": {
-		"prefix": "for",
+		"prefix": "for ",
 		"body": [
 			"FOR ${1:Var} TO ${2:Num} BY ${3:1} DO",
 			"\t$0",
-			"END_FOR;",
+			"END_FOR",
 			""
 		],
 		"description": "Define FOR cycle with BY"
 	},
 	"NAMESPACE ... END_NAMESPACE": {
-		"prefix": "namespace",
+		"prefix": "namespace ",
 		"body": [
 			"NAMESPACE ${1:Name}",
 			"\t$0",
@@ -160,7 +169,7 @@
 		"description": "Define NAMESPACE"
 	},
 	"FUNCTION ... END_FUNCTION": {
-		"prefix": "function",
+		"prefix": "function ",
 		"body": [
 			"FUNCTION ${1:Name} : ${2:Type}",
 			"\t$0",
@@ -169,7 +178,7 @@
 		"description": "Define FUNCTION"
 	},
 	"FUNCTION_BLOCK ... END_FUNCTION_BLOCK": {
-		"prefix": "function_block",
+		"prefix": "function_block ",
 		"body": [
 			"FUNCTION_BLOCK ${1:Name}",
 			"\t$0",
@@ -178,7 +187,7 @@
 		"description": "Define FUNCTION_BLOCK"
 	},
 	"IMPLEMENTATION ... END_IMPLEMENTATION": {
-		"prefix": "imp",
+		"prefix": "implementation ",
 		"body": [
 			"IMPLEMENTATION",
 			"\t$0",
@@ -194,7 +203,7 @@
 		"description": "Define new variable"
 	},
 	"VAR ... END_VAR": {
-		"prefix": "var",
+		"prefix": "var ",
 		"body": [
 			"VAR",
 			"\t${1:Variable}: ${2|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${3:Comment} *)$0",
@@ -203,7 +212,7 @@
 		"description": "Define VAR"
 	},
 	"VAR_GLOBAL ... END_VAR": {
-		"prefix": ["var", "global"],
+		"prefix": "var_global ",
 		"body": [
 			"VAR_GLOBAL",
 			"\t${1:Variable}: ${2|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${3:Comment} *)$0",
@@ -212,7 +221,7 @@
 		"description": "Define VAR_GLOBAL"
 	},
 	"VAR_IN_OUT ... END_VAR": {
-		"prefix": ["var", "inout"],
+		"prefix": "var_in_out ",
 		"body": [
 			"VAR_IN_OUT",
 			"\t${1:Variable}: ${2|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${3:Comment} *)$0",
@@ -221,7 +230,7 @@
 		"description": "Define VAR_IN_OUT"
 	},
 	"VAR_INPUT ... END_VAR": {
-		"prefix": ["var", "input"],
+		"prefix": "var_input ",
 		"body": [
 			"VAR_INPUT",
 			"\t${1:Variable}: ${2|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${3:Comment} *)$0",
@@ -230,7 +239,7 @@
 		"description": "Define VAR_INPUT"
 	},
 	"VAR_OUTPUT ... END_VAR": {
-		"prefix": ["var", "output"],
+		"prefix": "var_output ",
 		"body": [
 			"VAR_OUTPUT",
 			"\t${1:Variable}: ${2|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${3:Comment} *)$0",
