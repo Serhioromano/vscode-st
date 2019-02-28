@@ -353,7 +353,7 @@
 				},
 				{
 					"comment": "in look behind, '\\WX|^X' is equivelent to '\\bX' that cannot be used in look behinds",
-					"begin": "(?=\\bOF\\b)|(?<=:)",
+					"begin": "(?=\\bOF\\b|:(?!=))",
 					"end": "\\b(?:(?=(?:END_)?TYPE|STRUCT|UNION)|[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*)\\b|(?=:=|;)",
 					"applyEndPatternLast": true,
 					"endCaptures": {
@@ -369,6 +369,10 @@
 						{
 							"name": "keyword.other.st",
 							"match": "\\b(?:OF|TO|POINTER|REF(?:ERENCE)?|REF_TO)\\b"
+						},
+						{
+							"name": "punctuation.separator.st",
+							"match": ":(?!=)"
 						},
 						{
 							"include": "#comments"
@@ -473,7 +477,7 @@
 							"name": "constant.numeric.integer.st"
 						}
 					},
-					"match": "\\b((?:BOOL|BYTE|[DL]?WORD|U?[SDL]?INT|L?REAL)(#)|(?<!#))(-?\\d+)\\b"
+					"match": "(\\b(?:BOOL|BYTE|[DL]?WORD|U?[SDL]?INT|L?REAL)(#)|(?<!#))(-?\\d+)\\b"
 				},
 				{
 					"name": "constant.numeric.duration.st",
@@ -485,15 +489,15 @@
 				},
 				{
 					"name": "constant.numeric.datetime.st",
-					"match": "\\b(?i:DT|DATE_AND_TIME)#(?:[0-9]+(?:[-:]))+\\b"
+					"match": "\\b(?i:DT|DATE_AND_TIME)#(?:[0-9]+[:-])+[0-9]*"
 				},
 				{
 					"name": "constant.numeric.datetime.st",
-					"match": "\\b(?i:D(?:ATE)?)#(?:[0-9]+(?:(?:-[0-9]+(?:-[0-9]*))|-[0-9]*)?)\\b"
+					"match": "\\b(?i:D(?:ATE)?)#(?:[0-9]+(?:(?:-[0-9]+(?:-[0-9]*))|-[0-9]*)?)"
 				},
 				{
 					"name": "constant.numeric.datetime.st",
-					"match": "\\b(?i:TOD|TIME_OF_DAY)#(?:[0-9]+(?::[0-9]+)+)\\b"
+					"match": "\\b(?i:TOD|TIME_OF_DAY)#(?:[0-9]+(?::[0-9]+)+)"
 				},
 				{
 					"name": "invalid.constant.st",
@@ -525,7 +529,7 @@
 				},
 				{
 					"name": "punctuation.separator.st",
-					"match": "[:,]"
+					"match": ","
 				},
 				{
 					"name": "keyword.operator.logical.st",

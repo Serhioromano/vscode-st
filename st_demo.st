@@ -7,8 +7,8 @@ PROGRAM PLC_PRG
         xStart AT %IX0.0.1: BOOL := TRUE;
         rTest: REAL := 12.3e4;
         iTest: INT  := 1234;
-        bTest: BYTE := 2#0010_0110; 
-        tTest: TIME := T#20s; 
+        bTest: BYTE := 2#0010_0110;
+        tTest: TIME := T#20s;
         dtTest: TIME := DT#2018-12-12-00:00:00;
         pTest: POINTER TO BOOL;
         aTest: ARRAY[1..2] OF strName;
@@ -17,7 +17,7 @@ PROGRAM PLC_PRG
 
     // Single line comment
     pTest := ADR(xStart);
-    
+
     IF pTest^ OR (bTest > 16#2F)) THEN
         rTemp := ABS(100.5);
     END_IF
@@ -28,7 +28,7 @@ PROGRAM PLC_PRG
         SR();
         SEL();
     END_WHILE
-    
+
     CASE iTest OF
     16#FF34:
         TON(IN := TRUE);
@@ -36,9 +36,9 @@ PROGRAM PLC_PRG
     END_CASE
 END_PROGRAM
 
-/* This is 
+/* This is
 multiple lines comment */
-TYPE 
+TYPE
     strName: STRUCT
         another: INT;
         xother AT %IX0.0.1 : BOOL;
