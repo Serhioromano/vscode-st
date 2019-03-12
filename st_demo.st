@@ -17,14 +17,15 @@ PROGRAM PLC_PRG
     // Single line comment
     pTest := ADR(xStart);
     
-    IF pTest^ OR (bTest > 16#2F)) THEN
+    IF (pTest^ OR (bTest > 16#2F)) THEN
         rTemp := ABS(100.5);
     END_IF;
 
     WHILE tTime > & TON.Q AND 123 > INT#25 DO
         10 + INT_TO_BOOL(100 / (12));
         TO_REAL();
-        SR()
+        SR();
+        UPPER();
         SEL();
     END_WHILE;
     

@@ -6,19 +6,16 @@
 			"include": "#system"
 		},
 		{
-			"include": "#comment_l"
-		},
-		{
-			"include": "#comment_st"
-		},
-		{
-			"include": "#comment_g"
+			"include": "#comments"
 		},
 		{
 			"include": "#strings_dq"
 		},
 		{
 			"include": "#strings_sq"
+		},
+		{
+			"include": "#meta"
 		},
 		{
 			"include": "#numbers"
@@ -28,9 +25,6 @@
 		},
 		{
 			"include": "#keywords"
-		},
-		{
-			"include": "#meta"
 		}
 	],
 	"repository": {
@@ -115,16 +109,72 @@
 		"keywords": {
 			"patterns": [
 				{
+					"name": "keyword.control.conditional.st",
+					"match": "\\b(END_)?(IF|CASE|OF|ELSE|ELSIF|THEN)\\b"
+				},
+				{
+					"name": "keyword.control.st",
+					"match": "\\b(END_)?(WHILE|FOR|REPEAT|DO|TO|BY|AT|TASK|WITH|RETURN|EXIT|CONTINUE|USING|FROM|UNTIL)\\b"
+				},
+				{
+					"name": "keyword.operator.assignment.st",
+					"match": "(:=|=>)"
+				},
+				{
+					"name": "keyword.operator.content.st",
+					"match": "\\^|MOVE"
+				},
+				{
+					"name": "punctuation.terminator.statement.st",
+					"match": "[;]"
+				},
+				{
+					"name": "keyword.operator.logical.st",
+					"match": "\\b(OR(_ELSE)?|AND(_THEN)?|NOT|XOR|GE|LE|EQ|NE|GT|LT)\\b|&"
+				},
+				{
+					"name": "keyword.operator.comparison.st",
+					"match": "(<>|<|=|>|<=|>=)"
+				},
+				{
+					"name": "keyword.operator.arithmetic.st",
+					"match": "(\\+|\\-|\\/|\\*)"
+				},
+				{
+					"name": "keyword.operator.arithmetic.st",
+					"match": "\\b(ABS|SIN|MOD|ABS|ACOS|ASIN|ATAN|COS|EXP|EXPT|LN|LOG|SIN|SQRT|TAN|SEL|MUX|SHL|SHR|ROL|ROR|ADD|DIV|MUL|SUB|LIMIT|MAX|MIN|ADR(INST)?|SIZE(OF)?|BIT_?ADR|TRUNC(_INT)?)\\b"
+				},
+				{
+					"name": "keyword.operator.arithmetic.st",
+					"match": "\\b(SEL_|MUX_)[A-Za-z]*\\b"
+				},
+				{
+					"name": "keyword.other.storage.st",
+					"match": "\\b(POINTER( TO)?|REF(ERENCE)?|REF_TO|AT|OVERLAP|TASK|WITH|USING|FROM)\\b"
+				},
+				{
+					"name": "storage.modifier.st",
+					"match": "\\b(?:ABSTRACT|CONSTANT|RETAIN|PERSISTENT|PUBLIC|PRIVATE|PROTECTED|INTERNAL|FINAL)\\b"
+				},
+				{
+					"name": "constant.language.st",
+					"match": "\\b(TRUE|FALSE|NULL)\\b"
+				},
+				{
+					"name": "entity.name.type.st",
+					"match": "\\b(VAR(_(INPUT|OUTPUT|IN_OUT|TEMP|GLOBAL|ACCESS|EXTERNAL))?|END_VAR)\\b"
+				},
+				{
+					"name": "support.type.primitives.st",
+					"match" : "\\b(BOOL|BYTE|(?:D|L)?WORD|U?(?:S|D|L)?INT|L?REAL|TIME(?:_OF_DAY)?|TOD|DT|DATE(?:_AND_TIME)?|STRING|ARRAY|ANY)\\b"
+				},
+				{
 					"name": "storage.type.class.st",
 					"match": "\\b(END_)?(PROGRAM|CONFIGURATION|TCP|RESOURCE|CHANNEL|LIBRARY|FOLDER|BINARIES|INCLUDES|SOURCES|ACTION|STEP|INITIAL_STEP|TRANSITION|TYPE|STRUCT|FUNCTION|FUNCTION_BLOCK|NAMESPACE|IMPLEMENTATION)\\b"
 				},
 				{
-					"name": "variable.function.st",
-					"match": "\\b(RS|SR|TON|TP|TOF|TRUNC|CTD|CTU|CTUD|R_TRIG|F_TRIG|MOVE|CONCAT|DELETE|FIND|INSERT|LEFT|LEN|REPLACE|RIGHT|RTC|MID|SEMA|ROUND|FLOOR|CEIL|UNPACK|LIMIT|MAX|MIN|ADR|SIZEOF|SIZE|BIT_ADR|REF)\\b"
-				},
-				{
-					"name": "variable.function.st",
-					"match": "\\b(SEL_|MUX_)[A-Za-z]*\\b"
+					"name": "support.function.st",
+					"match": "\\b(RS|SR|TON|TP|TOF|TRUNC|CTD|CTU|CTUD|R_TRIG|F_TRIG|MOVE|CONCAT|DELETE|FIND|INSERT|LEFT|LEN|REPLACE|RIGHT|RTC|MID|SEMA|ROUND|FLOOR|CEIL|UNPACK|REF)\\b"
 				},
 				{
 					"name": "variable.function.st",
@@ -135,52 +185,8 @@
 					"match": "\\b(TO_|FROM_|TRUNC_)[A-Za-z_]*\\b"
 				},
 				{
-					"name": "keyword.control.conditional.st",
-					"match": "\\b(END_)?(IF|CASE|OF|ELSE|ELSIF|THEN)\\b"
-				},
-				{
-					"name": "keyword.control.st",
-					"match": "\\b(END_)?(WHILE|FOR|REPEAT|DO|TO|BY|AT|TASK|WITH|RETURN|EXIT|CONTINUE|USING|FROM|UNTIL)\\b"
-				},
-				{
-					"name": "keyword.operator.assignment.st",
-					"match": "(:=|\\^)"
-				},
-				{
-					"name": "punctuation.terminator.statement.st",
-					"match": "[;:]"
-				},
-				{
-					"name": "keyword.operator.logical.st",
-					"match": "\\b(OR|AND|NOT|XOR|GE|LE|EQ|NE|GT|LT)\\b"
-				},
-				{
-					"name": "keyword.operator.logical.st",
-					"match": "(&|\\<\\>|\\<|\\=|\\>)"
-				},
-				{
-					"name": "keyword.operator.arithmetic.st",
-					"match": "(\\+|\\-|\\/|\\*)"
-				},
-				{
-					"name": "keyword.operator.arithmetic.st",
-					"match": "\\b(ABS|SIN|MOD|ABS|ACOS|ASIN|ATAN|COS|EXP|EXPT|LN|LOG|SIN|SQRT|TAN|SEL|MUX|SHL|SHR|ROL|ROR|ADD|DIV|MUL|SUB)\\b"
-				},
-				{
-					"name": "support.type.primitives.st",
-					"match" : "\\b(BOOL|BYTE|(?:D|L)?WORD|U?(?:S|D|L)?INT|L?REAL|TIME(?:_OF_DAY)?|TOD|DT|DATE(?:_AND_TIME)?|STRING|ARRAY|(?:POINTER|REF)\\s+TO|ANY|REF_TO)\\b"
-				},
-				{
 					"name": "support.type.primitives.st",
 					"match": "\\b(ANY_)?(DERIVED|ELEMENTARY|MAGNITUDE|NUM|REAL|INT|UNSIGNED|SIGNED|DURATION|BIT|CHARS|STRING|CHAR|DATE)\\b"
-				},
-				{
-					"name": "entity.name.constant.st",
-					"match": "\\b(TRUE|FALSE|NULL)\\b"
-				},
-				{
-					"name": "entity.name.type.st",
-					"match": "\\b(VAR|VAR_INPUT|VAR_OUTPUT|VAR_IN_OUT|VAR_TEMP|VAR_GLOBAL|VAR_ACCESS|VAR_EXTERNAL|END_VAR)\\b"
 				},
 				{
 			
@@ -191,6 +197,50 @@
 							"name": "entity.name.function.st"
 						}
 					}
+				},
+				{
+					"captures": {
+						"1": {
+							"name": "storage.modifier.st"
+						},
+						"2": {
+							"name": "entity.other.inherited-class.st"
+						}
+					},
+					"match": "\\b(EXTENDS|IMPLEMENTS)\\b",
+					"comment": ",(?:\\s+([A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*))?\\b"
+				},
+				{
+					"match": "\\b(?:THIS|SUPER)\\b",
+					"name": "variable.language.st"
+				},
+				{
+					"name": "invalid.st",
+					"match": "#"
+				},
+				{
+					"match": "\\b[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*(?=\\()(?!\\(\\*)",
+					"name": "variable.function.st"
+				},
+				{
+					"name": "variable.other.object.st",
+					"match": "\\b[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*(?=\\.)"
+				},
+				{
+					"name": "variable.other.object.property.st",
+					"match": "(?<=\\.)[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*(?=\\.)"
+				},
+				{
+					"name": "variable.other.property.st",
+					"match": "(?<=\\.)[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*\\b"
+				},
+				{
+					"name": "variable.other.readwrite.st",
+					"match": "\\b[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*\\b"
+				},
+				{
+					"name": "support.type.primitives.st",
+					"match": ":\\s*[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*\\b"
 				}
 			]
 		},
@@ -214,15 +264,89 @@
 				},
 				{
 					"name": "punctuation.accessor.st",
-					"match": "\\."
+					"match": "(?<!\\.)\\.(?!\\.)"
+				},
+				{
+					"name": "keyword.operator.range.st",
+					"match": "(?<!\\.)\\.\\.(?!\\.)"
 				}
+				
 			]
 		},
 		"meta":{
 			"patterns": [
 				{
-					"name": "meta.braces.st",
-					"match": "[\\[\\]\\(\\)\\{\\}]"
+					"name": "meta.expression.st",
+					"begin": "\\(",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.parenthesis.begin.st"
+						}
+					},
+					"end": "\\)",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.parenthesis.end.st"
+						}
+					},
+					"patterns": [
+						{
+							"include": "$self"
+						}
+					]
+				},
+				{
+					"name": "meta.index.st",
+					"begin": "\\[",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.bracket.begin.st"
+						}
+					},
+					"end": "\\]",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.bracket.end.st"
+						}
+					},
+					"patterns": [
+						{
+							"include": "$self"
+						}
+					]
+				},
+				{
+					"name": "meta.pragma.st",
+					"begin": "\\{",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.brace.begin.st"
+						}
+					},
+					"end": "\\}",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.brace.end.st"
+						}
+					},
+					"patterns": [
+						{
+							"comment": "$self"
+						}
+					]
+				}
+			]
+		},
+		"comments": {
+			"patterns": [
+				{
+					"include": "#comment_l"
+				},
+				{
+					"include": "#comment_st"
+				},
+				{
+					"include": "#comment_g"
 				}
 			]
 		},
@@ -262,7 +386,17 @@
 		"strings_dq": {
 			"name": "string.quoted.double.st",
 			"begin": "\"",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.double.begin.st"
+				}
+			},
 			"end": "\"",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.double.begin.st"
+				}
+			},
 			"patterns": [
 				{
 					"name": "constant.character.escape.st",
@@ -273,7 +407,17 @@
 		"strings_sq": {
 			"name": "string.quoted.single.st",
 			"begin": "'",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.double.begin.st"
+				}
+			},
 			"end": "'",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.double.begin.st"
+				}
+			},
 			"patterns": [
 				{
 					"name": "constant.character.escape.st",
