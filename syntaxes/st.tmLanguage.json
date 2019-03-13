@@ -9,10 +9,7 @@
 			"include": "#comments"
 		},
 		{
-			"include": "#strings_dq"
-		},
-		{
-			"include": "#strings_sq"
+			"include": "#strings"
 		},
 		{
 			"include": "#meta"
@@ -103,18 +100,44 @@
 				{
 					"name": "constant.numeric.integer.st",
 					"match": "\\b(\\d)+\\b"
+				},
+				{
+					"name": "constant.numeric.integer.st",
+					"match": "\\b(BYTE|(?:D|L)?WORD|U?(?:S|D|L)?INT)#[0-9\\_]**\\b"
+				},
+				{
+					"name": "constant.numeric.float.st",
+					"match": "\\b(L?REAL)#[0-9\\_\\.e]**\\b"
 				}
 			]
 		},
 		"keywords": {
 			"patterns": [
 				{
+					"comment": "Rule for OF in var declaration",
+					"begin": "\\b(VAR|TYPE)",
+					"end": "(END_(VAR|TYPE))",
+					"patterns": [
+						{
+							"name":"support.type.primitives.st",
+							"match": "\\b(OF)\\b"
+						},
+						{
+							"include": "$self"
+						}
+					]
+				},
+				{
 					"name": "keyword.control.conditional.st",
 					"match": "\\b(END_)?(IF|CASE|OF|ELSE|ELSIF|THEN)\\b"
 				},
 				{
+					"name": "keyword.other.storage.st",
+					"match": "\\b(POINTER TO|POINTER|REF(ERENCE)?|REF_TO|OVERLAP|USING|FROM)\\b"
+				},
+				{
 					"name": "keyword.control.st",
-					"match": "\\b(END_)?(WHILE|FOR|REPEAT|DO|TO|BY|AT|TASK|WITH|RETURN|EXIT|CONTINUE|USING|FROM|UNTIL)\\b"
+					"match": "\\b(END_)?(WHILE|FOR|REPEAT|DO|TO|BY|TASK|WITH|RETURN|EXIT|CONTINUE|USING|FROM|UNTIL)\\b"
 				},
 				{
 					"name": "keyword.operator.assignment.st",
@@ -149,10 +172,6 @@
 					"match": "\\b(SEL_|MUX_)[A-Za-z]*\\b"
 				},
 				{
-					"name": "keyword.other.storage.st",
-					"match": "\\b(POINTER( TO)?|REF(ERENCE)?|REF_TO|AT|OVERLAP|TASK|WITH|USING|FROM)\\b"
-				},
-				{
 					"name": "storage.modifier.st",
 					"match": "\\b(?:ABSTRACT|CONSTANT|RETAIN|PERSISTENT|PUBLIC|PRIVATE|PROTECTED|INTERNAL|FINAL)\\b"
 				},
@@ -166,11 +185,11 @@
 				},
 				{
 					"name": "support.type.primitives.st",
-					"match" : "\\b(BOOL|BYTE|(?:D|L)?WORD|U?(?:S|D|L)?INT|L?REAL|TIME(?:_OF_DAY)?|TOD|DT|DATE(?:_AND_TIME)?|STRING|ARRAY|ANY)\\b"
+					"match" : "\\b(AT|BOOL|BYTE|(?:D|L)?WORD|U?(?:S|D|L)?INT|L?REAL|TIME(?:_OF_DAY)?|TOD|DT|DATE(?:_AND_TIME)?|STRING|ARRAY|ANY)\\b"
 				},
 				{
 					"name": "storage.type.class.st",
-					"match": "\\b(END_)?(PROGRAM|CONFIGURATION|TCP|RESOURCE|CHANNEL|LIBRARY|FOLDER|BINARIES|INCLUDES|SOURCES|ACTION|STEP|INITIAL_STEP|TRANSITION|TYPE|STRUCT|FUNCTION|FUNCTION_BLOCK|NAMESPACE|IMPLEMENTATION)\\b"
+					"match": "\\b(END_)?(PROGRAM|CONFIGURATION|TCP|RESOURCE|CHANNEL|LIBRARY|FOLDER|BINARIES|INCLUDES|SOURCES|ACTION|STEP|INITIAL_STEP|TRANSITION|TYPE|STRUCT|FUNCTION|FUNCTION_BLOCK|NAMESPACE|IMPLEMENTATION|INTERFACE|PROPERTY|METHOD)\\b"
 				},
 				{
 					"name": "support.function.st",
@@ -233,14 +252,6 @@
 				{
 					"name": "variable.other.property.st",
 					"match": "(?<=\\.)[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*\\b"
-				},
-				{
-					"name": "variable.other.readwrite.st",
-					"match": "\\b[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*\\b"
-				},
-				{
-					"name": "support.type.primitives.st",
-					"match": ":\\s*[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*\\b"
 				}
 			]
 		},
@@ -348,82 +359,106 @@
 				{
 					"include": "#comment_g"
 				}
-			]
+			],
+			"repository": {
+				"comment_l": {
+					"name": "comment.line.st",
+					"begin": "\\/\\/",
+					"end": "$",
+					"patterns": [
+						{
+							"name": "constant.character.escape.st",
+							"match": "\\\\."
+						}
+					]
+				},
+				"comment_st": {
+					"name": "comment.block.st",
+					"begin": "\\(\\*",
+					"end": "\\*\\)",
+					"patterns": [
+						{
+							"name": "constant.character.escape.st",
+							"match": "\\\\."
+						}
+					]
+				},
+				"comment_g": {
+					"name": "comment.block.st",
+					"begin": "\\/\\*",
+					"end": "\\*\\/",
+					"patterns": [
+						{
+							"name": "constant.character.escape.st",
+							"match": "\\\\."
+						}
+					]
+				}
+			}
 		},
-		"comment_l": {
-			"name": "comment.line.st",
-			"begin": "\\/\\/",
-			"end": "$",
+		"strings": {
 			"patterns": [
 				{
-					"name": "constant.character.escape.st",
-					"match": "\\\\."
-				}
-			]
-		},
-		"comment_st": {
-			"name": "comment.block.st",
-			"begin": "\\(\\*",
-			"end": "\\*\\)",
-			"patterns": [
+					"include": "#strings_dq"
+				},
 				{
-					"name": "constant.character.escape.st",
-					"match": "\\\\."
-				}
-			]
-		},
-		"comment_g": {
-			"name": "comment.block.st",
-			"begin": "\\/\\*",
-			"end": "\\*\\/",
-			"patterns": [
+					"include": "#strings_sq"
+				},
 				{
-					"name": "constant.character.escape.st",
-					"match": "\\\\."
+					"name": "string.quoted.double.st",
+					"begin": "\\b(W?STRING)#('|\")",
+					"end": "('|\")",
+					"patterns": [
+						{
+							"include": "$self"
+						}
+					]
 				}
-			]
-		},
-		"strings_dq": {
-			"name": "string.quoted.double.st",
-			"begin": "\"",
-			"beginCaptures": {
-				"0": {
-					"name": "punctuation.double.begin.st"
+			],
+			"repository": {
+				"strings_dq": {
+					"name": "string.quoted.double.st",
+					"begin": "\"",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.double.begin.st"
+						}
+					},
+					"end": "\"",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.double.end.st"
+						}
+					},
+					"patterns": [
+						{
+							"name": "constant.character.escape.st",
+							"match": "\\\\."
+						}
+					]
+				},
+				"strings_sq": {
+					"name": "string.quoted.single.st",
+					"begin": "'",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.single.begin.st"
+						}
+					},
+					"end": "'",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.single.end.st"
+						}
+					},
+					"patterns": [
+						{
+							"name": "constant.character.escape.st",
+							"match": "\\\\."
+						}
+					]
 				}
-			},
-			"end": "\"",
-			"endCaptures": {
-				"0": {
-					"name": "punctuation.double.begin.st"
-				}
-			},
-			"patterns": [
-				{
-					"name": "constant.character.escape.st",
-					"match": "\\\\."
-				}
-			]
-		},
-		"strings_sq": {
-			"name": "string.quoted.single.st",
-			"begin": "'",
-			"beginCaptures": {
-				"0": {
-					"name": "punctuation.double.begin.st"
-				}
-			},
-			"end": "'",
-			"endCaptures": {
-				"0": {
-					"name": "punctuation.double.begin.st"
-				}
-			},
-			"patterns": [
-				{
-					"name": "constant.character.escape.st",
-					"match": "\\\\."
-				}
-			]
+			}
 		}
 	},
 	"scopeName": "source.st"
