@@ -6,7 +6,7 @@ Most complete Structured Text language support.
 
 Includes syntax highlight based on IEC 61131-3 draft, including namespaces, SFC elements (STEP, ACTION, TRANSITION), constant variables (2#000_1010, 16#1E, INT#23) and more.
 
-![Structured Text syntax highlights example](https://raw.githubusercontent.com/Serhioromano/vscode-st/master/example.png)
+![Structured Text syntax highlights example](https://raw.githubusercontent.com/Serhioromano/vscode-st/master/demo.gif)
 
 ## Snippets
 
@@ -28,6 +28,10 @@ Can automatically capitalize constants like `TRUE`, `FALSE`. Either use command 
 - Lints
 
 ## Release Notes
+
+### 1.4.0
+
+I've learned few things about syntax highlights. Big refactoring. I added some missing keywords, changed some coloring scopes and improved coloring in general.
 
 ### 1.3.1
 

@@ -2,6 +2,10 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+### [1.4.0] - 2019-13-03
+
+I've learned few things about syntax highlights. Big refactoring. I added some missing keywords, changed some coloring scopes and improved coloring in general.
+
 ### [1.3.1] - 2018-31-12
 
 - add - TYPE creation snippets (enumerations ans structure) and enhance it's syntax highlights
