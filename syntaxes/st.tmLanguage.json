@@ -216,7 +216,7 @@
 							"include": "$self"
 						},
 						{
-							"begin": "[a-zA-Z0-9] *: *\\b",
+							"begin": "[a-zA-Z0-9_] *: *\\b",
 							"end": "\\b(?=[ ;:\\[])",
 							"patterns": [
 								{
@@ -348,6 +348,14 @@
 							"match": "\\b(N|R0|S0|L|D|P|SD|DS|SL|T)\\b",
 							"name": "variable.parameter.st",
 							"comment": "Action parameters"
+						},
+						{
+							"match": "\\b([a-zA-Z0-9_]*) *:?=>? *",
+							"captures": {
+								"1": {
+									"name": "variable.parameter.st"
+								}
+							}
 						}
 					]
 				},

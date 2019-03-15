@@ -20,7 +20,7 @@ PROGRAM PLC_PRG
     actionTest(DS, T#2s);
 
     // TODO: Single line comment
-    pTest := ADR(xStart);
+    pTest := ADR(xStart, dfdf, dfkld);
 
     IF (pTest^ OR (bTest > 16#2F)) THEN
         rTemp := ABS(100.5);
