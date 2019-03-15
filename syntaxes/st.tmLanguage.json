@@ -209,19 +209,24 @@
 					},
 					"patterns": [
 						{
-							"name":"support.type.primitives.st",
-							"match": "\\b(OF)\\b"
+							"match": "\\b(OF)\\b",
+							"name": "support.type.primitives.st"
 						},
 						{
 							"include": "$self"
 						},
 						{
-							"match" :"(?<=[:]) *\\b([0-9a-zA-Z_]*)(?=[\\s;:])\\b",
-							"captures": {
-								"1": {
+							"begin": "[a-zA-Z0-9] *: *\\b",
+							"end": "\\b(?=[ ;:\\[])",
+							"patterns": [
+								{
+									"include": "$self"
+								},
+								{
+									"match": "([0-9a-zA-Z_]*)",
 									"name": "support.type.primitives.st"
 								}
-							}
+							]
 						}
 					]
 				},

@@ -12,8 +12,8 @@ PROGRAM PLC_PRG
         dtTest: DT := DT#2018-12-12-00:00:00;
         pTest: POINTER TO BOOL;
         aTest: ARRAY[1..2] OF strName;
-        fbMyTon1:  MY_TON;
-        fbTon2: TON; // TODO: TON color as function
+        fbMyTon1: MY_TON;
+        fbTon2: TON;
     END_VAR
 
     TON(IN := TRUE, PT := T#2s, Q => xOut);
