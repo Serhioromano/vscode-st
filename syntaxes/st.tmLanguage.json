@@ -188,14 +188,6 @@
 					"match": "\\b(?:[0-9A-Za-z_])*(?=\\()\\b",
 					"name": "support.function.st",
 					"comment": "Functions of an object"
-				},
-				{
-					"match" : "\\b(?<=[:\\s])(?:[0-9a-zA-Z_]*)(?=[;\\s])\\b",
-					"name": "support.type.primitives.st"
-				},
-				{
-					"match" : "\\b(?<=:)(?:[0-9a-zA-Z_]*)\\b",
-					"name": "support.type.primitives.st"
 				}
 			]
 		},
@@ -222,6 +214,14 @@
 						},
 						{
 							"include": "$self"
+						},
+						{
+							"match" :"(?<=[:]) *\\b([0-9a-zA-Z_]*)(?=[\\s;:])\\b",
+							"captures": {
+								"1": {
+									"name": "support.type.primitives.st"
+								}
+							}
 						}
 					]
 				},
@@ -264,7 +264,6 @@
 					"name": "variable.parameter.st",
 					"comment": "Parameter or an object"
 				},
-				
 				{
 					"name": "support.type.primitives.st",
 					"match": "\\b(ANY_)?(DERIVED|ELEMENTARY|MAGNITUDE|NUM|REAL|INT|UNSIGNED|SIGNED|DURATION|BIT|CHARS|STRING|CHAR|DATE)\\b"
@@ -339,6 +338,11 @@
 					"patterns": [
 						{
 							"include": "$self"
+						},
+						{
+							"match": "\\b(N|R0|S0|L|D|P|SD|DS|SL|T)\\b",
+							"name": "variable.parameter.st",
+							"comment": "Action parameters"
 						}
 					]
 				},

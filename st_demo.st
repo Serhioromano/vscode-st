@@ -1,7 +1,7 @@
 (* Program TODO: comment *)
 { Attribute: pragma; }
 PROGRAM PLC_PRG
-    VAR_INPUT
+    VAR
         sDoubleQuoted: STRING    := "test\tmething";
         sSingleQuoted: STRING    := 'Another WHILE \n\r string';
         xStart AT %IX0.0.1: BOOL := TRUE;
@@ -12,15 +12,16 @@ PROGRAM PLC_PRG
         dtTest: DT := DT#2018-12-12-00:00:00;
         pTest: POINTER TO BOOL;
         aTest: ARRAY[1..2] OF strName;
-        fbTon1: MY_TON;
-        fbTon2: TON;
+        fbMyTon1:  MY_TON;
+        fbTon2: TON; // TODO: TON color as function
     END_VAR
-    fghfgh
-    TASK WITH USING FROM
+
+    TON(IN := TRUE, PT := T#2s, Q => xOut);
+    actionTest(DS, T#2s);
 
     // TODO: Single line comment
     pTest := ADR(xStart);
-    
+
     IF (pTest^ OR (bTest > 16#2F)) THEN
         rTemp := ABS(100.5);
     END_IF;
@@ -33,7 +34,6 @@ PROGRAM PLC_PRG
     END_WHILE;
     
     CASE iTest OF
-        TON(IN := TRUE);
         CTU.OUT();
         TON.Q.T_EST();
         something.test;
@@ -45,7 +45,8 @@ END_PROGRAM
 multiple lines comment */
 TYPE
     strName: STRUCT
-        another: INT;
+        another:   INT;
+        dkfjdkjf: MY_TEST;
         xother AT %IX0.0.1 : BOOL;
         some: ARRAY[0..9] OF BOOL := [TRUE, FALSE, TRUE, TRUE];
     END_STRUCT
