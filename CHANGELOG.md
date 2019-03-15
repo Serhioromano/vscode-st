@@ -9,7 +9,7 @@ All notable changes to the "st" extension will be documented in this file.
 - improve - If you call for a method of a function block through dot `my_fb.method()` method is highlighted. We also highlight function block properties or parameters.
 - add - TODO or TODO: in comments attract an attention
 - add - Highlights for action modifiers `myAction(DS, T#3s);` where DS will be highlighted.
-- add - parameters highlights
+- add - Highlights for names of parameters of function block.
 
 
 ### [1.4.0] - 2019-13-03
