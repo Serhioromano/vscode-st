@@ -111,34 +111,28 @@
 				}
 			]
 		},
-		"keywords": {
+		"controls": {
 			"patterns": [
 				{
-					"comment": "Rule for OF in var declaration",
-					"begin": "\\b(VAR|TYPE)",
-					"end": "(END_(VAR|TYPE))",
-					"patterns": [
-						{
-							"name":"support.type.primitives.st",
-							"match": "\\b(OF)\\b"
-						},
-						{
-							"include": "$self"
-						}
-					]
-				},
-				{
 					"name": "keyword.control.conditional.st",
-					"match": "\\b(END_)?(IF|CASE|OF|ELSE|ELSIF|THEN)\\b"
+					"match": "\\b(?:END_)?(?:IF|CASE|OF|ELSE|ELSIF|THEN)\\b"
 				},
 				{
-					"name": "keyword.other.storage.st",
-					"match": "\\b(POINTER TO|POINTER|REF(ERENCE)?|REF_TO|OVERLAP|USING|FROM)\\b"
+					"name": "keyword.control.loop.st",
+					"match": "\\b(?:END_)?(?:WHILE|FOR|REPEAT|DO|TO|BY)\\b"
+				},
+				{
+					"name": "keyword.control.flow.st",
+					"match": "\\b(?:RETURN|EXIT|CONTINUE|GOTO|JMP)\\b"
 				},
 				{
 					"name": "keyword.control.st",
-					"match": "\\b(END_)?(WHILE|FOR|REPEAT|DO|TO|BY|TASK|WITH|RETURN|EXIT|CONTINUE|USING|FROM|UNTIL)\\b"
-				},
+					"match": "\\b(END_)?(TASK|WITH|USING|FROM|UNTIL)\\b"
+				}
+			]
+		},
+		"operators": {
+			"patterns": [
 				{
 					"name": "keyword.operator.assignment.st",
 					"match": "(:=|=>)"
@@ -148,28 +142,114 @@
 					"match": "\\^|MOVE"
 				},
 				{
-					"name": "punctuation.terminator.statement.st",
-					"match": "[;]"
-				},
-				{
 					"name": "keyword.operator.logical.st",
-					"match": "\\b(OR(_ELSE)?|AND(_THEN)?|NOT|XOR|GE|LE|EQ|NE|GT|LT)\\b|&"
+					"match": "\\b(OR(_ELSE)?|AND(_THEN)?|NOT|XOR|NOR)\\b|&"
 				},
 				{
 					"name": "keyword.operator.comparison.st",
-					"match": "(<>|<|=|>|<=|>=)"
+					"match": "(?:<>|<|=|>|<=|>=|GE|LE|EQ|NE|GT|LT)"
 				},
 				{
 					"name": "keyword.operator.arithmetic.st",
-					"match": "(\\+|\\-|\\/|\\*)"
+					"match": "(?:\\+|\\-|\\/|\\*)"
 				},
 				{
 					"name": "keyword.operator.arithmetic.st",
-					"match": "\\b(ABS|SIN|MOD|ABS|ACOS|ASIN|ATAN|COS|EXP|EXPT|LN|LOG|SIN|SQRT|TAN|SEL|MUX|SHL|SHR|ROL|ROR|ADD|DIV|MUL|SUB|LIMIT|MAX|MIN|ADR(INST)?|SIZE(OF)?|BIT_?ADR|TRUNC(_INT)?)\\b"
+					"match": "\\b(?:ABS|SIN|MOD|ABS|ACOS|ASIN|ATAN|COS|EXP|EXPT|LN|LOG|SIN|SQRT|TAN|SEL|MUX|SHL|SHR|ROL|ROR|ADD|DIV|MUL|SUB|LIMIT|MAX|MIN|ADR(INST)?|SIZE(OF)?|BIT_?ADR|TRUNC(_INT)?)\\b"
 				},
 				{
 					"name": "keyword.operator.arithmetic.st",
 					"match": "\\b(SEL_|MUX_)[A-Za-z]*\\b"
+				}
+			]
+		},
+		"functions":{
+			"patterns": [
+				{
+					"name": "variable.function.st",
+					"match": "\\b[A-Za-z_]*(_TO_)[A-Za-z_]*\\b"
+				},
+				{
+					"name": "variable.function.st",
+					"match": "\\b(TO_|FROM_|TRUNC_)[A-Za-z_]*\\b"
+				},
+				{
+					"name": "entity.name.function.st",
+					"match": "\\b(?:RS|SR|TON|TP|TOF|TRUNC|CTD|CTU|CTUD|R_TRIG|F_TRIG|MOVE|CONCAT|DELETE|FIND|INSERT|LEFT|LEN|REPLACE|RIGHT|RTC|MID|SEMA|ROUND|FLOOR|CEIL|UNPACK|REF)\\b"
+				},
+				{
+			
+					"matchx": "(?<=\\.)[A-Za-z_](?:[0-9A-Za-z_])*(?=\\()\\b",
+					"name": "support.function.st",
+					"comment": "Functions of an object"
+				},
+				{
+			
+					"match": "\\b(?:[0-9A-Za-z_])*(?=\\()\\b",
+					"name": "support.function.st",
+					"comment": "Functions of an object"
+				}
+			]
+		},
+		"keywords": {
+			"patterns": [
+				{
+					"comment": "Rule for OF in var declaration",
+					"begin": "\\b(?:VAR(?:_(?:INPUT|OUTPUT|IN_OUT|TEMP|GLOBAL|ACCESS|EXTERNAL))?|STRUCT)",
+					"beginCaptures": {
+						"0": {
+							"name": "entity.name.type.st"
+						}
+					},
+					"end": "(?:END_(?:VAR|STRUCT))",
+					"endCaptures": {
+						"0": {
+							"name": "entity.name.type.st"
+						}
+					},
+					"patterns": [
+						{
+							"match": "\\b(OF)\\b",
+							"name": "support.type.primitives.st"
+						},
+						{
+							"include": "$self"
+						},
+						{
+							"begin": "[a-zA-Z0-9_] *: *\\b",
+							"end": "\\b(?=[ ;:\\[])",
+							"patterns": [
+								{
+									"include": "$self"
+								},
+								{
+									"match": "([0-9a-zA-Z_]*)",
+									"name": "support.type.primitives.st"
+								}
+							]
+						}
+					]
+				},
+				{
+					"include": "#controls"
+				},
+				{
+					"include": "#operators"
+				},
+				{
+					"include": "#functions"
+				},
+				{
+					"name": "keyword.other.storage.st",
+					"match": "\\b(POINTER TO|POINTER|REF(ERENCE)?|REF_TO|OVERLAP|USING|FROM)\\b"
+				},
+				{
+					"name": "storage.type.class.st",
+					"match": "\\b(END_)?(PROGRAM|CONFIGURATION|TCP|RESOURCE|CHANNEL|LIBRARY|FOLDER|BINARIES|INCLUDES|SOURCES|ACTION|STEP|INITIAL_STEP|TRANSITION|TYPE|FUNCTION|FUNCTION_BLOCK|NAMESPACE|IMPLEMENTATION|INTERFACE|PROPERTY|METHOD)\\b"
+				},
+				{
+					"name": "punctuation.terminator.statement.st",
+					"match": "[;]"
 				},
 				{
 					"name": "storage.modifier.st",
@@ -180,42 +260,18 @@
 					"match": "\\b(TRUE|FALSE|NULL)\\b"
 				},
 				{
-					"name": "entity.name.type.st",
-					"match": "\\b(VAR(_(INPUT|OUTPUT|IN_OUT|TEMP|GLOBAL|ACCESS|EXTERNAL))?|END_VAR)\\b"
-				},
-				{
 					"name": "support.type.primitives.st",
 					"match" : "\\b(AT|BOOL|BYTE|(?:D|L)?WORD|U?(?:S|D|L)?INT|L?REAL|TIME(?:_OF_DAY)?|TOD|DT|DATE(?:_AND_TIME)?|STRING|ARRAY|ANY)\\b"
 				},
 				{
-					"name": "storage.type.class.st",
-					"match": "\\b(END_)?(PROGRAM|CONFIGURATION|TCP|RESOURCE|CHANNEL|LIBRARY|FOLDER|BINARIES|INCLUDES|SOURCES|ACTION|STEP|INITIAL_STEP|TRANSITION|TYPE|STRUCT|FUNCTION|FUNCTION_BLOCK|NAMESPACE|IMPLEMENTATION|INTERFACE|PROPERTY|METHOD)\\b"
-				},
-				{
-					"name": "support.function.st",
-					"match": "\\b(RS|SR|TON|TP|TOF|TRUNC|CTD|CTU|CTUD|R_TRIG|F_TRIG|MOVE|CONCAT|DELETE|FIND|INSERT|LEFT|LEN|REPLACE|RIGHT|RTC|MID|SEMA|ROUND|FLOOR|CEIL|UNPACK|REF)\\b"
-				},
-				{
-					"name": "variable.function.st",
-					"match": "\\b[A-Za-z_]*(_TO_)[A-Za-z_]*\\b"
-				},
-				{
-					"name": "variable.function.st",
-					"match": "\\b(TO_|FROM_|TRUNC_)[A-Za-z_]*\\b"
+			
+					"match": "(?<=\\.)[A-Za-z_](?:[0-9A-Za-z_])*\\b",
+					"name": "variable.parameter.st",
+					"comment": "Parameter or an object"
 				},
 				{
 					"name": "support.type.primitives.st",
 					"match": "\\b(ANY_)?(DERIVED|ELEMENTARY|MAGNITUDE|NUM|REAL|INT|UNSIGNED|SIGNED|DURATION|BIT|CHARS|STRING|CHAR|DATE)\\b"
-				},
-				{
-			
-					"name": "support.function.st",
-					"match": "(?i:(\\b[a-zA-Z_x7f-xff][a-zA-Z0-9_x7f-xff]*?\\b)(?=\\(\\)?))",
-					"captures": {
-						"1": {
-							"name": "entity.name.function.st"
-						}
-					}
 				},
 				{
 					"captures": {
@@ -236,22 +292,6 @@
 				{
 					"name": "invalid.st",
 					"match": "#"
-				},
-				{
-					"match": "\\b[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*(?=\\()(?!\\(\\*)",
-					"name": "variable.function.st"
-				},
-				{
-					"name": "variable.other.object.st",
-					"match": "\\b[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*(?=\\.)"
-				},
-				{
-					"name": "variable.other.object.property.st",
-					"match": "(?<=\\.)[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*(?=\\.)"
-				},
-				{
-					"name": "variable.other.property.st",
-					"match": "(?<=\\.)[A-Za-z_](?:[0-9A-Za-z]|(?<!_)_)*\\b"
 				}
 			]
 		},
@@ -303,6 +343,19 @@
 					"patterns": [
 						{
 							"include": "$self"
+						},
+						{
+							"match": "\\b(N|R0|S0|L|D|P|SD|DS|SL|T)\\b",
+							"name": "variable.parameter.st",
+							"comment": "Action parameters"
+						},
+						{
+							"match": "\\b([a-zA-Z0-9_]*) *:?=>? *",
+							"captures": {
+								"1": {
+									"name": "variable.parameter.st"
+								}
+							}
 						}
 					]
 				},
@@ -362,10 +415,13 @@
 			],
 			"repository": {
 				"comment_l": {
-					"name": "comment.line.st",
+					"name": "comment.line.double-slash.st",
 					"begin": "\\/\\/",
 					"end": "$",
 					"patterns": [
+						{
+							"include": "#todo"
+						},
 						{
 							"name": "constant.character.escape.st",
 							"match": "\\\\."
@@ -378,6 +434,9 @@
 					"end": "\\*\\)",
 					"patterns": [
 						{
+							"include": "#todo"
+						},
+						{
 							"name": "constant.character.escape.st",
 							"match": "\\\\."
 						}
@@ -389,10 +448,17 @@
 					"end": "\\*\\/",
 					"patterns": [
 						{
+							"include": "#todo"
+						},
+						{
 							"name": "constant.character.escape.st",
 							"match": "\\\\."
 						}
 					]
+				},
+				"todo": {
+					"match": "\\b(?:TODO(:)?\\s)",
+					"name": "markup.bold keyword.other.st"
 				}
 			}
 		},

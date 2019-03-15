@@ -29,6 +29,15 @@ Can automatically capitalize constants like `TRUE`, `FALSE`. Either use command 
 
 ## Release Notes
 
+### 1.5.0
+
+- improve - function highlights. Now we Highlight all function either user defined or built in.
+- improve - variable declaration or `STRUCT` declaration section has got a lot of improvements. We highlight custom types now, and whole section looks much cleaner because scopes were changed.
+- improve - If you call for a method of a function block through dot `my_fb.method()` method is highlighted. We also highlight function block properties or parameters.
+- add - TODO or TODO: in comments attract an attention
+- add - Highlights for action modifiers `myAction(DS, T#3s);` where DS will be highlighted.
+- add - Highlights for names of parameters of function block.
+- 
 ### 1.4.0
 
 I've learned few things about syntax highlights. Big refactoring. I added some missing keywords, changed some coloring scopes and improved coloring in general.
