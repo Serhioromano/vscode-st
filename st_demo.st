@@ -1,21 +1,24 @@
-(* Program comment *)
+(* Program TODO: comment *)
 { Attribute: pragma; }
 PROGRAM PLC_PRG
-    VAR
-        sDoubleQuoted: STRING    := "test\t\rsomething\.";
-        sSingleQuoted: STRING    := 'Another WHILE \. \t \ ава  string';
+    VAR_INPUT
+        sDoubleQuoted: STRING    := "test\tmething";
+        sSingleQuoted: STRING    := 'Another WHILE \n\r string';
         xStart AT %IX0.0.1: BOOL := TRUE;
         rTest: REAL := 12.3e4;
         iTest: INT  := 1234;
         bTest: BYTE := 2#0010_0110;
         tTest: TIME := T#20s; 
-        dtTest: DT := DT#2018-12-12-00:00:00;r
+        dtTest: DT := DT#2018-12-12-00:00:00;
         pTest: POINTER TO BOOL;
         aTest: ARRAY[1..2] OF strName;
+        fbTon1: MY_TON;
+        fbTon2: TON;
     END_VAR
-    TASK WITHrr
+    fghfgh
+    TASK WITH USING FROM
 
-    // Single line comment
+    // TODO: Single line comment
     pTest := ADR(xStart);
     
     IF (pTest^ OR (bTest > 16#2F)) THEN
@@ -24,8 +27,7 @@ PROGRAM PLC_PRG
 
     WHILE tTime > & TON.Q AND 123 > INT#25 DO
         10 + INT_TO_BOOL(100 / (12));
-        TO_REAL();
-        SR();
+        MyFunction();
         UPPER();
         SEL();
     END_WHILE;
@@ -33,11 +35,13 @@ PROGRAM PLC_PRG
     CASE iTest OF
         TON(IN := TRUE);
         CTU.OUT();
-        SOmething.Test();
+        TON.Q.T_EST();
+        something.test;
+        SOmething.Tst();
     END_CASE;
 END_PROGRAM
 
-/* This is 
+/* TODO: This is r
 multiple lines comment */
 TYPE
     strName: STRUCT
