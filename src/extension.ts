@@ -9,7 +9,7 @@ export function activate(context: ExtensionContext) {
         window.showInformationMessage('Open a file first to manipulate text selections');
         return;
     }
-    
+
     let Updater = new StUpdater();
     let UpdaterControl = new StUpdaterController(Updater);
     context.subscriptions.push(UpdaterControl);
@@ -36,14 +36,14 @@ export class StUpdater {
 
     Update(Cntx: boolean = false) {
         let editor = window.activeTextEditor;
-        if (!editor || (editor.document.languageId != 'st')) {
+        if (!editor || (editor.document.languageId !== 'st')) {
             //window.showErrorMessage('No editor!')
             return;
         }
 
         let doc = editor.document;
 
-        if (Cntx == false) {
+        if (Cntx === false) {
             if (this._lines >= doc.lineCount) {
                 this._lines = doc.lineCount;
                 return;
@@ -59,7 +59,7 @@ export class StUpdater {
 
 
         let edit = new WorkspaceEdit();
-        
+
         for (let line = 0; line < doc.lineCount; line++) {
             const element = doc.lineAt(line);
             for (let i = 0; i < this._strings.length; i++) {
