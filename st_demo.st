@@ -5,7 +5,7 @@ PROGRAM PLC_PRG
         sDoubleQuoted: STRING    := "test\tmething";
         sSingleQuoted: STRING    := 'Another WHILE \n\r string';
         xStart AT %IX0.0.1: BOOL := TRUE;
-        rTest: REAL := 12.3e4;
+        rTest: REAL := 12.3e4; (* dsfsfsdfs sd fsdf  *)
         iTest: INT  := 1234;
         bTest: BYTE := 2#0010_0110;
         tTest: TIME := T#20s; 
@@ -51,3 +51,18 @@ TYPE
         some: ARRAY[0..9] OF BOOL := [TRUE, FALSE, TRUE, TRUE];
     END_STRUCT
 END_TYPE 
+
+FUNCTION sdfdf : BOOL
+
+    
+END_FUNCTION
+
+FUNCTION_BLOCK RTE
+    VAR
+        sdfsdf: BOOL; (* dfdf *)
+    END_VAR
+END_FUNCTION_BLOCK
+
+PROGRAM MyProgram
+    
+END_PROGRAM

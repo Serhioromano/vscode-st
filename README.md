@@ -1,6 +1,13 @@
 # Structured Text (IEC 61131-3)
 
-Most complete Structured Text language support.
+Most complete Structured Text language support. Features includes:
+
+- Syntax highlights
+- Snippets
+- Outline view
+- Breadcrumbs
+- Go to Symbol in File
+- Commands
 
 ## Syntax Highlights
 
