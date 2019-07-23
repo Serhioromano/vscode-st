@@ -145,10 +145,4 @@ export class stDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
         let pos2 = new vscode.Position(this.getLineNum(doc, match), doc.indexOf(match) + match.length);
         return new vscode.Range(pos1, pos2);
     }
-    private dp() {
-        return new vscode.Range(
-            new vscode.Position(1,2), 
-            new vscode.Position(1,2)
-        );
-    }
 }
