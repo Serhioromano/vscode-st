@@ -36,6 +36,12 @@ Can automatically capitalize constants like `TRUE`, `FALSE`. Either use command 
 
 ## Release Notes
 
+### 1.6.0
+
+- add - outline document structure
+- add - Go to symbol in file support
+- add - breadcrumbs
+
 ### 1.5.0
 
 - improve - function highlights. Now we Highlight all function either user defined or built in.
