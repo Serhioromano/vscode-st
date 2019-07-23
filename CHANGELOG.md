@@ -2,7 +2,13 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
-### [1.5.0] - 2019-15-03
+## [1.6.0] - 2019-23-07
+
+- add - outline document structure
+- add - Go to symbol in file support
+- add - breadcrumbs
+
+## [1.5.0] - 2019-15-03
 
 - improve - function highlights. Now we Highlight all function either user defined or built in.
 - improve - variable declaration or `STRUCT` declaration section has got a lot of improvements. We highlight custom types now, and whole section looks much cleaner because scopes were changed.
@@ -11,19 +17,18 @@ All notable changes to the "st" extension will be documented in this file.
 - add - Highlights for action modifiers `myAction(DS, T#3s);` where DS will be highlighted.
 - add - Highlights for names of parameters of function block.
 
-
-### [1.4.0] - 2019-13-03
+## [1.4.0] - 2019-13-03
 
 I've learned few things about syntax highlights. Big refactoring. I added some missing keywords, changed some coloring scopes and improved coloring in general.
 
-### [1.3.1] - 2018-31-12
+## [1.3.1] - 2018-31-12
 
 - add - TYPE creation snippets (enumerations ans structure) and enhance it's syntax highlights
 - enhance - Select type out of suggestion list when inset variable in declaration area from snippet
 - enhance - Utilise [October 2018](https://code.visualstudio.com/updates/v1_28#_project-level-snippets) feature for multiple prefixes in snippets and add multiple prefixes to some snippets.
 - fix - syntax highlights for function_block
 
-### [1.3.0] - 2018-19-12
+## [1.3.0] - 2018-19-12
 
 More stable version
 
@@ -35,7 +40,6 @@ More stable version
 - fix - Insert `END_VAR` after `VAR` is inserted.
 - fix - highlights for `WORD` datatype.
 - fix - other minor changes
-
 
 ## [1.2.3] - 2018-13-05
 

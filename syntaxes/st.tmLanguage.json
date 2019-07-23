@@ -458,7 +458,7 @@
 				},
 				"todo": {
 					"match": "\\b(?:TODO(:)?\\s)",
-					"name": "markup.bold keyword.other.st"
+					"name": "markup.bold keyword.todo.st"
 				}
 			}
 		},

@@ -1,25 +1,29 @@
 'use strict';
 
-//import * as vscode from 'vscode';
-import { window, workspace, commands, Disposable, ExtensionContext, Position, Range, WorkspaceEdit } from 'vscode';
+import * as vscode from 'vscode';
 
-export function activate(context: ExtensionContext) {
+import {stDocumentSymbolProvider} from './symbolprovider';
 
-    if (!window.activeTextEditor) {
-        window.showInformationMessage('Open a file first to manipulate text selections');
+export function activate(context: vscode.ExtensionContext) {
+
+    if (!vscode.window.activeTextEditor) {
+        vscode.window.showInformationMessage('Open a file first to manipulate text selections');
         return;
     }
-    
+
     let Updater = new StUpdater();
     let UpdaterControl = new StUpdaterController(Updater);
     context.subscriptions.push(UpdaterControl);
     context.subscriptions.push(Updater);
 
-    let disposable = commands.registerCommand('extension.st.autoformat', () => {
+    let disposable = vscode.commands.registerCommand('extension.st.autoformat', () => {
         Updater.Update(true);
     });
 
     context.subscriptions.push(disposable);
+    context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(
+        {language: "st"}, new stDocumentSymbolProvider()
+    ));
 }
 
 export function deactivate() {
@@ -35,22 +39,22 @@ export class StUpdater {
     }
 
     Update(Cntx: boolean = false) {
-        let editor = window.activeTextEditor;
-        if (!editor || (editor.document.languageId != 'st')) {
+        let editor = vscode.window.activeTextEditor;
+        if (!editor || (editor.document.languageId !== 'st')) {
             //window.showErrorMessage('No editor!')
             return;
         }
 
         let doc = editor.document;
 
-        if (Cntx == false) {
+        if (Cntx === false) {
             if (this._lines >= doc.lineCount) {
                 this._lines = doc.lineCount;
                 return;
             }
             this._lines = doc.lineCount;
 
-            let AutoFormat = workspace.getConfiguration('st').get('format.enable');
+            let AutoFormat = vscode.workspace.getConfiguration('st').get('format.enable');
 
             if (!AutoFormat) {
                 return;
@@ -58,8 +62,8 @@ export class StUpdater {
         }
 
 
-        let edit = new WorkspaceEdit();
-        
+        let edit = new vscode.WorkspaceEdit();
+
         for (let line = 0; line < doc.lineCount; line++) {
             const element = doc.lineAt(line);
             for (let i = 0; i < this._strings.length; i++) {
@@ -70,9 +74,9 @@ export class StUpdater {
                     last_char = char + str.length;
                     edit.replace(
                         doc.uri,
-                        new Range(
-                            new Position(line, char),
-                            new Position(line, last_char)
+                        new vscode.Range(
+                            new vscode.Position(line, char),
+                            new vscode.Position(line, last_char)
                         ),
                         str.toUpperCase()
                     );
@@ -80,7 +84,7 @@ export class StUpdater {
             }
         }
 
-        return workspace.applyEdit(edit);
+        return vscode.workspace.applyEdit(edit);
     }
 
     public dispose() {
@@ -90,17 +94,17 @@ export class StUpdater {
 
 class StUpdaterController {
     private _StUpdater: StUpdater;
-    private _Disposable: Disposable;
+    private _Disposable: vscode.Disposable;
 
     constructor(updater: StUpdater) {
         this._StUpdater = updater;
         this._StUpdater.Update();
 
-        let subscriptions: Disposable[] = [];
-        window.onDidChangeTextEditorSelection(this._onEvent, this, subscriptions);
+        let subscriptions: vscode.Disposable[] = [];
+        vscode.window.onDidChangeTextEditorSelection(this._onEvent, this, subscriptions);
         //window.onDidChangeActiveTextEditor(this._onEvent, this, subscriptions);
 
-        this._Disposable = Disposable.from(...subscriptions);
+        this._Disposable = vscode.Disposable.from(...subscriptions);
     }
 
     public _onEvent() {

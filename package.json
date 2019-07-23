@@ -20,6 +20,8 @@
     "Structured Text",
     "IEC 61131-3",
     "PLC",
+    "TwinCAD3",
+    "CoDeSys",
     "logi.CAD 3"
   ],
   "author": "Sergey Romanov",
@@ -30,7 +32,7 @@
   },
   "homepage": "https://github.com/Serhioromano/vscode-st#readme",
   "engines": {
-    "vscode": "^1.20.0"
+    "vscode": "^1.36.0"
   },
   "activationEvents": [
     "onLanguage:st",
@@ -44,11 +46,11 @@
   ],
   "icon": "st-icon.png",
   "devDependencies": {
-    "typescript": "^2.6.1",
-    "vscode": "^1.1.6",
-    "tslint": "^5.8.0",
-    "@types/node": "^7.0.43",
-    "@types/mocha": "^2.2.42"
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.6.8",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3",
+    "vscode": "^1.1.35"
   },
   "contributes": {
     "configuration": {
