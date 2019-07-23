@@ -2,6 +2,12 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+## [1.6.0] - 2019-23-07
+
+- add - outline document structure
+- add - Go to symbol in file support
+- add - breadcrumbs
+
 ## [1.5.0] - 2019-15-03
 
 - improve - function highlights. Now we Highlight all function either user defined or built in.
