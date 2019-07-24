@@ -2,6 +2,10 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+## [1.6.2] - 2019-24-07
+
+- fix - syntax highlights keyword inside another word
+
 ## [1.6.0] - 2019-23-07
 
 - add - outline document structure

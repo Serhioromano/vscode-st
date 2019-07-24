@@ -36,6 +36,10 @@ Can automatically capitalize constants like `TRUE`, `FALSE`. Either use command 
 
 ## Release Notes
 
+### 1.6.2
+
+- fix - syntax highlights keyword inside another word
+
 ### 1.6.0
 
 - add - outline document structure
