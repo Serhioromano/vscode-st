@@ -68,6 +68,7 @@
       "editor/context": [
         {
           "command": "extension.st.autoformat",
+          "when": "editorLangId == st",
           "group": "1_modification"
         }
       ]
