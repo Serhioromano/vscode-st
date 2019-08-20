@@ -2,6 +2,14 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+## [1.7.0] - 2019-08-20
+
+- fix - syntax highlights keyword inside another word
+- fix - build document structure with block indented
+- add - outline for Structures and Enumerations
+- enhance - outline for other elements
+- enhance - right click commands now appear only in ST files
+
 ## [1.6.0] - 2019-23-07
 
 - add - outline document structure

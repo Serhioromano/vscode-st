@@ -70,7 +70,7 @@
 				},
 				{
 					"name": "storage.type.class.st",
-					"match": "\\s*\\b(PROGRAM|FUNCTION_BLOCK|FUNCTION|TYPE)\\b\\s*([a-zA-Z_]\\w*)\\s*\\n?",
+					"match": "\\s*\\b(PROGRAM|FUNCTION_BLOCK|FUNCTION|TYPE)\\b\\s*\\b([a-zA-Z_0-9]*)\\b",
 					"captures": {
 						"2": {
 							"name": "entity.name.function.st"
@@ -127,7 +127,7 @@
 				},
 				{
 					"name": "keyword.control.st",
-					"match": "\\b(END_)?(TASK|WITH|USING|FROM|UNTIL)\\b"
+					"match": "\\b(END_)?(TASK|WITH|USING|USES|FROM|UNTIL)\\b"
 				}
 			]
 		},
@@ -147,7 +147,11 @@
 				},
 				{
 					"name": "keyword.operator.comparison.st",
-					"match": "(?:<>|<|=|>|<=|>=|GE|LE|EQ|NE|GT|LT)"
+					"match": "(?:<>|<|=|>|<=|>=)"
+				},
+				{
+					"name": "keyword.operator.comparison.st",
+					"match": "\\b(?:GE|LE|EQ|NE|GT|LT)\\b"
 				},
 				{
 					"name": "keyword.operator.arithmetic.st",

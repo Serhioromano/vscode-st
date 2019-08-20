@@ -1,76 +1,928 @@
-/* First of all your code is not very flexible. If you add another device you have to change a lot. So the best way to aproach this is to create an array of devices */
+UNIT UTILITIES_TIME;
 
-TYPE MY_DEVICE : STRUCT
-        Avalible : BOOL; (* If device is available *)
-        State : BOOL; (* Qurrent device state *)
-        Queue: BOOL; (* What to do with device *)
+// This unit 'UTILITIES_TIME' contains some common time and date functions and types which are missing in standard library.
+// Please check Git repository for updates from time to time.
+TYPE StructName : STRUCT
+        V1 : BOOL; (* Comment *)
+        V2 : BOOL; (* Comment *)
     END_STRUCT
 END_TYPE
-
-VAR_GLOBAL
-    garDevices: ARARY[1.._DEVICE_NUM] OF MY_DEVICE; (* Comment *)
+VAR
+    Variable: BOOL; (* Comment *)
 END_VAR
 
-VAR_GLOBAL CONSTANT
-    _DEVICE_NUM: USINT := 6; (* Comment *)
-END_VAR
-
-FUNCTION QUINE_DEVICES : BOOL
-    VAR_INPUT
-        ENABLE        : BOOL;                   
-        NUMBER_DEVICES: USINT;                    
-        POWER_REQUEST : USINT;                   
-    END_VAR
-
+PROGRAM PLC_PRG
     VAR
-        iDeviceOnOff: INT;
-        usiCount: USINT;
-        usiCountOnDevices: USINT;
+        Variable: BOOL; (* Comment *)
     END_VAR
+END_PROGRAM
 
-    (* If not enabled, sett all devices to turn off and quite function *)
-    IF NOT ENABLE THEN 
-        FOR usiCount TO _DEVICE_NUM DO
-            garDevices[usiCount].Queue := FALSE;
-        END_FOR;
-        
-        RETURN;
-    END_IF;                              
 
-    (* Count how many devices is on alreadty*)
-    usiCountOnDevices := 0;                                
-    FOR usiCount := 1 TO 6 DO
-        IF garDevices[usiCount].State THEN
-            usiCountOnDevices := usiCountOnDevices + 1;
-        END_IF;
-    END_FOR;
+    FUNCTION dfdf : real
+        VAR
+            dffg: BOOL; (* Comment *)
+        END_VAR
+    END_FUNCTION
 
-    (* Find difference between power request and power on. 
-    Might be negative or positive *)
-    iDeviceOnOff := POWER_REQUEST - usiCountOnDevices; 
-    
-    FOR usiCount := 1 TO 6 DO
-        (* If device is not available for turning on or off 
-        continue to the other device *)
-        IF NOT garDevices[usiCount].Avalible THEN
-            CONTINUE;
-        END_IF;
+INTERFACE
+	USES UTILITIES_STRING;
+	
+    FUNCTION CREATE_TIME;
+	FUNCTION CREATE_TIME_OF_DAY;
+	FUNCTION CREATE_DATE;
+	FUNCTION CREATE_DATE_AND_TIME;
+	
+	FUNCTION DISSECT_TIME;
+	FUNCTION DISSECT_TIME_OF_DAY;
+	FUNCTION DISSECT_DATE;
+	FUNCTION DISSECT_DATE_AND_TIME;
+	
+	FUNCTION GET_DAY_OF_WEEK;
+	FUNCTION GET_DAY_OF_YEAR;
+	FUNCTION GET_WEEK_OF_YEAR;
+	
+	FUNCTION FORMAT_TIME;
+	FUNCTION FORMAT_TIME_DISSECTED;
+	FUNCTION FORMAT_TIME_OF_DAY;
+	FUNCTION FORMAT_TIME_OF_DAY_DISSECTED;
+	FUNCTION FORMAT_DATE;
+	FUNCTION FORMAT_DATE_DISSECTED;
+	FUNCTION FORMAT_DATE_AND_TIME;
+	FUNCTION FORMAT_DATE_AND_TIME_DISSECTED;
+	
+	
+	TYPE
+		// Contains all parts of a positive duration (days, hours, minutes, seconds, etc.).
+		TIME_DISSECTED : STRUCT
+			day : USINT; // numeric day (e.g. 1)
+			hour : USINT; // numeric hour (e.g. 21)
+			minute : USINT; // numeric minute of hour (e.g. 34)
+			second : USINT; // numeric second of minute (e.g. 56)
+			millisecond : UINT; // numeric millisecond of second (e.g. 789)
+		END_STRUCT
+		
+		TIME_FORMAT : (
+            
+			ISO8601 // duration in ISO 8601 representation (e.g. 'P1DT21H34M56.789S')
+		);
+		
+		// Contains all parts of a local time (hours, minutes, seconds, etc.).
+		TIME_OF_DAY_DISSECTED : STRUCT
+			hour : USINT; // numeric hour of day (e.g. 21)
+			minute : USINT; // numeric minute of hour (e.g. 34)
+			second : USINT; // numeric second of minute (e.g. 56)
+			millisecond : UINT; // numeric millisecond of second (e.g. 789)
+		END_STRUCT
+		
+		TIME_OF_DAY_FORMAT : ( ISO8601, // time of day in ISO 8601 representation (e.g. '21:34:56.789') ISO8601_HHMM, // time of day in ISO 8601 representation without seconds and milliseconds (e.g. '21:34')
+			ISO8601_HHMM_NODLM, // time of day in ISO 8601 representation without seconds milliseconds and delimiters (e.g. '2134')
+			ISO8601_HHMMSS, // time of day in ISO 8601 representation without milliseconds (e.g. '213456')
+			ISO8601_HHMMSS_NODLM // time of day in ISO 8601 representation without milliseconds and delimiters (e.g. '21:34:56')
+		);
+		
+		// Contains all parts of a local date (year, month, day, etc.).
+		DATE_DISSECTED : STRUCT
+			year : UINT; // numeric year (e.g. 2019)
+			month : USINT; // numeric month of year (e.g. 10)
+			day : USINT; // numeric day of month (e.g. 31)
+		END_STRUCT
+		
+		DATE_FORMAT : (
+			ISO8601, // date in ISO 8601 representation (e.g. '2019-10-31')
+			ISO8601_NODLM, // date in ISO 8601 representation without delimiters (e.g. '20191031')
+			DIN5008 // date in common DIN 5008:2011 representation (e.g. '31.10.2019')
+		);
+		
+		DAY_OF_WEEK_TYPE : (
+			ISO8601 // day of week as defined by ISO 8601 (Monday = 1 <-> Sunday = 7)
+		);
+		
+		WEEK_OF_YEAR_TYPE : (
+			ISO8601 // week of year as defined by ISO 8601 (week 1 starts in the week of 4th of January)
+		);
+		
+		// Contains all parts of a local date (year, month, day, etc.) and time (hours, minutes, seconds, etc.).
+		DATE_AND_TIME_DISSECTED : STRUCT
+			year : UINT; // numeric year (e.g. 2019)
+			month : USINT; // numeric month of year (e.g. 10)
+			day : USINT; // numeric day of month (e.g. 31)
+			hour : USINT; // numeric hour of day (e.g. 21)
+			minute : USINT; // numeric minute of hour (e.g. 34)
+			second : USINT; // numeric second of minute (e.g. 56)
+			millisecond : UINT; // numeric millisecond of second (e.g. 789)
+		END_STRUCT
+		
+		DATE_AND_TIME_FORMAT : (
+			ISO8601 // date and time in ISO 8601 representation (e.g. '2019-10-31T21:34:56.789')
+		);
+		
+		START_OF_MONTHS : ARRAY[1..12] OF UDINT;
+		START_OF_MONTHS_OF_YEARS : ARRAY[1992..2200] OF START_OF_MONTHS;
+	END_TYPE
+	
+	
+    VAR_GLOBAL CONSTANT
+		Start_Of_Months_Of_Years_Values : START_OF_MONTHS_OF_YEARS := [
+			// Jan,   Feb,   Mar,   Apr,   May,   Jun,   Jul,   Aug,   Sep,   Oct,   Nov,   Dec
+			[    1,    32,    61,    92,   122,   153,   183,   214,   245,   275,   306,   336], // 1992
+			[  367,   398,   426,   457,   487,   518,   548,   579,   610,   640,   671,   701], // 1993
+			[  732,   763,   791,   822,   852,   883,   913,   944,   975,  1005,  1036,  1066], // 1994
+			[ 1097,  1128,  1156,  1187,  1217,  1248,  1278,  1309,  1340,  1370,  1401,  1431], // 1995
+			[ 1462,  1493,  1522,  1553,  1583,  1614,  1644,  1675,  1706,  1736,  1767,  1797], // 1996
+			[ 1828,  1859,  1887,  1918,  1948,  1979,  2009,  2040,  2071,  2101,  2132,  2162], // 1997
+			[ 2193,  2224,  2252,  2283,  2313,  2344,  2374,  2405,  2436,  2466,  2497,  2527], // 1998
+			[ 2558,  2589,  2617,  2648,  2678,  2709,  2739,  2770,  2801,  2831,  2862,  2892], // 1999
+			[ 2923,  2954,  2983,  3014,  3044,  3075,  3105,  3136,  3167,  3197,  3228,  3258], // 2000
+			[ 3289,  3320,  3348,  3379,  3409,  3440,  3470,  3501,  3532,  3562,  3593,  3623], // 2001
+			[ 3654,  3685,  3713,  3744,  3774,  3805,  3835,  3866,  3897,  3927,  3958,  3988], // 2002
+			[ 4019,  4050,  4078,  4109,  4139,  4170,  4200,  4231,  4262,  4292,  4323,  4353], // 2003
+			[ 4384,  4415,  4444,  4475,  4505,  4536,  4566,  4597,  4628,  4658,  4689,  4719], // 2004
+			[ 4750,  4781,  4809,  4840,  4870,  4901,  4931,  4962,  4993,  5023,  5054,  5084], // 2005
+			[ 5115,  5146,  5174,  5205,  5235,  5266,  5296,  5327,  5358,  5388,  5419,  5449], // 2006
+			[ 5480,  5511,  5539,  5570,  5600,  5631,  5661,  5692,  5723,  5753,  5784,  5814], // 2007
+			[ 5845,  5876,  5905,  5936,  5966,  5997,  6027,  6058,  6089,  6119,  6150,  6180], // 2008
+			[ 6211,  6242,  6270,  6301,  6331,  6362,  6392,  6423,  6454,  6484,  6515,  6545], // 2009
+			[ 6576,  6607,  6635,  6666,  6696,  6727,  6757,  6788,  6819,  6849,  6880,  6910], // 2010
+			[ 6941,  6972,  7000,  7031,  7061,  7092,  7122,  7153,  7184,  7214,  7245,  7275], // 2011
+			[ 7306,  7337,  7366,  7397,  7427,  7458,  7488,  7519,  7550,  7580,  7611,  7641], // 2012
+			[ 7672,  7703,  7731,  7762,  7792,  7823,  7853,  7884,  7915,  7945,  7976,  8006], // 2013
+			[ 8037,  8068,  8096,  8127,  8157,  8188,  8218,  8249,  8280,  8310,  8341,  8371], // 2014
+			[ 8402,  8433,  8461,  8492,  8522,  8553,  8583,  8614,  8645,  8675,  8706,  8736], // 2015
+			[ 8767,  8798,  8827,  8858,  8888,  8919,  8949,  8980,  9011,  9041,  9072,  9102], // 2016
+			[ 9133,  9164,  9192,  9223,  9253,  9284,  9314,  9345,  9376,  9406,  9437,  9467], // 2017
+			[ 9498,  9529,  9557,  9588,  9618,  9649,  9679,  9710,  9741,  9771,  9802,  9832], // 2018
+			[ 9863,  9894,  9922,  9953,  9983, 10014, 10044, 10075, 10106, 10136, 10167, 10197], // 2019
+			[10228, 10259, 10288, 10319, 10349, 10380, 10410, 10441, 10472, 10502, 10533, 10563], // 2020
+			[10594, 10625, 10653, 10684, 10714, 10745, 10775, 10806, 10837, 10867, 10898, 10928], // 2021
+			[10959, 10990, 11018, 11049, 11079, 11110, 11140, 11171, 11202, 11232, 11263, 11293], // 2022
+			[11324, 11355, 11383, 11414, 11444, 11475, 11505, 11536, 11567, 11597, 11628, 11658], // 2023
+			[11689, 11720, 11749, 11780, 11810, 11841, 11871, 11902, 11933, 11963, 11994, 12024], // 2024
+			[12055, 12086, 12114, 12145, 12175, 12206, 12236, 12267, 12298, 12328, 12359, 12389], // 2025
+			[12420, 12451, 12479, 12510, 12540, 12571, 12601, 12632, 12663, 12693, 12724, 12754], // 2026
+			[12785, 12816, 12844, 12875, 12905, 12936, 12966, 12997, 13028, 13058, 13089, 13119], // 2027
+			[13150, 13181, 13210, 13241, 13271, 13302, 13332, 13363, 13394, 13424, 13455, 13485], // 2028
+			[13516, 13547, 13575, 13606, 13636, 13667, 13697, 13728, 13759, 13789, 13820, 13850], // 2029
+			[13881, 13912, 13940, 13971, 14001, 14032, 14062, 14093, 14124, 14154, 14185, 14215], // 2030
+			[14246, 14277, 14305, 14336, 14366, 14397, 14427, 14458, 14489, 14519, 14550, 14580], // 2031
+			[14611, 14642, 14671, 14702, 14732, 14763, 14793, 14824, 14855, 14885, 14916, 14946], // 2032
+			[14977, 15008, 15036, 15067, 15097, 15128, 15158, 15189, 15220, 15250, 15281, 15311], // 2033
+			[15342, 15373, 15401, 15432, 15462, 15493, 15523, 15554, 15585, 15615, 15646, 15676], // 2034
+			[15707, 15738, 15766, 15797, 15827, 15858, 15888, 15919, 15950, 15980, 16011, 16041], // 2035
+			[16072, 16103, 16132, 16163, 16193, 16224, 16254, 16285, 16316, 16346, 16377, 16407], // 2036
+			[16438, 16469, 16497, 16528, 16558, 16589, 16619, 16650, 16681, 16711, 16742, 16772], // 2037
+			[16803, 16834, 16862, 16893, 16923, 16954, 16984, 17015, 17046, 17076, 17107, 17137], // 2038
+			[17168, 17199, 17227, 17258, 17288, 17319, 17349, 17380, 17411, 17441, 17472, 17502], // 2039
+			[17533, 17564, 17593, 17624, 17654, 17685, 17715, 17746, 17777, 17807, 17838, 17868], // 2040
+			[17899, 17930, 17958, 17989, 18019, 18050, 18080, 18111, 18142, 18172, 18203, 18233], // 2041
+			[18264, 18295, 18323, 18354, 18384, 18415, 18445, 18476, 18507, 18537, 18568, 18598], // 2042
+			[18629, 18660, 18688, 18719, 18749, 18780, 18810, 18841, 18872, 18902, 18933, 18963], // 2043
+			[18994, 19025, 19054, 19085, 19115, 19146, 19176, 19207, 19238, 19268, 19299, 19329], // 2044
+			[19360, 19391, 19419, 19450, 19480, 19511, 19541, 19572, 19603, 19633, 19664, 19694], // 2045
+			[19725, 19756, 19784, 19815, 19845, 19876, 19906, 19937, 19968, 19998, 20029, 20059], // 2046
+			[20090, 20121, 20149, 20180, 20210, 20241, 20271, 20302, 20333, 20363, 20394, 20424], // 2047
+			[20455, 20486, 20515, 20546, 20576, 20607, 20637, 20668, 20699, 20729, 20760, 20790], // 2048
+			[20821, 20852, 20880, 20911, 20941, 20972, 21002, 21033, 21064, 21094, 21125, 21155], // 2049
+			[21186, 21217, 21245, 21276, 21306, 21337, 21367, 21398, 21429, 21459, 21490, 21520], // 2050
+			[21551, 21582, 21610, 21641, 21671, 21702, 21732, 21763, 21794, 21824, 21855, 21885], // 2051
+			[21916, 21947, 21976, 22007, 22037, 22068, 22098, 22129, 22160, 22190, 22221, 22251], // 2052
+			[22282, 22313, 22341, 22372, 22402, 22433, 22463, 22494, 22525, 22555, 22586, 22616], // 2053
+			[22647, 22678, 22706, 22737, 22767, 22798, 22828, 22859, 22890, 22920, 22951, 22981], // 2054
+			[23012, 23043, 23071, 23102, 23132, 23163, 23193, 23224, 23255, 23285, 23316, 23346], // 2055
+			[23377, 23408, 23437, 23468, 23498, 23529, 23559, 23590, 23621, 23651, 23682, 23712], // 2056
+			[23743, 23774, 23802, 23833, 23863, 23894, 23924, 23955, 23986, 24016, 24047, 24077], // 2057
+			[24108, 24139, 24167, 24198, 24228, 24259, 24289, 24320, 24351, 24381, 24412, 24442], // 2058
+			[24473, 24504, 24532, 24563, 24593, 24624, 24654, 24685, 24716, 24746, 24777, 24807], // 2059
+			[24838, 24869, 24898, 24929, 24959, 24990, 25020, 25051, 25082, 25112, 25143, 25173], // 2060
+			[25204, 25235, 25263, 25294, 25324, 25355, 25385, 25416, 25447, 25477, 25508, 25538], // 2061
+			[25569, 25600, 25628, 25659, 25689, 25720, 25750, 25781, 25812, 25842, 25873, 25903], // 2062
+			[25934, 25965, 25993, 26024, 26054, 26085, 26115, 26146, 26177, 26207, 26238, 26268], // 2063
+			[26299, 26330, 26359, 26390, 26420, 26451, 26481, 26512, 26543, 26573, 26604, 26634], // 2064
+			[26665, 26696, 26724, 26755, 26785, 26816, 26846, 26877, 26908, 26938, 26969, 26999], // 2065
+			[27030, 27061, 27089, 27120, 27150, 27181, 27211, 27242, 27273, 27303, 27334, 27364], // 2066
+			[27395, 27426, 27454, 27485, 27515, 27546, 27576, 27607, 27638, 27668, 27699, 27729], // 2067
+			[27760, 27791, 27820, 27851, 27881, 27912, 27942, 27973, 28004, 28034, 28065, 28095], // 2068
+			[28126, 28157, 28185, 28216, 28246, 28277, 28307, 28338, 28369, 28399, 28430, 28460], // 2069
+			[28491, 28522, 28550, 28581, 28611, 28642, 28672, 28703, 28734, 28764, 28795, 28825], // 2070
+			[28856, 28887, 28915, 28946, 28976, 29007, 29037, 29068, 29099, 29129, 29160, 29190], // 2071
+			[29221, 29252, 29281, 29312, 29342, 29373, 29403, 29434, 29465, 29495, 29526, 29556], // 2072
+			[29587, 29618, 29646, 29677, 29707, 29738, 29768, 29799, 29830, 29860, 29891, 29921], // 2073
+			[29952, 29983, 30011, 30042, 30072, 30103, 30133, 30164, 30195, 30225, 30256, 30286], // 2074
+			[30317, 30348, 30376, 30407, 30437, 30468, 30498, 30529, 30560, 30590, 30621, 30651], // 2075
+			[30682, 30713, 30742, 30773, 30803, 30834, 30864, 30895, 30926, 30956, 30987, 31017], // 2076
+			[31048, 31079, 31107, 31138, 31168, 31199, 31229, 31260, 31291, 31321, 31352, 31382], // 2077
+			[31413, 31444, 31472, 31503, 31533, 31564, 31594, 31625, 31656, 31686, 31717, 31747], // 2078
+			[31778, 31809, 31837, 31868, 31898, 31929, 31959, 31990, 32021, 32051, 32082, 32112], // 2079
+			[32143, 32174, 32203, 32234, 32264, 32295, 32325, 32356, 32387, 32417, 32448, 32478], // 2080
+			[32509, 32540, 32568, 32599, 32629, 32660, 32690, 32721, 32752, 32782, 32813, 32843], // 2081
+			[32874, 32905, 32933, 32964, 32994, 33025, 33055, 33086, 33117, 33147, 33178, 33208], // 2082
+			[33239, 33270, 33298, 33329, 33359, 33390, 33420, 33451, 33482, 33512, 33543, 33573], // 2083
+			[33604, 33635, 33664, 33695, 33725, 33756, 33786, 33817, 33848, 33878, 33909, 33939], // 2084
+			[33970, 34001, 34029, 34060, 34090, 34121, 34151, 34182, 34213, 34243, 34274, 34304], // 2085
+			[34335, 34366, 34394, 34425, 34455, 34486, 34516, 34547, 34578, 34608, 34639, 34669], // 2086
+			[34700, 34731, 34759, 34790, 34820, 34851, 34881, 34912, 34943, 34973, 35004, 35034], // 2087
+			[35065, 35096, 35125, 35156, 35186, 35217, 35247, 35278, 35309, 35339, 35370, 35400], // 2088
+			[35431, 35462, 35490, 35521, 35551, 35582, 35612, 35643, 35674, 35704, 35735, 35765], // 2089
+			[35796, 35827, 35855, 35886, 35916, 35947, 35977, 36008, 36039, 36069, 36100, 36130], // 2090
+			[36161, 36192, 36220, 36251, 36281, 36312, 36342, 36373, 36404, 36434, 36465, 36495], // 2091
+			[36526, 36557, 36586, 36617, 36647, 36678, 36708, 36739, 36770, 36800, 36831, 36861], // 2092
+			[36892, 36923, 36951, 36982, 37012, 37043, 37073, 37104, 37135, 37165, 37196, 37226], // 2093
+			[37257, 37288, 37316, 37347, 37377, 37408, 37438, 37469, 37500, 37530, 37561, 37591], // 2094
+			[37622, 37653, 37681, 37712, 37742, 37773, 37803, 37834, 37865, 37895, 37926, 37956], // 2095
+			[37987, 38018, 38047, 38078, 38108, 38139, 38169, 38200, 38231, 38261, 38292, 38322], // 2096
+			[38353, 38384, 38412, 38443, 38473, 38504, 38534, 38565, 38596, 38626, 38657, 38687], // 2097
+			[38718, 38749, 38777, 38808, 38838, 38869, 38899, 38930, 38961, 38991, 39022, 39052], // 2098
+			[39083, 39114, 39142, 39173, 39203, 39234, 39264, 39295, 39326, 39356, 39387, 39417], // 2099
+			[39448, 39479, 39507, 39538, 39568, 39599, 39629, 39660, 39691, 39721, 39752, 39782], // 2100
+			[39813, 39844, 39872, 39903, 39933, 39964, 39994, 40025, 40056, 40086, 40117, 40147], // 2101
+			[40178, 40209, 40237, 40268, 40298, 40329, 40359, 40390, 40421, 40451, 40482, 40512], // 2102
+			[40543, 40574, 40602, 40633, 40663, 40694, 40724, 40755, 40786, 40816, 40847, 40877], // 2103
+			[40908, 40939, 40968, 40999, 41029, 41060, 41090, 41121, 41152, 41182, 41213, 41243], // 2104
+			[41274, 41305, 41333, 41364, 41394, 41425, 41455, 41486, 41517, 41547, 41578, 41608], // 2105
+			[41639, 41670, 41698, 41729, 41759, 41790, 41820, 41851, 41882, 41912, 41943, 41973], // 2106
+			[42004, 42035, 42063, 42094, 42124, 42155, 42185, 42216, 42247, 42277, 42308, 42338], // 2107
+			[42369, 42400, 42429, 42460, 42490, 42521, 42551, 42582, 42613, 42643, 42674, 42704], // 2108
+			[42735, 42766, 42794, 42825, 42855, 42886, 42916, 42947, 42978, 43008, 43039, 43069], // 2109
+			[43100, 43131, 43159, 43190, 43220, 43251, 43281, 43312, 43343, 43373, 43404, 43434], // 2110
+			[43465, 43496, 43524, 43555, 43585, 43616, 43646, 43677, 43708, 43738, 43769, 43799], // 2111
+			[43830, 43861, 43890, 43921, 43951, 43982, 44012, 44043, 44074, 44104, 44135, 44165], // 2112
+			[44196, 44227, 44255, 44286, 44316, 44347, 44377, 44408, 44439, 44469, 44500, 44530], // 2113
+			[44561, 44592, 44620, 44651, 44681, 44712, 44742, 44773, 44804, 44834, 44865, 44895], // 2114
+			[44926, 44957, 44985, 45016, 45046, 45077, 45107, 45138, 45169, 45199, 45230, 45260], // 2115
+			[45291, 45322, 45351, 45382, 45412, 45443, 45473, 45504, 45535, 45565, 45596, 45626], // 2116
+			[45657, 45688, 45716, 45747, 45777, 45808, 45838, 45869, 45900, 45930, 45961, 45991], // 2117
+			[46022, 46053, 46081, 46112, 46142, 46173, 46203, 46234, 46265, 46295, 46326, 46356], // 2118
+			[46387, 46418, 46446, 46477, 46507, 46538, 46568, 46599, 46630, 46660, 46691, 46721], // 2119
+			[46752, 46783, 46812, 46843, 46873, 46904, 46934, 46965, 46996, 47026, 47057, 47087], // 2120
+			[47118, 47149, 47177, 47208, 47238, 47269, 47299, 47330, 47361, 47391, 47422, 47452], // 2121
+			[47483, 47514, 47542, 47573, 47603, 47634, 47664, 47695, 47726, 47756, 47787, 47817], // 2122
+			[47848, 47879, 47907, 47938, 47968, 47999, 48029, 48060, 48091, 48121, 48152, 48182], // 2123
+			[48213, 48244, 48273, 48304, 48334, 48365, 48395, 48426, 48457, 48487, 48518, 48548], // 2124
+			[48579, 48610, 48638, 48669, 48699, 48730, 48760, 48791, 48822, 48852, 48883, 48913], // 2125
+			[48944, 48975, 49003, 49034, 49064, 49095, 49125, 49156, 49187, 49217, 49248, 49278], // 2126
+			[49309, 49340, 49368, 49399, 49429, 49460, 49490, 49521, 49552, 49582, 49613, 49643], // 2127
+			[49674, 49705, 49734, 49765, 49795, 49826, 49856, 49887, 49918, 49948, 49979, 50009], // 2128
+			[50040, 50071, 50099, 50130, 50160, 50191, 50221, 50252, 50283, 50313, 50344, 50374], // 2129
+			[50405, 50436, 50464, 50495, 50525, 50556, 50586, 50617, 50648, 50678, 50709, 50739], // 2130
+			[50770, 50801, 50829, 50860, 50890, 50921, 50951, 50982, 51013, 51043, 51074, 51104], // 2131
+			[51135, 51166, 51195, 51226, 51256, 51287, 51317, 51348, 51379, 51409, 51440, 51470], // 2132
+			[51501, 51532, 51560, 51591, 51621, 51652, 51682, 51713, 51744, 51774, 51805, 51835], // 2133
+			[51866, 51897, 51925, 51956, 51986, 52017, 52047, 52078, 52109, 52139, 52170, 52200], // 2134
+			[52231, 52262, 52290, 52321, 52351, 52382, 52412, 52443, 52474, 52504, 52535, 52565], // 2135
+			[52596, 52627, 52656, 52687, 52717, 52748, 52778, 52809, 52840, 52870, 52901, 52931], // 2136
+			[52962, 52993, 53021, 53052, 53082, 53113, 53143, 53174, 53205, 53235, 53266, 53296], // 2137
+			[53327, 53358, 53386, 53417, 53447, 53478, 53508, 53539, 53570, 53600, 53631, 53661], // 2138
+			[53692, 53723, 53751, 53782, 53812, 53843, 53873, 53904, 53935, 53965, 53996, 54026], // 2139
+			[54057, 54088, 54117, 54148, 54178, 54209, 54239, 54270, 54301, 54331, 54362, 54392], // 2140
+			[54423, 54454, 54482, 54513, 54543, 54574, 54604, 54635, 54666, 54696, 54727, 54757], // 2141
+			[54788, 54819, 54847, 54878, 54908, 54939, 54969, 55000, 55031, 55061, 55092, 55122], // 2142
+			[55153, 55184, 55212, 55243, 55273, 55304, 55334, 55365, 55396, 55426, 55457, 55487], // 2143
+			[55518, 55549, 55578, 55609, 55639, 55670, 55700, 55731, 55762, 55792, 55823, 55853], // 2144
+			[55884, 55915, 55943, 55974, 56004, 56035, 56065, 56096, 56127, 56157, 56188, 56218], // 2145
+			[56249, 56280, 56308, 56339, 56369, 56400, 56430, 56461, 56492, 56522, 56553, 56583], // 2146
+			[56614, 56645, 56673, 56704, 56734, 56765, 56795, 56826, 56857, 56887, 56918, 56948], // 2147
+			[56979, 57010, 57039, 57070, 57100, 57131, 57161, 57192, 57223, 57253, 57284, 57314], // 2148
+			[57345, 57376, 57404, 57435, 57465, 57496, 57526, 57557, 57588, 57618, 57649, 57679], // 2149
+			[57710, 57741, 57769, 57800, 57830, 57861, 57891, 57922, 57953, 57983, 58014, 58044], // 2150
+			[58075, 58106, 58134, 58165, 58195, 58226, 58256, 58287, 58318, 58348, 58379, 58409], // 2151
+			[58440, 58471, 58500, 58531, 58561, 58592, 58622, 58653, 58684, 58714, 58745, 58775], // 2152
+			[58806, 58837, 58865, 58896, 58926, 58957, 58987, 59018, 59049, 59079, 59110, 59140], // 2153
+			[59171, 59202, 59230, 59261, 59291, 59322, 59352, 59383, 59414, 59444, 59475, 59505], // 2154
+			[59536, 59567, 59595, 59626, 59656, 59687, 59717, 59748, 59779, 59809, 59840, 59870], // 2155
+			[59901, 59932, 59961, 59992, 60022, 60053, 60083, 60114, 60145, 60175, 60206, 60236], // 2156
+			[60267, 60298, 60326, 60357, 60387, 60418, 60448, 60479, 60510, 60540, 60571, 60601], // 2157
+			[60632, 60663, 60691, 60722, 60752, 60783, 60813, 60844, 60875, 60905, 60936, 60966], // 2158
+			[60997, 61028, 61056, 61087, 61117, 61148, 61178, 61209, 61240, 61270, 61301, 61331], // 2159
+			[61362, 61393, 61422, 61453, 61483, 61514, 61544, 61575, 61606, 61636, 61667, 61697], // 2160
+			[61728, 61759, 61787, 61818, 61848, 61879, 61909, 61940, 61971, 62001, 62032, 62062], // 2161
+			[62093, 62124, 62152, 62183, 62213, 62244, 62274, 62305, 62336, 62366, 62397, 62427], // 2162
+			[62458, 62489, 62517, 62548, 62578, 62609, 62639, 62670, 62701, 62731, 62762, 62792], // 2163
+			[62823, 62854, 62883, 62914, 62944, 62975, 63005, 63036, 63067, 63097, 63128, 63158], // 2164
+			[63189, 63220, 63248, 63279, 63309, 63340, 63370, 63401, 63432, 63462, 63493, 63523], // 2165
+			[63554, 63585, 63613, 63644, 63674, 63705, 63735, 63766, 63797, 63827, 63858, 63888], // 2166
+			[63919, 63950, 63978, 64009, 64039, 64070, 64100, 64131, 64162, 64192, 64223, 64253], // 2167
+			[64284, 64315, 64344, 64375, 64405, 64436, 64466, 64497, 64528, 64558, 64589, 64619], // 2168
+			[64650, 64681, 64709, 64740, 64770, 64801, 64831, 64862, 64893, 64923, 64954, 64984], // 2169
+			[65015, 65046, 65074, 65105, 65135, 65166, 65196, 65227, 65258, 65288, 65319, 65349], // 2170
+			[65380, 65411, 65439, 65470, 65500, 65531, 65561, 65592, 65623, 65653, 65684, 65714], // 2171
+			[65745, 65776, 65805, 65836, 65866, 65897, 65927, 65958, 65989, 66019, 66050, 66080], // 2172
+			[66111, 66142, 66170, 66201, 66231, 66262, 66292, 66323, 66354, 66384, 66415, 66445], // 2173
+			[66476, 66507, 66535, 66566, 66596, 66627, 66657, 66688, 66719, 66749, 66780, 66810], // 2174
+			[66841, 66872, 66900, 66931, 66961, 66992, 67022, 67053, 67084, 67114, 67145, 67175], // 2175
+			[67206, 67237, 67266, 67297, 67327, 67358, 67388, 67419, 67450, 67480, 67511, 67541], // 2176
+			[67572, 67603, 67631, 67662, 67692, 67723, 67753, 67784, 67815, 67845, 67876, 67906], // 2177
+			[67937, 67968, 67996, 68027, 68057, 68088, 68118, 68149, 68180, 68210, 68241, 68271], // 2178
+			[68302, 68333, 68361, 68392, 68422, 68453, 68483, 68514, 68545, 68575, 68606, 68636], // 2179
+			[68667, 68698, 68727, 68758, 68788, 68819, 68849, 68880, 68911, 68941, 68972, 69002], // 2180
+			[69033, 69064, 69092, 69123, 69153, 69184, 69214, 69245, 69276, 69306, 69337, 69367], // 2181
+			[69398, 69429, 69457, 69488, 69518, 69549, 69579, 69610, 69641, 69671, 69702, 69732], // 2182
+			[69763, 69794, 69822, 69853, 69883, 69914, 69944, 69975, 70006, 70036, 70067, 70097], // 2183
+			[70128, 70159, 70188, 70219, 70249, 70280, 70310, 70341, 70372, 70402, 70433, 70463], // 2184
+			[70494, 70525, 70553, 70584, 70614, 70645, 70675, 70706, 70737, 70767, 70798, 70828], // 2185
+			[70859, 70890, 70918, 70949, 70979, 71010, 71040, 71071, 71102, 71132, 71163, 71193], // 2186
+			[71224, 71255, 71283, 71314, 71344, 71375, 71405, 71436, 71467, 71497, 71528, 71558], // 2187
+			[71589, 71620, 71649, 71680, 71710, 71741, 71771, 71802, 71833, 71863, 71894, 71924], // 2188
+			[71955, 71986, 72014, 72045, 72075, 72106, 72136, 72167, 72198, 72228, 72259, 72289], // 2189
+			[72320, 72351, 72379, 72410, 72440, 72471, 72501, 72532, 72563, 72593, 72624, 72654], // 2190
+			[72685, 72716, 72744, 72775, 72805, 72836, 72866, 72897, 72928, 72958, 72989, 73019], // 2191
+			[73050, 73081, 73110, 73141, 73171, 73202, 73232, 73263, 73294, 73324, 73355, 73385], // 2192
+			[73416, 73447, 73475, 73506, 73536, 73567, 73597, 73628, 73659, 73689, 73720, 73750], // 2193
+			[73781, 73812, 73840, 73871, 73901, 73932, 73962, 73993, 74024, 74054, 74085, 74115], // 2194
+			[74146, 74177, 74205, 74236, 74266, 74297, 74327, 74358, 74389, 74419, 74450, 74480], // 2195
+			[74511, 74542, 74571, 74602, 74632, 74663, 74693, 74724, 74755, 74785, 74816, 74846], // 2196
+			[74877, 74908, 74936, 74967, 74997, 75028, 75058, 75089, 75120, 75150, 75181, 75211], // 2197
+			[75242, 75273, 75301, 75332, 75362, 75393, 75423, 75454, 75485, 75515, 75546, 75576], // 2198
+			[75607, 75638, 75666, 75697, 75727, 75758, 75788, 75819, 75850, 75880, 75911, 75941], // 2199
+			[75972, 76003, 76031, 76062, 76092, 76123, 76153, 76184, 76215, 76245, 76276, 76306]  // 2200
+		];
+	END_VAR
+END_INTERFACE
 
-        (* if iDeviceOnOff is positivethen we have to turn on devices *)
-        IF iDeviceOnOff > 0 AND NOT garDevices[usiCount].Queue THEN
-            garDevices[usiCount].Queue := TRUE;
-            iDeviceOnOff := iDeviceOnOff - 1;
-        END_IF;
 
-        (* if iDeviceOnOff is negative we have to turn OFF devices *)
-        IF iDeviceOnOff < 0 AND garDevices[usiCount].Queue THEN
-            garDevices[usiCount].Queue := FALSE;
-            iDeviceOnOff := iDeviceOnOff + 1;
-        END_IF;
-
-        (* If iDeviceOnOff is 0 means balance is reached *)
-        IF iDeviceOnOff = 0 THEN
-            EXIT;
-        END_IF;
-    END_FOR;
-END_FUNCTION
+IMPLEMENTATION
+	// INTERNAL: Returns numeric representation of given DATE.
+	FUNCTION DATE_TO_UDINT_INTERNAL : UDINT
+		VAR_INPUT
+			in : DATE;
+		END_VAR
+		
+		VAR_TEMP
+			in_array : ARRAY[0..3] OF BYTE; // Array for marshalling
+		END_VAR
+		
+		in_array := ANYTYPE_TO_LITTLEBYTEARRAY(in, 0);
+		DATE_TO_UDINT_INTERNAL := LITTLEBYTEARRAY_TO_ANYTYPE(in_array, 0);
+	END_FUNCTION
+	
+	// INTERNAL: Returns DATE of given numeric representation.
+	FUNCTION UDINT_TO_DATE_INTERNAL : DATE
+		VAR_INPUT
+			in : UDINT;
+		END_VAR
+		
+		VAR_TEMP
+			out_array : ARRAY[0..3] OF BYTE; // Array for marshalling
+		END_VAR
+		
+		out_array := ANYTYPE_TO_LITTLEBYTEARRAY(in, 0);
+		UDINT_TO_DATE_INTERNAL := LITTLEBYTEARRAY_TO_ANYTYPE(out_array, 0);
+	END_FUNCTION
+	
+	
+	// INTERNAL: Returns numeric representation of given TIME_OF_DAY.
+	FUNCTION TIME_OF_DAY_TO_UDINT_INTERNAL : UDINT
+		VAR_INPUT
+			in : TIME_OF_DAY;
+		END_VAR
+		
+		VAR_TEMP
+			in_array : ARRAY[0..3] OF BYTE; // Array for marshalling
+		END_VAR
+		
+		in_array := ANYTYPE_TO_LITTLEBYTEARRAY(in, 0);
+		TIME_OF_DAY_TO_UDINT_INTERNAL := LITTLEBYTEARRAY_TO_ANYTYPE(in_array, 0);
+	END_FUNCTION
+	
+	// INTERNAL: Returns TIME_OF_DAY of given numeric representation.
+	FUNCTION UDINT_TO_TIME_OF_DAY_INTERNAL : TIME_OF_DAY
+		VAR_INPUT
+			in : UDINT;
+		END_VAR
+		
+		VAR_TEMP
+			out_array : ARRAY[0..3] OF BYTE; // Array for marshalling
+		END_VAR
+		
+		out_array := ANYTYPE_TO_LITTLEBYTEARRAY(in, 0);
+		UDINT_TO_TIME_OF_DAY_INTERNAL := LITTLEBYTEARRAY_TO_ANYTYPE(out_array, 0);
+	END_FUNCTION
+	
+	
+	// INTERNAL: Creates a TIME using given values.
+	FUNCTION CREATE_TIME_INTERNAL : UDINT
+		VAR_INPUT
+			day : USINT; // numeric day (e.g. 1)
+			hour : USINT; // numeric hour (e.g. 21)
+			minute : USINT; // numeric minute of hour (e.g. 34)
+			second : USINT; // numeric second of minute (e.g. 56)
+			millisecond : UINT; // numeric millisecond of second (e.g. 789)
+		END_VAR
+		
+		CREATE_TIME_INTERNAL := (((USINT_TO_UDINT(day) 
+						* 24 + USINT_TO_UDINT(hour)) 
+					* 60 + USINT_TO_UDINT(minute)) 
+				* 60 + USINT_TO_UDINT(second)) 
+			* 1000 + UINT_TO_UDINT(millisecond);
+	END_FUNCTION
+	
+	// Creates a TIME using given values.
+	FUNCTION CREATE_TIME : TIME
+		VAR_INPUT
+			day : USINT; // numeric day (e.g. 1)
+			hour : USINT; // numeric hour (e.g. 21)
+			minute : USINT; // numeric minute of hour (e.g. 34)
+			second : USINT; // numeric second of minute (e.g. 56)
+			millisecond : UINT; // numeric millisecond of second (e.g. 789)
+		END_VAR
+		
+		CREATE_TIME := UDINT_TO_TIME(CREATE_TIME_INTERNAL(day, hour, minute, second, millisecond));
+	END_FUNCTION
+	
+	
+	// INTERNAL: Creates a TIME_OF_DAY using given values.
+	FUNCTION CREATE_TIME_OF_DAY_INTERNAL : UDINT
+		VAR_INPUT
+			hour : USINT; // numeric hour of day (e.g. 21)
+			minute : USINT; // numeric minute of hour (e.g. 34)
+			second : USINT; // numeric second of minute (e.g. 56)
+			millisecond : UINT; // numeric millisecond of second (e.g. 789)
+		END_VAR
+		
+		CREATE_TIME_OF_DAY_INTERNAL := ((USINT_TO_UDINT(hour)
+					* 60 + USINT_TO_UDINT(minute)) 
+				* 60 + USINT_TO_UDINT(second)) 
+			* 1000 + UINT_TO_UDINT(millisecond);
+	END_FUNCTION
+	
+	// Creates a TIME_OF_DAY using given values.
+	FUNCTION CREATE_TIME_OF_DAY : TIME_OF_DAY
+		VAR_INPUT
+			hour : USINT; // numeric hour of day (e.g. 21)
+			minute : USINT; // numeric minute of hour (e.g. 34)
+			second : USINT; // numeric second of minute (e.g. 56)
+			millisecond : UINT; // numeric millisecond of second (e.g. 789)
+		END_VAR
+		
+		CREATE_TIME_OF_DAY := UDINT_TO_TIME_OF_DAY_INTERNAL(CREATE_TIME_OF_DAY_INTERNAL(hour, minute, second, millisecond));
+	END_FUNCTION
+	
+	
+	// INTERNAL: Creates a DATE using given values.
+	FUNCTION CREATE_DATE_INTERNAL : UDINT
+		VAR_INPUT
+			year : UINT; // numeric year (e.g. 2019)
+			month : USINT; // numeric month of year (e.g. 10)
+			day : USINT; // numeric day of month (e.g. 31)
+		END_VAR
+		
+		IF year < 1992 THEN
+			CREATE_DATE_INTERNAL := 0;
+		ELSE
+			CREATE_DATE_INTERNAL := Start_Of_Months_Of_Years_Values[year][month] + day - 1;
+		END_IF;
+	END_FUNCTION
+	
+	// Creates a DATE using given values.
+	FUNCTION CREATE_DATE : DATE
+		VAR_INPUT
+			year : UINT; // numeric year (e.g. 2019)
+			month : USINT; // numeric month of year (e.g. 10)
+			day : USINT; // numeric day of month (e.g. 31)
+		END_VAR
+		
+		CREATE_DATE := UDINT_TO_DATE_INTERNAL(CREATE_DATE_INTERNAL(year, month, day));
+	END_FUNCTION
+	
+	
+	// Creates a DATE_AND_TIME using given values.
+	FUNCTION CREATE_DATE_AND_TIME : DATE_AND_TIME
+		VAR_INPUT
+			year : UINT; // numeric year (e.g. 2019)
+			month : USINT; // numeric month of year (e.g. 10)
+			day : USINT; // numeric day of month (e.g. 31)
+			hour : USINT; // numeric hour of day (e.g. 21)
+			minute : USINT; // numeric minute of hour (e.g. 34)
+			second : USINT; // numeric second of minute (e.g. 56)
+			millisecond : UINT; // numeric millisecond of second (e.g. 789)
+		END_VAR
+		
+		CREATE_DATE_AND_TIME := CONCAT_DATE_TOD(
+			CREATE_DATE(year, month, day),
+			CREATE_TIME_OF_DAY(hour, minute, second, millisecond)
+		);
+	END_FUNCTION
+	
+	
+	// Converts internal TIME type to TIME_DISSECTED structure.
+	FUNCTION DISSECT_TIME : TIME_DISSECTED
+		VAR_INPUT
+			in : TIME;
+		END_VAR
+		
+		VAR_TEMP
+			milliseconds : UDINT;
+			seconds : UDINT;
+			minutes : UDINT;
+			hours : UDINT;
+			days : UDINT;
+			out : TIME_DISSECTED;
+		END_VAR
+		
+		milliseconds := TIME_TO_UDINT(in);
+		out.millisecond := UDINT_TO_UINT(milliseconds MOD 1000);
+		
+		seconds := (milliseconds - out.millisecond) / 1000;
+		out.second := UDINT_TO_USINT(seconds MOD 60);
+		
+		minutes := (seconds - out.second) / 60;
+		out.minute := UDINT_TO_USINT(minutes MOD 60);
+		
+		hours := (minutes - out.minute) / 60;
+		out.hour := UDINT_TO_USINT(hours MOD 24);
+		
+		days := (hours - out.hour) / 24;
+		out.day := UDINT_TO_USINT(days);
+		
+		DISSECT_TIME := out;
+	END_FUNCTION
+	
+	
+	// Converts internal TIME_OF_DAY type to TIME_OF_DAY_DISSECTED structure.
+	FUNCTION DISSECT_TIME_OF_DAY : TIME_OF_DAY_DISSECTED
+		VAR_INPUT
+			in : TIME_OF_DAY;
+		END_VAR
+		
+		VAR_TEMP
+			milliseconds : UDINT;
+			seconds : UDINT;
+			minutes : UDINT;
+			hours : UDINT;
+			out : TIME_OF_DAY_DISSECTED;
+		END_VAR
+		
+		milliseconds := TIME_OF_DAY_TO_UDINT_INTERNAL(in);
+		out.millisecond := UDINT_TO_UINT(milliseconds MOD 1000);
+		
+		seconds := (milliseconds - out.millisecond) / 1000;
+		out.second := UDINT_TO_USINT(seconds MOD 60);
+		
+		minutes := (seconds - out.second) / 60;
+		out.minute := UDINT_TO_USINT(minutes MOD 60);
+		
+		hours := (minutes - out.minute) / 60;
+		out.hour := UDINT_TO_USINT(hours MOD 24);
+		
+		DISSECT_TIME_OF_DAY := out;
+	END_FUNCTION
+	
+	
+	// INTERNAL: Converts internal DATE type to DATE_DISSECTED structure.
+	FUNCTION DISSECT_DATE_INTERNAL : DATE_DISSECTED
+		VAR_INPUT
+			in : UDINT;
+		END_VAR
+		
+		VAR_TEMP
+			year_lookup_start : DINT;
+			year_lookup_end : DINT;
+			year : DINT;
+			month : DINT;
+			out : DATE_DISSECTED;
+		END_VAR
+		
+		IF in = 0 THEN
+			DISSECT_DATE_INTERNAL := out;
+			RETURN;
+		END_IF;
+		
+		year_lookup_start := MIN(MAX(1992 + TRUNC((in - 1) / 366), 1992), 2200);
+		year_lookup_end := MIN(MAX(1992 + TRUNC((in - 1) / 365), 1992), 2200);
+		
+		FOR year := year_lookup_start TO year_lookup_end DO
+			IF year = 2200 THEN
+				EXIT;
+			ELSIF Start_Of_Months_Of_Years_Values[year + 1][1] > in THEN
+				EXIT;
+			END_IF;
+		END_FOR;
+		
+		FOR month := 1 TO 12 DO
+			IF month = 12 THEN
+				EXIT;
+			ELSIF Start_Of_Months_Of_Years_Values[year][month + 1] > in THEN
+				EXIT;
+			END_IF;
+		END_FOR;
+		
+		out.year := DINT_TO_UINT(year);
+		out.month := DINT_TO_USINT(month);
+		out.day := UDINT_TO_USINT(in - Start_Of_Months_Of_Years_Values[year][month] + 1);
+		
+		DISSECT_DATE_INTERNAL := out;
+	END_FUNCTION
+	
+	// Converts internal DATE type to DATE_DISSECTED structure.
+	FUNCTION DISSECT_DATE : DATE_DISSECTED
+		VAR_INPUT
+			in : DATE;
+		END_VAR
+		
+		DISSECT_DATE := DISSECT_DATE_INTERNAL(DATE_TO_UDINT_INTERNAL(in));
+	END_FUNCTION
+	
+	
+	// Converts internal DATE_AND_TIME type to DATE_AND_TIME_DISSECTED structure.
+	FUNCTION DISSECT_DATE_AND_TIME : DATE_AND_TIME_DISSECTED
+		VAR_INPUT
+			in : DATE_AND_TIME;
+		END_VAR
+		
+		VAR_TEMP
+			dat_DISSECTED : DATE_DISSECTED;
+			tod_DISSECTED : TIME_OF_DAY_DISSECTED;
+			out : DATE_AND_TIME_DISSECTED;
+		END_VAR
+		
+		dat_DISSECTED := DISSECT_DATE(DT_TO_DATE(in));
+		tod_DISSECTED := DISSECT_TIME_OF_DAY(DT_TO_TOD(in));
+		
+		out.year := dat_DISSECTED.year;
+		out.month := dat_DISSECTED.month;
+		out.day := dat_DISSECTED.day;
+		
+		out.hour := tod_DISSECTED.hour;
+		out.minute := tod_DISSECTED.minute;
+		out.second := tod_DISSECTED.second;
+		out.millisecond := tod_DISSECTED.millisecond;
+		
+		DISSECT_DATE_AND_TIME := out;
+	END_FUNCTION
+	
+	
+	// INTERNAL: Returns the numeric day of week (from Monday = 1 to Sunday = 7).
+	FUNCTION GET_DAY_OF_WEEK_INTERNAL : USINT
+		VAR_INPUT
+			in : UDINT;
+		END_VAR
+		
+		GET_DAY_OF_WEEK_INTERNAL := UDINT_TO_USINT((in MOD 7 + 1) MOD 7 + 1);
+	END_FUNCTION
+	
+	// Returns the numeric day of week.
+	FUNCTION GET_DAY_OF_WEEK : USINT
+		VAR_INPUT
+			in : DATE;
+			kind : DAY_OF_WEEK_TYPE; // currently, only ISO 8601 is supported
+		END_VAR
+		
+		GET_DAY_OF_WEEK := GET_DAY_OF_WEEK_INTERNAL(DATE_TO_UDINT_INTERNAL(in));
+	END_FUNCTION
+	
+	
+	// INTERNAL: Returns the numeric week of year (from 1st week = 1 to last week = 52 or 53).
+	FUNCTION GET_WEEK_OF_YEAR_INTERNAL : USINT
+		VAR_INPUT
+			in : UDINT;
+		END_VAR
+		
+		VAR_TEMP
+			anchor_date : DINT;
+			anchor_date_DISSECTED : DATE_DISSECTED;
+			anchor_date2 : UDINT;
+			out : USINT;
+		END_VAR
+		
+		anchor_date := UDINT_TO_DINT(in) - GET_DAY_OF_WEEK_INTERNAL(in) + 4;
+		
+		CASE anchor_date OF
+			// special handling required for some anchor dates before 1992-01-01
+			-5, -4, -3: out := 52;
+			-2, -1,  0: out :=  1;
+			// special handling required for some anchor dates before 2200-12-31
+			76337, 76336, 76335: out := 1;
+		ELSE
+			anchor_date_DISSECTED := DISSECT_DATE_INTERNAL(DINT_TO_UDINT(anchor_date));
+			anchor_date2 := CREATE_DATE_INTERNAL(anchor_date_DISSECTED.year, 1, 4);
+			out := DINT_TO_USINT((
+					anchor_date
+					- UDINT_TO_DINT(anchor_date2)
+					+ USINT_TO_DINT(GET_DAY_OF_WEEK_INTERNAL(anchor_date2))
+					- 4
+				) / 7 + 1);
+		END_CASE;
+		
+		GET_WEEK_OF_YEAR_INTERNAL := out;
+	END_FUNCTION
+	
+	// Returns the numeric week of year.
+	FUNCTION GET_WEEK_OF_YEAR : USINT
+		VAR_INPUT
+			in : DATE;
+			kind : WEEK_OF_YEAR_TYPE; // currently, only ISO 8601 is supported
+		END_VAR
+		
+		GET_WEEK_OF_YEAR := GET_WEEK_OF_YEAR_INTERNAL(DATE_TO_UDINT_INTERNAL(in));
+	END_FUNCTION
+	
+	
+	// INTERNAL: Returns the numeric day of year (from 1st of January = 1 to 31th of December = 365 or 366).
+	FUNCTION GET_DAY_OF_YEAR_INTERNAL : UINT
+		VAR_INPUT
+			in : UDINT;
+		END_VAR
+		
+		VAR_TEMP
+			year_lookup_start : DINT;
+			year_lookup_end : DINT;
+			year : DINT;
+			start_of_year : UDINT;
+		END_VAR
+		
+		year_lookup_start := MIN(MAX(1992 + TRUNC((in - 1) / 366), 1992), 2200);
+		year_lookup_end := MIN(MAX(1992 + TRUNC((in - 1) / 365), 1992), 2200);
+		
+		FOR year := year_lookup_start TO year_lookup_end DO
+			IF Start_Of_Months_Of_Years_Values[year][1] <= in THEN
+				start_of_year := Start_Of_Months_Of_Years_Values[year][1];
+			END_IF;
+		END_FOR;
+		
+		GET_DAY_OF_YEAR_INTERNAL := UDINT_TO_UINT(in - start_of_year + 1);
+	END_FUNCTION
+	
+	// Returns the numeric day of year (from 1st of January = 1 to 31th of December = 365 or 366).
+	FUNCTION GET_DAY_OF_YEAR : UINT
+		VAR_INPUT
+			in : DATE;
+		END_VAR
+		
+		GET_DAY_OF_YEAR := GET_DAY_OF_YEAR_INTERNAL(DATE_TO_UDINT_INTERNAL(in));
+	END_FUNCTION
+	
+	
+	// Formats given duration using specified format and RETURNs created string.
+	FUNCTION FORMAT_TIME_DISSECTED : STRING[18]
+		VAR_INPUT
+			in : TIME_DISSECTED;
+			format : TIME_FORMAT; // currently, only ISO 8601 is supported
+		END_VAR
+		
+		VAR_TEMP
+			out : STRING[18];
+		END_VAR
+		
+		out := 'P';
+		
+		IF in.day <> 0 THEN
+			out := CONCAT3(out, USINT_TO_STRING(in.day), 'D');
+		END_IF;
+		
+		out := CONCAT(out, 'T');
+		
+		IF in.hour <> 0 THEN
+			out := CONCAT3(out, USINT_TO_STRING(in.hour), 'H');
+		END_IF;
+		
+		IF in.minute <> 0 THEN
+			out := CONCAT3(out, USINT_TO_STRING(in.minute), 'M');
+		END_IF;
+		
+		IF in.second <> 0 OR in.millisecond <> 0 THEN
+			out := CONCAT5(out, USINT_TO_STRING(in.second), '.', PAD_STRING_LEFT(UINT_TO_STRING(in.millisecond), 3, '0'), 'S');
+		END_IF;
+			
+		FORMAT_TIME_DISSECTED := out;
+	END_FUNCTION
+	
+	// Formats given duration using specified format and RETURNs created string.
+	FUNCTION FORMAT_TIME : STRING[18]
+		VAR_INPUT
+			in : TIME;
+			format : TIME_FORMAT;
+		END_VAR
+		
+		FORMAT_TIME := FORMAT_TIME_DISSECTED(DISSECT_TIME(in),format);
+	END_FUNCTION
+	
+	
+	// Formats given time using specified format and RETURNs created string.
+	FUNCTION FORMAT_TIME_OF_DAY_DISSECTED : STRING[12]
+		VAR_INPUT
+			in : TIME_OF_DAY_DISSECTED;
+			format : TIME_OF_DAY_FORMAT;
+		END_VAR
+		
+		CASE format OF
+			ISO8601: FORMAT_TIME_OF_DAY_DISSECTED := CONCAT7(
+				PAD_STRING_LEFT(USINT_TO_STRING(in.hour), 2, '0'),
+				':',
+				PAD_STRING_LEFT(USINT_TO_STRING(in.minute), 2, '0'),
+				':',
+				PAD_STRING_LEFT(USINT_TO_STRING(in.second), 2, '0'),
+				'.',
+				PAD_STRING_LEFT(UINT_TO_STRING(in.millisecond), 3, '0')
+			);
+			ISO8601_HHMMSS: FORMAT_TIME_OF_DAY_DISSECTED := CONCAT5(
+				PAD_STRING_LEFT(USINT_TO_STRING(in.hour), 2, '0'),
+				':',
+				PAD_STRING_LEFT(USINT_TO_STRING(in.minute), 2, '0'),
+				':',
+				PAD_STRING_LEFT(USINT_TO_STRING(in.second), 2, '0')
+			);
+			ISO8601_HHMMSS_NODLM: FORMAT_TIME_OF_DAY_DISSECTED := CONCAT3(
+				PAD_STRING_LEFT(USINT_TO_STRING(in.hour), 2, '0'),
+				PAD_STRING_LEFT(USINT_TO_STRING(in.minute), 2, '0'),
+				PAD_STRING_LEFT(USINT_TO_STRING(in.second), 2, '0')
+			);
+			ISO8601_HHMM: FORMAT_TIME_OF_DAY_DISSECTED := CONCAT3(
+				PAD_STRING_LEFT(USINT_TO_STRING(in.hour), 2, '0'),
+				':',
+				PAD_STRING_LEFT(USINT_TO_STRING(in.minute), 2, '0')
+			);
+			ISO8601_HHMM_NODLM: FORMAT_TIME_OF_DAY_DISSECTED := CONCAT(
+				PAD_STRING_LEFT(USINT_TO_STRING(in.hour), 2, '0'),
+				PAD_STRING_LEFT(USINT_TO_STRING(in.minute), 2, '0')
+			);
+		END_CASE;
+	END_FUNCTION
+	
+	// Formats given time using specified format and RETURNs created string.
+	FUNCTION FORMAT_TIME_OF_DAY : STRING[12]
+		VAR_INPUT
+			in : TIME_OF_DAY;
+			format : TIME_OF_DAY_FORMAT;
+		END_VAR
+		
+		FORMAT_TIME_OF_DAY := FORMAT_TIME_OF_DAY_DISSECTED(DISSECT_TIME_OF_DAY(in),format);
+	END_FUNCTION
+	
+	
+	// Formats given date using specified format and RETURNs created string.
+	FUNCTION FORMAT_DATE_DISSECTED : STRING[10]
+		VAR_INPUT
+			in : DATE_DISSECTED;
+			format : DATE_FORMAT;
+		END_VAR
+		
+		CASE format OF
+			ISO8601: FORMAT_DATE_DISSECTED := CONCAT5(
+				UINT_TO_STRING(in.year),
+				'-',
+				PAD_STRING_LEFT(USINT_TO_STRING(in.month), 2, '0'),
+				'-',
+				PAD_STRING_LEFT(USINT_TO_STRING(in.day), 2, '0')
+			);
+			ISO8601_NODLM: FORMAT_DATE_DISSECTED := CONCAT3(
+				UINT_TO_STRING(in.year),
+				PAD_STRING_LEFT(USINT_TO_STRING(in.month), 2, '0'),
+				PAD_STRING_LEFT(USINT_TO_STRING(in.day), 2, '0')
+			);
+			DIN5008: FORMAT_DATE_DISSECTED := CONCAT5(
+				PAD_STRING_LEFT(USINT_TO_STRING(in.day), 2, '0'),
+				'.',
+				PAD_STRING_LEFT(USINT_TO_STRING(in.month), 2, '0'),
+				'.',
+				UINT_TO_STRING(in.year)
+			);
+		END_CASE;
+	END_FUNCTION
+	
+	// Formats given date using specified format and RETURNs created string.
+	FUNCTION FORMAT_DATE : STRING[10]
+		VAR_INPUT
+			in : DATE;
+			format : DATE_FORMAT;
+		END_VAR
+		
+		FORMAT_DATE := FORMAT_DATE_DISSECTED(DISSECT_DATE(in), format);
+	END_FUNCTION
+	
+	
+	// Formats given date and time using specified format and RETURNs created string.
+	FUNCTION FORMAT_DATE_AND_TIME_DISSECTED : STRING[23]
+		VAR_INPUT
+			in : DATE_AND_TIME_DISSECTED;
+			format : DATE_AND_TIME_FORMAT; // currently, only ISO 8601 is supported
+		END_VAR
+		
+		FORMAT_DATE_AND_TIME_DISSECTED := CONCAT3(
+			CONCAT5(
+				UINT_TO_STRING(in.year),
+				'-',
+				PAD_STRING_LEFT(USINT_TO_STRING(in.month), 2, '0'),
+				'-',
+				PAD_STRING_LEFT(USINT_TO_STRING(in.day), 2, '0')
+			),
+			'T',
+			CONCAT7(
+				PAD_STRING_LEFT(USINT_TO_STRING(in.hour), 2, '0'),
+				':',
+				PAD_STRING_LEFT(USINT_TO_STRING(in.minute), 2, '0'),
+				':',
+				PAD_STRING_LEFT(USINT_TO_STRING(in.second), 2, '0'),
+				'.',
+				PAD_STRING_LEFT(UINT_TO_STRING(in.millisecond), 3, '0')
+			)
+		);
+	END_FUNCTION
+	
+	// Formats given date and time using specified format and RETURNs created string.
+	FUNCTION FORMAT_DATE_AND_TIME : STRING[23]
+		VAR_INPUT
+			in : DATE_AND_TIME;
+			format : DATE_AND_TIME_FORMAT;
+		END_VAR
+		
+		FORMAT_DATE_AND_TIME := FORMAT_DATE_AND_TIME_DISSECTED(DISSECT_DATE_AND_TIME(in), format);
+	END_FUNCTION
+END_IMPLEMENTATION
