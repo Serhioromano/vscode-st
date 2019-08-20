@@ -2,7 +2,7 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
-## [1.7.0] - 2019-08-20
+## [1.7.1] - 2019-08-20
 
 - fix - syntax highlights keyword inside another word
 - fix - build document structure with block indented
