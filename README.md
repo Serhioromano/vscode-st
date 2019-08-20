@@ -39,7 +39,10 @@ Can automatically capitalize constants like `TRUE`, `FALSE`. Either use command 
 ### 1.7.0
 
 - fix - syntax highlights keyword inside another word
-- fix - build document structture with block indented
+- fix - build document structure with block indented
+- add - outline for Structures and Enumerations
+- enhance - outline for other elements
+- enhance - right click commands now appear only in ST files
 
 ### 1.6.0
 
