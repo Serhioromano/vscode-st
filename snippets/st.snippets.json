@@ -281,5 +281,17 @@
 			"$BLOCK_COMMENT_START ************************************* $BLOCK_COMMENT_END"
 		],
 		"description": "Define comment"
+	},
+	"TRY ... CATCH ... FINALLY ... ENDTRY": {
+		"prefix": "try",
+		"body": [
+			"__TRY",
+			"\t$0",
+			"__CATCH (${1:Variable})",
+			"\t",
+			"__FINALLY",
+			"__ENDTRY"
+		],
+		"description": "Define TRY-CATCH-FINALLY exception handling block. Variable is an UDINT or __SYSTEM.ExceptionCode type. These operators are extended from the IEC 61131-3 standard."
 	}
 }

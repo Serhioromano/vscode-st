@@ -41,7 +41,10 @@
 		["DO", "END_WHILE"],
 		["WHILE", "DO"],
 		["REPEAT", "END_REPEAT"],
-		["(", ")"]
+		["(", ")"],
+		["__TRY", "__CATCH"],
+		["__CATCH", "__FINALLY"],
+		["__FINALLY", "__ENDTRY"]
 	],
 	"autoClosingPairs": [
 		{"open": "{", "close": "}"},

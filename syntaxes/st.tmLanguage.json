@@ -115,7 +115,7 @@
 			"patterns": [
 				{
 					"name": "keyword.control.conditional.st",
-					"match": "\\b(?:END_)?(?:IF|CASE|OF|ELSE|ELSIF|THEN)\\b"
+					"match": "\\b(?:END_)?(?:IF|CASE|OF|ELSE|ELSIF|THEN|__TRY|__CATCH|__FINALLY|__ENDTRY)\\b"
 				},
 				{
 					"name": "keyword.control.loop.st",
