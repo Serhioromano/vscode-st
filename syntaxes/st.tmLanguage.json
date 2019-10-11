@@ -135,7 +135,7 @@
 			"patterns": [
 				{
 					"name": "keyword.operator.assignment.st",
-					"match": "(:=|=>)"
+					"match": "(:=|=>|S=|R=)"
 				},
 				{
 					"name": "keyword.operator.content.st",

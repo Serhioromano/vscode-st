@@ -22,6 +22,9 @@ END_PROGRAM
         VAR
             dffg: BOOL; (* Comment *)
         END_VAR
+
+		enable S= Start;
+		enable R= Stop;
     END_FUNCTION
 
 INTERFACE
