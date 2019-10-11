@@ -25,6 +25,9 @@ END_PROGRAM
 
 		enable S= Start;
 		enable R= Stop;
+
+		ptr = __NEW(BYTE, 256);
+		__DELETE(ptr);
     END_FUNCTION
 
 INTERFACE

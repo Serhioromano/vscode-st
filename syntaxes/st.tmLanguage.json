@@ -164,6 +164,10 @@
 				{
 					"name": "keyword.operator.arithmetic.st",
 					"match": "\\b(SEL_|MUX_)[A-Za-z]*\\b"
+				},
+				{
+					"name":"keyword.operator.new.st",
+					"match": "(__NEW|__DELETE)"
 				}
 			]
 		},
