@@ -2,7 +2,7 @@
 
 import * as vscode from 'vscode';
 
-import {stDocumentSymbolProvider} from './symbolprovider';
+import { stDocumentSymbolProvider } from './symbolprovider';
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -12,17 +12,16 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     let Updater = new StUpdater();
-    let UpdaterControl = new StUpdaterController(Updater);
-    context.subscriptions.push(UpdaterControl);
-    context.subscriptions.push(Updater);
+    //let UpdaterControl = new StUpdaterController(Updater);
+    context.subscriptions.push(new StUpdaterController(Updater));
+    //context.subscriptions.push(Updater);
 
-    let disposable = vscode.commands.registerCommand('extension.st.autoformat', () => {
+    context.subscriptions.push(vscode.commands.registerCommand('extension.st.autoformat', () => {
         Updater.Update(true);
-    });
-
-    context.subscriptions.push(disposable);
+    }));
+    
     context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(
-        {language: "st"}, new stDocumentSymbolProvider()
+        { language: "st" }, new stDocumentSymbolProvider()
     ));
 }
 
@@ -41,7 +40,6 @@ export class StUpdater {
     Update(Cntx: boolean = false) {
         let editor = vscode.window.activeTextEditor;
         if (!editor || (editor.document.languageId !== 'st')) {
-            //window.showErrorMessage('No editor!')
             return;
         }
 
@@ -102,7 +100,6 @@ class StUpdaterController {
 
         let subscriptions: vscode.Disposable[] = [];
         vscode.window.onDidChangeTextEditorSelection(this._onEvent, this, subscriptions);
-        //window.onDidChangeActiveTextEditor(this._onEvent, this, subscriptions);
 
         this._Disposable = vscode.Disposable.from(...subscriptions);
     }

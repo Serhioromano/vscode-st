@@ -47,7 +47,7 @@ export class stDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
             regex = /\btype\b([\s\S]*?)\bend_type\b/img;
             while ((m = regex.exec(doc)) !== null) {
                 let rgx_struct = /\b([a-zA-Z0-9_]*)\b\s*:\s*struct([\s\S]*?)end_struct/img;
-                let ms;
+                let ms : RegExpExecArray | null;
                 while ((ms = rgx_struct.exec(m[0])) !== null) {
                     let ln = this.getLineNum(doc, ms[0]);
                     let range = this.getRange(ln);
@@ -73,6 +73,7 @@ export class stDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
                         range, range
                     );
                     let enums = ms[2].split(',');
+                    let contx = ms[2];
                     // TODO: Better get every parameter
                     enums.forEach(element => {
                         let emm = element.match(/^\s*\b([A-Za-z_0-9]*)\b/);
@@ -80,7 +81,7 @@ export class stDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
                             emm = element.match(/\b([A-Za-z_0-9]*)\b\s*(:=\s*[0-9]*)?\s*$/);
                         }
                         if (emm !== null) {
-                            let en_ln = this.getLineNum(ms[2], element);
+                            let en_ln = this.getLineNum(contx, element);
                             let range = this.getRange(ln + (en_ln > 0 ? en_ln + 1 : en_ln));
                                 let e = new vscode.DocumentSymbol(
                                 emm[1], 'Enumerator',
