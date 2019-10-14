@@ -281,5 +281,38 @@
 			"$BLOCK_COMMENT_START ************************************* $BLOCK_COMMENT_END"
 		],
 		"description": "Define comment"
+	},
+	"TRY ... CATCH ... FINALLY ... ENDTRY": {
+		"prefix": "try",
+		"body": [
+			"__TRY",
+			"\t$0",
+			"__CATCH (${1:Variable})",
+			"\t",
+			"__FINALLY",
+			"__ENDTRY"
+		],
+		"description": "Define TRY-CATCH-FINALLY exception handling block. Variable is an UDINT or __SYSTEM.ExceptionCode type. These operators are extended from the IEC 61131-3 standard."
+	},
+	"Dynamic allocation scalar": {
+		"prefix": "new",
+		"body": [
+			"__NEW(${1:Scalar Type}, ${2:Number of elements});"
+		],
+		"description": "The __NEW operator allocates memory for arrays of standard data types. The operator returns a suitable typed pointer to the object. These operators are extended from the IEC 61131-3 standard."
+	},
+	"Dynamic allocation function": {
+		"prefix": ["newfb", "newst"],
+		"body": [
+			"__NEW(${1:Function Block Or Structure Type});"
+		],
+		"description": "The __NEW operator allocates memory for function block instances or structure. The operator returns a suitable typed pointer to the object. These operators are extended from the IEC 61131-3 standard."
+	},
+	"Dynamic memory free": {
+		"prefix": "del",
+		"body": [
+			"__DELETE(${1:POINTER_TO Variable});"
+		],
+		"description": "The operator releases the memory of instances, which the operator __NEW generated dynamically. These operators are extended from the IEC 61131-3 standard."
 	}
 }

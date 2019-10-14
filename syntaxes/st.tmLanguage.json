@@ -115,7 +115,7 @@
 			"patterns": [
 				{
 					"name": "keyword.control.conditional.st",
-					"match": "\\b(?:END_)?(?:IF|CASE|OF|ELSE|ELSIF|THEN)\\b"
+					"match": "\\b(?:END_)?(?:IF|CASE|OF|ELSE|ELSIF|THEN|__TRY|__CATCH|__FINALLY|__ENDTRY)\\b"
 				},
 				{
 					"name": "keyword.control.loop.st",
@@ -135,7 +135,7 @@
 			"patterns": [
 				{
 					"name": "keyword.operator.assignment.st",
-					"match": "(:=|=>)"
+					"match": "(:=|=>|S=|R=)"
 				},
 				{
 					"name": "keyword.operator.content.st",
@@ -164,6 +164,10 @@
 				{
 					"name": "keyword.operator.arithmetic.st",
 					"match": "\\b(SEL_|MUX_)[A-Za-z]*\\b"
+				},
+				{
+					"name":"keyword.operator.new.st",
+					"match": "(__NEW|__DELETE)"
 				}
 			]
 		},
