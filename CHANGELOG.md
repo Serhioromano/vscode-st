@@ -2,6 +2,13 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+### [1.7.2] - 2019-10-14
+
+- add - syntax highlights keyword `__TRY`, `__CATCH`, `__FINALY`, `__NEW`, `__DELETE`, `S=`, `R=`
+- add - snippets fo `__TRY`, `__CATCH`, `__FINALY`, `__NEW`, `__DELETE`
+
+Thanks @nikvoronin
+
 ## [1.7.1] - 2019-08-20
 
 - fix - syntax highlights keyword inside another word

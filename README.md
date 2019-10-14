@@ -36,6 +36,13 @@ Can automatically capitalize constants like `TRUE`, `FALSE`. Either use command 
 
 ## Release Notes
 
+### 1.7.2
+
+- add - syntax highlights keyword `__TRY`, `__CATCH`, `__FINALY`, `__NEW`, `__DELETE`, `S=`, `R=`
+- add - snippets fo `__TRY`, `__CATCH`, `__FINALY`, `__NEW`, `__DELETE`
+
+Thanks to @nikvoronin
+
 ### 1.7.1
 
 - fix - syntax highlights keyword inside another word
