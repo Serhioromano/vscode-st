@@ -932,3 +932,18 @@ IMPLEMENTATION
 		FORMAT_DATE_AND_TIME := FORMAT_DATE_AND_TIME_DISSECTED(DISSECT_DATE_AND_TIME(in), format);
 	END_FUNCTION
 END_IMPLEMENTATION
+
+
+VAR
+	i: INT; (* Cycle number *)
+	temp: ARRAY[1..5] OF REAL; (* Array of temperatures *)
+	ton1: TON; (* Timer *)
+END_VAR
+
+ton1(IN := NOT ton1.Q, PT := T#1m);
+
+IF ton1.Q THEN
+	FOR i := 0 TO 5 DO
+		temp[i] := tempsensor;
+	END_FOR;
+END_IF;

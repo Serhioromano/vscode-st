@@ -70,9 +70,12 @@
 				},
 				{
 					"name": "storage.type.class.st",
-					"match": "\\s*\\b(PROGRAM|FUNCTION_BLOCK|FUNCTION|TYPE)\\b\\s*\\b([a-zA-Z_0-9]*)\\b",
+					"match": "\\s*\\b(PROGRAM|FUNCTION_BLOCK|FUNCTION|TYPE)\\b\\s*(PRIVATE|PUBLIC|PROTECTED)?\\s*\\b([a-zA-Z_0-9]*)\\b",
 					"captures": {
 						"2": {
+							"name": "entity.name.type.st"
+						},
+						"3": {
 							"name": "entity.name.function.st"
 						}
 					}
@@ -203,7 +206,7 @@
 			"patterns": [
 				{
 					"comment": "Rule for OF in var declaration",
-					"begin": "\\b(?:VAR(?:_(?:INPUT|OUTPUT|IN_OUT|TEMP|GLOBAL|ACCESS|EXTERNAL))?|STRUCT)",
+					"begin": "\\b(?:VAR(?:_(?:INPUT|OUTPUT|IN_OUT|TEMP|GLOBAL|ACCESS|EXTERNAL))?|STRUCT|PUBLIC|PRIVATE|PROTECTED)",
 					"beginCaptures": {
 						"0": {
 							"name": "entity.name.type.st"
