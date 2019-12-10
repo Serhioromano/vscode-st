@@ -79,6 +79,15 @@
 							"name": "entity.name.function.st"
 						}
 					}
+				},
+				{
+					"name": "storage.type.class.st",
+					"match": "\\s*\\b(EXTENDS|IMPLEMENTS)\\b\\s*\\b([a-zA-Z_0-9]*)\\b",
+					"captures": {
+						"2": {
+							"name": "entity.name.function.st"
+						}
+					}
 				}
 			]
 		},
