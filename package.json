@@ -91,6 +91,7 @@
           ".st",
           ".stl",
           ".scl",
+          ".exp",
           ".iecplc",
           ".iecst",
           ".iecstl"
