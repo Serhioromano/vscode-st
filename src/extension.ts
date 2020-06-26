@@ -7,11 +7,6 @@ import { STFormatterProvider } from './formatter';
 
 export function activate(context: vscode.ExtensionContext) {
 
-    // if (!vscode.window.activeTextEditor) {
-    //     vscode.window.showInformationMessage('Open a file first to manipulate text selections');
-    //     return;
-    // }
-
     vscode.languages.registerDocumentFormattingEditProvider('st', new STFormatterProvider());
     
     context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(
