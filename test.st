@@ -1,3 +1,64 @@
+TYPE MyStruct : STRUCT
+        var1 : POINTER TO INT; (* Указатель 1 *)
+        var2 : POINTER TO INT; (* Указатель 2 *)    
+    END_STRUCT
+END_TYPE
+
+PROGRAM PLC_PRG
+    VAR
+        stTest1: MyStruct; (* Моя структура *)
+        xInit:  BOOL;      (* Инициализация *)
+        iTest:  INT;       (* Проверка числа *)
+    END_VAR
+
+    IF NOT xInit THEN
+        actInit();
+    END_IF;
+
+    iTest := stTest1.var1^;
+
+    ACTION actInit:
+        xInit := TRUE;
+        stTest1.var1 := ADR(%MW100);
+        stTest1.var2 := ADR(%MW101);
+    END_ACTION;
+END_PROGRAM
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 UNIT UTILITIES_TIME;
 
 // This unit 'UTILITIES_TIME' contains some common time and date functions and types which are missing in standard library.

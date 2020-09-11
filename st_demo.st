@@ -1,6 +1,6 @@
 (* Program TODO: comment *)
 { Attribute: pragma; }
-PROGRAM PLC_PRG
+PROGRAM PLC_PRG_EXIT
     VAR
         sDoubleQuoted: STRING    := "test\tmething";
         sSingleQuoted: STRING    := 'Another WHILE \n\r string';
