@@ -1,3 +1,64 @@
+TYPE MyStruct : STRUCT
+        var1 : POINTER TO INT; (* Указатель 1 *)
+        var2 : POINTER TO INT; (* Указатель 2 *)    
+    END_STRUCT
+END_TYPE
+
+PROGRAM PLC_PRG
+    VAR
+        stTest1: MyStruct; (* Моя структура *)
+        xInit:  BOOL;      (* Инициализация *)
+        iTest:  INT;       (* Проверка числа *)
+    END_VAR
+
+    IF NOT xInit THEN
+        actInit();
+    END_IF;
+
+    iTest := stTest1.var1^;
+
+    ACTION actInit:
+        xInit := TRUE;
+        stTest1.var1 := ADR(%MW100);
+        stTest1.var2 := ADR(%MW101);
+    END_ACTION;
+END_PROGRAM
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 UNIT UTILITIES_TIME;
 
 // This unit 'UTILITIES_TIME' contains some common time and date functions and types which are missing in standard library.
@@ -932,3 +993,18 @@ IMPLEMENTATION
 		FORMAT_DATE_AND_TIME := FORMAT_DATE_AND_TIME_DISSECTED(DISSECT_DATE_AND_TIME(in), format);
 	END_FUNCTION
 END_IMPLEMENTATION
+
+
+VAR
+	i: INT; (* Cycle number *)
+	temp: ARRAY[1..5] OF REAL; (* Array of temperatures *)
+	ton1: TON; (* Timer *)
+END_VAR
+
+ton1(IN := NOT ton1.Q, PT := T#1m);
+
+IF ton1.Q THEN
+	FOR i := 0 TO 5 DO
+		temp[i] := tempsensor;
+	END_FOR;
+END_IF;

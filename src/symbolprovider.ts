@@ -1,7 +1,7 @@
 'use strict';
 import * as vscode from 'vscode';
 
-export class stDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
+export class STDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 
     public provideDocumentSymbols(document: vscode.TextDocument, token: vscode.CancellationToken): Promise<vscode.DocumentSymbol[]> {
         return new Promise((resolve, reject) => {
