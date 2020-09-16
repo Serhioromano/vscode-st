@@ -7,6 +7,7 @@ Most complete Structured Text language support. Features includes:
 - Outline view
 - Breadcrumbs
 - Go to Symbol in File
+- Formatting (*beta)
 - Commands
 
 ## Syntax Highlights
@@ -36,12 +37,17 @@ Can automatically capitalize constants like `TRUE`, `FALSE`. Either use command 
 
 ## Release Notes
 
+### 1.8.1
+
+- add - new formatting architecture that utilize VS Code formatting API.
+
 ### 1.7.3
 
 - add - syntax highlights keyword `__TRY`, `__CATCH`, `__FINALY`, `__NEW`, `__DELETE`, `S=`, `R=`
 - add - snippets fo `__TRY`, `__CATCH`, `__FINALY`, `__NEW`, `__DELETE`
 
 Thanks to @nikvoronin
+
 
 ### 1.7.1
 
