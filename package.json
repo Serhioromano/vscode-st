@@ -2,7 +2,7 @@
     "name": "vscode-st",
     "displayName": "Structured Text language Support",
     "description": "Supports for syntax highlights, snippets for IEC 61131-3 Structured Text",
-    "version": "1.8.1",
+    "version": "1.8.2",
     "publisher": "Serhioromano",
     "scripts": {
         "vscode:prepublish": "npm run compile",
@@ -52,21 +52,6 @@
         "typescript": "^3.5.3",
         "vscode": "^1.1.35"
     },
-    "menus": {
-        "editor/context": [
-            {
-                "command": "extension.st.autoformat",
-                "when": "editorLangId == st",
-                "group": "1_modification"
-            }
-        ]
-    },
-    "commands": [
-        {
-            "command": "extension.st.autoformat",
-            "title": "ST: Format"
-        }
-    ],
     "contributes": {
         "configuration": {
             "type": "object",

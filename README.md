@@ -20,14 +20,17 @@ Includes syntax highlight based on IEC 61131-3 draft, including namespaces, SFC 
 
 Fast growing snippets library. All cycles, conditions and declarations.
 
-## Commands
+## Formatter
 
-Can automatically capitalize constants like `TRUE`, `FALSE`. Either use command `ST: Format` from command pallet, of from editor context menu. There is also user setting `st.autoFormat` which is set `true` by default, you can turn it off.
+Utilize VS Code Formatter API. Use general formatting command short keys. It capitalize all known keywords like `TRUE`, `FALSE`, `IF`, `BOOL`, ...
 
 ## Note
 
-- The same Author contributed ST support for Monaco Editor and highlight.js.
-- This extension project is a part of my "Structured Text Bible" book which I am working on right now.
+- The same Author contributed ST support for:
+  - [Microsoft Monaco Editor](https://github.com/microsoft/monaco-editor) (base editor for VS Code)
+  - [highlight.js](https://github.com/highlightjs/highlightjs-structured-text)
+  - [prism.js](https://github.com/PrismJS/prism)
+- This extension project is a part of my 320 pages "Learn Structured Text IEC 61131-3" book which I published in [Russian 2020](https://www.youtube.com/watch?v=c0bjUFzSHxs). (translation is on the way)
 
 ## Roadmap
 
@@ -36,6 +39,10 @@ Can automatically capitalize constants like `TRUE`, `FALSE`. Either use command 
 - Lints
 
 ## Release Notes
+
+### 1.8.2
+
+- add - new icon :))
 
 ### 1.8.1
 
