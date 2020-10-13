@@ -2,10 +2,11 @@
 
 Most complete Structured Text language support. Features includes:
 
-- Syntax highlights
-- Snippets
+- Syntax highlights in \*.st, \*.iecst files
+- Syntax highlights in \*.md (Markdown) files in `iecst` code block
+- Snippets (enter `st ` to see list of all snippets)
 - Outline view
-- Breadcrumbs
+- Breadcrumbs code navigation
 - Go to Symbol in File
 - Formatting (*beta)
 - Commands
@@ -16,6 +17,10 @@ Includes syntax highlight based on IEC 61131-3 draft, including namespaces, SFC 
 
 ![Structured Text syntax highlights example](https://raw.githubusercontent.com/Serhioromano/vscode-st/master/demo.gif)
 
+Also highlight in Markdown files
+
+![Example](https://raw.githubusercontent.com/Serhioromano/vscode-st/master/images/md-highlight.png)
+
 ## Snippets
 
 Fast growing snippets library. All cycles, conditions and declarations.
@@ -23,6 +28,12 @@ Fast growing snippets library. All cycles, conditions and declarations.
 ## Formatter
 
 Utilize VS Code Formatter API. Use general formatting command short keys. It capitalize all known keywords like `TRUE`, `FALSE`, `IF`, `BOOL`, ...
+
+```iecst
+VAR
+    xStart AT %QX1.0.0: BOOL := TRUE;
+END_VAR
+```
 
 ## Note
 
@@ -42,6 +53,8 @@ Utilize VS Code Formatter API. Use general formatting command short keys. It cap
 
 ### 1.8.2
 
+- change - enter `st ` to see list of all snippets.
+- add - Highlight ST in Markdown files when use `iecst` key.
 - add - new icon :))
 
 ### 1.8.1
@@ -54,7 +67,6 @@ Utilize VS Code Formatter API. Use general formatting command short keys. It cap
 - add - snippets fo `__TRY`, `__CATCH`, `__FINALY`, `__NEW`, `__DELETE`
 
 Thanks to @nikvoronin
-
 
 ### 1.7.1
 

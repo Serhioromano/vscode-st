@@ -20,7 +20,7 @@
         "Structured Text",
         "IEC 61131-3",
         "PLC",
-        "TwinCAD3",
+        "TwinCAT3",
         "CoDeSys",
         "logi.CAD 3"
     ],
@@ -86,9 +86,19 @@
         ],
         "grammars": [
             {
-                "language": "st",
                 "scopeName": "source.st",
+                "language": "st",
                 "path": "./syntaxes/st.tmLanguage.json"
+            },
+            {
+                "scopeName": "markdown.iecst.codeblock",
+                "path": "./syntaxes/codeblock.json",
+                "injectTo": [
+                    "text.html.markdown"
+                ],
+                "embeddedLanguages": {
+                    "meta.embedded.block.iecst": "st"
+                }
             }
         ],
         "snippets": [
