@@ -2,12 +2,25 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
-### [1.7.3] - 2019-10-14
+### [1.8.2]
+
+- change - enter `st ` to see list of all snippets.
+- add - Highlight ST in Markdown files when use `iecst` key.
+  
+  ![Example](https://raw.githubusercontent.com/Serhioromano/vscode-st/master/images/md-highlight.png)
+
+- add - new icon :))
+
+### [1.8.1] - 2020-09-11
+
+- add - new formatting architecture that utilize VS Code formatting API.
+
+### [1.7.3] - 2019-09-14
 
 - add - syntax highlights keyword `__TRY`, `__CATCH`, `__FINALY`, `__NEW`, `__DELETE`, `S=`, `R=`
 - add - snippets fo `__TRY`, `__CATCH`, `__FINALY`, `__NEW`, `__DELETE`
 
-Thanks @nikvoronin
+Thanks to @nikvoronin
 
 ## [1.7.1] - 2019-08-20
 

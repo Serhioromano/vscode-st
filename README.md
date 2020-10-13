@@ -2,10 +2,11 @@
 
 Most complete Structured Text language support. Features includes:
 
-- Syntax highlights
-- Snippets
+- Syntax highlights in \*.st, \*.iecst files
+- Syntax highlights in \*.md (Markdown) files in `iecst` code block
+- Snippets (enter `st ` to see list of all snippets)
 - Outline view
-- Breadcrumbs
+- Breadcrumbs code navigation
 - Go to Symbol in File
 - Formatting (*beta)
 - Commands
@@ -16,18 +17,31 @@ Includes syntax highlight based on IEC 61131-3 draft, including namespaces, SFC 
 
 ![Structured Text syntax highlights example](https://raw.githubusercontent.com/Serhioromano/vscode-st/master/demo.gif)
 
+Also highlight in Markdown files
+
+![Example](https://raw.githubusercontent.com/Serhioromano/vscode-st/master/images/md-highlight.png)
+
 ## Snippets
 
 Fast growing snippets library. All cycles, conditions and declarations.
 
-## Commands
+## Formatter
 
-Can automatically capitalize constants like `TRUE`, `FALSE`. Either use command `ST: Format` from command pallet, of from editor context menu. There is also user setting `st.autoFormat` which is set `true` by default, you can turn it off.
+Utilize VS Code Formatter API. Use general formatting command short keys. It capitalize all known keywords like `TRUE`, `FALSE`, `IF`, `BOOL`, ...
+
+```iecst
+VAR
+    xStart AT %QX1.0.0: BOOL := TRUE;
+END_VAR
+```
 
 ## Note
 
-- The same Author contributed ST support for Monaco Editor and highlight.js.
-- This extension project is a part of my "Structured Text Bible" book which I am working on right now.
+- The same Author contributed ST support for:
+  - [Microsoft Monaco Editor](https://github.com/microsoft/monaco-editor) (base editor for VS Code)
+  - [highlight.js](https://github.com/highlightjs/highlightjs-structured-text)
+  - [prism.js](https://github.com/PrismJS/prism)
+- This extension project is a part of my 320 pages "Learn Structured Text IEC 61131-3" book which I published in [Russian 2020](https://www.youtube.com/watch?v=c0bjUFzSHxs). (translation is on the way)
 
 ## Roadmap
 
@@ -36,6 +50,12 @@ Can automatically capitalize constants like `TRUE`, `FALSE`. Either use command 
 - Lints
 
 ## Release Notes
+
+### 1.8.2
+
+- change - enter `st ` to see list of all snippets.
+- add - Highlight ST in Markdown files when use `iecst` key.
+- add - new icon :))
 
 ### 1.8.1
 
@@ -47,7 +67,6 @@ Can automatically capitalize constants like `TRUE`, `FALSE`. Either use command 
 - add - snippets fo `__TRY`, `__CATCH`, `__FINALY`, `__NEW`, `__DELETE`
 
 Thanks to @nikvoronin
-
 
 ### 1.7.1
 

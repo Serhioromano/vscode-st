@@ -1,4 +1,4 @@
 {
 	"displayName": "Structured Text language support",
-	"description": "Provides syntax highlighting, bracket matching and snippets for ST language."
+	"description": "Provides syntax highlighting, bracket matching, snippets, formatter and outline with navigate to symbol for ST language."
 }

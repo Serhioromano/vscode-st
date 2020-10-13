@@ -4,7 +4,9 @@
 out/test/**
 out/**/*.map
 src/**
-vsc-extension-quickstart.md
 tsconfig.json
 tslint.json
 st_demo.st
+test.st
+icon.psd
+index.js

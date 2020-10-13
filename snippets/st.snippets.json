@@ -1,6 +1,6 @@
 {
 	"PROGRAM …": {
-		"prefix": "program",
+		"prefix": ["st program"],
 		"body": [
 			"PROGRAM ${1:PLC_PRG}",
 			"\t$0",
@@ -10,7 +10,7 @@
 		"description": "Define program"
     },
 	"IF END_IF...": {
-		"prefix": "if ",
+		"prefix": "st if",
 		"body": [
 			"IF ${1:Condition} THEN",
 			"\t$0",
@@ -20,7 +20,7 @@
 		"description": "Define IF condition"
     },
 	"IF ELSE END_IF...": {
-		"prefix": "if ",
+		"prefix": "st if else",
 		"body": [
 			"IF ${1:Condition} THEN",
 			"\t$0",
@@ -32,7 +32,7 @@
 		"description": "Define IF condition with ELSE"
     },
 	"IF ELSIF ELSE END_IF...": {
-		"prefix": "if",
+		"prefix": "st if elsif else",
 		"body": [
 			"IF ${1:Condition} THEN",
 			"\t$0",
@@ -46,7 +46,7 @@
 		"description": "Define IF condition with ELSIF and ELSE"
 	},
 	"ELSIF…": {
-		"prefix": "elsif ",
+		"prefix": "st elsif ",
 		"body": [
 			"ELSIF (${1:Condition1}) THEN",
 			"\t$0"
@@ -54,7 +54,7 @@
 		"description": "Define ELSIF condition"
     },
 	"WHILE …": {
-		"prefix": "while ",
+		"prefix": "st while ",
 		"body": [
 			"WHILE ${1:Condition} DO",
 			"\t$0",
@@ -64,7 +64,7 @@
 		"description": "Define WHILE cycle"
     },
 	"REPEAT …": {
-		"prefix": "repeat ",
+		"prefix": "st repeat ",
 		"body": [
 			"REPEAT",
 			"\t$0",
@@ -75,7 +75,7 @@
 		"description": "Define REPEAT cycle"
     },
 	"CASE …": {
-		"prefix": "case ",
+		"prefix": "st case ",
 		"body": [
 			"CASE ${1:ANY_NUM} OF",
 			"\t0: $0",
@@ -87,7 +87,7 @@
 		"description": "Define CASE condition"
     },
 	"CASE … ELSE": {
-		"prefix": "case ",
+		"prefix": "st case ",
 		"body": [
 			"CASE ${1:ANY_NUM} OF",
 			"\t0: $0",
@@ -100,7 +100,7 @@
 		"description": "Define CASE condition with ELSE"
     },
 	"ACTION …": {
-		"prefix": "action ",
+		"prefix": "st action ",
 		"body": [
 			"ACTION ${1:Name}:",
 			"\t$0",
@@ -110,7 +110,7 @@
 		"description": "Define ACTION"
     },
 	"STEP …": {
-		"prefix": "step ",
+		"prefix": "st step ",
 		"body": [
 			"STEP ${1:Name}:",
 			"\t$0",
@@ -120,7 +120,7 @@
 		"description": "Define STEP"
     },
 	"INITIAL_STEP …": {
-		"prefix": "initial_step ",
+		"prefix": "st initial_step ",
 		"body": [
 			"INITIAL_STEP ${1:Name}:",
 			"\t$0",
@@ -130,7 +130,7 @@
 		"description": "Define Initial STEP"
     },
 	"TRANSITION …": {
-		"prefix": "transaction",
+		"prefix": "st transaction",
 		"body": [
 			"TRANSITION ${1:Name} FROM ${2:Step1} TO ${3:Step2}",
 			"\t$0",
@@ -140,7 +140,7 @@
 		"description": "Define ACTION"
     },
 	"FOR …": {
-		"prefix": "for ",
+		"prefix": "st for ",
 		"body": [
 			"FOR ${1:Var} TO ${2:Num} DO",
 			"\t$0",
@@ -150,7 +150,7 @@
 		"description": "Define FOR cycle"
     },
 	"FOR BY…": {
-		"prefix": "for ",
+		"prefix": "st for by",
 		"body": [
 			"FOR ${1:Var} TO ${2:Num} BY ${3:1} DO",
 			"\t$0",
@@ -160,7 +160,7 @@
 		"description": "Define FOR cycle with BY"
 	},
 	"NAMESPACE ... END_NAMESPACE": {
-		"prefix": "namespace ",
+		"prefix": "st namespace ",
 		"body": [
 			"NAMESPACE ${1:Name}",
 			"\t$0",
@@ -169,7 +169,7 @@
 		"description": "Define NAMESPACE"
 	},
 	"FUNCTION ... END_FUNCTION": {
-		"prefix": "function ",
+		"prefix": "st function ",
 		"body": [
 			"FUNCTION ${1:Name} : ${2:Type}",
 			"\t$0",
@@ -178,7 +178,7 @@
 		"description": "Define FUNCTION"
 	},
 	"FUNCTION_BLOCK ... END_FUNCTION_BLOCK": {
-		"prefix": "function_block",
+		"prefix": "st function_block",
 		"body": [
 			"FUNCTION_BLOCK ${1:Name}",
 			"\t$0",
@@ -187,7 +187,7 @@
 		"description": "Define FUNCTION_BLOCK"
 	},
 	"IMPLEMENTATION ... END_IMPLEMENTATION": {
-		"prefix": "implement",
+		"prefix": "st implement",
 		"body": [
 			"IMPLEMENTATION",
 			"\t$0",
@@ -196,14 +196,14 @@
 		"description": "Define IMPLEMENTATION"
 	},
 	"Variable declaration": {
-		"prefix": ["var", "declare"],
+		"prefix": ["st var", "st declare"],
 		"body": [
 			"${1:Variable}: ${2|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${3:Comment} *)$0"
 		],
 		"description": "Define new variable"
 	},
 	"VAR ... END_VAR": {
-		"prefix": "var",
+		"prefix": "st var",
 		"body": [
 			"VAR",
 			"\t${1:Variable}: ${2|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${3:Comment} *)$0",
@@ -212,7 +212,7 @@
 		"description": "Define VAR block"
 	},
 	"VAR_GLOBAL ... END_VAR": {
-		"prefix": ["var_global", "global"],
+		"prefix": ["st var_global", "global"],
 		"body": [
 			"VAR_GLOBAL",
 			"\t${1:Variable}: ${2|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${3:Comment} *)$0",
@@ -221,7 +221,7 @@
 		"description": "Define VAR_GLOBAL"
 	},
 	"VAR_IN_OUT ... END_VAR": {
-		"prefix": ["var_in_out", "inout"],
+		"prefix": ["st var_in_out"],
 		"body": [
 			"VAR_IN_OUT",
 			"\t${1:Variable}: ${2|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${3:Comment} *)$0",
@@ -230,7 +230,7 @@
 		"description": "Define VAR_IN_OUT"
 	},
 	"VAR_INPUT ... END_VAR": {
-		"prefix": ["var_input", "input"],
+		"prefix": ["st var_input"],
 		"body": [
 			"VAR_INPUT",
 			"\t${1:Variable}: ${2|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${3:Comment} *)$0",
@@ -239,7 +239,7 @@
 		"description": "Define VAR_INPUT"
 	},
 	"VAR_OUTPUT ... END_VAR": {
-		"prefix": ["var_output", "output"],
+		"prefix": ["st var_output"],
 		"body": [
 			"VAR_OUTPUT",
 			"\t${1:Variable}: ${2|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${3:Comment} *)$0",
@@ -248,17 +248,17 @@
 		"description": "Define VAR_OUTPUT"
 	},
 	"TYPE ... END_TYPE": {
-		"prefix": ["type", "enum"],
+		"prefix": ["st type", "st enum"],
 		"body": [
 			"TYPE ${1:EnumName} (",
 			"\t${2:Variable1}, ${3:Variable2}$0",
 			")",
 			"END_TYPE"
 		],
-		"description": "Define TYPE Enumeration"
+		"description": "Define Enumeration"
 	},
 	"TYPE ... STRUCT ...END_STRUCT END_TYPE": {
-		"prefix": ["type", "struct"],
+		"prefix": ["st type", "st struct"],
 		"body": [
 			"TYPE ${1:StructName} : STRUCT",
 			"\t\t${2:Variable} : ${3|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${4:Comment} *)",
@@ -269,12 +269,12 @@
 		"description": "Define STRUCT"
 	},
 	"comment": {
-		"prefix": "comment",
+		"prefix": "st comment",
 		"body": "$BLOCK_COMMENT_START $0 $BLOCK_COMMENT_END",
 		"description": "Define comment"
 	},
 	"block comment": {
-		"prefix": "comment_block",
+		"prefix": "st comment_block",
 		"body": [
 			"$BLOCK_COMMENT_START ************************************* $BLOCK_COMMENT_END",
 			"$BLOCK_COMMENT_START $0 $BLOCK_COMMENT_END",
@@ -283,7 +283,7 @@
 		"description": "Define comment"
 	},
 	"TRY ... CATCH ... FINALLY ... ENDTRY": {
-		"prefix": "try",
+		"prefix": "st try",
 		"body": [
 			"__TRY",
 			"\t$0",
@@ -295,21 +295,21 @@
 		"description": "Define TRY-CATCH-FINALLY exception handling block. Variable is an UDINT or __SYSTEM.ExceptionCode type. These operators are extended from the IEC 61131-3 standard."
 	},
 	"Dynamic allocation scalar": {
-		"prefix": "new",
+		"prefix": "st new",
 		"body": [
 			"__NEW(${1:Scalar Type}, ${2:Number of elements});"
 		],
 		"description": "The __NEW operator allocates memory for arrays of standard data types. The operator returns a suitable typed pointer to the object. These operators are extended from the IEC 61131-3 standard."
 	},
 	"Dynamic allocation function": {
-		"prefix": ["newfb", "newst"],
+		"prefix": ["st new fb"],
 		"body": [
 			"__NEW(${1:Function Block Or Structure Type});"
 		],
 		"description": "The __NEW operator allocates memory for function block instances or structure. The operator returns a suitable typed pointer to the object. These operators are extended from the IEC 61131-3 standard."
 	},
 	"Dynamic memory free": {
-		"prefix": "del",
+		"prefix": "st delete",
 		"body": [
 			"__DELETE(${1:POINTER_TO Variable});"
 		],
