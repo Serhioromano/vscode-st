@@ -268,6 +268,17 @@
 		],
 		"description": "Define STRUCT"
 	},
+	"TYPE ... UNION ...END_UNION END_TYPE": {
+		"prefix": ["st union", "st type"],
+		"body": [
+			"TYPE ${1:UnionName} : UNION",
+			"\t\t${2:Variable} : ${3|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${4:Comment} *)",
+			"\t\t${5:Variable} : ${6|BOOL,BYTE,WORD,DWORD,STRING,WSTRING,REAL,LREAL,ARARY,POINTER TO,REF_TO,INT,SINT,DINT,LINT,UINT,USINT,UDINT,ULINT,TIME,TOD,DATE,DT,ANY, ANY_NUM,ANY_INT,ANY_REAL,TON,TOF,TP,RS,SR,R_TRIG,F_TRIG,CTU,CTD,CTUD|}; (* ${7:Comment} *)$0",
+			"\tEND_UNION",
+			"END_TYPE"
+		],
+		"description": "Define STRUCT"
+	},
 	"comment": {
 		"prefix": "st comment",
 		"body": "$BLOCK_COMMENT_START $0 $BLOCK_COMMENT_END",

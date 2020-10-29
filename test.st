@@ -1,3 +1,59 @@
+TYPE DI_Bits : STRUCT
+        DI_Section1_Valve  : BIT; (* Bit 1 *)
+        DI_Section2_Valve  : BIT; (* Bit 2 *)
+        DI_Section3_Valve  : BIT; (* Bit 3 *)
+        DI_Section4_Valve  : BIT; (* Bit 4 *)
+        DI_Section5_Valve  : BIT; (* Bit 5 *)
+        DI_Section6_Valve  : BIT; (* Bit 6 *)
+        DI_Section7_Valve  : BIT; (* Bit 7 *)
+        DI_Section8_Valve  : BIT; (* Bit 8 *)
+    END_STRUCT
+END_TYPE
+
+TYPE DI_Sections : UNION
+        ByName : DI_Bits; 
+        ByID : ARRAY[1..8] OF BOOL; (* Comment *)
+        ByMask: BYTE;
+    END_UNION
+END_TYPE
+
+PROGRAM PLC_PRG
+    VAR
+        DIS AT %IB0.0: DI_Sections; (* Our union *)
+        xOut : BOOL;
+    END_VAR
+
+
+    xOut := DIS.ByID[1];
+    xOut := DIS.ByName.DI_Section1_Valve;
+    
+    DIS.ByID[5] := TRUE; 
+    // Now DIS.ByName.DI_Section5_Valve also EQ TRUE
+
+END_PROGRAM
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 TYPE MyStruct : STRUCT
         var1 : POINTER TO INT; (* Указатель 1 *)
         var2 : POINTER TO INT; (* Указатель 2 *)    
@@ -79,7 +135,7 @@ PROGRAM PLC_PRG
 END_PROGRAM
 
 
-    FUNCTION dfdf : real
+    FUNCTION dfdf : REAL
         VAR
             dffg: BOOL; (* Comment *)
         END_VAR
@@ -119,68 +175,68 @@ INTERFACE
 	
 	
 	TYPE
-		// Contains all parts of a positive duration (days, hours, minutes, seconds, etc.).
+		// Contains all parts of a positive duration(days, hours, minutes, seconds, etc.).
 		TIME_DISSECTED : STRUCT
-			day : USINT; // numeric day (e.g. 1)
-			hour : USINT; // numeric hour (e.g. 21)
-			minute : USINT; // numeric minute of hour (e.g. 34)
-			second : USINT; // numeric second of minute (e.g. 56)
-			millisecond : UINT; // numeric millisecond of second (e.g. 789)
+			day : USINT; // numeric day(e.g. 1)
+			hour : USINT; // numeric hour(e.g. 21)
+			minute : USINT; // numeric minute of hour(e.g. 34)
+			second : USINT; // numeric second of minute(e.g. 56)
+			millisecond : UINT; // numeric millisecond of second(e.g. 789)
 		END_STRUCT
 		
 		TIME_FORMAT : (
             
-			ISO8601 // duration in ISO 8601 representation (e.g. 'P1DT21H34M56.789S')
+			ISO8601 // duration in ISO 8601 representation(e.g. 'P1DT21H34M56.789S')
 		);
 		
-		// Contains all parts of a local time (hours, minutes, seconds, etc.).
+		// Contains all parts of a local time(hours, minutes, seconds, etc.).
 		TIME_OF_DAY_DISSECTED : STRUCT
-			hour : USINT; // numeric hour of day (e.g. 21)
-			minute : USINT; // numeric minute of hour (e.g. 34)
-			second : USINT; // numeric second of minute (e.g. 56)
-			millisecond : UINT; // numeric millisecond of second (e.g. 789)
+			hour : USINT; // numeric hour of day(e.g. 21)
+			minute : USINT; // numeric minute of hour(e.g. 34)
+			second : USINT; // numeric second of minute(e.g. 56)
+			millisecond : UINT; // numeric millisecond of second(e.g. 789)
 		END_STRUCT
 		
-		TIME_OF_DAY_FORMAT : ( ISO8601, // time of day in ISO 8601 representation (e.g. '21:34:56.789') ISO8601_HHMM, // time of day in ISO 8601 representation without seconds and milliseconds (e.g. '21:34')
-			ISO8601_HHMM_NODLM, // time of day in ISO 8601 representation without seconds milliseconds and delimiters (e.g. '2134')
-			ISO8601_HHMMSS, // time of day in ISO 8601 representation without milliseconds (e.g. '213456')
-			ISO8601_HHMMSS_NODLM // time of day in ISO 8601 representation without milliseconds and delimiters (e.g. '21:34:56')
+		TIME_OF_DAY_FORMAT : ( ISO8601, // time of day in ISO 8601 representation(e.g. '21:34:56.789') ISO8601_HHMM, // time of day in ISO 8601 representation without seconds and milliseconds(e.g. '21:34')
+			ISO8601_HHMM_NODLM, // time of day in ISO 8601 representation without seconds milliseconds and delimiters(e.g. '2134')
+			ISO8601_HHMMSS, // time of day in ISO 8601 representation without milliseconds(e.g. '213456')
+			ISO8601_HHMMSS_NODLM // time of day in ISO 8601 representation without milliseconds and delimiters(e.g. '21:34:56')
 		);
 		
-		// Contains all parts of a local date (year, month, day, etc.).
+		// Contains all parts of a local date(year, month, day, etc.).
 		DATE_DISSECTED : STRUCT
-			year : UINT; // numeric year (e.g. 2019)
-			month : USINT; // numeric month of year (e.g. 10)
-			day : USINT; // numeric day of month (e.g. 31)
+			year : UINT; // numeric year(e.g. 2019)
+			month : USINT; // numeric month of year(e.g. 10)
+			day : USINT; // numeric day of month(e.g. 31)
 		END_STRUCT
 		
 		DATE_FORMAT : (
-			ISO8601, // date in ISO 8601 representation (e.g. '2019-10-31')
-			ISO8601_NODLM, // date in ISO 8601 representation without delimiters (e.g. '20191031')
-			DIN5008 // date in common DIN 5008:2011 representation (e.g. '31.10.2019')
+			ISO8601, // date in ISO 8601 representation(e.g. '2019-10-31')
+			ISO8601_NODLM, // date in ISO 8601 representation without delimiters(e.g. '20191031')
+			DIN5008 // date in common DIN 5008:2011 representation(e.g. '31.10.2019')
 		);
 		
 		DAY_OF_WEEK_TYPE : (
-			ISO8601 // day of week as defined by ISO 8601 (Monday = 1 <-> Sunday = 7)
+			ISO8601 // day of week as defined by ISO 8601(Monday = 1 <-> Sunday = 7)
 		);
 		
 		WEEK_OF_YEAR_TYPE : (
-			ISO8601 // week of year as defined by ISO 8601 (week 1 starts in the week of 4th of January)
+			ISO8601 // week of year as defined by ISO 8601(week 1 starts in the week of 4th of January)
 		);
 		
-		// Contains all parts of a local date (year, month, day, etc.) and time (hours, minutes, seconds, etc.).
+		// Contains all parts of a local date(year, month, day, etc.) and time(hours, minutes, seconds, etc.).
 		DATE_AND_TIME_DISSECTED : STRUCT
-			year : UINT; // numeric year (e.g. 2019)
-			month : USINT; // numeric month of year (e.g. 10)
-			day : USINT; // numeric day of month (e.g. 31)
-			hour : USINT; // numeric hour of day (e.g. 21)
-			minute : USINT; // numeric minute of hour (e.g. 34)
-			second : USINT; // numeric second of minute (e.g. 56)
-			millisecond : UINT; // numeric millisecond of second (e.g. 789)
+			year : UINT; // numeric year(e.g. 2019)
+			month : USINT; // numeric month of year(e.g. 10)
+			day : USINT; // numeric day of month(e.g. 31)
+			hour : USINT; // numeric hour of day(e.g. 21)
+			minute : USINT; // numeric minute of hour(e.g. 34)
+			second : USINT; // numeric second of minute(e.g. 56)
+			millisecond : UINT; // numeric millisecond of second(e.g. 789)
 		END_STRUCT
 		
 		DATE_AND_TIME_FORMAT : (
-			ISO8601 // date and time in ISO 8601 representation (e.g. '2019-10-31T21:34:56.789')
+			ISO8601 // date and time in ISO 8601 representation(e.g. '2019-10-31T21:34:56.789')
 		);
 		
 		START_OF_MONTHS : ARRAY[1..12] OF UDINT;
@@ -467,11 +523,11 @@ IMPLEMENTATION
 	// INTERNAL: Creates a TIME using given values.
 	FUNCTION CREATE_TIME_INTERNAL : UDINT
 		VAR_INPUT
-			day : USINT; // numeric day (e.g. 1)
-			hour : USINT; // numeric hour (e.g. 21)
-			minute : USINT; // numeric minute of hour (e.g. 34)
-			second : USINT; // numeric second of minute (e.g. 56)
-			millisecond : UINT; // numeric millisecond of second (e.g. 789)
+			day : USINT; // numeric day(e.g. 1)
+			hour : USINT; // numeric hour(e.g. 21)
+			minute : USINT; // numeric minute of hour(e.g. 34)
+			second : USINT; // numeric second of minute(e.g. 56)
+			millisecond : UINT; // numeric millisecond of second(e.g. 789)
 		END_VAR
 		
 		CREATE_TIME_INTERNAL := (((USINT_TO_UDINT(day) 
@@ -484,11 +540,11 @@ IMPLEMENTATION
 	// Creates a TIME using given values.
 	FUNCTION CREATE_TIME : TIME
 		VAR_INPUT
-			day : USINT; // numeric day (e.g. 1)
-			hour : USINT; // numeric hour (e.g. 21)
-			minute : USINT; // numeric minute of hour (e.g. 34)
-			second : USINT; // numeric second of minute (e.g. 56)
-			millisecond : UINT; // numeric millisecond of second (e.g. 789)
+			day : USINT; // numeric day(e.g. 1)
+			hour : USINT; // numeric hour(e.g. 21)
+			minute : USINT; // numeric minute of hour(e.g. 34)
+			second : USINT; // numeric second of minute(e.g. 56)
+			millisecond : UINT; // numeric millisecond of second(e.g. 789)
 		END_VAR
 		
 		CREATE_TIME := UDINT_TO_TIME(CREATE_TIME_INTERNAL(day, hour, minute, second, millisecond));
@@ -498,10 +554,10 @@ IMPLEMENTATION
 	// INTERNAL: Creates a TIME_OF_DAY using given values.
 	FUNCTION CREATE_TIME_OF_DAY_INTERNAL : UDINT
 		VAR_INPUT
-			hour : USINT; // numeric hour of day (e.g. 21)
-			minute : USINT; // numeric minute of hour (e.g. 34)
-			second : USINT; // numeric second of minute (e.g. 56)
-			millisecond : UINT; // numeric millisecond of second (e.g. 789)
+			hour : USINT; // numeric hour of day(e.g. 21)
+			minute : USINT; // numeric minute of hour(e.g. 34)
+			second : USINT; // numeric second of minute(e.g. 56)
+			millisecond : UINT; // numeric millisecond of second(e.g. 789)
 		END_VAR
 		
 		CREATE_TIME_OF_DAY_INTERNAL := ((USINT_TO_UDINT(hour)
@@ -513,10 +569,10 @@ IMPLEMENTATION
 	// Creates a TIME_OF_DAY using given values.
 	FUNCTION CREATE_TIME_OF_DAY : TIME_OF_DAY
 		VAR_INPUT
-			hour : USINT; // numeric hour of day (e.g. 21)
-			minute : USINT; // numeric minute of hour (e.g. 34)
-			second : USINT; // numeric second of minute (e.g. 56)
-			millisecond : UINT; // numeric millisecond of second (e.g. 789)
+			hour : USINT; // numeric hour of day(e.g. 21)
+			minute : USINT; // numeric minute of hour(e.g. 34)
+			second : USINT; // numeric second of minute(e.g. 56)
+			millisecond : UINT; // numeric millisecond of second(e.g. 789)
 		END_VAR
 		
 		CREATE_TIME_OF_DAY := UDINT_TO_TIME_OF_DAY_INTERNAL(CREATE_TIME_OF_DAY_INTERNAL(hour, minute, second, millisecond));
@@ -526,9 +582,9 @@ IMPLEMENTATION
 	// INTERNAL: Creates a DATE using given values.
 	FUNCTION CREATE_DATE_INTERNAL : UDINT
 		VAR_INPUT
-			year : UINT; // numeric year (e.g. 2019)
-			month : USINT; // numeric month of year (e.g. 10)
-			day : USINT; // numeric day of month (e.g. 31)
+			year : UINT; // numeric year(e.g. 2019)
+			month : USINT; // numeric month of year(e.g. 10)
+			day : USINT; // numeric day of month(e.g. 31)
 		END_VAR
 		
 		IF year < 1992 THEN
@@ -541,9 +597,9 @@ IMPLEMENTATION
 	// Creates a DATE using given values.
 	FUNCTION CREATE_DATE : DATE
 		VAR_INPUT
-			year : UINT; // numeric year (e.g. 2019)
-			month : USINT; // numeric month of year (e.g. 10)
-			day : USINT; // numeric day of month (e.g. 31)
+			year : UINT; // numeric year(e.g. 2019)
+			month : USINT; // numeric month of year(e.g. 10)
+			day : USINT; // numeric day of month(e.g. 31)
 		END_VAR
 		
 		CREATE_DATE := UDINT_TO_DATE_INTERNAL(CREATE_DATE_INTERNAL(year, month, day));
@@ -553,13 +609,13 @@ IMPLEMENTATION
 	// Creates a DATE_AND_TIME using given values.
 	FUNCTION CREATE_DATE_AND_TIME : DATE_AND_TIME
 		VAR_INPUT
-			year : UINT; // numeric year (e.g. 2019)
-			month : USINT; // numeric month of year (e.g. 10)
-			day : USINT; // numeric day of month (e.g. 31)
-			hour : USINT; // numeric hour of day (e.g. 21)
-			minute : USINT; // numeric minute of hour (e.g. 34)
-			second : USINT; // numeric second of minute (e.g. 56)
-			millisecond : UINT; // numeric millisecond of second (e.g. 789)
+			year : UINT; // numeric year(e.g. 2019)
+			month : USINT; // numeric month of year(e.g. 10)
+			day : USINT; // numeric day of month(e.g. 31)
+			hour : USINT; // numeric hour of day(e.g. 21)
+			minute : USINT; // numeric minute of hour(e.g. 34)
+			second : USINT; // numeric second of minute(e.g. 56)
+			millisecond : UINT; // numeric millisecond of second(e.g. 789)
 		END_VAR
 		
 		CREATE_DATE_AND_TIME := CONCAT_DATE_TOD(
@@ -716,7 +772,7 @@ IMPLEMENTATION
 	END_FUNCTION
 	
 	
-	// INTERNAL: Returns the numeric day of week (from Monday = 1 to Sunday = 7).
+	// INTERNAL: Returns the numeric day of week(from Monday = 1 to Sunday = 7).
 	FUNCTION GET_DAY_OF_WEEK_INTERNAL : USINT
 		VAR_INPUT
 			in : UDINT;
@@ -736,7 +792,7 @@ IMPLEMENTATION
 	END_FUNCTION
 	
 	
-	// INTERNAL: Returns the numeric week of year (from 1st week = 1 to last week = 52 or 53).
+	// INTERNAL: Returns the numeric week of year(from 1st week = 1 to last week = 52 or 53).
 	FUNCTION GET_WEEK_OF_YEAR_INTERNAL : USINT
 		VAR_INPUT
 			in : UDINT;
@@ -782,7 +838,7 @@ IMPLEMENTATION
 	END_FUNCTION
 	
 	
-	// INTERNAL: Returns the numeric day of year (from 1st of January = 1 to 31th of December = 365 or 366).
+	// INTERNAL: Returns the numeric day of year(from 1st of January = 1 to 31th of December = 365 or 366).
 	FUNCTION GET_DAY_OF_YEAR_INTERNAL : UINT
 		VAR_INPUT
 			in : UDINT;
@@ -807,7 +863,7 @@ IMPLEMENTATION
 		GET_DAY_OF_YEAR_INTERNAL := UDINT_TO_UINT(in - start_of_year + 1);
 	END_FUNCTION
 	
-	// Returns the numeric day of year (from 1st of January = 1 to 31th of December = 365 or 366).
+	// Returns the numeric day of year(from 1st of January = 1 to 31th of December = 365 or 366).
 	FUNCTION GET_DAY_OF_YEAR : UINT
 		VAR_INPUT
 			in : DATE;

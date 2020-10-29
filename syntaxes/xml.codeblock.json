@@ -1,0 +1,60 @@
+{
+    "fileTypes": [],
+    "injectionSelector": "L:text.xml",
+    "patterns": [
+        {
+            "include": "#xml-code-block"
+        }
+    ],
+    "repository": {
+        "xml-code-block": {
+            "begin": "(<)(Declaration|ST)(>)\\s*",
+            "end": "\\s*(<\\/)(\\2)(>)$",
+            "beginCaptures": {
+                "1": {
+                    "name": "punctuation.definition.tag.xml"
+                },
+                "3": {
+                    "name": "punctuation.definition.tag.xml"
+                },
+                "2": {
+                    "name": "entity.name.tag.localname.xml"
+                }
+            },
+            "endCaptures": {
+                "1": {
+                    "name": "punctuation.definition.tag.xml"
+                },
+                "3": {
+                    "name": "punctuation.definition.tag.xml"
+                },
+                "2": {
+                    "name": "entity.name.tag.localname.xml"
+                }
+            },
+            "patterns": [
+                {
+                    "begin": "\\s*(<!\\[CDATA\\[)\\s*",
+                    "end": "\\s*(\\]\\]>)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "string.unquoted.cdata.xml"
+                        }
+                    },
+                    "endCaptures": {
+                        "1": {
+                            "name": "string.unquoted.cdata.xml"
+                        }
+                    },
+                    "contentName": "meta.embedded.block.iecst",
+                    "patterns": [
+                        {
+                            "include": "source.st"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "scopeName": "xml.iecst.codeblock"
+}

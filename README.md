@@ -51,6 +51,11 @@ END_VAR
 
 ## Release Notes
 
+### 1.8.3
+
+- add - support for UNION syntax
+- add - Highlight ST inside some XML files key.
+
 ### 1.8.2
 
 - change - enter `st ` to see list of all snippets.

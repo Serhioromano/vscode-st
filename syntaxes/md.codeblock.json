@@ -31,7 +31,7 @@
                 {
                     "begin": "(^|\\G)(\\s*)(.*)",
                     "while": "(^|\\G)(?!\\s*([`~]{3,})\\s*$)",
-                    "contentName": "meta.embedded.block.iecst",
+                    "contentName": "meta.embedded.block.iecstmd",
                     "patterns": [
                         {
                             "include": "source.st"
