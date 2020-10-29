@@ -2,7 +2,12 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
-### [1.8.2]
+### [1.8.3] - 2020-10-29
+
+- add - support for UNION syntax
+- add - Highlight ST inside some XML files key.
+
+### [1.8.2] - 2020-10-13
 
 - change - enter `st ` to see list of all snippets.
 - add - Highlight ST in Markdown files when use `iecst` key.
