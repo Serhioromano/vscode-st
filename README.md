@@ -4,6 +4,7 @@ Most complete Structured Text language support. Features includes:
 
 - Syntax highlights in \*.st, \*.iecst files
 - Syntax highlights in \*.md (Markdown) files in `iecst` code block
+- Syntax highlights in \*.xml files in `<Declaration>` and `<ST>` code block
 - Snippets (enter `st ` to see list of all snippets)
 - Outline view
 - Breadcrumbs code navigation

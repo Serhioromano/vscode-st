@@ -1,3 +1,29 @@
+PROGRAM PLC_PRG
+    VAR
+        xStart: BOOL; (* Начать программу *)
+        iNum: INT; (* Счетчик *)
+        xStep1, xStep2, xStep3: BOOL; (* Шаги *)
+    END_VAR
+
+    CASE iNum OF
+        0: IF xStart THEN iNum := 1; END_IF 
+        1: iNum := 2;
+        2: iNum := 3;
+        3: iNum := 4;
+        4: IF NOT xStart THEN iNum := 0; END_IF
+    END_CASE;
+    
+    xStep1 := (iNum = 1);
+    xStep2 := (iNum = 2);
+    xStep3 := (iNum = 3);
+END_PROGRAM
+
+
+
+
+
+
+
 TYPE DI_Bits : STRUCT
         DI_Section1_Valve  : BIT; (* Bit 1 *)
         DI_Section2_Valve  : BIT; (* Bit 2 *)
