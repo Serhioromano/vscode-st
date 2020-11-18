@@ -995,6 +995,7 @@ IMPLEMENTATION
 		FORMAT_TIME_OF_DAY := FORMAT_TIME_OF_DAY_DISSECTED(DISSECT_TIME_OF_DAY(in),format);
 	END_FUNCTION
 	
+    ty
 	
 	// Formats given date using specified format and RETURNs created string.
 	FUNCTION FORMAT_DATE_DISSECTED : STRING[10]
