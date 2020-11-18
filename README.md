@@ -52,6 +52,10 @@ END_VAR
 
 ## Release Notes
 
+### 1.8.4
+
+- enhance - better snippets titles
+
 ### 1.8.3
 
 - add - support for UNION syntax

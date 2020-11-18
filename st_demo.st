@@ -18,11 +18,12 @@ PROGRAM PLC_PRG_EXIT
 
     TON(IN := TRUE, PT := T#2s, Q => xOut);
     actionTest(DS, T#2s);
+    a := t#1s;
 
     // TODO: Single line comment
     pTest := ADR(xStart, dfdf, dfkld);
 
-    IF (pTest^ OR (bTest > 16#2F)) THEN
+    IF(pTest^ OR(bTest > 16#2F)) THEN
         rTemp := ABS(100.5);
     END_IF;
 

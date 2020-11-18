@@ -26,21 +26,22 @@ export class STFormatterProvider implements vscode.DocumentFormattingEditProvide
             'final', 'of', 'else', 'elsif', 'then', '__try', '__catch', '__finally',
             '__endtry', 'do', 'to', 'by', 'task', 'with', 'using', 'uses', 'from',
             'until', 'or', 'or_else', 'and', 'and_then', 'not', 'xor', 'nor', 'ge',
-            'le', 'eq', 'ne', 'gt', 'lt', '__new', '__delete', 'extends', 'implements',
-            'this', 'super'
+            'le', 'eq', 'ne', 'gt', 'lt', 'extends', 'implements', 'this', 'super',
+
+            '(?:T|DT|TOD|D)#[0-9\\:\\-\\_yYmMdDhHsS]+'
         ];
 
         let types = [
             'AT', 'BOOL', 'BYTE', '(?:D|L)?WORD', 'U?(?:S|D|L)?INT', 'L?REAL', 
             'TIME(?:_OF_DAY)?', 'TOD', 'DT', 'DATE(?:_AND_TIME)?', 'W?STRING', 
-            'ARRAY', 'ANY'];
+            'ARRAY', 'ANY', 'ANY_(?:NUM|INT|REAL)'];
 
         let end = [
             'var', 'program', 'if', 'case', 'while', 'for', 'repeat', 'function',
             'function_block', 'struct', 'configuration', 'tcp', 'resource',
             'channel', 'library', 'folder', 'binaries', 'includes', 'sources',
             'action', 'step', 'initial_step', 'transition', 'type', 'namespace',
-            'implementation', 'interface', 'property', 'method'
+            'implementation', 'interface', 'property', 'method', 'union'
         ];
 
         let functions = [
@@ -51,7 +52,7 @@ export class STFormatterProvider implements vscode.DocumentFormattingEditProvide
             'rs', 'sr', 'ton', 'tp', 'tof', 'trunc', 'ctd', 'ctu', 'ctud', 'r_trig',
             'f_trig', 'move', 'concat', 'delete', 'find', 'insert', 'left', 'len',
             'replace', 'right', 'rtc', 'mid', 'sema', 'round', 'floor', 'ceil',
-            'unpack', 'ref',
+            'unpack', 'ref', '__new', '__delete',
 
             '[A-Za-z_]*(_TO_)[A-Za-z_]*', '(?:TO_|FROM_|TRUNC_)[A-Za-z_]*',
             ''

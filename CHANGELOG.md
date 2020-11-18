@@ -2,6 +2,11 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+### [1.8.4] - 2020
+
+- enhance - better snippets titles
+- add - Formatting capitalize time keys like `t#10s` to `T#10S`, `ANY_*` types
+
 ### [1.8.3] - 2020-10-29
 
 - add - support for UNION syntax
