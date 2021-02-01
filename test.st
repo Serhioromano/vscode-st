@@ -1,5 +1,5 @@
 PROGRAM PLC_PRG
-    VAR
+    VAR_OUTPUT
         xStart: BOOL; (* Начать программу *)
         iNum: INT; (* Счетчик *)
         xStep1, xStep2, xStep3: BOOL; (* Шаги *)
@@ -12,6 +12,7 @@ PROGRAM PLC_PRG
         3: iNum := 4;
         4: IF NOT xStart THEN iNum := 0; END_IF
     END_CASE;
+    a := __NEW();
     
     xStep1 := (iNum = 1);
     xStep2 := (iNum = 2);
@@ -1084,7 +1085,7 @@ VAR
 	ton1: TON; (* Timer *)
 END_VAR
 
-ton1(IN := NOT ton1.Q, PT := T#1m);
+ton1(IN := NOT ton1.Q, PT := T#1M);
 
 IF ton1.Q THEN
 	FOR i := 0 TO 5 DO

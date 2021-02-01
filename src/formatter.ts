@@ -27,8 +27,9 @@ export class STFormatterProvider implements vscode.DocumentFormattingEditProvide
             '__endtry', 'do', 'to', 'by', 'task', 'with', 'using', 'uses', 'from',
             'until', 'or', 'or_else', 'and', 'and_then', 'not', 'xor', 'nor', 'ge',
             'le', 'eq', 'ne', 'gt', 'lt', 'extends', 'implements', 'this', 'super',
-
-            '(?:T|DT|TOD|D)#[0-9\\:\\-\\_yYmMdDhHsS]+'
+            '__new', '__delete',
+            '(?:T|DT|TOD|D)#[0-9\\:\\-\\_yYmMdDhHsS]+',
+            'var_(input|output|in_out|temp|global|access|external)'
         ];
 
         let types = [
