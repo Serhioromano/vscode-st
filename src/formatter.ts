@@ -54,8 +54,7 @@ export class STFormatterProvider implements vscode.DocumentFormattingEditProvide
             'replace', 'right', 'rtc', 'mid', 'sema', 'round', 'floor', 'ceil',
             'unpack', 'ref', '__new', '__delete',
 
-            '[A-Za-z_]*(_TO_)[A-Za-z_]*', '(?:TO_|FROM_|TRUNC_)[A-Za-z_]*',
-            ''
+            '[A-Za-z_]*(_TO_)[A-Za-z_]*', '(?:TO_|FROM_|TRUNC_)[A-Za-z_]*'
         ];
         
         let regEx = new RegExp(`\\b(?:${functions.join('|')})\\b\\s+\\(`, "ig");
