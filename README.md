@@ -52,6 +52,11 @@ END_VAR
 
 ## Release Notes
 
+### 1.9.1
+
+- add - Formatting capitalization for all `VAR_*` keywords and `__NEW` and `__DELETE`
+- fix -  one closed comment formatting as function #29
+
 ### 1.9.0
 
 - enhance - better snippets titles

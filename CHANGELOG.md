@@ -2,7 +2,12 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
-### [1.9.0] - 2020
+### [1.9.1] - 2021-02-01
+
+- add - Formatting capitalization for all `VAR_*` keywords and `__NEW` and `__DELETE`
+- fix -  one closed comment formatting as function #29
+
+### [1.9.0] - 2021-02-01
 
 - enhance - better snippets titles
 - enhance - better symbol navigation in outline and breadcrumbs. Thanks to @msftrncs.
