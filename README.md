@@ -4,6 +4,7 @@ Most complete Structured Text language support. Features includes:
 
 - Syntax highlights in \*.st, \*.iecst files
 - Syntax highlights in \*.md (Markdown) files in `iecst` code block
+- Syntax highlights in \*.xml files in `<Declaration>` and `<ST>` code block
 - Snippets (enter `st ` to see list of all snippets)
 - Outline view
 - Breadcrumbs code navigation
@@ -50,6 +51,16 @@ END_VAR
 - Lints
 
 ## Release Notes
+
+### 1.9.0
+
+- enhance - better snippets titles
+- enhance - better symbol navigation in outline and breadcrumbs. Thanks to @msftrncs.
+- add - Formatting capitalize time keys like `t#10s` to `T#10S`, `ANY_*` types
+
+### 1.8.4
+
+- enhance - better snippets titles
 
 ### 1.8.3
 
