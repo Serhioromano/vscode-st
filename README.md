@@ -52,6 +52,12 @@ END_VAR
 
 ## Release Notes
 
+### 1.9.0
+
+- enhance - better snippets titles
+- enhance - better symbol navigation in outline and breadcrumbs. Thanks to @msftrncs.
+- add - Formatting capitalize time keys like `t#10s` to `T#10S`, `ANY_*` types
+
 ### 1.8.4
 
 - enhance - better snippets titles
