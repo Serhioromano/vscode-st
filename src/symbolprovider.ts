@@ -18,6 +18,8 @@ export class STDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
         the end of the document alone (probably a JavaScript / Chromium / V8 bug, empty match repeats indefinitely):
         base regex: /(?!$)(?:\/\/.*(?=\r?\n|$)|(["'])(?:(?!\1)(?:\$\1|[\s\S]))*(?:\1|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s\S]*?(?:\*\/|$)|[\s\S])*?/
 
+        While searching for identifiers, we do not ignore quoted strings, but quotes strings or other punctuation will cause the search for
+        an identifier to end.
         Pattern for identifiers: (case insensitive): \b[A-Z_](?:[A-Z0-9]|(?<!_)_)*\b
 
         INTERFACE - all can be nested
@@ -92,13 +94,13 @@ export class STDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 
                     else if (pou_type.substr(0, 3) === "VAR") {
                         // determine attributes of the VAR block, and then iterate over all items, though it is unusual for sub-elements (STRUCT / UNION or enums) to be nested.
-                        const rgx_var_attr = /((?:(?:\b(?:ABSTRACT|CONSTANT|RETAIN|PERSISTENT|PUBLIC|PRIVATE|PROTECTED|INTERNAL|FINAL)\b)?(?:\/\/.*(?=\r?\n|$)|(["'])(?:(?!\2)(?:\$\2|[\s\S]))*(?:\2|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s\S]*?(?:\*\/|$)|[\s])*?)*)(?:$|\b(?=(?:(?:END_)?(?:ACTION|METHOD|STRUCT|UNION|(?<=END_)VAR|(?<!END)VAR(?:_(?:INPUT|OUTPUT|IN_OUT|INST|TEMP|STAT|GLOBAL|ACCESS|EXTERNAL|CONFIG))?)|EXTENDS|IMPLEMENTS|PROPERTY|USES|IF|CASE|WHILE|REPEAT|DO|FOR|RETURN|EXIT|CONTINUE|AT|ANY|BIT|BOOL|BYTE|[DL]?WORD|U?[SDL]?INT|L?REAL|L?TIME(?:_OF_DAY)?|L?TOD|L?DT|L?DATE(?:_AND_TIME)?|W?STRING|W?CHAR|ARRAY)\b)|(?=\S))/iy
+                        const rgx_var_attr = /((?:(?:\b(?:ABSTRACT|CONSTANT|RETAIN|PERSISTENT|PUBLIC|PRIVATE|PROTECTED|INTERNAL|FINAL)\b)?(?:\/\/.*(?=\r?\n|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s]*?(?:\*\/|$)|[\s])*?)*)(?:$|(?=\S))/iy
                         /* Captures break-down
                             [1] POU attributes prior to first sub-item
                         */
                         let var_attr = pous[5].match(rgx_var_attr);
                         // determine if the CONSTANT attribute was present
-                        let var_attr_constant = var_attr && var_attr[1].match(/(?:\/\/.*(?=\r?\n|$)|(["'])(?:(?!\1)(?:\$\1|[\s\S]))*(?:\1|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s\S]*?(?:\*\/|$)|[\s\S])*?(?:$|\b(CONSTANT)\b)/iy) || null;
+                        let var_attr_constant = var_attr && var_attr[1].match(/(?:\/\/.*(?=\r?\n|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s\S]*?(?:\*\/|$)|[\s\S])*?(?:$|\b(CONSTANT)\b)/iy) || null;
                         let isConstantVar = var_attr_constant && var_attr_constant[2] !== undefined || false;
                         const varSymbol = STDocumentSymbolProvider.varBlocksList.find(varDes => varDes.varKeyword === pou_type)
                             || { varKeyword: pou_type, desc: "<unknown>" } as TVarBlockDesc;
@@ -111,16 +113,16 @@ export class STDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 
                     else {
                         // for all other POU types, find the block's name, and then recurse for possible nested symbols and POU's.
-                        const rgx_pou_name = /((?:(?:\b(?:ABSTRACT|CONSTANT|RETAIN|PERSISTENT|PUBLIC|PRIVATE|PROTECTED|INTERNAL|FINAL)\b)?(?:\/\/.*(?=\r?\n|$)|(["'])(?:(?!\2)(?:\$\2|[\s\S]))*(?:\2|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s\S]*?(?:\*\/|$)|[\s])*?)*)(?:$|\b(?=(?:(?:END_)?(?:ACTION|METHOD|STRUCT|UNION|(?<=END_)VAR|(?<!END)VAR(?:_(?:INPUT|OUTPUT|IN_OUT|INST|TEMP|STAT|GLOBAL|ACCESS|EXTERNAL|CONFIG))?)|EXTENDS|IMPLEMENTS|PROPERTY|USES|IF|CASE|WHILE|REPEAT|DO|FOR|RETURN|EXIT|CONTINUE|AT|ANY|BIT|BOOL|BYTE|[DL]?WORD|U?[SDL]?INT|L?REAL|L?TIME(?:_OF_DAY)?|L?TOD|L?DT|L?DATE(?:_AND_TIME)?|W?STRING|W?CHAR|ARRAY)\b)|\b([A-Z_](?:[A-Z0-9]|(?<!_)_)*)\b|(?=\S))/iy
+                        const rgx_pou_name = /((?:(?:\b(?:ABSTRACT|CONSTANT|RETAIN|PERSISTENT|PUBLIC|PRIVATE|PROTECTED|INTERNAL|FINAL)\b)?(?:\/\/.*(?=\r?\n|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s\S]*?(?:\*\/|$)|[\s])*?)*)(?:$|\b(?=(?:(?:END_)?(?:ACTION|METHOD|STRUCT|UNION|(?<=END_)VAR|(?<!END)VAR(?:_(?:INPUT|OUTPUT|IN_OUT|INST|TEMP|STAT|GLOBAL|ACCESS|EXTERNAL|CONFIG))?)|EXTENDS|IMPLEMENTS|PROPERTY|USES|IF|CASE|WHILE|REPEAT|DO|FOR|RETURN|EXIT|CONTINUE|AT|ANY|BIT|BOOL|BYTE|[DL]?WORD|U?[SDL]?INT|L?REAL|L?TIME(?:_OF_DAY)?|L?TOD|L?DT|L?DATE(?:_AND_TIME)?|W?STRING|W?CHAR|ARRAY)\b)|\b([A-Z_](?:[A-Z0-9]|(?<!_)_)*)\b|(?=\S))/iy
                         /* Captures break-down
                             [1] POU attributes prior to name
-                            [3] POU Name
+                            [2] POU Name (if valid)
                         */
                         let pou_name = pous[5].match(rgx_pou_name);
                         const pouBlockSymbol = STDocumentSymbolProvider.PouBlocksList.find(blockDes => blockDes.PouBlock === pou_type)
                             || { PouBlock: pou_type, SymType: vscode.SymbolKind.Null, Desc: "<unknown>" } as TPouBlockDesc;
                         let symbol = new vscode.DocumentSymbol(
-                            checkUnnamedItem(pou_name && pou_name[3] || undefined), pouBlockSymbol.Desc,
+                            checkUnnamedItem(pou_name && pou_name[2] || undefined), pouBlockSymbol.Desc,
                             pouBlockSymbol.SymType,
                             pou_full_range, pou_reveal_range
                         );
@@ -198,17 +200,17 @@ export class STDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
                 function separateVarIdents(text: string): TVarIdentReturn[] {
                     // separate a comma seperated list of variable / type / struct / union / enum identifiers
                     // forcibly ignore certain common keywords that might appear nearby, so we don't scan too deeply
-                    let rgx_varIdent = /(?!$)((?:\/\/.*(?=\r?\n|$)|(["'])(?:(?!\2)(?:\$\2|[\s\S]))*(?:\2|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s\S]*?(?:\*\/|$)|[\s\S])*?)(?:$|,|(?:\b(?=(?:EXTENDS|IMPLEMENTS|PROPERTY|USES|IF|CASE|WHILE|REPEAT|DO|FOR|RETURN|EXIT|CONTINUE|AT|ANY|BIT|BOOL|BYTE|[DL]?WORD|U?[SDL]?INT|L?REAL|L?TIME(?:_OF_DAY)?|L?TOD|L?DT|L?DATE(?:_AND_TIME)?|W?STRING|W?CHAR|ARRAY)\b)|\b([A-Z_](?:[A-Z0-9]|(?<!_)_)*)\b)(?:\/\/.*(?=\r?\n|$)|(["'])(?:(?!\4)(?:\$\4|[\s\S]))*(?:\4|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s\S]*?(?:\*\/|$)|[\s\S])*?(?:$|,)(?:\/\/.*(?=\r?\n|$)|(["'])(?:(?!\5)(?:\$\5|[\s\S]))*(?:\5|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s\S]*?(?:\*\/|$)|[\s\S])*?(?:$|(?=\r?\n\s*?\r?\n|\s*(?:$|(?!\/\/|\/\*|\(\*)\S))))/iy
+                    let rgx_varIdent = /(?!$)((?:\/\/.*(?=\r?\n|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s\S]*?(?:\*\/|$)|[\s\S])*?)(?:$|,|(?:\b(?=(?:EXTENDS|IMPLEMENTS|PROPERTY|USES|IF|CASE|WHILE|REPEAT|DO|FOR|RETURN|EXIT|CONTINUE|AT|ANY|BIT|BOOL|BYTE|[DL]?WORD|U?[SDL]?INT|L?REAL|L?TIME(?:_OF_DAY)?|L?TOD|L?DT|L?DATE(?:_AND_TIME)?|W?STRING|W?CHAR|ARRAY)\b)|\b([A-Z_](?:[A-Z0-9]|(?<!_)_)*)\b|(?=\S))(?:\/\/.*(?=\r?\n|$)|(["'])(?:(?!\3)(?:\$\3|[\s\S]))*(?:\3|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s\S]*?(?:\*\/|$)|[\s\S])*?(?:$|,)(?:\/\/.*(?=\r?\n|$)|(["'])(?:(?!\4)(?:\$\4|[\s\S]))*(?:\4|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s\S]*?(?:\*\/|$)|[\s\S])*?(?:$|(?=\r?\n\s*?\r?\n|\s*(?:$|(?!\/\/|\/\*|\(\*)\S))))/iy
                     /* Captures break-down
                         [1] - leader preceeding first identifier
-                        [3] - identifier
+                        [2] - identifier, if available
                     */
                     let varIdents: TVarIdentReturn[] = [];
                     let vars: RegExpExecArray | null;
                     while ((vars = rgx_varIdent.exec(text)) !== null) {
                         varIdents.push(
                             {
-                                varIdent: vars[3],
+                                varIdent: vars[2],
                                 startOffset: vars.index + (vars[1] !== undefined ? vars[1].length : 0),
                                 endOffset: vars.index + vars[0].length
                             })
