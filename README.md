@@ -52,6 +52,12 @@ END_VAR
 
 ## Release Notes
 
+### 1.9.2
+
+- enhance - Outline now understand `CONSTANT` variables. Thanks to @msftrncs.
+- fix - `VAR` word break keyword parse issue. Thanks to @msftrncs.
+- fix -  Some issues outline tree parse. Thanks to @msftrncs.
+
 ### 1.9.1
 
 - add - Formatting capitalization for all `VAR_*` keywords and `__NEW` and `__DELETE`
