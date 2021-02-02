@@ -2,6 +2,12 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+### [1.9.2] - 2021-02-02
+
+- enhance - Outline now understand `CONSTANT` variables. Thanks to @msftrncs.
+- fix - `VAR` word break keyword parse issue. Thanks to @msftrncs.
+- fix -  Some issues outline tree parse. Thanks to @msftrncs.
+
 ### [1.9.1] - 2021-02-01
 
 - add - Formatting capitalization for all `VAR_*` keywords and `__NEW` and `__DELETE`
