@@ -101,7 +101,7 @@ export class STDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
                         let var_attr = pous[5].match(rgx_var_attr);
                         // determine if the CONSTANT attribute was present
                         let var_attr_constant = var_attr && var_attr[1].match(/(?:\/\/.*(?=\r?\n|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s\S]*?(?:\*\/|$)|[\s\S])*?(?:$|\b(CONSTANT)\b)/iy) || null;
-                        let isConstantVar = var_attr_constant && var_attr_constant[2] !== undefined || false;
+                        let isConstantVar = var_attr_constant && var_attr_constant[1] !== undefined || false;
                         const varSymbol = STDocumentSymbolProvider.varBlocksList.find(varDes => varDes.varKeyword === pou_type)
                             || { varKeyword: pou_type, desc: "<unknown>" } as TVarBlockDesc;
                         let symbol = new vscode.DocumentSymbol(
