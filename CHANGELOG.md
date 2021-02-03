@@ -2,7 +2,7 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
-### [1.9.3] - 2021-02-03
+### [1.9.4] - 2021-02-03
 
 - fix - string escapes
 
