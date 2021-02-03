@@ -2,9 +2,10 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
-### [1.9.4] - 2021-02-03
+### [1.10.0] - 2021-02-03
 
-- fix - string escapes
+- fix - lot of minor syntax highlight mistakes.
+- improve - syntax highlight was fully revised and improved a lot.
 
 ### [1.9.2] - 2021-02-02
 

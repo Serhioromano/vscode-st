@@ -1,8 +1,9 @@
 PROGRAM PLC_PRG
     VAR_OUTPUT
-        xStart: BOOL; (* Начать программу *)
-        iNum: INT; (* Счетчик *)
+        xStart: BOOL; (* Начать : программу *)
+        iNum: INT; (* Счетчик  *)
         xStep1, xStep2, xStep3: BOOL; (* Шаги *)
+        xMessage : STRING[20..5] OF BOOL := 'Something $N$T it$'s';
     END_VAR
 
     CASE iNum OF
@@ -13,13 +14,23 @@ PROGRAM PLC_PRG
         4: IF NOT xStart THEN iNum := 0; END_IF
     END_CASE;
     a := __NEW();
-    
+//fgdgdg
+(* fgdg
+dfgdfg *)
     xStep1 := (iNum = 1);
     xStep2 := (iNum = 2);
     xStep3 := (iNum = 3);
     STRING#"This is $" f";
+    TON1(EN := TRUE, PT := T#2S, Q => xOut);
+    STRING_TO_BOOL(); TON();
+    MOVE()
+    a := 8#2345;
+    BYTE#100; REAL#2.3
+    INT#120;
+    b := -23.7;
+    BOOL#TRUE
+    start.syatart();
 END_PROGRAM
-
 
 
 
@@ -45,7 +56,7 @@ TYPE DI_Sections : UNION
     END_UNION
 END_TYPE
 
-PROGRAM PLC_PRG
+PROGRAM PLC_PRG EXTENDS PLC_2
     VAR
         DIS AT %IB0.0: DI_Sections; (* Our union *)
         xOut : BOOL;
