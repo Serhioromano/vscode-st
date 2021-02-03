@@ -17,6 +17,7 @@ PROGRAM PLC_PRG
     xStep1 := (iNum = 1);
     xStep2 := (iNum = 2);
     xStep3 := (iNum = 3);
+    STRING#"This is $" f";
 END_PROGRAM
 
 
