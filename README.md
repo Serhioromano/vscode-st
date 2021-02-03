@@ -52,9 +52,10 @@ END_VAR
 
 ## Release Notes
 
-### 1.9.4
+### 1.10.0
 
-- fix - string escapes
+- fix - lot of minor syntax highlight mistakes.
+- improve - syntax highlight was fully revised and improved a lot.
 
 ### 1.9.2
 
