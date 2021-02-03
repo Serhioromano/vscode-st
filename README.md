@@ -52,6 +52,10 @@ END_VAR
 
 ## Release Notes
 
+### 1.9.3
+
+- fix - string escapes
+
 ### 1.9.2
 
 - enhance - Outline now understand `CONSTANT` variables. Thanks to @msftrncs.

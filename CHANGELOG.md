@@ -2,6 +2,10 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+### [1.9.3] - 2021-02-03
+
+- fix - string escapes
+
 ### [1.9.2] - 2021-02-02
 
 - enhance - Outline now understand `CONSTANT` variables. Thanks to @msftrncs.
