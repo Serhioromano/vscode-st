@@ -192,22 +192,22 @@
         "functions": {
             "patterns": [
                 {
-                    "name": "variable.function.st",
+                    "name": "support.function.st",
                     "match": "\\b[A-Za-z_]+(_TO_)[A-Za-z_]+\\b"
                 },
                 {
-                    "name": "variable.function.st",
+                    "name": "support.function.st",
                     "match": "\\b(TO_|FROM_|TRUNC_)[A-Za-z_]+\\b"
                 },
                 {
-                    "name": "entity.name.function.st",
+                    "name": "support.function.st",
                     "match": "\\b(?:RS|SR|TON|TP|TOF|TRUNC|CTD|CTU|CTUD|R_TRIG|F_TRIG|MOVE|CONCAT|DELETE|FIND|INSERT|LEFT|LEN|REPLACE|RIGHT|RTC|MID|SEMA|ROUND|FLOOR|CEIL|UNPACK|REF)\\b"
                 },
                 {
                     "begin": "([a-zA-Z_0-9]+)(\\()",
                     "beginCaptures": {
                         "1": {
-                            "name": "support.function.st"
+                            "name": "entity.name.function.st"
                         },
                         "2": {
                             "name": "punctuation.parenthesis.begin.st"
@@ -398,7 +398,7 @@
                     ]
                 },
                 {
-                    "name": "meta.pragma.st",
+                    "name": "comment.block.st",
                     "begin": "\\{",
                     "beginCaptures": {
                         "0": {
@@ -413,7 +413,21 @@
                     },
                     "patterns": [
                         {
-                            "comment": "$self"
+                            "match": "(attribute|text|info|warning) *('[^']+')(?: *(:=)? * ('[^']+')?)?",
+                            "captures": {
+                                "1": {
+                                    "name": "variable.parameter.st"
+                                },
+                                "3": {
+                                    "name": "keyword.operator.assignment.st"
+                                },
+                                "2": {
+                                    "name": "string.quoted.single.st"
+                                },
+                                "4": {
+                                    "name": "string.quoted.single.st"
+                                }
+                            }
                         }
                     ]
                 }
@@ -455,8 +469,18 @@
                             "include": "#todo"
                         },
                         {
-                            "name": "constant.character.escape.st",
-                            "match": "\\\\."
+                            "match": "(@[A-Z_]+) *(:=) * ('[\\d\\w\\W ]*')",
+                            "captures": {
+                                "1": {
+                                    "name": "variable.parameter.st"
+                                },
+                                "2": {
+                                    "name": "keyword.operator.assignment.st"
+                                },
+                                "3": {
+                                    "name": "string.quoted.single.st"
+                                }
+                            }
                         }
                     ]
                 },

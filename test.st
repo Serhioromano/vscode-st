@@ -1,3 +1,10 @@
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+{attribute 'call_after_global_init_slot' := 'slot'}
+{attribute 'obsolete'}
+{text 'TODO: should get another name'}
 PROGRAM PLC_PRG
     VAR_OUTPUT
         xStart: BOOL; (* Начать : программу *)
@@ -5,6 +12,16 @@ PROGRAM PLC_PRG
         xStep1, xStep2, xStep3: BOOL; (* Шаги *)
         xMessage : STRING[20..5] OF BOOL := 'Something $N$T it$'s';
     END_VAR
+
+    {IF defined (pdef1)}
+    (* This code is processed in App1 *)
+    {info 'pdef1 defined'}
+    hugo := hugo + SINT#1;
+    {ELSE}
+    (* the following code is only processed in App2 *)
+    {info 'pdef1 not defined'}
+    hugo := hugo - SINT#1;
+    {END_IF}
 
     CASE iNum OF
         0: IF xStart THEN iNum := 1; END_IF 
@@ -31,10 +48,6 @@ dfgdfg *)
     BOOL#TRUE
     start.syatart();
 END_PROGRAM
-
-
-
-
 
 
 TYPE DI_Bits : STRUCT
