@@ -13,6 +13,7 @@ PROGRAM PLC_PRG
         xMessage : STRING[20..5] OF BOOL := 'Something $N$T it$'s';
     END_VAR
 
+
     {IF defined (pdef1)}
     {info 'pdef1 defined'}
     hugo := hugo + SINT#1;
