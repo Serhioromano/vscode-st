@@ -14,11 +14,9 @@ PROGRAM PLC_PRG
     END_VAR
 
     {IF defined (pdef1)}
-    (* This code is processed in App1 *)
     {info 'pdef1 defined'}
     hugo := hugo + SINT#1;
     {ELSE}
-    (* the following code is only processed in App2 *)
     {info 'pdef1 not defined'}
     hugo := hugo - SINT#1;
     {END_IF}
@@ -31,9 +29,6 @@ PROGRAM PLC_PRG
         4: IF NOT xStart THEN iNum := 0; END_IF
     END_CASE;
     a := __NEW();
-//fgdgdg
-(* fgdg
-dfgdfg *)
     xStep1 := (iNum = 1);
     xStep2 := (iNum = 2);
     xStep3 := (iNum = 3);
