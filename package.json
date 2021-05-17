@@ -44,7 +44,7 @@
         "Snippets",
         "Formatters"
     ],
-    "icon": "st-icon.png",
+    "icon": "images/st-icon.png",
     "devDependencies": {
         "@types/mocha": "^5.2.7",
         "@types/node": "^12.6.8",
