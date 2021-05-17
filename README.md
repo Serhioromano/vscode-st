@@ -52,8 +52,9 @@ END_VAR
 
 ## Release Notes
 
-### 1.10.2
+### 1.10.4
 
+- improve - Formatting. Add spaces in comments and other places like before `:=` or after.
 - add - file extension `*.TcDUT`, `*.TcPOU`.
 
 ### 1.10.1
