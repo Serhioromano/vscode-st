@@ -100,6 +100,9 @@ export class STFormatterProvider implements vscode.DocumentFormattingEditProvide
             return key !== undefined && sign !== undefined ? key + " " + sign : match;
         });
 
+        // TODO: space before and after :
+        // TODO: space after ,
+
         return text;
     }
 
