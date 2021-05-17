@@ -8,5 +8,7 @@ tsconfig.json
 tslint.json
 st_demo.st
 test.st
+test.xml
+test.md
 icon.psd
 index.js

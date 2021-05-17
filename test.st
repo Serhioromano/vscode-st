@@ -2,28 +2,32 @@
 (* @PATH := '' *)
 (* @OBJECTFLAGS := '0, 8' *)
 (* @SYMFILEFLAGS := '2048' *)
-{attribute 'call_after_global_init_slot' := 'slot'}
-{attribute 'obsolete'}
-{text 'TODO: should get another name'}
+{ attribute 'call_after_global_init_slot' := 'slot' }
+{ attribute 'obsolete' }
+{ text 'TODO: should get another name' }
 
 PROGRAM PLC_PRG
     VAR_OUTPUT
         xStart: BOOL; (* Начать : программу *)
-        iNum: INT; (* Счетчик  *)
+        iNum: INT; (* Счетчик *)
         xStep1, xStep2, xStep3: BOOL; (* Шаги *)
         xMessage : STRING[20..5] OF BOOL := 'Something $N$T it$'s';
     END_VAR
 
 
-    {IF defined (pdef1)}
-    {info 'pdef1 defined'}
+    { IF defined (pdef1) }
+    { info 'pdef1 defined' }
     hugo := hugo + SINT#1;
-    {ELSE}
-    {info 'pdef1 not defined'}
+    { ELSE }
+    { info 'pdef1 NOT defined' }
     hugo := hugo - SINT#1;
-    {END_IF}
+    { END_IF }
+    IF (true) THEN
+        
+    END_IF;
+    
 
-    CASE iNum OF
+    CASE (iNum) OF
         0: IF xStart THEN iNum := 1; END_IF 
         1: iNum := 2;
         2: iNum := 3;
@@ -34,7 +38,7 @@ PROGRAM PLC_PRG
     xStep1 := (iNum = 1);
     xStep2 := (iNum = 2);
     xStep3 := (iNum = 3);
-    STRING#"This is $" f";
+    STRING#"THIS is $" f";
     TON1(EN := TRUE, PT := T#2S, Q => xOut);
     STRING_TO_BOOL(); TON();
     MOVE()
