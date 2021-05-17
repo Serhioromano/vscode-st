@@ -4,7 +4,7 @@ All notable changes to the "st" extension will be documented in this file.
 
 ### [1.10.2] - 2021-05-17
 
-- add - file extension `*.TcDUT`.
+- add - file extension `*.TcDUT`, `*.TcPOU`.
 
 ### [1.10.1] - 2021-02-04
 

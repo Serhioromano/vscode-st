@@ -54,7 +54,7 @@ END_VAR
 
 ### 1.10.2
 
-- add - file extension `*.TcDUT`.
+- add - file extension `*.TcDUT`, `*.TcPOU`.
 
 ### 1.10.1
 
