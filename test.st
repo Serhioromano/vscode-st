@@ -5,6 +5,7 @@
 {attribute 'call_after_global_init_slot' := 'slot'}
 {attribute 'obsolete'}
 {text 'TODO: should get another name'}
+
 PROGRAM PLC_PRG
     VAR_OUTPUT
         xStart: BOOL; (* Начать : программу *)

@@ -2,7 +2,7 @@
     "name": "vscode-st",
     "displayName": "Structured Text language Support",
     "description": "Supports for syntax highlights, snippets for IEC 61131-3 Structured Text",
-    "version": "1.10.1",
+    "version": "1.10.2",
     "publisher": "Serhioromano",
     "scripts": {
         "vscode:prepublish": "npm run compile",
@@ -74,11 +74,11 @@
                 "firstLine": "^([\\(\\/\\*]?.*)?(PROGRAM ).*",
                 "extensions": [
                     ".st",
-                    ".stl",
                     ".scl",
                     ".exp",
                     ".iecplc",
                     ".iecst",
+                    ".TcDUT",
                     ".iecstl"
                 ],
                 "configuration": "./language-configuration.json"
