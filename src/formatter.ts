@@ -91,14 +91,27 @@ export class STFormatterProvider implements vscode.DocumentFormattingEditProvide
             return key !== undefined && sign !== undefined ? sign + " " + key : match;
         });
 
-        regEx = new RegExp(`(\\(\\*|\\{)([^\\s])`, "ig");
+        let spB = ['\\*\\)', '\\*\\/', '\\{'];
+        let spA = ['\\(\\*', '\\/\\*', '\\}', '\\/\\/', ','];
+        let spBA = ['<', '>', '=', '\\+', '\\-', ':', '\\*', '\\/'];
+
+        console.log(`(${spA.join('|')}|${spBA.join('|')})([^\\s]{1})`);
+        
+        regEx = new RegExp(`(${spA.join('|')}|${spBA.join('|')})([^\\s]{1})`, "ig");
         text = text.replace(regEx, (match, sign, key) => {
             return key !== undefined && sign !== undefined ? sign + " " + key : match;
         });
-        regEx = new RegExp(`([^\\s])(\\*\\)|\\})`, "ig");
+        regEx = new RegExp(`([^\\s])(${spB.join('|')}|${spBA.join('|')})`, "ig");
         text = text.replace(regEx, (match, key, sign) => {
             return key !== undefined && sign !== undefined ? key + " " + sign : match;
         });
+
+        let from = [': =', '= >', '< =', '> =', '\\/ \\*', '\\* \\/',  '\\( \\*', '\\* \\)', '\\/ \\/'];
+        let to = [':=', '=>', '<=', '>=', '/*', '*/',  '(*', '*)', '//'];
+        for (let i = 0; i < from.length; i++) {
+            text = text.replace(new RegExp(from[i], "g"), to[i]);
+        }
+
 
         // TODO: space before and after :
         // TODO: space after ,
