@@ -1,3 +1,19 @@
+PROGRAM PLC_PRG
+    VAR
+        tStart: TIME; (* Time program start *)
+        tWork : TIME; (* Execution time *)
+    END_VAR
+    (* First line of main program *)
+    tStart := TIME();
+
+    // Your program here
+
+    (* Last line of your program *)
+    tWork := TIME() - tStart;
+END_PROGRAM
+
+
+
 PROGRAM POU_Scale
     VAR
         FbHysteresis : WagoAppBuildingHVAC.FbHysteresis;

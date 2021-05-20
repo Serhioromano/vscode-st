@@ -112,10 +112,6 @@ export class STFormatterProvider implements vscode.DocumentFormattingEditProvide
             text = text.replace(new RegExp(from[i], "g"), to[i]);
         }
 
-
-        // TODO: space before and after :
-        // TODO: space after ,
-
         return text;
     }
 
