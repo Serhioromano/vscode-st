@@ -1,63 +1,6 @@
-PROGRAM PLC_PRG
-    VAR
-        tStart: TIME; (* Time program start *)
-        tWork : TIME; (* Execution time *)
-    END_VAR
-    (* First line of main program *)
-    tStart := TIME();
-
-    // Your program here
-
-    (* Last line of your program *)
-    tWork := TIME() - tStart;
-END_PROGRAM
-
-
-
-PROGRAM POU_Scale
-    VAR
-        FbHysteresis : WagoAppBuildingHVAC.FbHysteresis;
-        FbLowPassFilterAI : WagoAppBuildingHVAC.FbLowPassFilterAI;
-        typConfigParameters : WagoAppBuildingHVAC.typConfigLowPassFilterAI := (rMin := 0, rMax := 6);
-        rDeltaValve : REAL := 1.0; (* Гистерезис для Клапана *)
-        rDeltaCompr : REAL := 1.2; (* Гистерезис для Компрессора *)
-        rPressureCompensate : REAL := 0.2; (* Компенсатор давления к уставке. *)
-    END_VAR
-    FbHysteresis(rInput := , rActivate := , rDeactivate := , xOutput => );
-
-    FbLowPassFilterAI(
-        wInput := IoConfig_Globals_Mapping.iSystemPressure, 
-        typConfigParameters := typConfigParameters , 
-        rOutput => GVL.rSystemPressure, 
-        xQuit := , 
-        xAlarm => // ерш ыы
-    );
-
-    (* если опустились ниже уставки *)
-    IF GVL.rSystemPressure < (GVL_SetPoints.iSetpointSystemPressure - rDeltaCompr) THEN
-        xCompressor_Start := TRUE;
-    END_IF
-    
-    IF GVL.rSystemPressure > (GVL_SetPoints.iSetpointSystemPressure + rPressureCompensate) THEN
-        xCompressor_Start := FALSE;
-    END_IF
-    
-    (* если поднялись выше уставки *)
-    IF GVL.rSystemPressure > (GVL_SetPoints.iSetpointSystemPressure + rDeltaValve) THEN
-        xPressure_Relief := TRUE;
-    END_IF
-    
-    IF GVL.rSystemPressure < (GVL_SetPoints.iSetpointSystemPressure + rPressureCompensate) THEN
-        xPressure_Relief := FALSE;
-    END_IF
-    a := (b * 10) + (c - (23 / 3));
-END_PROGRAM
-
-
-
 FUNCTION_BLOCK SLIDE_AVG
     VAR_INPUT
-        TR : TIME; (* Разрешение времени сохранения данных. Например раз в секунду. *)
+        TR := TIME; (* Разрешение времени сохранения данных. Например раз в секунду. *)
         TL : TIME; (* Общее время сохранения. *)
         TQ : TIME; (* Время выдачи значения. Например раз в 10 секунд. *)
         PV : REAL; (* Измеренное значение *)
@@ -103,7 +46,7 @@ FUNCTION_BLOCK SLIDE_AVG
     END_IF;
 
     (* вывод среднего значения раз в TQ *)
-    fbTON2(EN := NOT fbTON2.Q, PT := TQ);
+    fbTON2(EN := NOT fbTON2.Q, PT => TQ);
     Q := FALSE;
     IF fbTON2.Q THEN
         Q := TRUE;
@@ -199,7 +142,7 @@ END_TYPE
 
 PROGRAM PLC_PRG EXTENDS PLC_2
     VAR
-        DIS AT %IB0.0 : DI_Sections; (* Our union *)
+        DIS AT %IB0.0 : DI_Sections; (* Our UNION *)
         xOut : BOOL;
     END_VAR
 
@@ -1234,7 +1177,7 @@ END_IMPLEMENTATION
 
 VAR
 	i : INT; (* Cycle number *)
-	temp : ARRAY[1..5] OF REAL; (* Array of temperatures *)
+	temp : ARRAY[1..5] OF REAL; (* ARRAY OF temperatures *)
 	ton1 : TON; (* Timer *)
 END_VAR
 
