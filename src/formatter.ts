@@ -89,7 +89,7 @@ export class STFormatterProvider implements vscode.DocumentFormattingEditProvide
 
         let spB = ['\\*\\)', '\\*\\/', '\\}'];
         let spA = ['\\(\\*', '\\/\\*', '\\{', '\\/\\/', ','];
-        let spBA = [':=', '<>', '>=', '<=', '=>', '<', '>', '\\=', '\\+', '\\-', ':', '\\*', '\\/'];
+        let spBA = [':=', '<>', '>=', '<=', '=>', ',', '<', '>', '\\=', '\\+', '\\-', ':', '\\*', '\\/', '\\(\\*'];
 
         console.log(`(${spA.join('|')}|${spBA.join('|')})([^\\s]{1})`);
 
@@ -103,8 +103,8 @@ export class STFormatterProvider implements vscode.DocumentFormattingEditProvide
         });
 
         // Fix extra added spaces
-        let from = [': =', '= >', '< =', '> =', '\\/ \\*', '\\* \\/', '\\( \\*', '\\* \\)', '\\/ \\/'];
-        let to = [':=', '=>', '<=', '>=', '/*', '*/', '(*', '*)', '//'];
+        let from = ['\\([ ]*', '[ ]*\\)', '[ ]*,', ': =', '= >', '< =', '> =', '\\/ \\*', '\\* \\/', '\\( \\*', '\\* \\)', '\\/ \\/', '\\/\\/[ ]*'];
+        let to = ['(', ')', ',',  ':=', '=>', '<=', '>=', '/*', '*/', '(*', '*)', '//', '// '];
         for (let i = 0; i < from.length; i++) {
             text = text.replace(new RegExp(`(?:${from[i]})`, "g"), to[i]);
         }

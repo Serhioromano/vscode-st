@@ -1,3 +1,25 @@
+
+
+PROGRAM PLC_PRG
+    VAR
+        xStart: BOOL;
+        fbTON1: TON; (* Таймер время исполнения *)
+        rValue: REAL; (* Конечное значение *)
+        tDuration: TIME; (* Время за которое менять значение *)
+        rFrom, rTo: REAL; (* Значения от которого до которого поменять *)
+    END_VAR
+
+    fbTON1(IN := xStart, PT := tDuration);
+    IF xStart THEN
+        rValue := easeLinar(fbTON1.ET, rFrom, rTo, tDuration);
+    ELSE
+        rValue := 0.0;
+    END_IF;
+END_PROGRAM
+
+
+
+
 FUNCTION_BLOCK SLIDE_AVG
     VAR_INPUT
         TR := TIME; (* Разрешение времени сохранения данных. Например раз в секунду. *)
