@@ -1,16 +1,108 @@
+
+
+PROGRAM PLC_PRG
+    VAR
+        xStart: BOOL;
+        fbTON1: TON; (* Таймер время исполнения *)
+        rValue: REAL; (* Конечное значение *)
+        tDuration: TIME; (* Время за которое менять значение *)
+        rFrom, rTo: REAL; (* Значения от которого до которого поменять *)
+    END_VAR
+
+    fbTON1(IN := xStart, PT := tDuration);
+    IF xStart THEN
+        rValue := easeLinar(fbTON1.ET, rFrom, rTo, tDuration);
+    ELSE
+        rValue := 0.0;
+    END_IF;
+END_PROGRAM
+
+
+
+
+FUNCTION_BLOCK SLIDE_AVG
+    VAR_INPUT
+        TR := TIME; (* Разрешение времени сохранения данных. Например раз в секунду. *)
+        TL : TIME; (* Общее время сохранения. *)
+        TQ : TIME; (* Время выдачи значения. Например раз в 10 секунд. *)
+        PV : REAL; (* Измеренное значение *)
+        RESET : BOOL; (* Сброс *)
+    END_VAR
+    VAR_OUTPUT
+        Q : BOOL; (* Импульс во время выдачи *)
+        Y : REAL; (* Усредненное значение за период TL *)
+    END_VAR
+    VAR
+        fbTON1 : TON; (* Время выдачи *) 
+        fbTON2 : TON; (* Время сохранения *)
+        arBuff : ARRAY[1..10000] OF REAL; (* Буфер данных за период TL *)
+        iIndex : INT := 1; (* индекс текущего значения буфера *)
+        iNumIndexes : INT; (* количество значений в массиве для сохранения *)
+        iCount : INT := 1; (* Счетчик для прохода по массиву *)
+        xInit : BOOL; (* Инициализация ФБ *)
+        rBuf : REAL; (* буфер для расчета среднего *)
+    END_VAR
+
+    (* узнаем сколько значений нужно сохранить что бы получить данные за последний
+    промежуток времени TL *)
+    iNumIndexes := DINT_TO_INT(TIME_TO_DINT(TL) / TIME_TO_DINT(TR));
+    
+    (* Инициализация. Заполняем массив исходными данными. *)
+    IF RESET OR NOT xInit THEN
+        FOR iCount := 1 TO iNumIndexes DO
+            arBuff[iCount] := PV;
+        END_FOR;
+        xInit := TRUE;
+    END_IF;
+
+    (* сохраняем раз в TR в массив. Как только дойдем до конца, начинаем 
+    перезаписывать старые данные *)
+    fbTON1(EN := NOT fbTON1.Q, PT := TR);
+    IF fbTON1.Q THEN
+        arBuff[iIndex] := PV;
+        IF iIndex + 1 > iNumIndexes THEN
+            iIndex := 1;
+        ELSE
+            iIndex := iIndex + 1;
+        END_IF;
+    END_IF;
+
+    (* вывод среднего значения раз в TQ *)
+    fbTON2(EN := NOT fbTON2.Q, PT => TQ);
+    Q := FALSE;
+    IF fbTON2.Q THEN
+        Q := TRUE;
+        rBuf := 0.0;
+        FOR iCount := 1 TO iNumIndexes DO
+            rBuf := rBuf + arBuff[iCount];
+        END_FOR;
+        Y := (rBuf / INT_TO_REAL(iNumIndexes));
+    END_IF;
+END_FUNCTION_BLOCK
+
+
+
+
+
+
+
+
+
+
+
 (* @NESTEDCOMMENTS := 'Yes' *)
 (* @PATH := '' *)
 (* @OBJECTFLAGS := '0, 8' *)
 (* @SYMFILEFLAGS := '2048' *)
 { attribute 'call_after_global_init_slot' := 'slot' }
 { attribute 'obsolete' }
-{ text 'TODO: should get another name' }
+{ text 'TODO : should get another name' }
 
 PROGRAM PLC_PRG
     VAR_OUTPUT
-        xStart: BOOL; (* Начать : программу *)
-        iNum: INT; (* Счетчик *)
-        xStep1, xStep2, xStep3: BOOL; (* Шаги *)
+        xStart : BOOL; (* Начать : программу *)
+        iNum : INT; (* Счетчик *)
+        xStep1, xStep2, xStep3 : BOOL; (* Шаги *)
         xMessage : STRING[20..5] OF BOOL := 'Something $N$T it$'s';
     END_VAR
 
@@ -28,11 +120,11 @@ PROGRAM PLC_PRG
     
 
     CASE (iNum) OF
-        0: IF xStart THEN iNum := 1; END_IF 
-        1: iNum := 2;
-        2: iNum := 3;
-        3: iNum := 4;
-        4: IF NOT xStart THEN iNum := 0; END_IF
+        0 : IF xStart THEN iNum := 1; END_IF 
+        1 : iNum := 2;
+        2 : iNum := 3;
+        3 : iNum := 4;
+        4 : IF NOT xStart THEN iNum := 0; END_IF
     END_CASE;
     a := __NEW();
     xStep1 := (iNum = 1);
@@ -45,7 +137,7 @@ PROGRAM PLC_PRG
     a := 8#2345;
     BYTE#100; REAL#2.3
     INT#120;
-    b := -23.7;
+    b := - 23.7;
     BOOL#TRUE
     start.syatart();
 END_PROGRAM
@@ -66,13 +158,13 @@ END_TYPE
 TYPE DI_Sections : UNION
         ByName : DI_Bits; 
         ByID : ARRAY[1..8] OF BOOL; (* Comment *)
-        ByMask: BYTE;
+        ByMask : BYTE;
     END_UNION
 END_TYPE
 
 PROGRAM PLC_PRG EXTENDS PLC_2
     VAR
-        DIS AT %IB0.0: DI_Sections; (* Our union *)
+        DIS AT %IB0.0 : DI_Sections; (* Our UNION *)
         xOut : BOOL;
     END_VAR
 
@@ -115,9 +207,9 @@ END_TYPE
 
 PROGRAM PLC_PRG
     VAR
-        stTest1: MyStruct; (* Моя структура *)
-        xInit:  BOOL;      (* Инициализация *)
-        iTest:  INT;       (* Проверка числа *)
+        stTest1 : MyStruct; (* Моя структура *)
+        xInit :  BOOL;      (* Инициализация *)
+        iTest :  INT;       (* Проверка числа *)
     END_VAR
 
     IF NOT xInit THEN
@@ -126,7 +218,7 @@ PROGRAM PLC_PRG
 
     iTest := stTest1.var1^;
 
-    ACTION actInit:
+    ACTION actInit :
         xInit := TRUE;
         stTest1.var1 := ADR(%MW100);
         stTest1.var2 := ADR(%MW101);
@@ -170,31 +262,31 @@ END_PROGRAM
 
 UNIT UTILITIES_TIME;
 
-// This unit 'UTILITIES_TIME' contains some common time and date functions and types which are missing in standard library.
-// Please check Git repository for updates from time to time.
+// THIS unit 'UTILITIES_TIME' contains some common TIME AND DATE functions AND types which are missing in standard LIBRARY.
+// Please check Git repository FOR updates FROM TIME TO TIME.
 TYPE StructName : STRUCT
         V1 : BOOL; (* Comment *)
         V2 : BOOL; (* Comment *)
     END_STRUCT
 END_TYPE
 VAR
-    Variable: BOOL; (* Comment *)
+    Variable : BOOL; (* Comment *)
 END_VAR
 
 PROGRAM PLC_PRG
     VAR
-        Variable: BOOL; (* Comment *)
+        Variable : BOOL; (* Comment *)
     END_VAR
 END_PROGRAM
 
 
     FUNCTION dfdf : REAL
         VAR
-            dffg: BOOL; (* Comment *)
+            dffg : BOOL; (* Comment *)
         END_VAR
 
-		enable S= Start;
-		enable R= Stop;
+		enable S = Start;
+		enable R = Stop;
 
 		ptr = __NEW(BYTE, 256);
 		__DELETE(ptr);
@@ -228,13 +320,13 @@ INTERFACE
 	
 	
 	TYPE
-		// Contains all parts of a positive duration(days, hours, minutes, seconds, etc.).
+		// Contains all parts OF a positive duration(days, hours, minutes, seconds, etc.).
 		TIME_DISSECTED : STRUCT
 			day : USINT; // numeric day(e.g. 1)
 			hour : USINT; // numeric hour(e.g. 21)
-			minute : USINT; // numeric minute of hour(e.g. 34)
-			second : USINT; // numeric second of minute(e.g. 56)
-			millisecond : UINT; // numeric millisecond of second(e.g. 789)
+			minute : USINT; // numeric minute OF hour(e.g. 34)
+			second : USINT; // numeric second OF minute(e.g. 56)
+			millisecond : UINT; // numeric millisecond OF second(e.g. 789)
 		END_STRUCT
 		
 		TIME_FORMAT : (
@@ -242,54 +334,54 @@ INTERFACE
 			ISO8601 // duration in ISO 8601 representation(e.g. 'P1DT21H34M56.789S')
 		);
 		
-		// Contains all parts of a local time(hours, minutes, seconds, etc.).
+		// Contains all parts OF a local TIME(hours, minutes, seconds, etc.).
 		TIME_OF_DAY_DISSECTED : STRUCT
-			hour : USINT; // numeric hour of day(e.g. 21)
-			minute : USINT; // numeric minute of hour(e.g. 34)
-			second : USINT; // numeric second of minute(e.g. 56)
-			millisecond : UINT; // numeric millisecond of second(e.g. 789)
+			hour : USINT; // numeric hour OF day(e.g. 21)
+			minute : USINT; // numeric minute OF hour(e.g. 34)
+			second : USINT; // numeric second OF minute(e.g. 56)
+			millisecond : UINT; // numeric millisecond OF second(e.g. 789)
 		END_STRUCT
 		
-		TIME_OF_DAY_FORMAT : ( ISO8601, // time of day in ISO 8601 representation(e.g. '21:34:56.789') ISO8601_HHMM, // time of day in ISO 8601 representation without seconds and milliseconds(e.g. '21:34')
-			ISO8601_HHMM_NODLM, // time of day in ISO 8601 representation without seconds milliseconds and delimiters(e.g. '2134')
-			ISO8601_HHMMSS, // time of day in ISO 8601 representation without milliseconds(e.g. '213456')
-			ISO8601_HHMMSS_NODLM // time of day in ISO 8601 representation without milliseconds and delimiters(e.g. '21:34:56')
+		TIME_OF_DAY_FORMAT : ( ISO8601, // TIME OF day in ISO 8601 representation(e.g. '21 : 34 : 56.789') ISO8601_HHMM, // TIME OF day in ISO 8601 representation without seconds AND milliseconds(e.g. '21 : 34')
+			ISO8601_HHMM_NODLM, // TIME OF day in ISO 8601 representation without seconds milliseconds AND delimiters(e.g. '2134')
+			ISO8601_HHMMSS, // TIME OF day in ISO 8601 representation without milliseconds(e.g. '213456')
+			ISO8601_HHMMSS_NODLM // TIME OF day in ISO 8601 representation without milliseconds AND delimiters(e.g. '21 : 34 : 56')
 		);
 		
-		// Contains all parts of a local date(year, month, day, etc.).
+		// Contains all parts OF a local DATE(year, month, day, etc.).
 		DATE_DISSECTED : STRUCT
 			year : UINT; // numeric year(e.g. 2019)
-			month : USINT; // numeric month of year(e.g. 10)
-			day : USINT; // numeric day of month(e.g. 31)
+			month : USINT; // numeric month OF year(e.g. 10)
+			day : USINT; // numeric day OF month(e.g. 31)
 		END_STRUCT
 		
 		DATE_FORMAT : (
-			ISO8601, // date in ISO 8601 representation(e.g. '2019-10-31')
-			ISO8601_NODLM, // date in ISO 8601 representation without delimiters(e.g. '20191031')
-			DIN5008 // date in common DIN 5008:2011 representation(e.g. '31.10.2019')
+			ISO8601, // DATE in ISO 8601 representation(e.g. '2019 - 10 - 31')
+			ISO8601_NODLM, // DATE in ISO 8601 representation without delimiters(e.g. '20191031')
+			DIN5008 // DATE in common DIN 5008 : 2011 representation(e.g. '31.10.2019')
 		);
 		
 		DAY_OF_WEEK_TYPE : (
-			ISO8601 // day of week as defined by ISO 8601(Monday = 1 <-> Sunday = 7)
+			ISO8601 // day OF week as defined BY ISO 8601(Monday = 1 < - > Sunday = 7)
 		);
 		
 		WEEK_OF_YEAR_TYPE : (
-			ISO8601 // week of year as defined by ISO 8601(week 1 starts in the week of 4th of January)
+			ISO8601 // week OF year as defined BY ISO 8601(week 1 starts in the week OF 4th OF January)
 		);
 		
-		// Contains all parts of a local date(year, month, day, etc.) and time(hours, minutes, seconds, etc.).
+		// Contains all parts OF a local DATE(year, month, day, etc.) AND TIME(hours, minutes, seconds, etc.).
 		DATE_AND_TIME_DISSECTED : STRUCT
 			year : UINT; // numeric year(e.g. 2019)
-			month : USINT; // numeric month of year(e.g. 10)
-			day : USINT; // numeric day of month(e.g. 31)
-			hour : USINT; // numeric hour of day(e.g. 21)
-			minute : USINT; // numeric minute of hour(e.g. 34)
-			second : USINT; // numeric second of minute(e.g. 56)
-			millisecond : UINT; // numeric millisecond of second(e.g. 789)
+			month : USINT; // numeric month OF year(e.g. 10)
+			day : USINT; // numeric day OF month(e.g. 31)
+			hour : USINT; // numeric hour OF day(e.g. 21)
+			minute : USINT; // numeric minute OF hour(e.g. 34)
+			second : USINT; // numeric second OF minute(e.g. 56)
+			millisecond : UINT; // numeric millisecond OF second(e.g. 789)
 		END_STRUCT
 		
 		DATE_AND_TIME_FORMAT : (
-			ISO8601 // date and time in ISO 8601 representation(e.g. '2019-10-31T21:34:56.789')
+			ISO8601 // DATE AND TIME in ISO 8601 representation(e.g. '2019 - 10 - 31T21 : 34 : 56.789')
 		);
 		
 		START_OF_MONTHS : ARRAY[1..12] OF UDINT;
@@ -515,28 +607,28 @@ END_INTERFACE
 
 
 IMPLEMENTATION
-	// INTERNAL: Returns numeric representation of given DATE.
+	// INTERNAL : Returns numeric representation OF given DATE.
 	FUNCTION DATE_TO_UDINT_INTERNAL : UDINT
 		VAR_INPUT
 			in : DATE;
 		END_VAR
 		
 		VAR_TEMP
-			in_array : ARRAY[0..3] OF BYTE; // Array for marshalling
+			in_array : ARRAY[0..3] OF BYTE; // ARRAY FOR marshalling
 		END_VAR
 		
 		in_array := ANYTYPE_TO_LITTLEBYTEARRAY(in, 0);
 		DATE_TO_UDINT_INTERNAL := LITTLEBYTEARRAY_TO_ANYTYPE(in_array, 0);
 	END_FUNCTION
 	
-	// INTERNAL: Returns DATE of given numeric representation.
+	// INTERNAL : Returns DATE OF given numeric representation.
 	FUNCTION UDINT_TO_DATE_INTERNAL : DATE
 		VAR_INPUT
 			in : UDINT;
 		END_VAR
 		
 		VAR_TEMP
-			out_array : ARRAY[0..3] OF BYTE; // Array for marshalling
+			out_array : ARRAY[0..3] OF BYTE; // ARRAY FOR marshalling
 		END_VAR
 		
 		out_array := ANYTYPE_TO_LITTLEBYTEARRAY(in, 0);
@@ -544,28 +636,28 @@ IMPLEMENTATION
 	END_FUNCTION
 	
 	
-	// INTERNAL: Returns numeric representation of given TIME_OF_DAY.
+	// INTERNAL : Returns numeric representation OF given TIME_OF_DAY.
 	FUNCTION TIME_OF_DAY_TO_UDINT_INTERNAL : UDINT
 		VAR_INPUT
 			in : TIME_OF_DAY;
 		END_VAR
 		
 		VAR_TEMP
-			in_array : ARRAY[0..3] OF BYTE; // Array for marshalling
+			in_array : ARRAY[0..3] OF BYTE; // ARRAY FOR marshalling
 		END_VAR
 		
 		in_array := ANYTYPE_TO_LITTLEBYTEARRAY(in, 0);
 		TIME_OF_DAY_TO_UDINT_INTERNAL := LITTLEBYTEARRAY_TO_ANYTYPE(in_array, 0);
 	END_FUNCTION
 	
-	// INTERNAL: Returns TIME_OF_DAY of given numeric representation.
+	// INTERNAL : Returns TIME_OF_DAY OF given numeric representation.
 	FUNCTION UDINT_TO_TIME_OF_DAY_INTERNAL : TIME_OF_DAY
 		VAR_INPUT
 			in : UDINT;
 		END_VAR
 		
 		VAR_TEMP
-			out_array : ARRAY[0..3] OF BYTE; // Array for marshalling
+			out_array : ARRAY[0..3] OF BYTE; // ARRAY FOR marshalling
 		END_VAR
 		
 		out_array := ANYTYPE_TO_LITTLEBYTEARRAY(in, 0);
@@ -573,14 +665,14 @@ IMPLEMENTATION
 	END_FUNCTION
 	
 	
-	// INTERNAL: Creates a TIME using given values.
+	// INTERNAL : Creates a TIME USING given values.
 	FUNCTION CREATE_TIME_INTERNAL : UDINT
 		VAR_INPUT
 			day : USINT; // numeric day(e.g. 1)
 			hour : USINT; // numeric hour(e.g. 21)
-			minute : USINT; // numeric minute of hour(e.g. 34)
-			second : USINT; // numeric second of minute(e.g. 56)
-			millisecond : UINT; // numeric millisecond of second(e.g. 789)
+			minute : USINT; // numeric minute OF hour(e.g. 34)
+			second : USINT; // numeric second OF minute(e.g. 56)
+			millisecond : UINT; // numeric millisecond OF second(e.g. 789)
 		END_VAR
 		
 		CREATE_TIME_INTERNAL := (((USINT_TO_UDINT(day) 
@@ -590,27 +682,27 @@ IMPLEMENTATION
 			* 1000 + UINT_TO_UDINT(millisecond);
 	END_FUNCTION
 	
-	// Creates a TIME using given values.
+	// Creates a TIME USING given values.
 	FUNCTION CREATE_TIME : TIME
 		VAR_INPUT
 			day : USINT; // numeric day(e.g. 1)
 			hour : USINT; // numeric hour(e.g. 21)
-			minute : USINT; // numeric minute of hour(e.g. 34)
-			second : USINT; // numeric second of minute(e.g. 56)
-			millisecond : UINT; // numeric millisecond of second(e.g. 789)
+			minute : USINT; // numeric minute OF hour(e.g. 34)
+			second : USINT; // numeric second OF minute(e.g. 56)
+			millisecond : UINT; // numeric millisecond OF second(e.g. 789)
 		END_VAR
 		
 		CREATE_TIME := UDINT_TO_TIME(CREATE_TIME_INTERNAL(day, hour, minute, second, millisecond));
 	END_FUNCTION
 	
 	
-	// INTERNAL: Creates a TIME_OF_DAY using given values.
+	// INTERNAL : Creates a TIME_OF_DAY USING given values.
 	FUNCTION CREATE_TIME_OF_DAY_INTERNAL : UDINT
 		VAR_INPUT
-			hour : USINT; // numeric hour of day(e.g. 21)
-			minute : USINT; // numeric minute of hour(e.g. 34)
-			second : USINT; // numeric second of minute(e.g. 56)
-			millisecond : UINT; // numeric millisecond of second(e.g. 789)
+			hour : USINT; // numeric hour OF day(e.g. 21)
+			minute : USINT; // numeric minute OF hour(e.g. 34)
+			second : USINT; // numeric second OF minute(e.g. 56)
+			millisecond : UINT; // numeric millisecond OF second(e.g. 789)
 		END_VAR
 		
 		CREATE_TIME_OF_DAY_INTERNAL := ((USINT_TO_UDINT(hour)
@@ -619,25 +711,25 @@ IMPLEMENTATION
 			* 1000 + UINT_TO_UDINT(millisecond);
 	END_FUNCTION
 	
-	// Creates a TIME_OF_DAY using given values.
+	// Creates a TIME_OF_DAY USING given values.
 	FUNCTION CREATE_TIME_OF_DAY : TIME_OF_DAY
 		VAR_INPUT
-			hour : USINT; // numeric hour of day(e.g. 21)
-			minute : USINT; // numeric minute of hour(e.g. 34)
-			second : USINT; // numeric second of minute(e.g. 56)
-			millisecond : UINT; // numeric millisecond of second(e.g. 789)
+			hour : USINT; // numeric hour OF day(e.g. 21)
+			minute : USINT; // numeric minute OF hour(e.g. 34)
+			second : USINT; // numeric second OF minute(e.g. 56)
+			millisecond : UINT; // numeric millisecond OF second(e.g. 789)
 		END_VAR
 		
 		CREATE_TIME_OF_DAY := UDINT_TO_TIME_OF_DAY_INTERNAL(CREATE_TIME_OF_DAY_INTERNAL(hour, minute, second, millisecond));
 	END_FUNCTION
 	
 	
-	// INTERNAL: Creates a DATE using given values.
+	// INTERNAL : Creates a DATE USING given values.
 	FUNCTION CREATE_DATE_INTERNAL : UDINT
 		VAR_INPUT
 			year : UINT; // numeric year(e.g. 2019)
-			month : USINT; // numeric month of year(e.g. 10)
-			day : USINT; // numeric day of month(e.g. 31)
+			month : USINT; // numeric month OF year(e.g. 10)
+			day : USINT; // numeric day OF month(e.g. 31)
 		END_VAR
 		
 		IF year < 1992 THEN
@@ -647,28 +739,28 @@ IMPLEMENTATION
 		END_IF;
 	END_FUNCTION
 	
-	// Creates a DATE using given values.
+	// Creates a DATE USING given values.
 	FUNCTION CREATE_DATE : DATE
 		VAR_INPUT
 			year : UINT; // numeric year(e.g. 2019)
-			month : USINT; // numeric month of year(e.g. 10)
-			day : USINT; // numeric day of month(e.g. 31)
+			month : USINT; // numeric month OF year(e.g. 10)
+			day : USINT; // numeric day OF month(e.g. 31)
 		END_VAR
 		
 		CREATE_DATE := UDINT_TO_DATE_INTERNAL(CREATE_DATE_INTERNAL(year, month, day));
 	END_FUNCTION
 	
 	
-	// Creates a DATE_AND_TIME using given values.
+	// Creates a DATE_AND_TIME USING given values.
 	FUNCTION CREATE_DATE_AND_TIME : DATE_AND_TIME
 		VAR_INPUT
 			year : UINT; // numeric year(e.g. 2019)
-			month : USINT; // numeric month of year(e.g. 10)
-			day : USINT; // numeric day of month(e.g. 31)
-			hour : USINT; // numeric hour of day(e.g. 21)
-			minute : USINT; // numeric minute of hour(e.g. 34)
-			second : USINT; // numeric second of minute(e.g. 56)
-			millisecond : UINT; // numeric millisecond of second(e.g. 789)
+			month : USINT; // numeric month OF year(e.g. 10)
+			day : USINT; // numeric day OF month(e.g. 31)
+			hour : USINT; // numeric hour OF day(e.g. 21)
+			minute : USINT; // numeric minute OF hour(e.g. 34)
+			second : USINT; // numeric second OF minute(e.g. 56)
+			millisecond : UINT; // numeric millisecond OF second(e.g. 789)
 		END_VAR
 		
 		CREATE_DATE_AND_TIME := CONCAT_DATE_TOD(
@@ -678,7 +770,7 @@ IMPLEMENTATION
 	END_FUNCTION
 	
 	
-	// Converts internal TIME type to TIME_DISSECTED structure.
+	// Converts INTERNAL TIME TYPE TO TIME_DISSECTED structure.
 	FUNCTION DISSECT_TIME : TIME_DISSECTED
 		VAR_INPUT
 			in : TIME;
@@ -712,7 +804,7 @@ IMPLEMENTATION
 	END_FUNCTION
 	
 	
-	// Converts internal TIME_OF_DAY type to TIME_OF_DAY_DISSECTED structure.
+	// Converts INTERNAL TIME_OF_DAY TYPE TO TIME_OF_DAY_DISSECTED structure.
 	FUNCTION DISSECT_TIME_OF_DAY : TIME_OF_DAY_DISSECTED
 		VAR_INPUT
 			in : TIME_OF_DAY;
@@ -742,7 +834,7 @@ IMPLEMENTATION
 	END_FUNCTION
 	
 	
-	// INTERNAL: Converts internal DATE type to DATE_DISSECTED structure.
+	// INTERNAL : Converts INTERNAL DATE TYPE TO DATE_DISSECTED structure.
 	FUNCTION DISSECT_DATE_INTERNAL : DATE_DISSECTED
 		VAR_INPUT
 			in : UDINT;
@@ -787,7 +879,7 @@ IMPLEMENTATION
 		DISSECT_DATE_INTERNAL := out;
 	END_FUNCTION
 	
-	// Converts internal DATE type to DATE_DISSECTED structure.
+	// Converts INTERNAL DATE TYPE TO DATE_DISSECTED structure.
 	FUNCTION DISSECT_DATE : DATE_DISSECTED
 		VAR_INPUT
 			in : DATE;
@@ -797,7 +889,7 @@ IMPLEMENTATION
 	END_FUNCTION
 	
 	
-	// Converts internal DATE_AND_TIME type to DATE_AND_TIME_DISSECTED structure.
+	// Converts INTERNAL DATE_AND_TIME TYPE TO DATE_AND_TIME_DISSECTED structure.
 	FUNCTION DISSECT_DATE_AND_TIME : DATE_AND_TIME_DISSECTED
 		VAR_INPUT
 			in : DATE_AND_TIME;
@@ -825,7 +917,7 @@ IMPLEMENTATION
 	END_FUNCTION
 	
 	
-	// INTERNAL: Returns the numeric day of week(from Monday = 1 to Sunday = 7).
+	// INTERNAL : Returns the numeric day OF week(FROM Monday = 1 TO Sunday = 7).
 	FUNCTION GET_DAY_OF_WEEK_INTERNAL : USINT
 		VAR_INPUT
 			in : UDINT;
@@ -834,7 +926,7 @@ IMPLEMENTATION
 		GET_DAY_OF_WEEK_INTERNAL := UDINT_TO_USINT((in MOD 7 + 1) MOD 7 + 1);
 	END_FUNCTION
 	
-	// Returns the numeric day of week.
+	// Returns the numeric day OF week.
 	FUNCTION GET_DAY_OF_WEEK : USINT
 		VAR_INPUT
 			in : DATE;
@@ -845,7 +937,7 @@ IMPLEMENTATION
 	END_FUNCTION
 	
 	
-	// INTERNAL: Returns the numeric week of year(from 1st week = 1 to last week = 52 or 53).
+	// INTERNAL : Returns the numeric week OF year(FROM 1st week = 1 TO last week = 52 OR 53).
 	FUNCTION GET_WEEK_OF_YEAR_INTERNAL : USINT
 		VAR_INPUT
 			in : UDINT;
@@ -861,11 +953,11 @@ IMPLEMENTATION
 		anchor_date := UDINT_TO_DINT(in) - GET_DAY_OF_WEEK_INTERNAL(in) + 4;
 		
 		CASE anchor_date OF
-			// special handling required for some anchor dates before 1992-01-01
-			-5, -4, -3: out := 52;
-			-2, -1,  0: out :=  1;
-			// special handling required for some anchor dates before 2200-12-31
-			76337, 76336, 76335: out := 1;
+			// special handling required FOR some anchor dates before 1992 - 01 - 01
+			- 5, - 4, - 3 : out := 52;
+			- 2, - 1,  0 : out :=  1;
+			// special handling required FOR some anchor dates before 2200 - 12 - 31
+			76337, 76336, 76335 : out := 1;
 		ELSE
 			anchor_date_DISSECTED := DISSECT_DATE_INTERNAL(DINT_TO_UDINT(anchor_date));
 			anchor_date2 := CREATE_DATE_INTERNAL(anchor_date_DISSECTED.year, 1, 4);
@@ -880,7 +972,7 @@ IMPLEMENTATION
 		GET_WEEK_OF_YEAR_INTERNAL := out;
 	END_FUNCTION
 	
-	// Returns the numeric week of year.
+	// Returns the numeric week OF year.
 	FUNCTION GET_WEEK_OF_YEAR : USINT
 		VAR_INPUT
 			in : DATE;
@@ -891,7 +983,7 @@ IMPLEMENTATION
 	END_FUNCTION
 	
 	
-	// INTERNAL: Returns the numeric day of year(from 1st of January = 1 to 31th of December = 365 or 366).
+	// INTERNAL : Returns the numeric day OF year(FROM 1st OF January = 1 TO 31th OF December = 365 OR 366).
 	FUNCTION GET_DAY_OF_YEAR_INTERNAL : UINT
 		VAR_INPUT
 			in : UDINT;
@@ -916,7 +1008,7 @@ IMPLEMENTATION
 		GET_DAY_OF_YEAR_INTERNAL := UDINT_TO_UINT(in - start_of_year + 1);
 	END_FUNCTION
 	
-	// Returns the numeric day of year(from 1st of January = 1 to 31th of December = 365 or 366).
+	// Returns the numeric day OF year(FROM 1st OF January = 1 TO 31th OF December = 365 OR 366).
 	FUNCTION GET_DAY_OF_YEAR : UINT
 		VAR_INPUT
 			in : DATE;
@@ -926,7 +1018,7 @@ IMPLEMENTATION
 	END_FUNCTION
 	
 	
-	// Formats given duration using specified format and RETURNs created string.
+	// Formats given duration USING specified format AND RETURNs created STRING.
 	FUNCTION FORMAT_TIME_DISSECTED : STRING[18]
 		VAR_INPUT
 			in : TIME_DISSECTED;
@@ -939,39 +1031,39 @@ IMPLEMENTATION
 		
 		out := 'P';
 		
-		IF in.day <> 0 THEN
+		IF in.day < > 0 THEN
 			out := CONCAT3(out, USINT_TO_STRING(in.day), 'D');
 		END_IF;
 		
 		out := CONCAT(out, 'T');
 		
-		IF in.hour <> 0 THEN
+		IF in.hour < > 0 THEN
 			out := CONCAT3(out, USINT_TO_STRING(in.hour), 'H');
 		END_IF;
 		
-		IF in.minute <> 0 THEN
+		IF in.minute < > 0 THEN
 			out := CONCAT3(out, USINT_TO_STRING(in.minute), 'M');
 		END_IF;
 		
-		IF in.second <> 0 OR in.millisecond <> 0 THEN
+		IF in.second < > 0 OR in.millisecond < > 0 THEN
 			out := CONCAT5(out, USINT_TO_STRING(in.second), '.', PAD_STRING_LEFT(UINT_TO_STRING(in.millisecond), 3, '0'), 'S');
 		END_IF;
 			
 		FORMAT_TIME_DISSECTED := out;
 	END_FUNCTION
 	
-	// Formats given duration using specified format and RETURNs created string.
+	// Formats given duration USING specified format AND RETURNs created STRING.
 	FUNCTION FORMAT_TIME : STRING[18]
 		VAR_INPUT
 			in : TIME;
 			format : TIME_FORMAT;
 		END_VAR
 		
-		FORMAT_TIME := FORMAT_TIME_DISSECTED(DISSECT_TIME(in),format);
+		FORMAT_TIME := FORMAT_TIME_DISSECTED(DISSECT_TIME(in), format);
 	END_FUNCTION
 	
 	
-	// Formats given time using specified format and RETURNs created string.
+	// Formats given TIME USING specified format AND RETURNs created STRING.
 	FUNCTION FORMAT_TIME_OF_DAY_DISSECTED : STRING[12]
 		VAR_INPUT
 			in : TIME_OF_DAY_DISSECTED;
@@ -979,52 +1071,52 @@ IMPLEMENTATION
 		END_VAR
 		
 		CASE format OF
-			ISO8601: FORMAT_TIME_OF_DAY_DISSECTED := CONCAT7(
+			ISO8601 : FORMAT_TIME_OF_DAY_DISSECTED := CONCAT7(
 				PAD_STRING_LEFT(USINT_TO_STRING(in.hour), 2, '0'),
-				':',
+				' : ',
 				PAD_STRING_LEFT(USINT_TO_STRING(in.minute), 2, '0'),
-				':',
+				' : ',
 				PAD_STRING_LEFT(USINT_TO_STRING(in.second), 2, '0'),
 				'.',
 				PAD_STRING_LEFT(UINT_TO_STRING(in.millisecond), 3, '0')
 			);
-			ISO8601_HHMMSS: FORMAT_TIME_OF_DAY_DISSECTED := CONCAT5(
+			ISO8601_HHMMSS : FORMAT_TIME_OF_DAY_DISSECTED := CONCAT5(
 				PAD_STRING_LEFT(USINT_TO_STRING(in.hour), 2, '0'),
-				':',
+				' : ',
 				PAD_STRING_LEFT(USINT_TO_STRING(in.minute), 2, '0'),
-				':',
+				' : ',
 				PAD_STRING_LEFT(USINT_TO_STRING(in.second), 2, '0')
 			);
-			ISO8601_HHMMSS_NODLM: FORMAT_TIME_OF_DAY_DISSECTED := CONCAT3(
+			ISO8601_HHMMSS_NODLM : FORMAT_TIME_OF_DAY_DISSECTED := CONCAT3(
 				PAD_STRING_LEFT(USINT_TO_STRING(in.hour), 2, '0'),
 				PAD_STRING_LEFT(USINT_TO_STRING(in.minute), 2, '0'),
 				PAD_STRING_LEFT(USINT_TO_STRING(in.second), 2, '0')
 			);
-			ISO8601_HHMM: FORMAT_TIME_OF_DAY_DISSECTED := CONCAT3(
+			ISO8601_HHMM : FORMAT_TIME_OF_DAY_DISSECTED := CONCAT3(
 				PAD_STRING_LEFT(USINT_TO_STRING(in.hour), 2, '0'),
-				':',
+				' : ',
 				PAD_STRING_LEFT(USINT_TO_STRING(in.minute), 2, '0')
 			);
-			ISO8601_HHMM_NODLM: FORMAT_TIME_OF_DAY_DISSECTED := CONCAT(
+			ISO8601_HHMM_NODLM : FORMAT_TIME_OF_DAY_DISSECTED := CONCAT(
 				PAD_STRING_LEFT(USINT_TO_STRING(in.hour), 2, '0'),
 				PAD_STRING_LEFT(USINT_TO_STRING(in.minute), 2, '0')
 			);
 		END_CASE;
 	END_FUNCTION
 	
-	// Formats given time using specified format and RETURNs created string.
+	// Formats given TIME USING specified format AND RETURNs created STRING.
 	FUNCTION FORMAT_TIME_OF_DAY : STRING[12]
 		VAR_INPUT
 			in : TIME_OF_DAY;
 			format : TIME_OF_DAY_FORMAT;
 		END_VAR
 		
-		FORMAT_TIME_OF_DAY := FORMAT_TIME_OF_DAY_DISSECTED(DISSECT_TIME_OF_DAY(in),format);
+		FORMAT_TIME_OF_DAY := FORMAT_TIME_OF_DAY_DISSECTED(DISSECT_TIME_OF_DAY(in), format);
 	END_FUNCTION
 	
     ty
 	
-	// Formats given date using specified format and RETURNs created string.
+	// Formats given DATE USING specified format AND RETURNs created STRING.
 	FUNCTION FORMAT_DATE_DISSECTED : STRING[10]
 		VAR_INPUT
 			in : DATE_DISSECTED;
@@ -1032,19 +1124,19 @@ IMPLEMENTATION
 		END_VAR
 		
 		CASE format OF
-			ISO8601: FORMAT_DATE_DISSECTED := CONCAT5(
+			ISO8601 : FORMAT_DATE_DISSECTED := CONCAT5(
 				UINT_TO_STRING(in.year),
-				'-',
+				' - ',
 				PAD_STRING_LEFT(USINT_TO_STRING(in.month), 2, '0'),
-				'-',
+				' - ',
 				PAD_STRING_LEFT(USINT_TO_STRING(in.day), 2, '0')
 			);
-			ISO8601_NODLM: FORMAT_DATE_DISSECTED := CONCAT3(
+			ISO8601_NODLM : FORMAT_DATE_DISSECTED := CONCAT3(
 				UINT_TO_STRING(in.year),
 				PAD_STRING_LEFT(USINT_TO_STRING(in.month), 2, '0'),
 				PAD_STRING_LEFT(USINT_TO_STRING(in.day), 2, '0')
 			);
-			DIN5008: FORMAT_DATE_DISSECTED := CONCAT5(
+			DIN5008 : FORMAT_DATE_DISSECTED := CONCAT5(
 				PAD_STRING_LEFT(USINT_TO_STRING(in.day), 2, '0'),
 				'.',
 				PAD_STRING_LEFT(USINT_TO_STRING(in.month), 2, '0'),
@@ -1054,7 +1146,7 @@ IMPLEMENTATION
 		END_CASE;
 	END_FUNCTION
 	
-	// Formats given date using specified format and RETURNs created string.
+	// Formats given DATE USING specified format AND RETURNs created STRING.
 	FUNCTION FORMAT_DATE : STRING[10]
 		VAR_INPUT
 			in : DATE;
@@ -1065,7 +1157,7 @@ IMPLEMENTATION
 	END_FUNCTION
 	
 	
-	// Formats given date and time using specified format and RETURNs created string.
+	// Formats given DATE AND TIME USING specified format AND RETURNs created STRING.
 	FUNCTION FORMAT_DATE_AND_TIME_DISSECTED : STRING[23]
 		VAR_INPUT
 			in : DATE_AND_TIME_DISSECTED;
@@ -1075,17 +1167,17 @@ IMPLEMENTATION
 		FORMAT_DATE_AND_TIME_DISSECTED := CONCAT3(
 			CONCAT5(
 				UINT_TO_STRING(in.year),
-				'-',
+				' - ',
 				PAD_STRING_LEFT(USINT_TO_STRING(in.month), 2, '0'),
-				'-',
+				' - ',
 				PAD_STRING_LEFT(USINT_TO_STRING(in.day), 2, '0')
 			),
 			'T',
 			CONCAT7(
 				PAD_STRING_LEFT(USINT_TO_STRING(in.hour), 2, '0'),
-				':',
+				' : ',
 				PAD_STRING_LEFT(USINT_TO_STRING(in.minute), 2, '0'),
-				':',
+				' : ',
 				PAD_STRING_LEFT(USINT_TO_STRING(in.second), 2, '0'),
 				'.',
 				PAD_STRING_LEFT(UINT_TO_STRING(in.millisecond), 3, '0')
@@ -1093,7 +1185,7 @@ IMPLEMENTATION
 		);
 	END_FUNCTION
 	
-	// Formats given date and time using specified format and RETURNs created string.
+	// Formats given DATE AND TIME USING specified format AND RETURNs created STRING.
 	FUNCTION FORMAT_DATE_AND_TIME : STRING[23]
 		VAR_INPUT
 			in : DATE_AND_TIME;
@@ -1106,9 +1198,9 @@ END_IMPLEMENTATION
 
 
 VAR
-	i: INT; (* Cycle number *)
-	temp: ARRAY[1..5] OF REAL; (* Array of temperatures *)
-	ton1: TON; (* Timer *)
+	i : INT; (* Cycle number *)
+	temp : ARRAY[1..5] OF REAL; (* ARRAY OF temperatures *)
+	ton1 : TON; (* Timer *)
 END_VAR
 
 ton1(IN := NOT ton1.Q, PT := T#1M);

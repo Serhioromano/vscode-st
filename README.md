@@ -52,6 +52,10 @@ END_VAR
 
 ## Release Notes
 
+### 1.10.5
+
+- improve - Formatting add spaces new conditions.
+
 ### 1.10.4
 
 - improve - Formatting. Add spaces in comments and other places like before `:=` or after.
