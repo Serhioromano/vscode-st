@@ -6,6 +6,7 @@ export class STFormatterProvider implements vscode.DocumentFormattingEditProvide
     private keywords: Array<string> = [];
     private types: Array<string> = [];
     private ends: Array<string> = [];
+    private skipString: Array<string> = [];
 
     provideDocumentFormattingEdits(document: vscode.TextDocument) {
         if (vscode.window.visibleTextEditors.every((e) => e.document.fileName !== document.fileName)) {
@@ -50,6 +51,14 @@ export class STFormatterProvider implements vscode.DocumentFormattingEditProvide
             'implementation', 'interface', 'property', 'method', 'union'
         ];
 
+        // Do not format this strings
+        this.skipString = [
+            `["']{1}[^\"\'\\\\]*(?:\\\\[\\s\\S][^"'\\\\]*)*["']{1}`, // All strings in quotes
+            '\\(\\*[\\s\\S]*?\\*\\)', // All comments in braces
+            '\\/\\*[\\s\\S]*?\\*\\/', // All comments in slashes
+            '\\/\\/[^\\n]*\\n' // All single line comments
+        ];
+
         let text = document.getText();
 
         text = this.spaces(text);
@@ -91,29 +100,27 @@ export class STFormatterProvider implements vscode.DocumentFormattingEditProvide
         let spA = ['\\(\\*', '\\/\\*', '\\{', '\\/\\/', ','];
         let spBA = [':=', '<>', '>=', '<=', '=>', ',', '<', '>', '\\=', '\\+', '\\-', ':', '\\*', '\\/', '\\(\\*'];
 
-        console.log(`(${spA.join('|')}|${spBA.join('|')})([^\\s]{1})`);
-
-        regEx = new RegExp(`(${spA.join('|')}|${spBA.join('|')})([^\\s])`, "ig");
+        regEx = new RegExp(`${this.skipString.join('|')}|(${spA.join('|')}|${spBA.join('|')})([^\\s])`, "ig");
         text = text.replace(regEx, (match, sign, key) => {
             return key !== undefined && sign !== undefined ? sign + " " + key : match;
         });
-        regEx = new RegExp(`([^\\s])(${spB.join('|')}|${spBA.join('|')})`, "ig");
+        regEx = new RegExp(`${this.skipString.join('|')}|([^\\s])(${spB.join('|')}|${spBA.join('|')})`, "ig");
         text = text.replace(regEx, (match, key, sign) => {
             return key !== undefined && sign !== undefined ? key + " " + sign : match;
         });
-
+        
         // Fix extra added spaces
         let from = ['\\([ ]*', '[ ]*\\)', '[ ]*,', ': =', '= >', '< =', '> =', '\\/ \\*', '\\* \\/', '\\( \\*', '\\* \\)', '\\/ \\/', '\\/\\/[ ]*'];
-        let to = ['(', ')', ',',  ':=', '=>', '<=', '>=', '/*', '*/', '(*', '*)', '//', '// '];
+        let to = ['(', ')', ',', ':=', '=>', '<=', '>=', '/*', '*/', '(*', '*)', '//', '// '];
         for (let i = 0; i < from.length; i++) {
             text = text.replace(new RegExp(`(?:${from[i]})`, "g"), to[i]);
         }
-
+        
         return text;
     }
-
+    
     capitalize(text: string): string {
-        let regEx = new RegExp(`(?<!\\\\(?:\\\\{2})*)["']{1}[^"'\\\\]*(?:\\\\[\\s\\S][^\\\\"']*)*["']{1}|\\(\\*[\\s\\S]*?\\*\\)|\\/\\*[\\s\\S]*?\\*\\/|\\/\\/[^\\n]*\\n|\\b(${this.types.join('|')}|${this.keywords.join('|')}|(?:END_)?(?:${this.ends.join('|')})|${this.functions.join('\\(|')}\\()\\b`, "ig");
+        let regEx = new RegExp(`(?<!\\\\(?:\\\\{2})*)${this.skipString.join('|')}|\\b(${this.types.join('|')}|${this.keywords.join('|')}|(?:END_)?(?:${this.ends.join('|')})|${this.functions.join('\\(|')}\\()\\b`, "ig");
         text = text.replace(regEx, (match, group) => {
             return group !== undefined ? match.toUpperCase() : match;
         });

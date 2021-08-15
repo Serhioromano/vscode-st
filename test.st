@@ -2,19 +2,20 @@
 
 PROGRAM PLC_PRG
     VAR
-        xStart: BOOL;
-        fbTON1: TON; (* Таймер время исполнения *)
-        rValue: REAL; (* Конечное значение *)
-        tDuration: TIME; (* Время за которое менять значение *)
-        rFrom, rTo: REAL; (* Значения от которого до которого поменять *)
+        xStart : BOOL;
+        fbTON1 : TON; (* Таймер время исполнения *)
+        rValue : REAL; (* Конечное значение *)
+        tDuration : TIME; (* Время за которое менять значение *)
+        rFrom, rTo : REAL; (* Значения от которого до которого поменять *)
     END_VAR
 
     fbTON1(IN := xStart, PT := tDuration);
     IF xStart THEN
-        rValue := easeLinar(fbTON1.ET, rFrom, rTo, tDuration);
+        rValue := easeLinear(fbTON1.ET, rFrom, rTo, tDuration);
     ELSE
         rValue := 0.0;
     END_IF;
+    a := CONCAT(a, ':'); // a:=b
 END_PROGRAM
 
 
@@ -342,7 +343,7 @@ INTERFACE
 			millisecond : UINT; // numeric millisecond OF second(e.g. 789)
 		END_STRUCT
 		
-		TIME_OF_DAY_FORMAT : ( ISO8601, // TIME OF day in ISO 8601 representation(e.g. '21 : 34 : 56.789') ISO8601_HHMM, // TIME OF day in ISO 8601 representation without seconds AND milliseconds(e.g. '21 : 34')
+		TIME_OF_DAY_FORMAT : (ISO8601, // TIME OF day in ISO 8601 representation(e.g. '21 : 34 : 56.789') ISO8601_HHMM, // TIME OF day in ISO 8601 representation without seconds AND milliseconds(e.g. '21 : 34')
 			ISO8601_HHMM_NODLM, // TIME OF day in ISO 8601 representation without seconds milliseconds AND delimiters(e.g. '2134')
 			ISO8601_HHMMSS, // TIME OF day in ISO 8601 representation without milliseconds(e.g. '213456')
 			ISO8601_HHMMSS_NODLM // TIME OF day in ISO 8601 representation without milliseconds AND delimiters(e.g. '21 : 34 : 56')

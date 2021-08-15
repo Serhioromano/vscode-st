@@ -2,6 +2,10 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+### [1.10.6] - 2021-08-15
+
+- fix - Document format in strings fixed. Now formatting is not done in strings and comments.
+
 ### [1.10.5] - 2021-08-07
 
 - improve - Formatting add spaces new conditions.
