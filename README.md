@@ -26,15 +26,9 @@ Also highlight in Markdown files
 
 Fast growing snippets library. All cycles, conditions and declarations.
 
-## Formatter
+## Formatter (work in progress)
 
-Utilize VS Code Formatter API. Use general formatting command short keys. It capitalize all known keywords like `TRUE`, `FALSE`, `IF`, `BOOL`, ...
-
-```iecst
-VAR
-    xStart AT %QX1.0.0: BOOL := TRUE;
-END_VAR
-```
+Utilize VS Code Formatter API. Use general formatting command short keys. It capitalize all known keywords like `TRUE`, `FALSE`, `IF`, `BOOL`, ... It also add spaces. 
 
 ## Note
 
@@ -51,6 +45,10 @@ END_VAR
 - Lints
 
 ## Release Notes
+
+### 1.10.6
+
+- fix - Document format in strings fixed. Now formatting is not done in strings and comments.
 
 ### 1.10.5
 

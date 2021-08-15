@@ -11,7 +11,7 @@ PROGRAM PLC_PRG
 
     fbTON1(IN := xStart, PT := tDuration);
     IF xStart THEN
-        rValue := easeLinar(fbTON1.ET, rFrom, rTo, tDuration);
+        rValue := easeLinear(fbTON1.ET, rFrom, rTo, tDuration);
     ELSE
         rValue := 0.0;
     END_IF;
