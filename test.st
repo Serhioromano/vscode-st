@@ -1,8 +1,6 @@
-
-
 PROGRAM PLC_PRG
     VAR
-        xStart : BOOL;
+        xStart : BOOL := 'dfsfdfd';
         fbTON1 : TON; (* Таймер время исполнения *)
         rValue : REAL; (* Конечное значение *)
         tDuration : TIME; (* Время за которое менять значение *)
@@ -10,7 +8,7 @@ PROGRAM PLC_PRG
     END_VAR
 
     fbTON1(IN := xStart, PT := tDuration);
-    IF xStart THEN
+    IF xStart <> TRUE THEN
         rValue := easeLinear(fbTON1.ET, rFrom, rTo, tDuration);
     ELSE
         rValue := 0.0;
