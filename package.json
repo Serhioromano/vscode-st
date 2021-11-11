@@ -2,7 +2,7 @@
     "name": "vscode-st",
     "displayName": "Structured Text language Support",
     "description": "Supports for syntax highlights, snippets for IEC 61131-3 Structured Text",
-    "version": "1.10.6",
+    "version": "1.10.7",
     "publisher": "Serhioromano",
     "scripts": {
         "vscode:prepublish": "npm run compile",

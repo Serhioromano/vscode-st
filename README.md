@@ -46,8 +46,9 @@ Utilize VS Code Formatter API. Use general formatting command short keys. It cap
 
 ## Release Notes
 
-### 1.10.6
+### 1.10.7
 
+- fix - Format <> correctly.
 - fix - Document format in strings fixed. Now formatting is not done in strings and comments.
 
 ### 1.10.5
