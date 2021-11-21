@@ -2,9 +2,9 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
-### [1.10.7] - 2021-08-15
+### [1.10.8] - 2021-11-21
 
-- fix - Format <> correctly.
+- fix - Format `<>` and `**` correctly.
 - fix - Document format in strings fixed. Now formatting is not done in strings and comments.
 
 ### [1.10.5] - 2021-08-07
