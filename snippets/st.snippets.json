@@ -68,8 +68,8 @@
 		"body": [
 			"REPEAT",
 			"\t$0",
-			"UNTIL ${1:Condition};",
-			"END_REPEAT",
+			"UNTIL ${1:Condition}",
+			"END_REPEAT;",
 			""
 		],
 		"description": "Define REPEAT cycle"
