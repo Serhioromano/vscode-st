@@ -96,29 +96,27 @@ export class STFormatterProvider implements vscode.DocumentFormattingEditProvide
             return key !== undefined ? ') ' + key : match;
         });
 
-        let spB = ['\\*\\)', '\\*\\/', '\\}'];
-        let spA = ['\\(\\*', '\\/\\*', '\\{', '\\/\\/', ','];
-        let spBA = [':=', '<>', '>=', '<=', '=>', ',', '<', '>', '\\=', '\\+', '\\-', ':', '\\*', '\\/', '\\(\\*'];
+        let addSpace = {
+            csb: ['\\*\\)', '\\*\\/', '\\/\\/', '\\(\\*', '\\/\\*'],
+            csa: ['\\(\\*', '\\/\\*', '\\/\\/'],
+            ss:  [':=', '<>', '>=', '<=', '=>', '\\+', '\\-', '\\/'],
+            sb:  ['(?<!<|>|:)=', ':', '(?<!\\*)\\*(?!\\*)', '<', '(?<!=|<)>'],
+            sa:  ['=(?!>| )', ':(?!=)', '\\*(?!\\*|;)', ',', '<(?!=|>)', '>(?!=)']
+        };
 
-        regEx = new RegExp(`${this.skipString.join('|')}|(${spA.join('|')}|${spBA.join('|')})([^\\s])`, "ig");
-        text = text.replace(regEx, (match, sign, key) => {
-            return key !== undefined && sign !== undefined ? sign + " " + key : match;
-        });
-        regEx = new RegExp(`${this.skipString.join('|')}|([^\\s])(${spB.join('|')}|${spBA.join('|')})`, "ig");
-        text = text.replace(regEx, (match, key, sign) => {
-            return key !== undefined && sign !== undefined ? key + " " + sign : match;
-        });
-        
-        // Fix extra added spaces
-        let from = ['\\([ ]*', '[ ]*\\)', '[ ]*,', ': =', '= >', '< =', '> =', '< >', '* *', '\\/ \\*', '\\* \\/', '\\( \\*', '\\* \\)', '\\/ \\/', '\\/\\/[ ]*'];
-        let to = ['(', ')', ',', ':=', '=>', '<=', '>=',  '<>', '**', '/*', '*/', '(*', '*)', '//', '// '];
-        for (let i = 0; i < from.length; i++) {
-            text = text.replace(new RegExp(`(?:${from[i]})`, "g"), to[i]);
-        }
-        
+        regEx = new RegExp(`(?<! )(${addSpace.csb.join('|')})`, "ig");
+        text = text.replace(regEx, (match, sign) => " " + sign);
+        regEx = new RegExp(`(${addSpace.csb.join('|')})(?! )`, "ig");
+        text = text.replace(regEx, (match, sign) => sign + " ");
+
+        regEx = new RegExp(`${this.skipString.join('|')}|(?<! )(${addSpace.ss.join('|')}|${addSpace.sb.join('|')})`, "ig");
+        text = text.replace(regEx, (match, sign) => sign !== undefined ? " " + sign : match);
+        regEx = new RegExp(`${this.skipString.join('|')}|(${addSpace.ss.join('|')}|${addSpace.sa.join('|')})(?! )`, "ig");
+        text = text.replace(regEx, (match, sign) => sign !== undefined ? sign + " " : match);
+
         return text;
     }
-    
+
     capitalize(text: string): string {
         let regEx = new RegExp(`(?<!\\\\(?:\\\\{2})*)${this.skipString.join('|')}|\\b(${this.types.join('|')}|${this.keywords.join('|')}|(?:END_)?(?:${this.ends.join('|')})|${this.functions.join('\\(|')}\\()\\b`, "ig");
         text = text.replace(regEx, (match, group) => {

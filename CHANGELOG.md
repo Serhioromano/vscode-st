@@ -2,6 +2,10 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+### [1.11.0] - 2022-01-07
+
+- enhance - Format add spaces refactored performance and logic improvement.
+
 ### [1.10.8] - 2021-11-21
 
 - fix - Format `<>` and `**` correctly.

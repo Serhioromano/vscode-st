@@ -46,6 +46,10 @@ Utilize VS Code Formatter API. Use general formatting command short keys. It cap
 
 ## Release Notes
 
+### 1.11.0
+
+- enhance - Format add spaces refactored performance and logic improvement.
+
 ### 1.10.8
 
 - fix - Format `<>` and `**` correctly.
