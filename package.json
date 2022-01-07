@@ -5,11 +5,16 @@
     "version": "1.11.0",
     "publisher": "Serhioromano",
     "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+        "o_vscode:prepublish": "npm run compile",
+        "o_compile": "tsc -p ./",
+        "o_watch": "tsc -watch -p ./",
+        "o_postinstall": "node ./node_modules/vscode/bin/install",
+        "o_test": "npm run compile && node ./node_modules/vscode/bin/test",
+        "vscode:prepublish": "npm run esbuild-base -- --minify",
+        "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node",
+        "esbuild": "npm run esbuild-base -- --sourcemap",
+        "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+        "test-compile": "tsc -p ./"
     },
     "repository": {
         "type": "git",
@@ -48,6 +53,7 @@
     "devDependencies": {
         "@types/mocha": "^5.2.7",
         "@types/node": "^12.6.8",
+        "esbuild": "^0.14.10",
         "tslint": "^5.18.0",
         "typescript": "^3.5.3",
         "vscode": "^1.1.35"
