@@ -117,7 +117,15 @@
                 },
                 {
                     "name": "constant.numeric.integer.st",
-                    "match": "\\b(BYTE|(?:D|L)?WORD|U?(?:S|D|L)?INT)#[0-9\\_]+\\b"
+                    "match": "\\b(BYTE|(?:D|L)?WORD|U?(?:S|D|L)?INT)#(2|8)#[0-9\\_]+\\b"
+                },
+                {
+                    "name": "constant.numeric.integer.st",
+                    "match": "\\b(BYTE|(?:D|L)?WORD|U?(?:S|D|L)?INT)#16#[a-fA-F0-9\\_]+\\b"
+                },
+                {
+                    "name": "constant.numeric.integer.st",
+                    "match": "\\b(BYTE|(?:D|L)?WORD|U?(?:S|D|L)?INT)#-?[0-9\\_]+\\b"
                 },
                 {
                     "name": "constant.numeric.float.st",

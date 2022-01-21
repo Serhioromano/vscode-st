@@ -1,4 +1,4 @@
-{ pragma 'something' }
+{ attribute 'something' }
 PROGRAM PLC_PRG
     VAR
         xStart : BOOL := 'dfsfdfd'; // something
@@ -8,9 +8,9 @@ PROGRAM PLC_PRG
 
     fbTON1(IN := xStart, PT => tDuration);
     IF xStart <> TRUE THEN
-        rValue := easeLinear(fbTON1.ET, rFrom, rTo, tDuration);
+    rValue := easeLinear(fbTON1.ET, rFrom, rTo, tDuration);
     END_IF;
-    (a = b) AND c > 10;
+    (a = b)ANDc > 10;
     c := (b / 3) * 12**;
     a := CONCAT(a, ':= **'); // a := b
 END_PROGRAM
