@@ -2,6 +2,11 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+### [1.11.2] - 2022-01-20
+
+- fix - highlight for typed variables with - (`INT#-100`)
+- fix - highlight for typed variables with numeric constants (`INT#16#10AE`)
+
 ### [1.11.1] - 2022-01-07
 
 - enhance - performance improve by using bundler
