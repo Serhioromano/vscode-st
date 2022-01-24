@@ -5,7 +5,7 @@ PROGRAM PLC_PRG
         fbTON1 : TON; (* Таймер время исполнения *) 
         rValue : REAL; /* Конечное значение */ 
     END_VAR
-
+__NEW
     fbTON1(IN := xStart, PT => tDuration);
     IF xStart <> TRUE THEN
     rValue := easeLinear(fbTON1.ET, rFrom, rTo, tDuration);
