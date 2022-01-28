@@ -2,5 +2,4 @@ node_modules
 *.vsix
 out
 src/test
-package-lock.json
 npm-debug.log
