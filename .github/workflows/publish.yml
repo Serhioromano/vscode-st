@@ -1,11 +1,9 @@
-# This workflow publish VS Code extension to marketplace when new Tag is pushed.
-
 name: Publish
 
 on:
   push:
     tags: 
-      - *
+      - 1.*
 jobs:
   publish:
     name: Publish VS Code Extension
