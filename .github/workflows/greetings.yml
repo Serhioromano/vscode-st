@@ -13,5 +13,5 @@ jobs:
     - uses: actions/first-interaction@v1
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
-        issue-message: '##Welcome!\n\nThank you for finding time to write an issue and make this extension better. I`ll appreciate if you find some time to [rate this extension here](https://marketplace.visualstudio.com/items?itemName=Serhioromano.vscode-gitflow&ssr=false#review-details).\n\nI`ll get back to your ASAP.'
-        pr-message: '##Welcome!\n\nThank you very match for your contribution. I very appreciate it. Please find some time to [rate this extension here](https://marketplace.visualstudio.com/items?itemName=Serhioromano.vscode-gitflow&ssr=false#review-details).\n\nI`ll get to this PR ASAP.'
+        issue-message: '## Welcome! \n\n Thank you for finding time to write an issue and make this extension better. I`ll appreciate if you find some time to [rate this extension here](https://marketplace.visualstudio.com/items?itemName=Serhioromano.vscode-gitflow&ssr=false#review-details). \n\n I`ll get back to your ASAP.'
+        pr-message: '## Welcome! \n\n Thank you very match for your contribution. I very appreciate it. Please find some time to [rate this extension here](https://marketplace.visualstudio.com/items?itemName=Serhioromano.vscode-gitflow&ssr=false#review-details). \n\n I`ll get to this PR ASAP.'
