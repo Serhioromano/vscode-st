@@ -18,12 +18,21 @@ jobs:
     - name: Use Node.js 16.*
       uses: actions/setup-node@v2
       with:
-        node-version: '16'
+        node-version: '16.*'
         cache: 'npm'
+    - name: Install NPM Packages
+      run: |
+        npm ci
+        npm install -g vsce
+        run: vsce publish -p ${{ secrets.VSCE_TOKEN }}
+    - name: Generate Package and Create Release
+      run: |
+        vsce package
+        file=$(realpath $(ls -t *.vsix | head -1))
+        tag=$(basename ${{ github.event.push.ref }})
+        gh release create $tag --generate-notes -F CHANGELOG.md $file
     
-    - run: npm i
-    
-    - name: Publish extension
-      uses: sigma/vsce-publish-action@v0.0.2
-      with:
-        vsce_token: ${{ secrets.VSCE_TOKEN }}  
+    # - name: Publish extension
+    #   uses: sigma/vsce-publish-action@v0.0.2
+    #   with:
+    #     vsce_token: ${{ secrets.VSCE_TOKEN }}  
