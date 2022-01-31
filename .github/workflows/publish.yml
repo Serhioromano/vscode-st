@@ -27,6 +27,8 @@ jobs:
     #- run: vsce publish -p ${{ secrets.VSCE_TOKEN }}
     - run: echo '${{ toJSON(github) }}'
     - name: Generate Package and Create Release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         vsce package
         file=$(realpath $(ls -t *.vsix | head -1))
