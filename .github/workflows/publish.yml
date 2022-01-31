@@ -25,13 +25,12 @@ jobs:
         npm ci
         npm install -g vsce
     #- run: vsce publish -p ${{ secrets.VSCE_TOKEN }}
-    - run: echo ${{ toJSON(github) }}
+    - run: echo '${{ toJSON(github) }}'
     - name: Generate Package and Create Release
       run: |
         vsce package
         file=$(realpath $(ls -t *.vsix | head -1))
-        tag=$(basename ${{ github.ref }})
-        gh release create $tag --generate-notes -F CHANGELOG.md $file
+        gh release create '${{ github.ref_name }}' --generate-notes -F CHANGELOG.md $file
     
     # - name: Publish extension
     #   uses: sigma/vsce-publish-action@v0.0.2
