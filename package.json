@@ -43,7 +43,7 @@
         "onLanguage:st",
         "onCommand:extension.st.autoformat"
     ],
-    "main": "./out/extension",
+    "main": "./out/main.js",
     "categories": [
         "Programming Languages",
         "Snippets",
