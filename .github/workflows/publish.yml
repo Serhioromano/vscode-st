@@ -24,7 +24,7 @@ jobs:
       run: |
         npm ci
         npm install -g vsce
-        run: vsce publish -p ${{ secrets.VSCE_TOKEN }}
+    - run: vsce publish -p ${{ secrets.VSCE_TOKEN }}
     - name: Generate Package and Create Release
       run: |
         vsce package
