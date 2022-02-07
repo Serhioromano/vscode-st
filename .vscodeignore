@@ -11,5 +11,7 @@ st_demo.st
 test.iecst
 test.xml
 test.md
-images/**
+images/icon.psd
+images/demo.gif
+images/md-highlight.png
 index.js
