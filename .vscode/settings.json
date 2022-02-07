@@ -1,4 +1,7 @@
 {
 	"cSpell.language": "ru,en",
-	"workbench.colorTheme": "Visual Studio Light"
+    "workbench.colorTheme": "Visual Studio Light",
+    "cSpell.words": [
+        "symbolprovider"
+    ]
 }
