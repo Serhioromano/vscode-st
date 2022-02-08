@@ -1,7 +1,11 @@
 {
 	"cSpell.language": "ru,en",
-    "workbench.colorTheme": "Visual Studio Light",
+    "workbench.colorTheme": "Atom One Light",
     "cSpell.words": [
+        "STLSP",
         "symbolprovider"
-    ]
+    ],
+    "[typescript]": {
+		"editor.defaultFormatter": "vscode.typescript-language-features"
+	},
 }

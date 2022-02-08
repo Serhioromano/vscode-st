@@ -6,11 +6,12 @@ PROGRAM PLC_PRG
         rValue : REAL; /* Конечное значение */ 
     END_VAR
 
-    fbTON1(IN := xStart, PT => tDuration);
+    fbTON1(IN:=xStart, PT=>tDuration);
+    
     IF xStart <> TRUE THEN
     rValue := easeLinear(fbTON1.ET, rFrom, rTo, tDuration);
     END_IF;
-    (a = b)ANDc > 10;
+    (a = b) AND c > 10;
     c := (b / 3) * 12**;
     a := CONCAT(a, ':= **'); // a := b
 END_PROGRAM
