@@ -85,7 +85,7 @@ connection.onInitialized(async () => {
             getDocumentSettings().then(settings => {
                 folders.forEach(folder => {
                     settings.fileExtensions.forEach(ext => {
-    
+                        // TODO: Parse all files here
                     });
                 });
             });
@@ -184,7 +184,6 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 }
 
 connection.onDidChangeWatchedFiles((_change) => {
-    // Monitored files have change in VS Code
     connection.console.log("We received a file change event");
 });
 

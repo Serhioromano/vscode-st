@@ -7,5 +7,15 @@
     ],
     "[typescript]": {
 		"editor.defaultFormatter": "vscode.typescript-language-features"
-	},
+    },
+    "separators.enabledSymbols": [
+        "Classes",
+        "Constructors",
+        "Enums",
+        "Functions",
+        "Interfaces",
+        "Methods",
+        "Namespaces",
+        "Structs"
+    ],
 }
