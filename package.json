@@ -56,7 +56,7 @@
         "Snippets",
         "Formatters"
     ],
-    "icon": "images/st-icon.png",
+    "icon": "extension-icon.png",
     "devDependencies": {
         "@types/glob": "^7.2.0",
         "@types/mocha": "^9.0.0",
