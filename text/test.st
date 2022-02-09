@@ -15,3 +15,7 @@ PROGRAM PLC_PRG
     c := (b / 3) * 12**;
     a := CONCAT(a, ':= **'); // a := b
 END_PROGRAM
+
+NAMESPACE SOmething
+    
+END_NAMESPACE
