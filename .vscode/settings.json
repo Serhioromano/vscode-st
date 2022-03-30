@@ -1,21 +1,4 @@
 {
 	"cSpell.language": "ru,en",
-    "workbench.colorTheme": "Atom One Light",
-    "cSpell.words": [
-        "STLSP",
-        "symbolprovider"
-    ],
-    "[typescript]": {
-		"editor.defaultFormatter": "vscode.typescript-language-features"
-    },
-    "separators.enabledSymbols": [
-        "Classes",
-        "Constructors",
-        "Enums",
-        "Functions",
-        "Interfaces",
-        "Methods",
-        "Namespaces",
-        "Structs"
-    ],
+	"workbench.colorTheme": "Visual Studio Light"
 }

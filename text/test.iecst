@@ -1,7 +1,0 @@
-{ attribute 'something' }
-FUNCTION
-   VAR
-       Variable : BOOL; (* Comment *) 
-   END_VAR
-   Variable := TRUE;
-END_FUNCTION
