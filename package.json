@@ -55,7 +55,7 @@
         "Snippets",
         "Formatters"
     ],
-    "icon": "extension-icon.png",
+    "icon": "icon.drawio.png",
     "devDependencies": {
         "@types/glob": "^7.2.0",
         "@types/mocha": "^9.0.0",
