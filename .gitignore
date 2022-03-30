@@ -3,4 +3,3 @@ node_modules
 out
 src/test
 npm-debug.log
-.antlr

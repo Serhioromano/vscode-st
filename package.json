@@ -2,25 +2,19 @@
     "name": "vscode-st",
     "displayName": "Structured Text language Support",
     "description": "Supports for syntax highlights, snippets for IEC 61131-3 Structured Text",
-    "version": "1.11.19",
+    "version": "1.11.18",
     "publisher": "Serhioromano",
     "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "tsc -b",
-        "watch": "tsc -b -w",
-        "lint": "eslint ./client/src ./server/src --ext .ts,.tsx",
-        "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
-        "test": "sh ./scripts/e2e.sh",
-        "__vscode:prepublish": "npm run compile",
-        "_compile": "tsc -p ./",
-        "_watch": "tsc -watch -p ./",
-        "_postinstall": "node ./node_modules/vscode/bin/install",
-        "_test": "npm run compile && node ./node_modules/vscode/bin/test",
-        "_vscode:prepublish": "npm run esbuild-base -- --minify",
-        "_esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node",
-        "_esbuild": "npm run esbuild-base -- --sourcemap",
-        "_esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
-        "_test-compile": "tsc -p ./"
+        "o_vscode:prepublish": "npm run compile",
+        "o_compile": "tsc -p ./",
+        "o_watch": "tsc -watch -p ./",
+        "o_postinstall": "node ./node_modules/vscode/bin/install",
+        "o_test": "npm run compile && node ./node_modules/vscode/bin/test",
+        "vscode:prepublish": "npm run esbuild-base -- --minify",
+        "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node",
+        "esbuild": "npm run esbuild-base -- --sourcemap",
+        "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+        "test-compile": "tsc -p ./"
     },
     "repository": {
         "type": "git",
@@ -49,22 +43,24 @@
         "onLanguage:st",
         "onCommand:extension.st.autoformat"
     ],
-    "main": "./client/out/extension",
+    "main": "./out/main.js",
     "categories": [
         "Programming Languages",
         "Snippets",
         "Formatters"
     ],
-    "icon": "icon.drawio.png",
+    "icon": "images/st-icon.png",
     "devDependencies": {
         "@types/glob": "^7.2.0",
         "@types/mocha": "^9.0.0",
         "@types/node": "14.x",
-        "mocha": "^8.3.2",
-        "typescript": "^4.4.3",
+        "@types/vscode": "^1.36.0",
+        "@vscode/test-electron": "^2.0.3",
+        "glob": "^7.2.0",
+        "mocha": "^9.1.3",
         "esbuild": "^0.14.10",
-        "eslint": "^7.26.0",
         "tslint": "^5.18.0",
+        "typescript": "^3.5.3",
         "vscode": "^1.1.37"
     },
     "contributes": {
@@ -72,46 +68,10 @@
             "type": "object",
             "title": "Structured Text configuration",
             "properties": {
-                "ST.format.enable": {
+                "st.format.enable": {
                     "type": "boolean",
                     "default": true,
                     "description": "Automatically convert constants like TRUE, FALSE, NULL, or types like INT, BOOL, ...and other keywords to upper case."
-                },
-                "STLSP.fileExtensions": {
-                    "scope": "resource",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "default": [
-                        ".st",
-                        ".scl",
-                        ".exp",
-                        ".iecplc",
-                        ".iecst",
-                        ".TcDUT",
-                        ".TcPOU",
-                        ".iecstl"
-                    ],
-                    "additionalProperties": false,
-                    "description": "Controls the maximum number of problems produced by the server."
-                },
-                "STLSP.maxNumberOfProblems": {
-                    "scope": "resource",
-                    "type": "number",
-                    "default": 100,
-                    "description": "Controls the maximum number of problems produced by the server."
-                },
-                "STLSP.trace.server": {
-                    "scope": "window",
-                    "type": "string",
-                    "enum": [
-                        "off",
-                        "messages",
-                        "verbose"
-                    ],
-                    "default": "off",
-                    "description": "Traces the communication between VS Code and the language server."
                 }
             }
         },
