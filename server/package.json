@@ -1,0 +1,19 @@
+{
+    "name": "lsp-st-server",
+    "description": "Implementation of a ST language server in node.",
+    "version": "1.0.0",
+    "author": "Sergey Romanov",
+    "license": "MIT",
+    "engines": {
+        "node": "*"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Serhioromano/vscode-st"
+    },
+    "dependencies": {
+        "vscode-languageserver": "^7.0.0",
+        "vscode-languageserver-textdocument": "^1.0.1"
+    },
+    "scripts": {}
+}
