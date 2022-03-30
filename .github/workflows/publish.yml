@@ -8,6 +8,7 @@ jobs:
   publish:
     name: Publish VS Code Extension
     runs-on: ubuntu-latest
+
  
     steps:
     - name: Checkout Tag
