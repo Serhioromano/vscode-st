@@ -5,31 +5,32 @@
 {
     "version": "0.2.0",
     "configurations": [
-
-       {
-            "name": "Extension",
+        {
             "type": "extensionHost",
             "request": "launch",
+            "name": "Launch Client",
             "runtimeExecutable": "${execPath}",
             "args": [
-                "--extensionDevelopmentPath=${workspaceFolder}",
+                "--extensionDevelopmentPath=${workspaceRoot}",
                 "--trace-deprecation"
             ],
-            "preLaunchTask": "npm: watch"
+            "outFiles": [
+                "${workspaceRoot}/client/out/**/*.js"
+            ],
+            "preLaunchTask": {
+                "type": "npm",
+                "script": "watch"
+            }
         },
         {
-            "name": "Extension Tests",
-            "type": "extensionHost",
-            "request": "launch",
-            "runtimeExecutable": "${execPath}",
-            "args": [
-                "--extensionDevelopmentPath=${workspaceFolder}",
-                "--extensionTestsPath=${workspaceFolder}/out/test"
-            ],
+            "type": "node",
+            "request": "attach",
+            "name": "Attach to Server",
+            "port": 6009,
+            "restart": true,
             "outFiles": [
-                "${workspaceFolder}/out/test/**/*.js"
-            ],
-            "preLaunchTask": "npm: watch"
-        }
+                "${workspaceRoot}/server/out/**/*.js"
+            ]
+        },
     ]
 }
