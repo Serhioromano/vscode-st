@@ -477,7 +477,7 @@
                             "include": "#todo"
                         },
                         {
-                            "match": "(@[A-Z_\\(]+) *(:=) * ('[\\d\\w\\W ]*')",
+                            "match": "(@[A-Z_]+) *(:=) * ('[\\d\\w\\W ]*')",
                             "captures": {
                                 "1": {
                                     "name": "variable.parameter.st"
