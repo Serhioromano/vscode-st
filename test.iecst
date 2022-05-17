@@ -1,9 +1,29 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 { attribute 'something' }
 PROGRAM PLC_PRG
     VAR
         xStart : BOOL := 'dfsfdfd'; // something
-        fbTON1 : TON; (* Таймер время исполнения *) 
-        rValue : REAL; /* Конечное значение */ 
+        fbTON1 : TON; (*  \. sdf :=  'dfdf' *)
+        rValue : REAL; /* Конечное значение */
     END_VAR
 
     fbTON1(IN := xStart, PT => tDuration);

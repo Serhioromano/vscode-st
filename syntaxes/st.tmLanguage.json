@@ -477,7 +477,7 @@
                             "include": "#todo"
                         },
                         {
-                            "match": "(@[A-Z_]+) *(:=) * ('[\\d\\w\\W ]*')",
+                            "match": "(@[A-Z_\\(]+) *(:=) * ('[\\d\\w\\W ]*')",
                             "captures": {
                                 "1": {
                                     "name": "variable.parameter.st"
@@ -501,8 +501,8 @@
                             "include": "#todo"
                         },
                         {
-                            "name": "constant.character.escape.st",
-                            "match": "\\\\."
+                            "_name": "constant.character.escape.st",
+                            "_match": "\\\\."
                         }
                     ]
                 },
