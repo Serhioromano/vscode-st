@@ -30,7 +30,7 @@ Fast growing snippets library. All cycles, conditions and declarations.
 
 ## Formatter (work in progress)
 
-Utilize VS Code Formatter API. Use general formatting command short keys. It capitalize all known keywords like `TRUE`, `FALSE`, `IF`, `BOOL`, ... It also add spaces. 
+Utilize VS Code Formatter API. Use general formatting command short keys. It capitalize all known keywords like `TRUE`, `FALSE`, `IF`, `BOOL`, ... It also add spaces.
 
 ## Note
 
@@ -48,11 +48,17 @@ Utilize VS Code Formatter API. Use general formatting command short keys. It cap
 
 ## Release Notes
 
+### 1.12.2
+
+- enhance - highlight Siemens SCL
+  - add - `(END_?)CONST`, `(END_?)ORGANIZATION_BLOCK`, `(END_?)DATA_BLOCK`, `(END_?)LABEL`, `BEGIN`, `COUNTER`, `VOID`, `NIL` and `GOTO` keywords
+  - add - support for `PQ` and `PI` in constants like `%PQW10.0`.
+
 ### 1.11.2
 
 - fix - highlight for typed variables with - (`INT#-100`)
 - fix - highlight for typed variables with numeric constants (`INT#16#10AE`)
-  
+
 ### 1.11.1
 
 - enhance - performance improve by using bundler
@@ -118,7 +124,7 @@ Thanks to @nikvoronin
 - add - TODO or TODO: in comments attract an attention
 - add - Highlights for action modifiers `myAction(DS, T#3s);` where DS will be highlighted.
 - add - Highlights for names of parameters of function block.
-- 
+-
 ### 1.4.0
 
 I've learned few things about syntax highlights. Big refactoring. I added some missing keywords, changed some coloring scopes and improved coloring in general.
