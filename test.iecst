@@ -10,32 +10,34 @@ Counter := Counter + BOOL_TO_INT(
 
 CONST
     LIMIT := 7;
-END_CONS
+END_CONST
 
 ORGANIZATION_BLOCK CYCLE
-(***********************************************************
-CYCLE - название OB1, он вызывается циклически системой S7.
-Часть 1 : Вызов функционального блока и передача входных величин
-Часть 2 : Чтение выходных величин и вывод с переключением выходов
-***********************************************************)
-VAR_TEMP
-systemdata : ARRAY[0..20] OF BYTE; // Область для OB1
-END_VAR
-BEGIN
-(* Part 1 : ***************************************************)
-ACQUIRE.ACQUIRE_DATA(
-measval_in:= WORD_TO_INT(input),
-newval := "Input 0.0", //Входной ключ как идентификатор сигнала
-resort := Sort_switch,
-funct_sel:= Function_switch,
-newsel := Coding_switch,
-selection := Coding);
-(* Part 2 : **************************************************)
-IF Output_switch THEN //Изменение выхода
-Output := ACQUIRE_DATA.result_out; //Квадратный корень или квадрат
-ELSE
-Output := ACQUIRE_DATA.measval_out; //Измеряемая величина
-END_IF;
+    (***********************************************************
+    CYCLE - название OB1, он вызывается циклически системой S7.
+    Часть 1 : Вызов функционального блока и передача входных величин
+    Часть 2 : Чтение выходных величин и вывод с переключением выходов
+    ***********************************************************)
+    VAR_TEMP
+        systemdata : ARRAY[0..20] OF BYTE; // Область для OB1
+    END_VAR
+    BEGIN
+    (* Part 1 : ***************************************************)
+    ACQUIRE.ACQUIRE_DATA(
+        measval_in:= WORD_TO_INT(input),
+        newval := "Input 0.0", //Входной ключ как идентификатор сигнала
+        resort := %PQW10.23,
+        funct_sel:= Function_switch,
+        newsel := Coding_switch,
+        selection := Coding
+    );
+
+    (* Part 2 : **************************************************)
+    IF Output_switch THEN //Изменение выхода
+        Output := ACQUIRE_DATA.result_out; //Квадратный корень или квадрат
+    ELSE
+        Output := ACQUIRE_DATA.measval_out; //Измеряемая величина
+    END_IF;
 END_ORGANIZATION_BLOCK
 
 TYPE Direction (

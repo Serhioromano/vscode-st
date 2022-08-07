@@ -2,8 +2,9 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
-## [1.12.0] - 2022-08-07
+## [1.12.4] - 2022-08-07
 
+- add - `VAR_INST` and `VAR_STAT` support
 - enhance - highlight Siemens SCL
   - add - `(END_?)CONST`, `(END_?)ORGANIZATION_BLOCK`, `(END_?)DATA_BLOCK`, `(END_?)LABEL`, `BEGIN`, `COUNTER`, `VOID`, `NIL` and `GOTO` keywords
   - add - support for `PQ` and `PI` in constants like `%PQW10.0`.
