@@ -5,19 +5,21 @@
     "version": "1.11.23",
     "publisher": "Serhioromano",
     "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "npm run compile && node ./node_modules/vscode/bin/test",
-        "_vscode:prepublish": "npm run esbuild-base -- --minify",
+        "vscode:prepublish": "npm run esbuild-base -- --minify",
         "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node",
         "esbuild": "npm run esbuild-base -- --sourcemap",
         "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
-        "test-compile": "tsc -p ./"
+        "publish": "vsce package && gh release create $(node -pe \"require('./package.json')['version']\") --generate-notes \"./vscode-gitflow-$(node -pe \"require('./package.json')['version']\").vsix\" && vsce publish",
+        "_vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "pretest": "npm run compile && npm run lint",
+        "lint": "eslint src --ext ts",
+        "vars": "env | grep npm_package_",
+        "test": "node ./out/test/runTest.js"
     },
-    "main": "./out/extension.js",
-    "_main": "./out/main.js",
+    "_main": "./out/extension.js",
+    "main": "./out/main.js",
     "repository": {
         "type": "git",
         "url": "https://github.com/Serhioromano/vscode-st"
@@ -54,8 +56,8 @@
     "devDependencies": {
         "@types/glob": "^7.2.0",
         "@types/mocha": "^9.0.0",
-        "@types/node": "^16.11.36",
-        "@types/vscode": "^1.67.0",
+        "@types/node": "14.x",
+        "@types/vscode": "^1.64.0",
         "@typescript-eslint/eslint-plugin": "^5.9.1",
         "@typescript-eslint/parser": "^5.9.1",
         "@vscode/test-electron": "^2.0.3",
@@ -63,8 +65,8 @@
         "eslint": "^8.6.0",
         "glob": "^7.2.0",
         "mocha": "^9.1.3",
-        "typescript": "^4.6.0",
-        "vscode": "^1.1.37"
+        "typescript": "^4.6.3",
+        "vsce": "^2.6.4"
     },
     "contributes": {
         "configuration": {
