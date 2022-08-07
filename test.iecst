@@ -1,9 +1,98 @@
-{ attribute 'something' }
+IF STATE_0  AND PREVIOUS_STATE_2  THEN Counter := Counter + 1;  (* смотрим текущее состояние и сравниваем с предыдущим *)
+IF   THEN Counter := Counter + 1;  (* и в зависимости от этого делаем вывод куда вращается *)
+IF   THEN Counter := Counter + 1;  (* соответственно увеличиваем или уменьшаем счетчик *)
+IF   THEN Counter := Counter + 1;
+
+Counter := Counter + BOOL_TO_INT(
+    (STATE_0 AND PREVIOUS_STATE_2) OR (STATE_1 AND PREVIOUS_STATE_0) OR
+    (STATE_2 AND PREVIOUS_STATE_3) OR (STATE_3 AND PREVIOUS_STATE_1)
+);
+
+CONST
+    LIMIT := 7;
+END_CONS
+
+ORGANIZATION_BLOCK CYCLE
+(***********************************************************
+CYCLE - название OB1, он вызывается циклически системой S7.
+Часть 1 : Вызов функционального блока и передача входных величин
+Часть 2 : Чтение выходных величин и вывод с переключением выходов
+***********************************************************)
+VAR_TEMP
+systemdata : ARRAY[0..20] OF BYTE; // Область для OB1
+END_VAR
+BEGIN
+(* Part 1 : ***************************************************)
+ACQUIRE.ACQUIRE_DATA(
+measval_in:= WORD_TO_INT(input),
+newval := "Input 0.0", //Входной ключ как идентификатор сигнала
+resort := Sort_switch,
+funct_sel:= Function_switch,
+newsel := Coding_switch,
+selection := Coding);
+(* Part 2 : **************************************************)
+IF Output_switch THEN //Изменение выхода
+Output := ACQUIRE_DATA.result_out; //Квадратный корень или квадрат
+ELSE
+Output := ACQUIRE_DATA.measval_out; //Измеряемая величина
+END_IF;
+END_ORGANIZATION_BLOCK
+
+TYPE Direction (
+    DIR_CW, (* по часовой *)
+    DIR_CCW  (* против часовой *)
+)
+END_TYPE
+
+VAR
+    xA : BOOL; (* Фаза а *)
+    xB : BOOL; (* Фаза б *)
+    enDir : Direction; (* Направление движения *)
+    udiCount : DINT; (* Счетчик *)
+    fbRTA, fbRTB : R_TRIG;
+    fbFTA, fbFTB : F_TRIG;
+END_VAR
+
+fbRTA(CLK := xA);
+fbFTA(CLK := xA);
+fbRTB(CLK := xB);
+fbFTB(CLK := xB);
+
+IF  (fbRTA.Q AND NOT xB) OR
+    (fbFTA.Q AND xB) OR
+    (fbRTB.Q AND xA) OR
+    (fbFTB.Q AND NOT xA )
+THEN
+    enDir := Direction.DIR_CW;
+    udiCount := udiCount + 1;
+ELSE
+    enDir := Direction.DIR_CCW;
+    udiCount := udiCount - 1;
+END_IF;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 PROGRAM PLC_PRG
     VAR
         xStart : BOOL := 'dfsfdfd'; // something
-        fbTON1 : TON; (* Таймер время исполнения *) 
-        rValue : REAL; /* Конечное значение */ 
+        fbTON1 : TON; (*  \. @WE :=  'dfdf' *)
+        rValue : REAL; /* Конечное значение */
     END_VAR
 
     fbTON1(IN := xStart, PT => tDuration);

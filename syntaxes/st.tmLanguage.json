@@ -145,7 +145,7 @@
                 },
                 {
                     "name": "keyword.control.flow.st",
-                    "match": "\\b(?:RETURN|EXIT|CONTINUE|GOTO|JMP)\\b"
+                    "match": "\\b(?:RETURN|EXIT|CONTINUE|GOTO|JMP|BEGIN|COUNTER|GOTO)\\b"
                 },
                 {
                     "name": "keyword.control.st",
@@ -298,7 +298,7 @@
                 },
                 {
                     "name": "storage.type.class.st",
-                    "match": "\\b(END_)?(PROGRAM|CONFIGURATION|TCP|RESOURCE|CHANNEL|LIBRARY|FOLDER|BINARIES|INCLUDES|SOURCES|ACTION|STEP|INITIAL_STEP|TRANSITION|TYPE|FUNCTION|FUNCTION_BLOCK|NAMESPACE|IMPLEMENTATION|INTERFACE|PROPERTY|METHOD)\\b"
+                    "match": "\\b(END_)?(PROGRAM|CONFIGURATION|TCP|RESOURCE|CHANNEL|LIBRARY|FOLDER|BINARIES|INCLUDES|SOURCES|ACTION|STEP|INITIAL_STEP|TRANSITION|TYPE|FUNCTION|FUNCTION_BLOCK|NAMESPACE|IMPLEMENTATION|INTERFACE|PROPERTY|METHOD|CONST|ORGANIZATION_BLOCK|DATA_BLOCK|LABEL)\\b"
                 },
                 {
                     "name": "punctuation.terminator.statement.st",
@@ -310,7 +310,7 @@
                 },
                 {
                     "name": "constant.language.st",
-                    "match": "\\b(TRUE|FALSE|NULL)\\b"
+                    "match": "\\b(TRUE|FALSE|NULL|VOID|NIL)\\b"
                 },
                 {
                     "name": "support.type.primitives.st",
@@ -355,7 +355,7 @@
                 },
                 {
                     "name": "variable.other.constant",
-                    "match": "\\%(I|Q|M)(X|B|W|D|L)[0-9\\.]+\\b"
+                    "match": "\\%(I|Q|M|PQ|PI)(X|B|W|D|L)[0-9\\.]+\\b"
                 },
                 {
                     "name": "variable.other.constant",
@@ -501,8 +501,8 @@
                             "include": "#todo"
                         },
                         {
-                            "name": "constant.character.escape.st",
-                            "match": "\\\\."
+                            "_name": "constant.character.escape.st",
+                            "_match": "\\\\."
                         }
                     ]
                 },
