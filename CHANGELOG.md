@@ -2,7 +2,7 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
-## [unreleased] - yyyy-mm-dd
+## [1.12.0] - 2022-08-07
 
 - enhance - highlight Siemens SCL
   - add - `(END_?)CONST`, `(END_?)ORGANIZATION_BLOCK`, `(END_?)DATA_BLOCK`, `(END_?)LABEL`, `BEGIN`, `COUNTER`, `VOID`, `NIL` and `GOTO` keywords
