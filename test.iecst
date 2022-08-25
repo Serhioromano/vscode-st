@@ -1,12 +1,8 @@
-IF STATE_0  AND PREVIOUS_STATE_2  THEN Counter := Counter + 1;  (* смотрим текущее состояние и сравниваем с предыдущим *)
-IF   THEN Counter := Counter + 1;  (* и в зависимости от этого делаем вывод куда вращается *)
-IF   THEN Counter := Counter + 1;  (* соответственно увеличиваем или уменьшаем счетчик *)
-IF   THEN Counter := Counter + 1;
-
-Counter := Counter + BOOL_TO_INT(
-    (STATE_0 AND PREVIOUS_STATE_2) OR (STATE_1 AND PREVIOUS_STATE_0) OR
-    (STATE_2 AND PREVIOUS_STATE_3) OR (STATE_3 AND PREVIOUS_STATE_1)
-);
+PROGRAM PLC_PRG
+    VAR_INST
+         Variable: BOOL; (* Comment *)
+    END_VAR
+END_PROGRAM
 
 CONST
     LIMIT := 7;
