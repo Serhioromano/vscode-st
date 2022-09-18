@@ -22,6 +22,7 @@ jobs:
         cache: 'npm'
     - name: Install NPM Packages
       run: |
+        npm -v
         npm ci
         npm install -g vsce ovsx
     - run: vsce publish -p ${{ secrets.VSCE_TOKEN }}
