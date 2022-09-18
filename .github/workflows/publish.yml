@@ -24,8 +24,7 @@ jobs:
       run: |
         npm -v
         npm ci
-        npm install -g vsce ovsx
-        npm install semver
+        npm install -g vsce ovsx semver
     - run: vsce publish -p ${{ secrets.VSCE_TOKEN }}
     - name: Generate Package and Create Release
       env:
