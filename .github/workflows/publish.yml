@@ -2,19 +2,19 @@ name: Publish
 
 on:
   push:
-    tags: 
+    tags:
       - 1.*
 jobs:
   publish:
     name: Publish VS Code Extension
     runs-on: ubuntu-latest
- 
+
     steps:
     - name: Checkout Tag
       uses: actions/checkout@v2
       with:
         ref: ${{ github.event.push.ref }}
-    
+
     - name: Use Node.js 16
       uses: actions/setup-node@v2
       with:
@@ -23,7 +23,7 @@ jobs:
     - name: Install NPM Packages
       run: |
         npm ci
-        npm install -g vsce
+        npm install -g vsce ovsx
     - run: vsce publish -p ${{ secrets.VSCE_TOKEN }}
     - name: Generate Package and Create Release
       env:
@@ -31,9 +31,10 @@ jobs:
       run: |
         vsce package
         file=$(realpath $(ls -t *.vsix | head -1))
+        npx ovsx publish $file -p ${{ secrets.OVSX_TOKEN }}
         gh release create '${{ github.ref_name }}' -n "See [Changelog](https://github.com/Serhioromano/vscode-st/blob/master/CHANGELOG.md) for details."  $file
-    
+
     # - name: Publish extension
     #   uses: sigma/vsce-publish-action@v0.0.2
     #   with:
-    #     vsce_token: ${{ secrets.VSCE_TOKEN }}  
+    #     vsce_token: ${{ secrets.VSCE_TOKEN }}
