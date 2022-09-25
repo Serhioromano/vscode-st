@@ -104,15 +104,18 @@ export class STFormatterProvider implements vscode.DocumentFormattingEditProvide
             sa:  ['=(?!>| )', ':(?!=)', '\\*(?!\\*|;)', ',', '<(?!=|>)', '>(?!=)']
         };
 
-        regEx = new RegExp(`(?<! )(${addSpace.csb.join('|')})`, "ig");
+        regEx = new RegExp(`(?<! |\\t)(${addSpace.csb.join('|')})`, "ig");
         text = text.replace(regEx, (match, sign) => " " + sign);
-        regEx = new RegExp(`(${addSpace.csb.join('|')})(?! )`, "ig");
+        regEx = new RegExp(`(${addSpace.csb.join('|')})(?! |\\t)`, "ig");
         text = text.replace(regEx, (match, sign) => sign + " ");
 
-        regEx = new RegExp(`${this.skipString.join('|')}|(?<! )(${addSpace.ss.join('|')}|${addSpace.sb.join('|')})`, "ig");
+        regEx = new RegExp(`${this.skipString.join('|')}|(?<! |\\t)(${addSpace.ss.join('|')}|${addSpace.sb.join('|')})`, "ig");
         text = text.replace(regEx, (match, sign) => sign !== undefined ? " " + sign : match);
-        regEx = new RegExp(`${this.skipString.join('|')}|(${addSpace.ss.join('|')}|${addSpace.sa.join('|')})(?! )`, "ig");
+        regEx = new RegExp(`${this.skipString.join('|')}|(${addSpace.ss.join('|')}|${addSpace.sa.join('|')})(?! |\\t)`, "ig");
         text = text.replace(regEx, (match, sign) => sign !== undefined ? sign + " " : match);
+
+        // Delete all spaces at the end of the lines
+        text = text.split("\n").map(el => el.trimEnd()).join("\n");
 
         return text;
     }
