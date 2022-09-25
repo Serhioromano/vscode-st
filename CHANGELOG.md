@@ -2,8 +2,9 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
-## [1.12.4] - 2022-08-07
+## [1.12.12] - 2022-08-07
 
+- fix - Extra spaces was added after tab or in front of the comment.
 - add - `VAR_INST` and `VAR_STAT` support
 - enhance - highlight Siemens SCL
   - add - `(END_?)CONST`, `(END_?)ORGANIZATION_BLOCK`, `(END_?)DATA_BLOCK`, `(END_?)LABEL`, `BEGIN`, `COUNTER`, `VOID`, `NIL` and `GOTO` keywords

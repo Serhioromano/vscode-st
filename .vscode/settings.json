@@ -1,4 +1,12 @@
 {
 	"cSpell.language": "ru,en",
-	"workbench.colorTheme": "Parchment"
+    "workbench.colorTheme": "Parchment",
+    "spellright.language": [
+        "en"
+    ],
+    "spellright.documentTypes": [
+        "markdown",
+        "latex",
+        "plaintext"
+    ]
 }

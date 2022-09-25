@@ -48,11 +48,12 @@ Utilize VS Code Formatter API. Use general formatting command short keys. It cap
 
 ## Release Notes
 
-### 1.12.2
+### 1.12.12
 
+- fix - Extra spaces was added after tab or in front of the comment.
 - enhance - highlight Siemens SCL
-  - add - `(END_?)CONST`, `(END_?)ORGANIZATION_BLOCK`, `(END_?)DATA_BLOCK`, `(END_?)LABEL`, `BEGIN`, `COUNTER`, `VOID`, `NIL` and `GOTO` keywords
-  - add - support for `PQ` and `PI` in constants like `%PQW10.0`.
+- add - `(END_?)CONST`, `(END_?)ORGANIZATION_BLOCK`, `(END_?)DATA_BLOCK`, `(END_?)LABEL`, `BEGIN`, `COUNTER`, `VOID`, `NIL` and `GOTO` keywords
+- add - support for `PQ` and `PI` in constants like `%PQW10.0`.
 
 ### 1.11.2
 
