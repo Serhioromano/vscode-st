@@ -25,17 +25,13 @@ jobs:
         npm -v
         npm ci
         npm install -g vsce ovsx semver
-    - run: vsce publish -p ${{ secrets.VSCE_TOKEN }}
-    - name: Generate Package and Create Release
+    - name: Package
+      run: vsce package
+    - name: Publish
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        vsce package
         file=$(realpath $(ls -t *.vsix | head -1))
+        vsce publish -i $file -p ${{ secrets.VSCE_TOKEN }}
         npx ovsx publish $file -p ${{ secrets.OVSX_TOKEN }}
         gh release create '${{ github.ref_name }}' -n "See [Changelog](https://github.com/Serhioromano/vscode-st/blob/master/CHANGELOG.md) for details."  $file
-
-    # - name: Publish extension
-    #   uses: sigma/vsce-publish-action@v0.0.2
-    #   with:
-    #     vsce_token: ${{ secrets.VSCE_TOKEN }}

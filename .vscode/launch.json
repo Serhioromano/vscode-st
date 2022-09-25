@@ -7,7 +7,7 @@
     "configurations": [
         {
             "name": "Run Extension",
-            "type": "pwa-extensionHost",
+            "type": "extensionHost",
             "request": "launch",
             "args": [
                 "--extensionDevelopmentPath=${workspaceFolder}"
@@ -26,7 +26,7 @@
                 "--extensionTestsPath=${workspaceFolder}/out/test/suite/index"
             ],
             "outFiles": [
-                "${workspaceFolder}/out/test/**/*.js"
+                "${workspaceFolder}/out/**/*.js"
             ],
             "preLaunchTask": "${defaultBuildTask}"
         }
