@@ -34,7 +34,8 @@ export class STFormatterProvider implements vscode.DocumentFormattingEditProvide
             '__endtry', 'do', 'to', 'by', 'task', 'with', 'using', 'uses', 'from',
             'until', 'or', 'or_else', 'and', 'and_then', 'not', 'xor', 'nor', 'ge',
             'le', 'eq', 'ne', 'gt', 'lt', 'extends', 'implements', 'this', 'super',
-            '(?:T|DT|TOD|D)#[0-9\\:\\-\\_yYmMdDhHsS]+',
+            '(?:T|DT|TOD|D)#(?=[0-9])',
+            // '(?:T|DT|TOD|D)#[0-9\\:\\-\\_yYmMdDhHsS]+',
             'var_(?:input|output|in_out|temp|global|access|external)'
         ];
 
@@ -124,6 +125,10 @@ export class STFormatterProvider implements vscode.DocumentFormattingEditProvide
         let regEx = new RegExp(`(?<!\\\\(?:\\\\{2})*)${this.skipString.join('|')}|\\b(${this.types.join('|')}|${this.keywords.join('|')}|(?:END_)?(?:${this.ends.join('|')})|${this.functions.join('\\(|')}\\()\\b`, "ig");
         text = text.replace(regEx, (match, group) => {
             return group !== undefined ? match.toUpperCase() : match;
+        });
+
+        text = text.replace(/(?<=T|DT|TOD|D)#[0-9\\:\\-\\_yYmMdDhHsS]+/ig, (match, group) => {
+            return group !== undefined ? match.toLowerCase() : match;
         });
 
         return text;
