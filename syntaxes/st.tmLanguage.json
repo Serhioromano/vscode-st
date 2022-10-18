@@ -477,6 +477,9 @@
 							"include": "#todo"
 						},
 						{
+							"include": "#comment_st"
+						},
+						{
 							"match": "(@[A-Z_]+) *(:=) * ('[\\d\\w\\W ]*')",
 							"captures": {
 								"1": {
@@ -499,6 +502,9 @@
 					"patterns": [
 						{
 							"include": "#todo"
+						},
+                        {
+							"include": "#comment_g"
 						},
 						{
 							"_name": "constant.character.escape.st",

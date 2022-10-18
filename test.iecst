@@ -14,7 +14,6 @@ PROGRAM PLC_PRG
         iIndex : WORD;
         fbTest: FB_TEST;
     END_VAR
-
     fbTest(iNum := 0); // Работает
     fbTest(iNum := iIndex); // Не Работает
     TEST_ARR[1] := 10; // Работает
