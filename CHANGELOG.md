@@ -2,7 +2,7 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
-## [unreleased] - yyyy-mm-dd
+## [1.12.13] - 2022-10-18
 
 - fix - comment in comment highlight
 - fix - capitalization of s,h,m in `T#***`
