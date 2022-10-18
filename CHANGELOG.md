@@ -2,6 +2,11 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+## [1.12.13] - 2022-10-18
+
+- fix - comment in comment highlight
+- fix - capitalization of s,h,m in `T#***`
+
 ## [1.12.12] - 2022-08-07
 
 - fix - Extra spaces was added after tab or in front of the comment.
