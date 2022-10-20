@@ -2,8 +2,9 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
-## [1.12.13] - 2022-10-18
+## [1.12.14] - 2022-10-18
 
+- fix - highlight of names with `_TO_` in it
 - fix - comment in comment highlight
 - fix - capitalization of s,h,m in `T#***`
 
