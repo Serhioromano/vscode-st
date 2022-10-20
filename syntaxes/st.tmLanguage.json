@@ -201,15 +201,11 @@
 			"patterns": [
 				{
 					"name": "support.function.st",
-					"match": "\\b[A-Za-z_]+(_TO_)[A-Za-z_]+\\b"
+					"match": "\\b[A-Za-z_]*(_TO_|TO_|FROM_|TRUNC_)[A-Za-z_]+(?=\\()"
 				},
 				{
 					"name": "support.function.st",
-					"match": "\\b(TO_|FROM_|TRUNC_)[A-Za-z_]+\\b"
-				},
-				{
-					"name": "support.function.st",
-					"match": "\\b(?:RS|SR|TON|TP|TOF|TRUNC|CTD|CTU|CTUD|R_TRIG|F_TRIG|MOVE|CONCAT|DELETE|FIND|INSERT|LEFT|LEN|REPLACE|RIGHT|RTC|MID|SEMA|ROUND|FLOOR|CEIL|UNPACK|REF)\\b"
+					"match": "\\b(?:TRUNC|MOVE|CONCAT|DELETE|FIND|INSERT|LEFT|LEN|REPLACE|RIGHT|RTC|MID|SEMA|ROUND|FLOOR|CEIL|UNPACK|REF)(?=\\()"
 				},
 				{
 					"begin": "([a-zA-Z_0-9]+)(\\()",
@@ -299,6 +295,10 @@
 				{
 					"name": "storage.type.class.st",
 					"match": "\\b(END_)?(PROGRAM|CONFIGURATION|TCP|RESOURCE|CHANNEL|LIBRARY|FOLDER|BINARIES|INCLUDES|SOURCES|ACTION|STEP|INITIAL_STEP|TRANSITION|TYPE|FUNCTION|FUNCTION_BLOCK|NAMESPACE|IMPLEMENTATION|INTERFACE|PROPERTY|METHOD|CONST|ORGANIZATION_BLOCK|DATA_BLOCK|LABEL)\\b"
+				},
+				{
+					"name": "storage.type.class.st",
+					"match": "\\b(RS|SR|TON|TP|TOF|CTD|CTU|CTUD|R_TRIG|F_TRIG)\\b"
 				},
 				{
 					"name": "punctuation.terminator.statement.st",

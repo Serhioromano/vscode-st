@@ -5,6 +5,7 @@ END_VAR
 FUNCTION_BLOCK FB_TEST
     VAR
         iNum: WORD;
+
     END_VAR
     TEST_ARR[iNum] := 10;
 END_FUNCTION_BLOCK
@@ -24,6 +25,8 @@ PROGRAM PLC_PRG
 END_PROGRAM
 
 CONST
+    MY_TON_D := 2;
+    MY_TO_D := 2;
     LIMIT := 7;
 END_CONST
 
