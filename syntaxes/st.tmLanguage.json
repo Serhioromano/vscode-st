@@ -11,6 +11,9 @@
 		{
 			"include": "#strings"
 		},
+        {
+            "include": "#operators"
+        },
 		{
 			"include": "#functions"
 		},
@@ -181,11 +184,11 @@
 				},
 				{
 					"name": "keyword.operator.arithmetic.st",
-					"match": "(?:\\+|\\-|\\/|\\*)"
+					"match": "(?:\\+|\\-|\\/|\\*|MOD)"
 				},
 				{
 					"name": "keyword.operator.arithmetic.st",
-					"match": "\\b(?:ABS|SIN|MOD|ABS|ACOS|ASIN|ATAN|COS|EXP|EXPT|LN|LOG|SIN|SQRT|TAN|SEL|MUX|SHL|SHR|ROL|ROR|ADD|DIV|MUL|SUB|LIMIT|MAX|MIN|ADR(INST)?|SIZE(OF)?|BIT_?ADR|TRUNC(_INT)?)\\b"
+					"match": "\\b(?:ABS|SIN|ABS|ACOS|ASIN|ATAN|COS|EXP|EXPT|LN|LOG|SIN|SQRT|TAN|SEL|MUX|SHL|SHR|ROL|ROR|ADD|DIV|MUL|SUB|MAX|MIN|ADR(INST)?|SIZE(OF)?|BIT_?ADR|TRUNC(_INT)?)(?=\\()"
 				},
 				{
 					"name": "keyword.operator.arithmetic.st",
@@ -205,7 +208,7 @@
 				},
 				{
 					"name": "support.function.st",
-					"match": "\\b(?:TRUNC|MOVE|CONCAT|DELETE|FIND|INSERT|LEFT|LEN|REPLACE|RIGHT|RTC|MID|SEMA|ROUND|FLOOR|CEIL|UNPACK|REF)(?=\\()"
+					"match": "\\b(?:TRUNC|MOVE|CONCAT|LIMIT|DELETE|FIND|INSERT|LEFT|LEN|REPLACE|RIGHT|RTC|MID|SEMA|ROUND|FLOOR|CEIL|UNPACK|REF)(?=\\()"
 				},
 				{
 					"begin": "([a-zA-Z_0-9]+)(\\()",
@@ -284,9 +287,6 @@
 				},
 				{
 					"include": "#controls"
-				},
-				{
-					"include": "#operators"
 				},
 				{
 					"name": "keyword.other.storage.st",
