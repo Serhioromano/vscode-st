@@ -55,8 +55,9 @@ Utilize VS Code Formatter API. Use general formatting command short keys. It cap
 - add - `(END_?)CONST`, `(END_?)ORGANIZATION_BLOCK`, `(END_?)DATA_BLOCK`, `(END_?)LABEL`, `BEGIN`, `COUNTER`, `VOID`, `NIL` and `GOTO` keywords
 - add - support for `PQ` and `PI` in constants like `%PQW10.0`.
 
-### 1.11.13
+### 1.11.14
 
+- fix - highlight of names with `_TO_` in it
 - fix - comment in comment highlight
 - fix - capitalization of s,h,m in `T#***`
 
