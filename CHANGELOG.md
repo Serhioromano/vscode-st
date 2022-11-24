@@ -74,7 +74,7 @@ All notable changes to the "st" extension will be documented in this file.
 
 ## [1.8.2] - 2020-10-13
 
-- change - enter `st ` to see list of all snippets.
+- change - enter `st` to see list of all snippets.
 - add - Highlight ST in Markdown files when use `iecst` key.
 
   ![Example](https://raw.githubusercontent.com/Serhioromano/vscode-st/master/images/md-highlight.png)
@@ -88,7 +88,7 @@ All notable changes to the "st" extension will be documented in this file.
 ## [1.7.3] - 2019-09-14
 
 - add - syntax highlights keyword `__TRY`, `__CATCH`, `__FINALY`, `__NEW`, `__DELETE`, `S=`, `R=`
-- add - snippets fo `__TRY`, `__CATCH`, `__FINALY`, `__NEW`, `__DELETE`
+- add - snippets for `__TRY`, `__CATCH`, `__FINALY`, `__NEW`, `__DELETE`
 
 Thanks to @nikvoronin
 
@@ -121,9 +121,9 @@ I've learned few things about syntax highlights. Big refactoring. I added some m
 
 ## [1.3.1] - 2018-31-12
 
-- add - TYPE creation snippets (enumerations ans structure) and enhance it's syntax highlights
+- add - TYPE creation snippets (enumerations and structure) and enhance it's syntax highlights
 - enhance - Select type out of suggestion list when inset variable in declaration area from snippet
-- enhance - Utilise [October 2018](https://code.visualstudio.com/updates/v1_28#_project-level-snippets) feature for multiple prefixes in snippets and add multiple prefixes to some snippets.
+- enhance - Utilize [October 2018](https://code.visualstudio.com/updates/v1_28#_project-level-snippets) feature for multiple prefixes in snippets and add multiple prefixes to some snippets.
 - fix - syntax highlights for function_block
 
 ## [1.3.0] - 2018-19-12
@@ -138,9 +138,6 @@ More stable version
 - fix - Insert `END_VAR` after `VAR` is inserted.
 - fix - highlights for `WORD` datatype.
 - fix - other minor changes
-
-## [1.2.3] - 2018-13-05
-
 - fix - Notification "This file not a structured text language!" #6
 
 ## [1.2.0] - 2018-13-05
