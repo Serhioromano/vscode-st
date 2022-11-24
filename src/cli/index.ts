@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { Command } from 'commander';
-import { Model } from '../language-server/generated/ast';
-import { StLanguageMetaData } from '../language-server/generated/module';
+import { Document } from '../language-server/generated/ast';
+import { StructuredTextLanguageMetaData } from '../language-server/generated/module';
 import { createStServices } from '../language-server/st-module';
 import { extractAstNode } from './cli-util';
 import { generateJavaScript } from './generator';
@@ -9,7 +9,7 @@ import { NodeFileSystem } from 'langium/node';
 
 export const generateAction = async (fileName: string, opts: GenerateOptions): Promise<void> => {
     const services = createStServices(NodeFileSystem).St;
-    const model = await extractAstNode<Model>(fileName, services);
+    const model = await extractAstNode<Document>(fileName, services);
     const generatedFilePath = generateJavaScript(model, fileName, opts.destination);
     console.log(chalk.green(`JavaScript code generated successfully: ${generatedFilePath}`));
 };
@@ -24,7 +24,7 @@ export default function(): void {
     program
         .version(require('../../package.json').version);
 
-    const fileExtensions = StLanguageMetaData.fileExtensions.join(', ');
+    const fileExtensions = StructuredTextLanguageMetaData.fileExtensions.join(', ');
     program
         .command('generate')
         .argument('<file>', `source file (possible file extensions: ${fileExtensions})`)
