@@ -157,8 +157,12 @@
         ]
     },
     "dependencies": {
+        "chevrotain": "^9.1.0",
+        "chalk": "^4.1.2",
+        "commander": "^8.0.0",
         "langium": "^0.5.0",
         "vscode-languageclient": "^8.0.2",
-        "vscode-languageserver": "^8.0.2"
+        "vscode-languageserver": "^8.0.2",
+        "vscode-uri": "^3.0.2"
     }
 }

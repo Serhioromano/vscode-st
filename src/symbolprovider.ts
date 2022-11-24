@@ -14,7 +14,7 @@ export class STDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
         The search must consume wholly the parts above, so 'as few as possible but as many as needed' quantifier (*?) must be used along with:
         other text      : [\s\S]
 
-        And all patterns must be allowed to match the end of the document in place of the proper ending mark, but the whole pattern cannot match at 
+        And all patterns must be allowed to match the end of the document in place of the proper ending mark, but the whole pattern cannot match at
         the end of the document alone (probably a JavaScript / Chromium / V8 bug, empty match repeats indefinitely):
         base regex: /(?!$)(?:\/\/.*(?=\r?\n|$)|(["'])(?:(?!\1)(?:\$\1|[\s\S]))*(?:\1|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s\S]*?(?:\*\/|$)|[\s\S])*?/
 
@@ -39,7 +39,7 @@ export class STDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
         { PouBlock: "INTERFACE", SymType: vscode.SymbolKind.Interface, Desc: "Interface" },
         { PouBlock: "METHOD", SymType: vscode.SymbolKind.Method, Desc: "Method" },
         { PouBlock: "ACTION", SymType: vscode.SymbolKind.Event, Desc: "Action" },
-    ]
+    ];
 
     // a lookup for resolving the generically handled VAR blocks in to Symbols
     private static varBlocksList: TVarBlockDesc[] = [
@@ -93,8 +93,8 @@ export class STDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
                     }
 
                     else if (pou_type.substr(0, 3) === "VAR") {
-                        // determine attributes of the VAR block, and then iterate over all items, though it is unusual for sub-elements (STRUCT / UNION or enums) to be nested.
-                        const rgx_var_attr = /((?:(?:\b(?:ABSTRACT|CONSTANT|RETAIN|PERSISTENT|PUBLIC|PRIVATE|PROTECTED|INTERNAL|FINAL)\b)?(?:\/\/.*(?=\r?\n|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s]*?(?:\*\/|$)|[\s])*?)*)(?:$|(?=\S))/iy
+                        // determine attributes of the VAR block, and then iterate over all items, though it is unusual for sub-elements (STRUCT / UNION or Enums) to be nested.
+                        const rgx_var_attr = /((?:(?:\b(?:ABSTRACT|CONSTANT|RETAIN|PERSISTENT|PUBLIC|PRIVATE|PROTECTED|INTERNAL|FINAL)\b)?(?:\/\/.*(?=\r?\n|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s]*?(?:\*\/|$)|[\s])*?)*)(?:$|(?=\S))/iy;
                         /* Captures break-down
                             [1] POU attributes prior to first sub-item
                         */
@@ -113,7 +113,7 @@ export class STDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 
                     else {
                         // for all other POU types, find the block's name, and then recurse for possible nested symbols and POU's.
-                        const rgx_pou_name = /((?:(?:\b(?:ABSTRACT|CONSTANT|RETAIN|PERSISTENT|PUBLIC|PRIVATE|PROTECTED|INTERNAL|FINAL)\b)?(?:\/\/.*(?=\r?\n|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s\S]*?(?:\*\/|$)|[\s])*?)*)(?:$|\b(?=(?:(?:END_)?(?:ACTION|METHOD|STRUCT|UNION|(?<=END_)VAR|(?<!END)VAR(?:_(?:INPUT|OUTPUT|IN_OUT|INST|TEMP|STAT|GLOBAL|ACCESS|EXTERNAL|CONFIG))?)|EXTENDS|IMPLEMENTS|PROPERTY|USES|IF|CASE|WHILE|REPEAT|DO|FOR|RETURN|EXIT|CONTINUE|AT|ANY|BIT|BOOL|BYTE|[DL]?WORD|U?[SDL]?INT|L?REAL|L?TIME(?:_OF_DAY)?|L?TOD|L?DT|L?DATE(?:_AND_TIME)?|W?STRING|W?CHAR|ARRAY)\b)|\b([A-Z_](?:[A-Z0-9]|(?<!_)_)*)\b|(?=\S))/iy
+                        const rgx_pou_name = /((?:(?:\b(?:ABSTRACT|CONSTANT|RETAIN|PERSISTENT|PUBLIC|PRIVATE|PROTECTED|INTERNAL|FINAL)\b)?(?:\/\/.*(?=\r?\n|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s\S]*?(?:\*\/|$)|[\s])*?)*)(?:$|\b(?=(?:(?:END_)?(?:ACTION|METHOD|STRUCT|UNION|(?<=END_)VAR|(?<!END)VAR(?:_(?:INPUT|OUTPUT|IN_OUT|INST|TEMP|STAT|GLOBAL|ACCESS|EXTERNAL|CONFIG))?)|EXTENDS|IMPLEMENTS|PROPERTY|USES|IF|CASE|WHILE|REPEAT|DO|FOR|RETURN|EXIT|CONTINUE|AT|ANY|BIT|BOOL|BYTE|[DL]?WORD|U?[SDL]?INT|L?REAL|L?TIME(?:_OF_DAY)?|L?TOD|L?DT|L?DATE(?:_AND_TIME)?|W?STRING|W?CHAR|ARRAY)\b)|\b([A-Z_](?:[A-Z0-9]|(?<!_)_)*)\b|(?=\S))/iy;
                         /* Captures break-down
                             [1] POU attributes prior to name
                             [2] POU Name (if valid)
@@ -156,7 +156,7 @@ export class STDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
                         const struct_offset = offset + ms.index + ms[1].length;
                         const isEnum = ms[10] !== undefined;
                         if (isEnum) {
-                            // process an emnumeration item, separating its containing identifiers into EnumMember objects
+                            // process an enumeration item, separating its containing identifiers into EnumMember objects
                             const content_offset = struct_offset + ms[3].length + ms[5].length + 1;
                             separateVarIdents(ms[10]).forEach(varIdent => {
                                 const enums_offset = content_offset + varIdent.startOffset;
@@ -198,11 +198,11 @@ export class STDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
                 type TVarIdentReturn = { varIdent: string | undefined, startOffset: number, endOffset: number };
 
                 function separateVarIdents(text: string): TVarIdentReturn[] {
-                    // separate a comma seperated list of variable / type / struct / union / enum identifiers
+                    // separate a comma separated list of variable / type / struct / union / enum identifiers
                     // forcibly ignore certain common keywords that might appear nearby, so we don't scan too deeply
-                    let rgx_varIdent = /(?!$)((?:\/\/.*(?=\r?\n|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s\S]*?(?:\*\/|$)|[\s\S])*?)(?:$|,|(?:\b(?=(?:EXTENDS|IMPLEMENTS|PROPERTY|USES|IF|CASE|WHILE|REPEAT|DO|FOR|RETURN|EXIT|CONTINUE|AT|ANY|BIT|BOOL|BYTE|[DL]?WORD|U?[SDL]?INT|L?REAL|L?TIME(?:_OF_DAY)?|L?TOD|L?DT|L?DATE(?:_AND_TIME)?|W?STRING|W?CHAR|ARRAY)\b)|\b([A-Z_](?:[A-Z0-9]|(?<!_)_)*)\b|(?=\S)(?!\/\/|\/\*|\(\*))(?:\/\/.*(?=\r?\n|$)|(["'])(?:(?!\3)(?:\$\3|[\s\S]))*(?:\3|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s\S]*?(?:\*\/|$)|[\s\S])*?(?:$|,)(?:\/\/.*(?=\r?\n|$)|(["'])(?:(?!\4)(?:\$\4|[\s\S]))*(?:\4|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s\S]*?(?:\*\/|$)|[\s\S])*?(?:$|(?=\r?\n\s*?\r?\n|\s*(?:$|(?!\/\/|\/\*|\(\*)\S))))/iy
+                    let rgx_varIdent = /(?!$)((?:\/\/.*(?=\r?\n|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s\S]*?(?:\*\/|$)|[\s\S])*?)(?:$|,|(?:\b(?=(?:EXTENDS|IMPLEMENTS|PROPERTY|USES|IF|CASE|WHILE|REPEAT|DO|FOR|RETURN|EXIT|CONTINUE|AT|ANY|BIT|BOOL|BYTE|[DL]?WORD|U?[SDL]?INT|L?REAL|L?TIME(?:_OF_DAY)?|L?TOD|L?DT|L?DATE(?:_AND_TIME)?|W?STRING|W?CHAR|ARRAY)\b)|\b([A-Z_](?:[A-Z0-9]|(?<!_)_)*)\b|(?=\S)(?!\/\/|\/\*|\(\*))(?:\/\/.*(?=\r?\n|$)|(["'])(?:(?!\3)(?:\$\3|[\s\S]))*(?:\3|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s\S]*?(?:\*\/|$)|[\s\S])*?(?:$|,)(?:\/\/.*(?=\r?\n|$)|(["'])(?:(?!\4)(?:\$\4|[\s\S]))*(?:\4|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s\S]*?(?:\*\/|$)|[\s\S])*?(?:$|(?=\r?\n\s*?\r?\n|\s*(?:$|(?!\/\/|\/\*|\(\*)\S))))/iy;
                     /* Captures break-down
-                        [1] - leader preceeding first identifier
+                        [1] - leader preceding first identifier
                         [2] - identifier, if available
                     */
                     let varIdents: TVarIdentReturn[] = [];
@@ -213,7 +213,7 @@ export class STDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
                                 varIdent: vars[2],
                                 startOffset: vars.index + (vars[1] !== undefined ? vars[1].length : 0),
                                 endOffset: vars.index + vars[0].length
-                            })
+                            });
                     }
 
                     return varIdents.length !== 0 ? varIdents : [{varIdent: undefined, startOffset: text.length, endOffset: text.length}] as TVarIdentReturn[];
