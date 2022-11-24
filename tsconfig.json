@@ -1,25 +1,30 @@
 {
     "compilerOptions": {
         "module": "commonjs",
-        "target": "ES2020",
+        "target": "ES6",
         "outDir": "out",
         "lib": [
-            "ES2020"
+            "ESNext"
         ],
         "sourceMap": true,
         "rootDir": "src",
-        /* Strict Type-Checking Option */
         "experimentalDecorators": true,
         "esModuleInterop": true,
-		"strict": true
+        "skipLibCheck": true,
+        "moduleResolution": "node",
+        "strict": true
         /* Additional Checks */
         // "noUnusedLocals": true /* Report errors on unused locals. */
         // "noImplicitReturns": true, /* Report error when not all code paths in function return a value. */
         // "noFallthroughCasesInSwitch": true, /* Report errors for fallthrough cases in switch statement. */
         // "noUnusedParameters": true,  /* Report errors on unused parameters. */
+        // "forceConsistentCasingInFileNames": true
     },
+    "include": [
+        "src/**/*.ts"
+    ],
     "exclude": [
-        "node_modules",
-        ".vscode-test"
+        "out",
+        "node_modules"
     ]
 }

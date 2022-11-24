@@ -1,0 +1,12 @@
+{
+    "projectName": "St",
+    "languages": [{
+        "id": "st",
+        "grammar": "src/language-server/st.langium",
+        "fileExtensions": [".iecst", ".st", ".exp", ".scl"],
+        "textMate": {
+            "out": "syntaxes/st.tmLanguage.json"
+        }
+    }],
+    "out": "src/language-server/generated"
+}

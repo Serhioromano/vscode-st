@@ -8,6 +8,14 @@
         "url": "https://www.paypal.com/donate/?hosted_button_id=UTU4EMPLLLX54"
     },
     "scripts": {
+        "vscode:prepublish": "npm run build && npm run lint",
+        "build": "tsc -b tsconfig.json",
+        "watch": "tsc -b tsconfig.json --watch",
+        "lint": "eslint src --ext ts",
+        "langium:generate": "langium generate",
+        "langium:watch": "langium generate --watch"
+    },
+    "_scripts": {
         "vscode:prepublish": "npm run esbuild-base -- --minify",
         "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node",
         "esbuild": "npm run esbuild-base -- --sourcemap",
@@ -26,6 +34,14 @@
     "repository": {
         "type": "git",
         "url": "https://github.com/Serhioromano/vscode-st"
+    },
+    "files": [
+        "bin",
+        "out",
+        "src"
+    ],
+    "bin": {
+        "st-cli": "./bin/cli"
     },
     "keywords": [
         "ST",
