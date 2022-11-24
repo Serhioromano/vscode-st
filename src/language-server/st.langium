@@ -16,12 +16,12 @@ Function:
 Type:
     'TYPE' name=ID  'END_TYPE';
 
-Dtypes returns string:
-    'BOOL' | 'SINT' | 'USINT' | 'INT' | 'UINT' | 'DINT' | 'UDINT' | 'LINT' | 'ULINT' | 'REAL'
-    | 'LREAL' | 'TIME' | 'TOD' | 'DT' | 'BYTE' | 'WORD' | 'DWORD';
+type Declaration = FunctionBlock | Type;
 
-// Names:
-//     functionblock=[FunctionBlock:ID]  | type=[Type:ID];
+Dtypes:
+    'BOOL' | 'SINT' | 'USINT' | 'INT' | 'UINT' | 'DINT' | 'UDINT' | 'LINT' | 'ULINT' | 'REAL'
+    | 'LREAL' | 'TIME' | 'TOD' | 'DT' | 'BYTE' | 'WORD' | 'DWORD' | declaration=[Declaration:ID];
+
 
 
 terminal ID: /[_a-zA-Z][\w_]*/;

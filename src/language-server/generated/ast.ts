@@ -5,9 +5,15 @@
 
 /* eslint-disable @typescript-eslint/array-type */
 /* eslint-disable @typescript-eslint/no-empty-interface */
-import { AstNode, AstReflection, ReferenceInfo, isAstNode, TypeMetaData } from 'langium';
+import { AstNode, AstReflection, Reference, ReferenceInfo, isAstNode, TypeMetaData } from 'langium';
 
-export type Dtypes = 'BOOL' | 'BYTE' | 'DINT' | 'DT' | 'DWORD' | 'INT' | 'LINT' | 'LREAL' | 'REAL' | 'SINT' | 'TIME' | 'TOD' | 'UDINT' | 'UINT' | 'ULINT' | 'USINT' | 'WORD';
+export type Declaration = FunctionBlock | Type;
+
+export const Declaration = 'Declaration';
+
+export function isDeclaration(item: unknown): item is Declaration {
+    return reflection.isInstance(item, Declaration);
+}
 
 export interface Document extends AstNode {
     functionb: Array<FunctionBlock>
@@ -20,6 +26,17 @@ export const Document = 'Document';
 
 export function isDocument(item: unknown): item is Document {
     return reflection.isInstance(item, Document);
+}
+
+export interface Dtypes extends AstNode {
+    readonly $container: Function;
+    declaration?: Reference<Declaration>
+}
+
+export const Dtypes = 'Dtypes';
+
+export function isDtypes(item: unknown): item is Dtypes {
+    return reflection.isInstance(item, Dtypes);
 }
 
 export interface Function extends AstNode {
@@ -67,12 +84,12 @@ export function isType(item: unknown): item is Type {
     return reflection.isInstance(item, Type);
 }
 
-export type StAstType = 'Document' | 'Function' | 'FunctionBlock' | 'Program' | 'Type';
+export type StAstType = 'Declaration' | 'Document' | 'Dtypes' | 'Function' | 'FunctionBlock' | 'Program' | 'Type';
 
 export class StAstReflection implements AstReflection {
 
     getAllTypes(): string[] {
-        return ['Document', 'Function', 'FunctionBlock', 'Program', 'Type'];
+        return ['Declaration', 'Document', 'Dtypes', 'Function', 'FunctionBlock', 'Program', 'Type'];
     }
 
     isInstance(node: unknown, type: string): boolean {
@@ -84,6 +101,10 @@ export class StAstReflection implements AstReflection {
             return true;
         }
         switch (subtype) {
+            case FunctionBlock:
+            case Type: {
+                return this.isSubtype(Declaration, supertype);
+            }
             default: {
                 return false;
             }
@@ -93,6 +114,9 @@ export class StAstReflection implements AstReflection {
     getReferenceType(refInfo: ReferenceInfo): string {
         const referenceId = `${refInfo.container.$type}:${refInfo.property}`;
         switch (referenceId) {
+            case 'Dtypes:declaration': {
+                return Declaration;
+            }
             default: {
                 throw new Error(`${referenceId} is not a valid reference id.`);
             }

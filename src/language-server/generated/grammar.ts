@@ -234,7 +234,6 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
     {
       "$type": "ParserRule",
       "name": "Dtypes",
-      "dataType": "string",
       "definition": {
         "$type": "Alternatives",
         "elements": [
@@ -305,6 +304,25 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
           {
             "$type": "Keyword",
             "value": "DWORD"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "declaration",
+            "operator": "=",
+            "terminal": {
+              "$type": "CrossReference",
+              "type": {
+                "$refText": "Declaration"
+              },
+              "terminal": {
+                "$type": "RuleCall",
+                "rule": {
+                  "$refText": "ID"
+                },
+                "arguments": []
+              },
+              "deprecatedSyntax": false
+            }
           }
         ]
       },
@@ -380,10 +398,33 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
       "fragment": false
     }
   ],
+  "types": [
+    {
+      "$type": "Type",
+      "typeAlternatives": [
+        {
+          "$type": "AtomType",
+          "refType": {
+            "$refText": "FunctionBlock"
+          },
+          "isArray": false,
+          "isRef": false
+        },
+        {
+          "$type": "AtomType",
+          "refType": {
+            "$refText": "Type"
+          },
+          "isArray": false,
+          "isRef": false
+        }
+      ],
+      "name": "Declaration"
+    }
+  ],
   "definesHiddenTokens": false,
   "hiddenTokens": [],
   "imports": [],
   "interfaces": [],
-  "types": [],
   "usedGrammars": []
 }`));
