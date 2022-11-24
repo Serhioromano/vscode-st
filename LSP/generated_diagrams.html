@@ -1,0 +1,594 @@
+
+<!-- This is a generated file -->
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+  body {
+    background-color: hsl(30, 20%, 95%)
+  }
+</style>
+
+
+<link rel='stylesheet' href='https://unpkg.com/chevrotain@10.4.2/diagrams/diagrams.css'>
+
+<script src='https://unpkg.com/chevrotain@10.4.2/diagrams/vendor/railroad-diagrams.js'></script>
+<script src='https://unpkg.com/chevrotain@10.4.2/diagrams/src/diagrams_builder.js'></script>
+<script src='https://unpkg.com/chevrotain@10.4.2/diagrams/src/diagrams_behavior.js'></script>
+<script src='https://unpkg.com/chevrotain@10.4.2/diagrams/src/main.js'></script>
+
+<div id="diagrams" align="center"></div>    
+
+<script>
+    window.serializedGrammar = [
+  {
+    "type": "Rule",
+    "name": "iecst",
+    "orgText": "",
+    "definition": [
+      {
+        "type": "Repetition",
+        "idx": 0,
+        "definition": [
+          {
+            "type": "Alternation",
+            "idx": 0,
+            "definition": [
+              {
+                "type": "Alternative",
+                "definition": [
+                  {
+                    "type": "NonTerminal",
+                    "name": "namespace",
+                    "idx": 0
+                  }
+                ]
+              },
+              {
+                "type": "Alternative",
+                "definition": [
+                  {
+                    "type": "NonTerminal",
+                    "name": "function",
+                    "idx": 0
+                  }
+                ]
+              },
+              {
+                "type": "Alternative",
+                "definition": [
+                  {
+                    "type": "NonTerminal",
+                    "name": "program",
+                    "idx": 0
+                  }
+                ]
+              },
+              {
+                "type": "Alternative",
+                "definition": [
+                  {
+                    "type": "NonTerminal",
+                    "name": "function_block",
+                    "idx": 0
+                  }
+                ]
+              },
+              {
+                "type": "Alternative",
+                "definition": [
+                  {
+                    "type": "NonTerminal",
+                    "name": "var_global",
+                    "idx": 0
+                  }
+                ]
+              },
+              {
+                "type": "Alternative",
+                "definition": [
+                  {
+                    "type": "NonTerminal",
+                    "name": "type_declaration",
+                    "idx": 0
+                  }
+                ]
+              },
+              {
+                "type": "Alternative",
+                "definition": [
+                  {
+                    "type": "NonTerminal",
+                    "name": "configuration",
+                    "idx": 0
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Rule",
+    "name": "namespace",
+    "orgText": "",
+    "definition": [
+      {
+        "type": "Terminal",
+        "name": "NAMESPACE",
+        "label": "NAMESPACE",
+        "idx": 0,
+        "pattern": "NAMESPACE"
+      },
+      {
+        "type": "Terminal",
+        "name": "simbol",
+        "label": "simbol",
+        "idx": 0,
+        "terminalLabel": "Name",
+        "pattern": "[a-zA-Z]+[a-zA-Z0-9_]*"
+      },
+      {
+        "type": "Repetition",
+        "idx": 0,
+        "definition": [
+          {
+            "type": "Alternation",
+            "idx": 0,
+            "definition": [
+              {
+                "type": "Alternative",
+                "definition": [
+                  {
+                    "type": "NonTerminal",
+                    "name": "function",
+                    "idx": 0
+                  }
+                ]
+              },
+              {
+                "type": "Alternative",
+                "definition": [
+                  {
+                    "type": "NonTerminal",
+                    "name": "program",
+                    "idx": 0
+                  }
+                ]
+              },
+              {
+                "type": "Alternative",
+                "definition": [
+                  {
+                    "type": "NonTerminal",
+                    "name": "function_block",
+                    "idx": 0
+                  }
+                ]
+              },
+              {
+                "type": "Alternative",
+                "definition": [
+                  {
+                    "type": "NonTerminal",
+                    "name": "var_global",
+                    "idx": 0
+                  }
+                ]
+              },
+              {
+                "type": "Alternative",
+                "definition": [
+                  {
+                    "type": "NonTerminal",
+                    "name": "type_declaration",
+                    "idx": 0
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Terminal",
+        "name": "END_NAMESPACE",
+        "label": "END_NAMESPACE",
+        "idx": 0,
+        "pattern": "END_NAMESPACE"
+      }
+    ]
+  },
+  {
+    "type": "Rule",
+    "name": "function",
+    "orgText": "",
+    "definition": [
+      {
+        "type": "Terminal",
+        "name": "FUNCTION",
+        "label": "FUNCTION",
+        "idx": 0,
+        "pattern": "FUNCTION"
+      },
+      {
+        "type": "Terminal",
+        "name": "simbol",
+        "label": "simbol",
+        "idx": 0,
+        "terminalLabel": "function_name",
+        "pattern": "[a-zA-Z]+[a-zA-Z0-9_]*"
+      },
+      {
+        "type": "Terminal",
+        "name": "DD",
+        "label": ":",
+        "idx": 0,
+        "pattern": ":"
+      },
+      {
+        "type": "NonTerminal",
+        "name": "var_type",
+        "idx": 0
+      },
+      {
+        "type": "NonTerminal",
+        "name": "var_block",
+        "idx": 0
+      },
+      {
+        "type": "Terminal",
+        "name": "END_FUNCTION",
+        "label": "END_FUNCTION",
+        "idx": 0,
+        "pattern": "END_FUNCTION"
+      }
+    ]
+  },
+  {
+    "type": "Rule",
+    "name": "function_block",
+    "orgText": "",
+    "definition": [
+      {
+        "type": "Terminal",
+        "name": "FUNCTION_BLOCK",
+        "label": "FUNCTION_BLOCK",
+        "idx": 0,
+        "pattern": "FUNCTION_BLOCK"
+      },
+      {
+        "type": "Terminal",
+        "name": "simbol",
+        "label": "simbol",
+        "idx": 0,
+        "pattern": "[a-zA-Z]+[a-zA-Z0-9_]*"
+      },
+      {
+        "type": "NonTerminal",
+        "name": "var_block",
+        "idx": 0
+      },
+      {
+        "type": "Terminal",
+        "name": "END_FUNCTION_BLOCK",
+        "label": "END_FUNCTION_BLOCK",
+        "idx": 0,
+        "pattern": "END_FUNCTION_BLOCK"
+      }
+    ]
+  },
+  {
+    "type": "Rule",
+    "name": "var_global",
+    "orgText": "",
+    "definition": [
+      {
+        "type": "Terminal",
+        "name": "VAR_GLOBAL",
+        "label": "VAR_GLOBAL",
+        "idx": 0,
+        "pattern": "VAR_GLOBAL"
+      },
+      {
+        "type": "Option",
+        "idx": 0,
+        "definition": [
+          {
+            "type": "NonTerminal",
+            "name": "var_keyword",
+            "idx": 0
+          }
+        ]
+      },
+      {
+        "type": "NonTerminal",
+        "name": "var_declaration",
+        "idx": 0
+      },
+      {
+        "type": "Terminal",
+        "name": "END_VAR_GLOBAL",
+        "label": "END_VAR_GLOBAL",
+        "idx": 0,
+        "pattern": "END_VAR_GLOBAL"
+      }
+    ]
+  },
+  {
+    "type": "Rule",
+    "name": "type_declaration",
+    "orgText": "",
+    "definition": [
+      {
+        "type": "Terminal",
+        "name": "TYPE",
+        "label": "TYPE",
+        "idx": 0,
+        "pattern": "TYPE"
+      },
+      {
+        "type": "Terminal",
+        "name": "END_TYPE",
+        "label": "END_TYPE",
+        "idx": 0,
+        "pattern": "END_TYPE"
+      }
+    ]
+  },
+  {
+    "type": "Rule",
+    "name": "configuration",
+    "orgText": "",
+    "definition": [
+      {
+        "type": "Terminal",
+        "name": "CONFIGURATION",
+        "label": "CONFIGURATION",
+        "idx": 0,
+        "pattern": "CONFIGURATION"
+      },
+      {
+        "type": "Terminal",
+        "name": "END_CONFIGURATION",
+        "label": "END_CONFIGURATION",
+        "idx": 0,
+        "pattern": "END_CONFIGURATION"
+      }
+    ]
+  },
+  {
+    "type": "Rule",
+    "name": "program",
+    "orgText": "",
+    "definition": [
+      {
+        "type": "Terminal",
+        "name": "PROGRAM",
+        "label": "PROGRAM",
+        "idx": 0,
+        "pattern": "PROGRAM"
+      },
+      {
+        "type": "Terminal",
+        "name": "simbol",
+        "label": "simbol",
+        "idx": 0,
+        "pattern": "[a-zA-Z]+[a-zA-Z0-9_]*"
+      },
+      {
+        "type": "NonTerminal",
+        "name": "var_block",
+        "idx": 0
+      },
+      {
+        "type": "Terminal",
+        "name": "END_PROGRAM",
+        "label": "END_PROGRAM",
+        "idx": 0,
+        "pattern": "END_PROGRAM"
+      }
+    ]
+  },
+  {
+    "type": "Rule",
+    "name": "var_block",
+    "orgText": "",
+    "definition": [
+      {
+        "type": "Repetition",
+        "idx": 0,
+        "definition": [
+          {
+            "type": "Terminal",
+            "name": "VAR",
+            "label": "VAR(INPUT|OUTPUT|IN_OUT|TEMP|EXTERNAL)",
+            "idx": 0,
+            "pattern": "VAR_?(INPUT|OUTPUT|IN_OUT|TEMP|EXTERNAL)?"
+          },
+          {
+            "type": "Option",
+            "idx": 0,
+            "definition": [
+              {
+                "type": "NonTerminal",
+                "name": "var_keyword",
+                "idx": 0
+              }
+            ]
+          },
+          {
+            "type": "NonTerminal",
+            "name": "var_declaration",
+            "idx": 0
+          },
+          {
+            "type": "Terminal",
+            "name": "END_VAR",
+            "label": "END_VAR",
+            "idx": 0,
+            "pattern": "END_VAR"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Rule",
+    "name": "var_keyword",
+    "orgText": "",
+    "definition": [
+      {
+        "type": "Repetition",
+        "idx": 0,
+        "definition": [
+          {
+            "type": "Alternation",
+            "idx": 0,
+            "definition": [
+              {
+                "type": "Alternative",
+                "definition": [
+                  {
+                    "type": "Terminal",
+                    "name": "CONSTANT",
+                    "label": "CONSTANT",
+                    "idx": 0,
+                    "pattern": "CONSTANT"
+                  }
+                ]
+              },
+              {
+                "type": "Alternative",
+                "definition": [
+                  {
+                    "type": "Terminal",
+                    "name": "RETAIN",
+                    "label": "RETAIN",
+                    "idx": 0,
+                    "pattern": "RETAIN"
+                  }
+                ]
+              },
+              {
+                "type": "Alternative",
+                "definition": [
+                  {
+                    "type": "Terminal",
+                    "name": "PERSISTANT",
+                    "label": "PERSISTANT",
+                    "idx": 0,
+                    "pattern": "PERSISTANT"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Rule",
+    "name": "var_declaration",
+    "orgText": "",
+    "definition": [
+      {
+        "type": "Repetition",
+        "idx": 0,
+        "definition": [
+          {
+            "type": "Terminal",
+            "name": "simbol",
+            "label": "simbol",
+            "idx": 0,
+            "pattern": "[a-zA-Z]+[a-zA-Z0-9_]*"
+          },
+          {
+            "type": "Option",
+            "idx": 0,
+            "definition": [
+              {
+                "type": "Terminal",
+                "name": "AT",
+                "label": "AT",
+                "idx": 0,
+                "pattern": "AT"
+              },
+              {
+                "type": "Terminal",
+                "name": "ADDRESS",
+                "label": "ADDRESS",
+                "idx": 0,
+                "pattern": "\\%(Q|I|M){1}(X|B|W|D|L){1}[0-9\\.]+"
+              }
+            ]
+          },
+          {
+            "type": "Terminal",
+            "name": "DD",
+            "label": ":",
+            "idx": 0,
+            "pattern": ":"
+          },
+          {
+            "type": "NonTerminal",
+            "name": "var_type",
+            "idx": 0
+          },
+          {
+            "type": "Terminal",
+            "name": "CD",
+            "label": ";",
+            "idx": 0,
+            "pattern": ";"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Rule",
+    "name": "var_type",
+    "orgText": "",
+    "definition": [
+      {
+        "type": "Alternation",
+        "idx": 0,
+        "definition": [
+          {
+            "type": "Alternative",
+            "definition": [
+              {
+                "type": "Terminal",
+                "name": "VAR TYPE",
+                "label": "VAR TYPE",
+                "idx": 0,
+                "pattern": "(BOOL|U?(D|S)?INT)"
+              }
+            ]
+          },
+          {
+            "type": "Alternative",
+            "definition": [
+              {
+                "type": "Terminal",
+                "name": "simbol",
+                "label": "simbol",
+                "idx": 0,
+                "pattern": "[a-zA-Z]+[a-zA-Z0-9_]*"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+];
+</script>
+
+<script>
+    var diagramsDiv = document.getElementById("diagrams");
+    main.drawDiagramsFromSerializedGrammar(serializedGrammar, diagramsDiv);
+</script>
