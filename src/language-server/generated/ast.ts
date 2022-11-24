@@ -7,6 +7,8 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import { AstNode, AstReflection, ReferenceInfo, isAstNode, TypeMetaData } from 'langium';
 
+export type Dtypes = 'BOOL' | 'BYTE' | 'DINT' | 'DT' | 'DWORD' | 'INT' | 'LINT' | 'LREAL' | 'REAL' | 'SINT' | 'TIME' | 'TOD' | 'UDINT' | 'UINT' | 'ULINT' | 'USINT' | 'WORD';
+
 export interface Document extends AstNode {
     functionb: Array<FunctionBlock>
     functions: Array<Function>
@@ -23,6 +25,7 @@ export function isDocument(item: unknown): item is Document {
 export interface Function extends AstNode {
     readonly $container: Document;
     name: string
+    return_type: Dtypes
 }
 
 export const Function = 'Function';

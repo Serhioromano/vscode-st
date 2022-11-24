@@ -172,6 +172,18 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
             "value": ":"
           },
           {
+            "$type": "Assignment",
+            "feature": "return_type",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Dtypes"
+              },
+              "arguments": []
+            }
+          },
+          {
             "$type": "Keyword",
             "value": "END_FUNCTION"
           }
@@ -209,6 +221,90 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
           {
             "$type": "Keyword",
             "value": "END_TYPE"
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "Dtypes",
+      "dataType": "string",
+      "definition": {
+        "$type": "Alternatives",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "BOOL"
+          },
+          {
+            "$type": "Keyword",
+            "value": "SINT"
+          },
+          {
+            "$type": "Keyword",
+            "value": "USINT"
+          },
+          {
+            "$type": "Keyword",
+            "value": "INT"
+          },
+          {
+            "$type": "Keyword",
+            "value": "UINT"
+          },
+          {
+            "$type": "Keyword",
+            "value": "DINT"
+          },
+          {
+            "$type": "Keyword",
+            "value": "UDINT"
+          },
+          {
+            "$type": "Keyword",
+            "value": "LINT"
+          },
+          {
+            "$type": "Keyword",
+            "value": "ULINT"
+          },
+          {
+            "$type": "Keyword",
+            "value": "REAL"
+          },
+          {
+            "$type": "Keyword",
+            "value": "LREAL"
+          },
+          {
+            "$type": "Keyword",
+            "value": "TIME"
+          },
+          {
+            "$type": "Keyword",
+            "value": "TOD"
+          },
+          {
+            "$type": "Keyword",
+            "value": "DT"
+          },
+          {
+            "$type": "Keyword",
+            "value": "BYTE"
+          },
+          {
+            "$type": "Keyword",
+            "value": "WORD"
+          },
+          {
+            "$type": "Keyword",
+            "value": "DWORD"
           }
         ]
       },
