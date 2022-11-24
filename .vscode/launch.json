@@ -6,31 +6,30 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Run Extension",
             "type": "extensionHost",
             "request": "launch",
-            "name": "Launch Client",
-            "runtimeExecutable": "${execPath}",
             "args": [
-                "--extensionDevelopmentPath=${workspaceRoot}",
-                "--trace-deprecation"
+                "--profile=ExtensionDebug",
+                "--extensionDevelopmentPath=${workspaceFolder}"
             ],
             "outFiles": [
-                "${workspaceRoot}/client/out/**/*.js"
+                "${workspaceFolder}/out/**/*.js"
             ],
-            "preLaunchTask": {
-                "type": "npm",
-                "script": "watch"
-            }
+            "preLaunchTask": "${defaultBuildTask}"
         },
         {
-            "type": "node",
-            "request": "attach",
-            "name": "Attach to Server",
-            "port": 6009,
-            "restart": true,
+            "name": "Extension Tests",
+            "type": "extensionHost",
+            "request": "launch",
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}",
+                "--extensionTestsPath=${workspaceFolder}/out/test/suite/index"
+            ],
             "outFiles": [
-                "${workspaceRoot}/server/out/**/*.js"
-            ]
-        },
+                "${workspaceFolder}/out/**/*.js"
+            ],
+            "preLaunchTask": "${defaultBuildTask}"
+        }
     ]
 }
