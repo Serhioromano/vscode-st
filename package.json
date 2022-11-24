@@ -31,7 +31,6 @@
         "vars": "env | grep npm_package_",
         "test": "node ./out/test/runTest.js"
     },
-    "_main": "./out/main.js",
     "repository": {
         "type": "git",
         "url": "https://github.com/Serhioromano/vscode-st"

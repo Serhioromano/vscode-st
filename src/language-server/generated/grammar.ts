@@ -5,39 +5,63 @@
 
 import { loadGrammarFromJson, Grammar } from 'langium';
 
-let loadedStGrammar: Grammar | undefined;
-export const StGrammar = (): Grammar => loadedStGrammar ?? (loadedStGrammar = loadGrammarFromJson(`{
+let loadedStructuredTextGrammar: Grammar | undefined;
+export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar ?? (loadedStructuredTextGrammar = loadGrammarFromJson(`{
   "$type": "Grammar",
   "isDeclared": true,
-  "name": "St",
+  "name": "StructuredText",
   "rules": [
     {
       "$type": "ParserRule",
-      "name": "Model",
+      "name": "Document",
       "entry": true,
       "definition": {
         "$type": "Alternatives",
         "elements": [
           {
             "$type": "Assignment",
-            "feature": "persons",
+            "feature": "programs",
             "operator": "+=",
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$refText": "Person"
+                "$refText": "Program"
               },
               "arguments": []
             }
           },
           {
             "$type": "Assignment",
-            "feature": "greetings",
+            "feature": "functions",
             "operator": "+=",
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$refText": "Greeting"
+                "$refText": "Function"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Assignment",
+            "feature": "functionb",
+            "operator": "+=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "FunctionBlock"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Assignment",
+            "feature": "types",
+            "operator": "+=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Type"
               },
               "arguments": []
             }
@@ -53,13 +77,13 @@ export const StGrammar = (): Grammar => loadedStGrammar ?? (loadedStGrammar = lo
     },
     {
       "$type": "ParserRule",
-      "name": "Person",
+      "name": "Program",
       "definition": {
         "$type": "Group",
         "elements": [
           {
             "$type": "Keyword",
-            "value": "person"
+            "value": "PROGRAM"
           },
           {
             "$type": "Assignment",
@@ -72,6 +96,10 @@ export const StGrammar = (): Grammar => loadedStGrammar ?? (loadedStGrammar = lo
               },
               "arguments": []
             }
+          },
+          {
+            "$type": "Keyword",
+            "value": "END_PROGRAM"
           }
         ]
       },
@@ -84,36 +112,29 @@ export const StGrammar = (): Grammar => loadedStGrammar ?? (loadedStGrammar = lo
     },
     {
       "$type": "ParserRule",
-      "name": "Greeting",
+      "name": "FunctionBlock",
       "definition": {
         "$type": "Group",
         "elements": [
           {
             "$type": "Keyword",
-            "value": "Hello"
+            "value": "FUNCTION_BLOCK"
           },
           {
             "$type": "Assignment",
-            "feature": "person",
+            "feature": "name",
             "operator": "=",
             "terminal": {
-              "$type": "CrossReference",
-              "type": {
-                "$refText": "Person"
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "ID"
               },
-              "terminal": {
-                "$type": "RuleCall",
-                "rule": {
-                  "$refText": "ID"
-                },
-                "arguments": []
-              },
-              "deprecatedSyntax": false
+              "arguments": []
             }
           },
           {
             "$type": "Keyword",
-            "value": "!"
+            "value": "END_FUNCTION_BLOCK"
           }
         ]
       },
@@ -125,14 +146,78 @@ export const StGrammar = (): Grammar => loadedStGrammar ?? (loadedStGrammar = lo
       "wildcard": false
     },
     {
-      "$type": "TerminalRule",
-      "hidden": true,
-      "name": "WS",
+      "$type": "ParserRule",
+      "name": "Function",
       "definition": {
-        "$type": "RegexToken",
-        "regex": "\\\\s+"
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "FUNCTION"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "name",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "ID"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": ":"
+          },
+          {
+            "$type": "Keyword",
+            "value": "END_FUNCTION"
+          }
+        ]
       },
-      "fragment": false
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "Type",
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "TYPE"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "name",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "ID"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "END_TYPE"
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
     },
     {
       "$type": "TerminalRule",
@@ -146,7 +231,7 @@ export const StGrammar = (): Grammar => loadedStGrammar ?? (loadedStGrammar = lo
     },
     {
       "$type": "TerminalRule",
-      "name": "INT",
+      "name": "DIGIT",
       "type": {
         "$type": "ReturnType",
         "name": "number"
@@ -160,21 +245,31 @@ export const StGrammar = (): Grammar => loadedStGrammar ?? (loadedStGrammar = lo
     },
     {
       "$type": "TerminalRule",
-      "name": "STRING",
+      "hidden": true,
+      "name": "WS",
       "definition": {
         "$type": "RegexToken",
-        "regex": "\\"[^\\"]*\\"|'[^']*'"
+        "regex": "\\\\s+"
       },
-      "fragment": false,
-      "hidden": false
+      "fragment": false
     },
     {
       "$type": "TerminalRule",
       "hidden": true,
-      "name": "ML_COMMENT",
+      "name": "ML_COMMENT1",
       "definition": {
         "$type": "RegexToken",
         "regex": "\\\\/\\\\*[\\\\s\\\\S]*?\\\\*\\\\/"
+      },
+      "fragment": false
+    },
+    {
+      "$type": "TerminalRule",
+      "hidden": true,
+      "name": "ML_COMMENT2",
+      "definition": {
+        "$type": "RegexToken",
+        "regex": "\\\\(\\\\*[\\\\s\\\\S]*?\\\\*\\\\)"
       },
       "fragment": false
     },

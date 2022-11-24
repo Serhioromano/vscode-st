@@ -5,47 +5,71 @@
 
 /* eslint-disable @typescript-eslint/array-type */
 /* eslint-disable @typescript-eslint/no-empty-interface */
-import { AstNode, AstReflection, Reference, ReferenceInfo, isAstNode, TypeMetaData } from 'langium';
+import { AstNode, AstReflection, ReferenceInfo, isAstNode, TypeMetaData } from 'langium';
 
-export interface Greeting extends AstNode {
-    readonly $container: Model;
-    person: Reference<Person>
+export interface Document extends AstNode {
+    functionb: Array<FunctionBlock>
+    functions: Array<Function>
+    programs: Array<Program>
+    types: Array<Type>
 }
 
-export const Greeting = 'Greeting';
+export const Document = 'Document';
 
-export function isGreeting(item: unknown): item is Greeting {
-    return reflection.isInstance(item, Greeting);
+export function isDocument(item: unknown): item is Document {
+    return reflection.isInstance(item, Document);
 }
 
-export interface Model extends AstNode {
-    greetings: Array<Greeting>
-    persons: Array<Person>
-}
-
-export const Model = 'Model';
-
-export function isModel(item: unknown): item is Model {
-    return reflection.isInstance(item, Model);
-}
-
-export interface Person extends AstNode {
-    readonly $container: Model;
+export interface Function extends AstNode {
+    readonly $container: Document;
     name: string
 }
 
-export const Person = 'Person';
+export const Function = 'Function';
 
-export function isPerson(item: unknown): item is Person {
-    return reflection.isInstance(item, Person);
+export function isFunction(item: unknown): item is Function {
+    return reflection.isInstance(item, Function);
 }
 
-export type StAstType = 'Greeting' | 'Model' | 'Person';
+export interface FunctionBlock extends AstNode {
+    readonly $container: Document;
+    name: string
+}
+
+export const FunctionBlock = 'FunctionBlock';
+
+export function isFunctionBlock(item: unknown): item is FunctionBlock {
+    return reflection.isInstance(item, FunctionBlock);
+}
+
+export interface Program extends AstNode {
+    readonly $container: Document;
+    name: string
+}
+
+export const Program = 'Program';
+
+export function isProgram(item: unknown): item is Program {
+    return reflection.isInstance(item, Program);
+}
+
+export interface Type extends AstNode {
+    readonly $container: Document;
+    name: string
+}
+
+export const Type = 'Type';
+
+export function isType(item: unknown): item is Type {
+    return reflection.isInstance(item, Type);
+}
+
+export type StAstType = 'Document' | 'Function' | 'FunctionBlock' | 'Program' | 'Type';
 
 export class StAstReflection implements AstReflection {
 
     getAllTypes(): string[] {
-        return ['Greeting', 'Model', 'Person'];
+        return ['Document', 'Function', 'FunctionBlock', 'Program', 'Type'];
     }
 
     isInstance(node: unknown, type: string): boolean {
@@ -66,9 +90,6 @@ export class StAstReflection implements AstReflection {
     getReferenceType(refInfo: ReferenceInfo): string {
         const referenceId = `${refInfo.container.$type}:${refInfo.property}`;
         switch (referenceId) {
-            case 'Greeting:person': {
-                return Person;
-            }
             default: {
                 throw new Error(`${referenceId} is not a valid reference id.`);
             }
@@ -77,12 +98,14 @@ export class StAstReflection implements AstReflection {
 
     getTypeMetaData(type: string): TypeMetaData {
         switch (type) {
-            case 'Model': {
+            case 'Document': {
                 return {
-                    name: 'Model',
+                    name: 'Document',
                     mandatory: [
-                        { name: 'greetings', type: 'array' },
-                        { name: 'persons', type: 'array' }
+                        { name: 'functionb', type: 'array' },
+                        { name: 'functions', type: 'array' },
+                        { name: 'programs', type: 'array' },
+                        { name: 'types', type: 'array' }
                     ]
                 };
             }

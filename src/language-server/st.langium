@@ -1,18 +1,30 @@
-grammar St
+grammar StructuredText
 
-entry Model:
-    (persons+=Person | greetings+=Greeting)*;
+entry Document:
+    (programs+=Program | functions+=Function | functionb+=FunctionBlock
+    | types+=Type)*;
 
-Person:
-    'person' name=ID;
+Program:
+    'PROGRAM' name=ID 'END_PROGRAM';
 
-Greeting:
-    'Hello' person=[Person:ID] '!';
+FunctionBlock:
+    'FUNCTION_BLOCK' name=ID 'END_FUNCTION_BLOCK';
+
+Function:
+    'FUNCTION' name=ID ':' 'END_FUNCTION';
+
+Type:
+    'TYPE' name=ID  'END_TYPE';
+
+// Dtypes:
+//     ('BOOL' | 'SINT' | 'USINT' | 'INT' | 'UINT' | 'DINT' | 'UDINT' | 'LINT' | 'ULINT' | 'REAL'
+//     | 'LREAL' | 'TIME' | 'TOD' | 'DT' | 'BYTE' | 'WORD' | 'DWORD' | functionblock=[FunctionBlock:ID]
+//     | type=[Type:ID]);
+
+terminal ID: /[_a-zA-Z][\w_]*/;
+terminal DIGIT returns number: /[0-9]+/;
 
 hidden terminal WS: /\s+/;
-terminal ID: /[_a-zA-Z][\w_]*/;
-terminal INT returns number: /[0-9]+/;
-terminal STRING: /"[^"]*"|'[^']*'/;
-
-hidden terminal ML_COMMENT: /\/\*[\s\S]*?\*\//;
+hidden terminal ML_COMMENT1: /\/\*[\s\S]*?\*\//;
+hidden terminal ML_COMMENT2: /\(\*[\s\S]*?\*\)/;
 hidden terminal SL_COMMENT: /\/\/[^\n\r]*/;

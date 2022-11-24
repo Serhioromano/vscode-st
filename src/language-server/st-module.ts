@@ -2,7 +2,7 @@ import {
     createDefaultModule, createDefaultSharedModule, DefaultSharedModuleContext, inject,
     LangiumServices, LangiumSharedServices, Module, PartialLangiumServices
 } from 'langium';
-import { StGeneratedModule, StGeneratedSharedModule } from './generated/module';
+import { StructuredTextGeneratedModule, StGeneratedSharedModule } from './generated/module';
 import { StValidationRegistry, StValidator } from './st-validator';
 
 /**
@@ -12,13 +12,13 @@ export type StAddedServices = {
     validation: {
         StValidator: StValidator
     }
-}
+};
 
 /**
  * Union of Langium default services and your custom services - use this as constructor parameter
  * of custom service classes.
  */
-export type StServices = LangiumServices & StAddedServices
+export type StServices = LangiumServices & StAddedServices;
 
 /**
  * Dependency injection module that overrides Langium default services and contributes the
@@ -57,7 +57,7 @@ export function createStServices(context: DefaultSharedModuleContext): {
     );
     const St = inject(
         createDefaultModule({ shared }),
-        StGeneratedModule,
+        StructuredTextGeneratedModule,
         StModule
     );
     shared.ServiceRegistry.register(St);
