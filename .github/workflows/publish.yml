@@ -9,6 +9,7 @@ jobs:
     name: Publish VS Code Extension
     runs-on: ubuntu-latest
 
+
     steps:
     - name: Checkout Tag
       uses: actions/checkout@v2

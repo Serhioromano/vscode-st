@@ -1,13 +1,21 @@
 {
-    "cSpell.language": "ru,en",
-    "workbench.colorTheme": "Default Dark+",
-    "spellright.language": [
-        "en"
+	"cSpell.language": "ru,en",
+    "workbench.colorTheme": "Atom One Light",
+    "cSpell.words": [
+        "STLSP",
+        "symbolprovider"
     ],
-    "spellright.documentTypes": [
-        "markdown",
-        "latex",
-        "plaintext",
-        "typescript"
+    "[typescript]": {
+		"editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "separators.enabledSymbols": [
+        "Classes",
+        "Constructors",
+        "Enums",
+        "Functions",
+        "Interfaces",
+        "Methods",
+        "Namespaces",
+        "Structs"
     ],
 }
