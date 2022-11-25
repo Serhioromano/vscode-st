@@ -7,7 +7,7 @@ Program:
     'PROGRAM' name=Identifier 'END_PROGRAM';
 
 Constant:
-    constant= Prefixed_integer_literal | Prefixed_bit_string_literal | Real_literal_or_signed_int | Nonprefix_integer_literal | Boolean_literal | Character_string;
+    constant= Prefixed_integer_literal | Prefixed_bit_string_literal | Real_literal_or_signed_int | Nonprefix_integer_literal | Boolean_literal | Character_string | Time_literal;
 
 /* Numeric constants declarations */
 Signed_Integer returns number:
@@ -59,13 +59,43 @@ Boolean_literal returns boolean:
 Character_string returns string:
 Single_byte_character_string | Double_byte_character_string;
 
-/* Time literals  */
+/* Time literals */
+Time_literal returns string:
+Duration;
 
+/* Time literals - duration  */
+Duration returns string:
+ ('T' | 'TIME') '#' ('-')? Interval;
 
+Interval returns string:
+Days | Hours | Minutes | Seconds | Milliseconds;
+
+Milliseconds returns string:
+Fixed_point (TMilliseconds);
+
+Seconds returns string:
+Fixed_point (TSeconds) ((Underscore)? Milliseconds);
+
+Minutes returns string:
+Fixed_point (TMinutes) ((Underscore)? Seconds);
+
+Hours returns string:
+Fixed_point (THours) ((Underscore)? Minutes);
+
+Days returns string:
+Fixed_point (TDays) ((Underscore)? Hours);
+
+/* Time literals - time of the day  */
 
 Identifier returns string:
     ((Underscore (Digits | Letters))| Letters) ((Underscore)? (Digits | Letters))*;
 
+// time token
+terminal TMilliseconds: /[Mm][Ss]/;
+terminal TDays: /[Dd]/;
+terminal THours: /[Hh]/;
+terminal TMinutes: /[Mm]/;
+terminal TSeconds: /[Ss]/;
 // numeric tokens
 terminal Exponent_prefix : /[Ee]/;
 terminal Binary_integer: /\b2#(0|1)(0|1|(_))*\b/;
