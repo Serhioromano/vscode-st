@@ -1,33 +1,86 @@
 grammar StructuredText
 
 entry Document:
-    (programs+=Program | functions+=Function | functionb+=FunctionBlock
-    | types+=Type)*;
+    (programs+=Program | constants+=Constant)*;
 
 Program:
-    'PROGRAM' name=ID 'END_PROGRAM';
+    'PROGRAM' name=Identifier 'END_PROGRAM';
 
-FunctionBlock:
-    'FUNCTION_BLOCK' name=ID 'END_FUNCTION_BLOCK';
+Constant:
+    constant= Prefixed_integer_literal | Prefixed_bit_string_literal | Real_literal_or_signed_int | Nonprefix_integer_literal | Boolean_literal | Character_string;
 
-Function:
-    'FUNCTION' name=ID ':' return_type=Dtypes 'END_FUNCTION';
+/* Numeric constants declarations */
+Signed_Integer returns number:
+('+'|'-')? Integer;
 
-Type:
-    'TYPE' name=ID  'END_TYPE';
+Unsigned_Integer returns number:
+Integer;
 
-type Declaration = FunctionBlock | Type;
+Integer returns number:
+Digits ((Underscore)? Digits)*;
 
-Dtypes:
-    'BOOL' | 'SINT' | 'USINT' | 'INT' | 'UINT' | 'DINT' | 'UDINT' | 'LINT' | 'ULINT' | 'REAL'
-    | 'LREAL' | 'TIME' | 'TOD' | 'DT' | 'BYTE' | 'WORD' | 'DWORD' | declaration=[Declaration:ID];
+Nonprefix_integer_literal returns number:
+(Binary_integer | Octal_integer | Hex_integer);
+
+Prefixed_integer_literal returns number:
+(Integer_type_name '#') (Signed_Integer | Binary_integer | Octal_integer | Hex_integer);
+
+Prefixed_bit_string_literal returns number:
+(Bit_string_type_name '#') (Unsigned_Integer | Binary_integer | Octal_integer | Hex_integer);
+
+Integer_type_name returns number:
+Unsigned_integer_type_name| Signed_integer_type_name ;
+
+Signed_integer_type_name returns number:
+'SINT'|'INT'|'DINT'|'LINT';
+
+Unsigned_integer_type_name returns number:
+'USINT'|'UINT'|'UDINT'|'ULINT';
+
+Bit_string_type_name returns number:
+('BYTE'|'WORD'|'DWORD'|'LWORD');
+
+Real_type_name returns number:
+'LREAL' | 'REAL';
+
+Real_literal_or_signed_int returns number:
+(Real_type_name '#')? Signed_Integer ('.' Integer (Exponent)?)?;
+
+Exponent returns number:
+Exponent_prefix ('+'|'-')? Integer;
+
+/* Boolean literals */
+Boolean_literal returns boolean:
+// should be ((BOOL '#')? ( 1 | 0)) | 'TRUE' | 'FALSE' 
+// FIXME how to prevent parsing 0 and 1 as digits?
+('BOOL#0' | 'BOOL#1') | "TRUE" | "FALSE";
+
+/* Character string literals  */
+Character_string returns string:
+Single_byte_character_string | Double_byte_character_string;
+
+/* Time literals  */
 
 
 
-terminal ID: /[_a-zA-Z][\w_]*/;
-terminal DIGIT returns number: /[0-9]+/;
+Identifier returns string:
+    ((Underscore (Digits | Letters))| Letters) ((Underscore)? (Digits | Letters))*;
 
+// numeric tokens
+terminal Exponent_prefix : /[Ee]/;
+terminal Binary_integer: /\b2#(0|1)(0|1|(_))*\b/;
+terminal Hex_integer: /\b16#([0-9aAbBcCdDeEfF])([0-9aAbBcCdDeEfF]|(_))*\b/;
+terminal Octal_integer: /\b8#([0-7])([0-7]|(_))*\b/;
+// string tokens
+terminal Single_byte_character_string: /(')(\\.|[^'])*(')/;
+terminal Double_byte_character_string: /(")(\\.|[^"])*(")/;
+// hack - only match if its followed by a letter D/H/M/S/MS in a time expression
+terminal Fixed_point : /(\d+)((\.)(\d+))?(?=[DdHhMmSs])/;
+// identifier characters
+terminal Underscore: /_/;
+terminal Letters: /[a-zA-Z]+/;
+terminal Digits: /[0-9]+/;
+// hidden
 hidden terminal WS: /\s+/;
-hidden terminal ML_COMMENT1: /\/\*[\s\S]*?\*\//;
-hidden terminal ML_COMMENT2: /\(\*[\s\S]*?\*\)/;
+hidden terminal ML_COMMENT: /\/\*[\s\S]*?\*\//;
 hidden terminal SL_COMMENT: /\/\/[^\n\r]*/;
