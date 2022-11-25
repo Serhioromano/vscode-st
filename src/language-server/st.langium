@@ -61,7 +61,7 @@ Single_byte_character_string | Double_byte_character_string;
 
 /* Time literals */
 Time_literal returns string:
-Duration;
+Duration | Time_of_day | Date_and_time | Date_type;
 
 /* Time literals - duration  */
 Duration returns string:
@@ -85,7 +85,39 @@ Fixed_point (THours) ((Underscore)? Minutes);
 Days returns string:
 Fixed_point (TDays) ((Underscore)? Hours);
 
-/* Time literals - time of the day  */
+/* Time literals - time of the day */
+Time_of_day returns string:
+('TIME_OF_DAY' | 'TOD') '#' Daytime;
+
+Daytime returns string:
+Day_hour ':' Day_minute ':' Day_second;
+
+Day_hour returns string:
+Integer;
+
+Day_minute returns string:
+Integer;
+
+Day_second returns string:
+Integer ('.' Integer)?; // This is a verbose fixed point rule
+
+Date_type returns string:
+('DATE' | 'D') '#' Date_literal;
+
+Date_literal returns string:
+Year '-' Month '-' Day;
+
+Year returns string:
+Integer;
+
+Month returns string:
+Integer;
+
+Day returns string:
+Integer;
+
+Date_and_time returns string:
+('DATE_AND_TIME' | 'DT') '#' Date_literal ('-' Daytime)?;
 
 Identifier returns string:
     ((Underscore (Digits | Letters))| Letters) ((Underscore)? (Digits | Letters))*;
