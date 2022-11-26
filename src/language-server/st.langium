@@ -224,11 +224,11 @@ terminal Double_byte_character_string: /(")(\\.|[^"])*(")/;
 // hack - only match if its followed by a letter D/H/M/S/MS in a time expression
 
 // time tokens
-terminal TMilliseconds: Fixed_point /[mM][sS]/;
+terminal TMilliseconds: (Underscore)? Fixed_point /[mM][sS]/;
 terminal TMinutes: (Underscore)? Fixed_point /[mM]/;
 terminal TSeconds: (Underscore)? Fixed_point /[sS]/;
 terminal TDays: (Underscore)? Fixed_point /[dD]/;
-terminal THours: (Underscore)? Fixed_point /[hH]/;
+terminal THours: Fixed_point /[hH]/;
 
 // identifier characters
 terminal fragment Underscore: /_/;
