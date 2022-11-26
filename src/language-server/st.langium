@@ -170,14 +170,47 @@ Unary_expression infers Expression:
     {infer BinaryExpression.left=current}  operator=('-' | 'NOT')? right=Primary_Expression;
 
 Primary_Expression infers Expression:
-value =  Constant | '(' Expression ')'; 
+value =  Constant 
+| '(' Expression ')'
+| Variable; 
 
 /* Structured text statements */
 Assignment_statement:
-statement=Identifier ':=' Expression ';';
+statement=Variable ':=' Expression ';';
 
 
 /* Derived typename */
+
+//variable = direct_variable | symbolic_variable;
+Variable:
+Direct_variable | Variable_any_symbolic;
+
+//location_prefix = "I" | "Q" | "M";
+//size_prefix = NIL | "X" | "B" | "W" | "D" | "L";
+//direct_variable = "%" location_prefix size_prefix integer {"." integer};
+Direct_variable returns string:
+Direct_variable_prefix Integer ('.' Integer)?;
+
+// symbolic_variable = variable_name | multi_element_variable;
+// Variable_any_symbolic parses Multi-element variables and variable_name
+Variable_any_symbolic:
+Variable_basic ('.' Variable_basic)*;
+
+Variable_basic:
+Identifier (Subscript_list)?;
+
+//variable_name = identifier;
+Variable_name returns string:
+Identifier;
+
+//subscript_list = "[" subscript {"," subscript} "]";
+Subscript_list:
+'[' Subscript (',' Subscript)* ']';
+
+//subscript = expression;
+Subscript:
+Expression;
+
 
 
 // numeric tokens
@@ -202,6 +235,9 @@ terminal fragment Underscore: /_/;
 terminal fragment Letters: /[a-zA-Z]+/;
 terminal fragment Digits: /[0-9]+/;
 terminal fragment Fixed_point : Integer ('.' Integer)?;
+terminal fragment Location_prefix: ('I' | 'Q' | 'M');
+terminal fragment Size_prefix: ('X' | 'B' | 'W' | 'D' | 'L');
+terminal Direct_variable_prefix: '%' Location_prefix Size_prefix;
 terminal Integer: Digits ((Underscore)? Digits)*;
 terminal Identifier: ((Underscore (Digits | Letters))| Letters) ((Underscore)? (Digits | Letters))*;
 
