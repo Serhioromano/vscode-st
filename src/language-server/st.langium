@@ -173,8 +173,8 @@ Unary_expression infers Expression:
 Primary_Expression infers Expression:
 value =  Constant 
 | '(' Expression ')'
-| Variable
-| (Function_name Invoke_subrule);
+| (name=Function_name params+=Invoke_subrule)
+| Variable;
 
 /* ST statements */
 Statement_list:
@@ -193,7 +193,7 @@ Function_invoke_or_assign_statement:
 statement=(Function_invoke_or_assign | 'RETURN');
 
 Function_invoke_or_assign:
-id=Variable (assign=Assignment_subrule | invoke=Invoke_subrule);
+id=Variable (assign=Assignment_subrule | params+=Invoke_subrule);
 
 Assignment_statement:
 statement=Variable ':=' Expression ';';
@@ -205,7 +205,7 @@ Invoke_subrule:
 '(' (Param_assignment (',' Param_assignment)*)?  ')';
 
 Param_assignment:
-(Variable_name ':=')? Expression;
+(ParamName=Variable_name ':=')? ParamValue=Expression;
 
 /* Derived typename */
 
