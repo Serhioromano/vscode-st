@@ -1,7 +1,7 @@
 grammar StructuredText
 
 entry Document:
-    (assign=Assignment_statement);
+    (stStatements+=Statement_list);
 
 Program:
     'PROGRAM' name=Identifier 'END_PROGRAM';
@@ -137,7 +137,7 @@ Date_type_name returns string:
 Generic_type_name returns string:
  'ANY' | 'ANY_DERIVED' | 'ANY_ELEMENTARY' | 'ANY_MAGNITUDE' | 'ANY_NUM' | 'ANY_REAL' | 'ANY_INT' | 'ANY_BIT' | 'ANY_STRING' | 'ANY_DATE';
 
-
+/* Structured Text */
 /* Expressions */
 Expression:
     Or_expression;
@@ -169,15 +169,43 @@ Power_expression infers Expression:
 Unary_expression infers Expression:
     {infer BinaryExpression.left=current}  operator=('-' | 'NOT')? right=Primary_Expression;
 
+// primary_expression = constant | enumerated_value | variable | "(" expression ")" | function_name "(" param_assignment {"," param_assignment} ")";
 Primary_Expression infers Expression:
 value =  Constant 
 | '(' Expression ')'
-| Variable; 
+| Variable
+| (Function_name Invoke_subrule);
 
-/* Structured text statements */
+/* ST statements */
+Statement_list:
+statements=Statement ';' (Statement ';')*;
+
+Statement:
+Function_invoke_or_assign_statement | Action_call_statement ;
+
+Action_call_statement:
+action=Identifier;
+
+Function_name returns string:
+Identifier;
+
+Function_invoke_or_assign_statement:
+statement=(Function_invoke_or_assign | 'RETURN');
+
+Function_invoke_or_assign:
+id=Variable (assign=Assignment_subrule | invoke=Invoke_subrule);
+
 Assignment_statement:
 statement=Variable ':=' Expression ';';
 
+Assignment_subrule:
+':=' Expression;
+
+Invoke_subrule:
+'(' (Param_assignment (',' Param_assignment)*)?  ')';
+
+Param_assignment:
+(Variable_name ':=')? Expression;
 
 /* Derived typename */
 
