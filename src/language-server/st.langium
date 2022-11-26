@@ -38,7 +38,7 @@ Unsigned_integer_type_name returns number:
 'USINT'|'UINT'|'UDINT'|'ULINT';
 
 Bit_string_type_name returns number:
-('BYTE'|'WORD'|'DWORD'|'LWORD');
+'BYTE'|'WORD'|'DWORD'|'LWORD';
 
 Real_type_name returns number:
 'LREAL' | 'REAL';
@@ -118,6 +118,29 @@ Integer;
 
 Date_and_time returns string:
 ('DATE_AND_TIME' | 'DT') '#' Date_literal ('-' Daytime)?;
+
+/* Data types - elementary types */
+Data_type_name returns string:
+Non_generic_type_name | Generic_type_name;
+
+Non_generic_type_name returns string:
+Elementary_type_name;
+
+/* Data types - elementary types */
+Elementary_type_name returns string:
+Numeric_type_name | Date_type_name | ('BOOL' | Bit_string_type_name) | 'STRING' | 'WSTRING' | 'TIME';
+
+Numeric_type_name returns string:
+Integer_type_name | Real_type_name;
+
+Date_type_name returns string:
+"DATE" | "TIME_OF_DAY" | "TOD" | "DATE_AND_TIME" | "DT";
+
+/* Generic typename */
+Generic_type_name returns string:
+ 'ANY' | 'ANY_DERIVED' | 'ANY_ELEMENTARY' | 'ANY_MAGNITUDE' | 'ANY_NUM' | 'ANY_REAL' | 'ANY_INT' | 'ANY_BIT' | 'ANY_STRING' | 'ANY_DATE';
+
+/* Derived typename */
 
 Identifier returns string:
     ((Underscore (Digits | Letters))| Letters) ((Underscore)? (Digits | Letters))*;
