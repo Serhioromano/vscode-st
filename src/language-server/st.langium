@@ -16,9 +16,6 @@ Signed_Integer returns number:
 Unsigned_Integer returns number:
 Integer;
 
-Integer returns number:
-Digits ((Underscore)? Digits)*;
-
 Nonprefix_integer_literal returns number:
 (Binary_integer | Octal_integer | Hex_integer);
 
@@ -71,19 +68,19 @@ Interval returns string:
 Days | Hours | Minutes | Seconds | Milliseconds;
 
 Milliseconds returns string:
-Fixed_point (TMilliseconds);
+(TMilliseconds);
 
 Seconds returns string:
-Fixed_point (TSeconds) ((Underscore)? Milliseconds);
+(TSeconds) (Milliseconds)?;
 
 Minutes returns string:
-Fixed_point (TMinutes) ((Underscore)? Seconds);
+(TMinutes) (Seconds)?;
 
 Hours returns string:
-Fixed_point (THours) ((Underscore)? Minutes);
+(THours) (Minutes)?;
 
 Days returns string:
-Fixed_point (TDays) ((Underscore)? Hours);
+(TDays) (Hours)?;
 
 /* Time literals - time of the day */
 Time_of_day returns string:
@@ -182,15 +179,7 @@ statement=Identifier ':=' Expression ';';
 
 /* Derived typename */
 
-Identifier returns string:
-    ((Underscore (Digits | Letters))| Letters) ((Underscore)? (Digits | Letters))*;
 
-// time token
-terminal TMilliseconds: /[Mm][Ss]/;
-terminal TDays: /[Dd]/;
-terminal THours: /[Hh]/;
-terminal TMinutes: /[Mm]/;
-terminal TSeconds: /[Ss]/;
 // numeric tokens
 terminal Exponent_prefix : /[Ee]/;
 terminal Binary_integer: /\b2#(0|1)(0|1|(_))*\b/;
@@ -200,11 +189,22 @@ terminal Octal_integer: /\b8#([0-7])([0-7]|(_))*\b/;
 terminal Single_byte_character_string: /(')(\\.|[^'])*(')/;
 terminal Double_byte_character_string: /(")(\\.|[^"])*(")/;
 // hack - only match if its followed by a letter D/H/M/S/MS in a time expression
-terminal Fixed_point : /(\d+)((\.)(\d+))?(?=[DdHhMmSs])/;
+
+// time tokens
+terminal TMilliseconds: Fixed_point /[mM][sS]/;
+terminal TMinutes: (Underscore)? Fixed_point /[mM]/;
+terminal TSeconds: (Underscore)? Fixed_point /[sS]/;
+terminal TDays: (Underscore)? Fixed_point /[dD]/;
+terminal THours: (Underscore)? Fixed_point /[hH]/;
+
 // identifier characters
-terminal Underscore: /_/;
-terminal Letters: /[a-zA-Z]+/;
-terminal Digits: /[0-9]+/;
+terminal fragment Underscore: /_/;
+terminal fragment Letters: /[a-zA-Z]+/;
+terminal fragment Digits: /[0-9]+/;
+terminal fragment Fixed_point : Integer ('.' Integer)?;
+terminal Integer: Digits ((Underscore)? Digits)*;
+terminal Identifier: ((Underscore (Digits | Letters))| Letters) ((Underscore)? (Digits | Letters))*;
+
 // hidden
 hidden terminal WS: /\s+/;
 hidden terminal ML_COMMENT: /\/\*[\s\S]*?\*\//;
