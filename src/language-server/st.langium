@@ -1,7 +1,7 @@
 grammar StructuredText
 
 entry Document:
-    (programs+=Program | constants+=Constant)*;
+    (assign=Assignment_statement);
 
 Program:
     'PROGRAM' name=Identifier 'END_PROGRAM';
@@ -139,6 +139,46 @@ Date_type_name returns string:
 /* Generic typename */
 Generic_type_name returns string:
  'ANY' | 'ANY_DERIVED' | 'ANY_ELEMENTARY' | 'ANY_MAGNITUDE' | 'ANY_NUM' | 'ANY_REAL' | 'ANY_INT' | 'ANY_BIT' | 'ANY_STRING' | 'ANY_DATE';
+
+
+/* Expressions */
+Expression:
+    Or_expression;
+
+Or_expression infers Expression:
+    Xor_expression ({infer BinaryExpression.left=current} operator=('OR') right=Xor_expression)*;
+
+Xor_expression infers Expression:
+    And_expression ({infer BinaryExpression.left=current} operator=('XOR') right=And_expression)*;
+
+And_expression infers Expression:
+    Comparison_expression ({infer BinaryExpression.left=current} operator=('AND' | '&') right=Comparison_expression)*;
+
+Comparison_expression infers Expression:
+    Equ_expression ({infer BinaryExpression.left=current} operator=( '<>' | '=') right=Equ_expression)*;
+
+Equ_expression infers Expression:
+    Add_expression ({infer BinaryExpression.left=current} operator=('<=' | '>=' | '<' | '>')  right=Add_expression)*;
+
+Add_expression infers Expression:
+    Term ({infer BinaryExpression.left=current} operator=('+' | '-')  right=Term)*;
+
+Term infers Expression:
+    Power_expression ({infer BinaryExpression.left=current} operator=('*' | '/' | 'MOD' )  right=Power_expression)*;
+
+Power_expression infers Expression:
+    Unary_expression ({infer BinaryExpression.left=current} operator=('**')  right=Unary_expression)*;
+
+Unary_expression infers Expression:
+    {infer BinaryExpression.left=current}  operator=('-' | 'NOT')? right=Primary_Expression;
+
+Primary_Expression infers Expression:
+value =  Constant | '(' Expression ')'; 
+
+/* Structured text statements */
+Assignment_statement:
+statement=Identifier ':=' Expression ';';
+
 
 /* Derived typename */
 
