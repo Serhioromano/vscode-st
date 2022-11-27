@@ -178,7 +178,7 @@ Statement_list:
 statements+=Statement ';' (statements+=Statement ';')*;
 
 Statement:
-statement=(Selection_statement | Function_invoke_or_assign_statement | Action_call_statement) ;
+statement=(Selection_statement | Function_invoke_or_assign_statement | Action_call_statement | Iteration_statement)? ;
 
 Action_call_statement:
 actionName=Identifier;
@@ -228,6 +228,22 @@ caseListElement+=Case_list_element (',' caseListElement+=Case_list_element)*;
 //case_list_element = subrange | signed_integer | enumerated_value;
 Case_list_element:
 (numCaseStart=Signed_Integer ('..' numericCaseEnd+=Signed_Integer)?) | (enumCase=IdentifierEnumeratedCase);
+
+/* Iteration statements */
+Iteration_statement:
+statement=(For_statement | While_statement | Repeat_statement | 'EXIT');
+
+For_statement:
+'FOR' controlVariable=Identifier ':=' forList=For_list 'DO' statementList=Statement_list 'END_FOR';
+
+For_list:
+forExpr=Expression 'TO' toExpr=Expression ('BY' byExpr=Expression)?;
+
+While_statement:
+'WHILE' whileExpr=Expression 'DO' statementList=Statement_list 'END_WHILE';
+
+Repeat_statement:
+'REPEAT' statementList=Statement_list 'UNTIL' untilExpr=Expression 'END_REPEAT';
 
 
 /* Derived typename */
