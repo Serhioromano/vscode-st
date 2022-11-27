@@ -175,10 +175,10 @@ value =  Constant
 
 /* ST statements */
 Statement_list:
-statements+=Statement ';' (statements+=Statement ';')*;
+statements+=Statement (statements+=Statement)*;
 
 Statement:
-statement=(Selection_statement | Function_invoke_or_assign_statement | Action_call_statement | Iteration_statement)? ;
+((Selection_statement | Function_invoke_or_assign_statement | Action_call_statement | Iteration_statement) ';' )? ;
 
 Action_call_statement:
 actionName=Identifier;
