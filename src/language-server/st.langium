@@ -48,7 +48,7 @@ Exponent_prefix ('+'|'-')? Integer;
 
 /* Boolean literals */
 Boolean_literal returns boolean:
-// should be ((BOOL '#')? ( 1 | 0)) | 'TRUE' | 'FALSE' 
+// should be ((BOOL '#')? ( 1 | 0)) | 'TRUE' | 'FALSE'
 // FIXME how to prevent parsing 0 and 1 as digits?
 ('BOOL#0' | 'BOOL#1') | "TRUE" | "FALSE";
 
@@ -171,7 +171,7 @@ Unary_expression infers Expression:
 
 // primary_expression = constant | enumerated_value | variable | "(" expression ")" | function_name "(" param_assignment {"," param_assignment} ")";
 Primary_Expression infers Expression:
-value =  Constant 
+value =  Constant
 | '(' Expression ')'
 | (name=Function_name params+=Invoke_subrule)
 | Variable;
@@ -272,4 +272,5 @@ terminal Identifier: ((Underscore (Digits | Letters))| Letters) ((Underscore)? (
 // hidden
 hidden terminal WS: /\s+/;
 hidden terminal ML_COMMENT: /\/\*[\s\S]*?\*\//;
+hidden terminal ML_COMMENT_ST: /\(\*[\s\S]*?\*\)/;
 hidden terminal SL_COMMENT: /\/\/[^\n\r]*/;
