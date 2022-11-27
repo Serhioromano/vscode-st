@@ -13,7 +13,7 @@
     },
     {
       "name": "keyword.control.st",
-      "match": "\\b(BOOL|BYTE|DINT|DT|DWORD|END_FUNCTION|END_FUNCTION_BLOCK|END_PROGRAM|END_TYPE|FUNCTION|FUNCTION_BLOCK|INT|LINT|LREAL|PROGRAM|REAL|SINT|TIME|TOD|TYPE|UDINT|UINT|ULINT|USINT|WORD)\\b"
+      "match": "\\b(AND|BOOL#0|BOOL#1|BYTE|D|DATE|DATE_AND_TIME|DINT|DT|DWORD|FALSE|INT|LINT|LREAL|LWORD|MOD|NOT|OR|REAL|SINT|T|TIME|TIME_OF_DAY|TOD|TRUE|UDINT|UINT|ULINT|USINT|WORD|XOR)\\b"
     }
   ],
   "repository": {
@@ -28,21 +28,6 @@
             }
           },
           "end": "\\*/",
-          "endCaptures": {
-            "0": {
-              "name": "punctuation.definition.comment.st"
-            }
-          }
-        },
-        {
-          "name": "comment.block.st",
-          "begin": "\\(\\*",
-          "beginCaptures": {
-            "0": {
-              "name": "punctuation.definition.comment.st"
-            }
-          },
-          "end": "\\*\\)",
           "endCaptures": {
             "0": {
               "name": "punctuation.definition.comment.st"
