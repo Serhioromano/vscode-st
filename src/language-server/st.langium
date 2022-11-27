@@ -207,10 +207,11 @@ Param_assignment:
 /* Selection statements */
 //selection_statement = if_statement | case_statement;
 Selection_statement:
-Case_statement;
+if=If_statement| case=Case_statement;
 
 //if_statement = "IF" expression "THEN" statement_list {"ELSIF" expression "THEN" statement_list} ["ELSE" statement_list] "END_IF";
-
+If_statement:
+'IF' ifCondition=Expression 'THEN' ifStatement=Statement_list ('ELSIF' elsifConditions+=Expression 'THEN' elsifStatements=Statement_list)* ('ELSE' elseStatement=Statement_list)? 'END_IF';
 
 //case_statement = "CASE" expression "OF" case_element {case_element} ["ELSE" statement_list] "END_CASE";
 Case_statement:
