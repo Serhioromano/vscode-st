@@ -7,7 +7,7 @@ Program:
     'PROGRAM' name=Identifier 'END_PROGRAM';
 
 Constant:
-    constant= Prefixed_integer_literal | Prefixed_bit_string_literal | Real_literal_or_signed_int | Nonprefix_integer_literal | Boolean_literal | Character_string | Time_literal;
+    constant= (Prefixed_integer_literal | Prefixed_bit_string_literal | Real_literal_or_signed_int | Nonprefix_integer_literal | Boolean_literal | Character_string | Time_literal);
 
 /* Numeric constants declarations */
 Signed_Integer returns number:
@@ -169,19 +169,19 @@ Unary_expression infers Expression:
 // primary_expression = constant | enumerated_value | variable | "(" expression ")" | function_name "(" param_assignment {"," param_assignment} ")";
 Primary_Expression infers Expression:
 value =  Constant
-| '(' Expression ')'
-| (name=Function_name params+=Invoke_subrule)
-| Variable;
+| '(' Expression=Expression ')'
+| (name=Function_name params=Invoke_subrule)
+| variable=Variable;
 
 /* ST statements */
 Statement_list:
-statements=Statement ';' (Statement ';')*;
+statements+=Statement ';' (statements+=Statement ';')*;
 
 Statement:
-Selection_statement | Function_invoke_or_assign_statement | Action_call_statement ;
+statement=(Selection_statement | Function_invoke_or_assign_statement | Action_call_statement) ;
 
 Action_call_statement:
-action=Identifier;
+actionName=Identifier;
 
 Function_name returns string:
 Identifier;
@@ -193,13 +193,13 @@ Function_invoke_or_assign:
 id=Variable (assign=Assignment_subrule | params+=Invoke_subrule);
 
 Assignment_statement:
-statement=Variable ':=' Expression ';';
+statement=Variable ':=' expression=Expression ';';
 
 Assignment_subrule:
-':=' Expression;
+':=' expression=Expression;
 
 Invoke_subrule:
-'(' (Param_assignment (',' Param_assignment)*)?  ')';
+'(' (parameters+=Param_assignment (',' parameters+=Param_assignment)*)?  ')';
 
 Param_assignment:
 (ParamName=Variable_name ':=')? ParamValue=Expression;
@@ -215,26 +215,26 @@ If_statement:
 
 //case_statement = "CASE" expression "OF" case_element {case_element} ["ELSE" statement_list] "END_CASE";
 Case_statement:
-'CASE' Expression 'OF' Case_element (Case_element)* ('ELSE' Statement_list)? 'END_CASE';
+'CASE' caseExpression=Expression 'OF' caseElements+=Case_element (caseElements+=Case_element)* ('ELSE' elseStatements=Statement_list)? 'END_CASE';
 
 //case_element = case_list ":" statement_list;
 Case_element:
-Case_list ':' statements=Statement_list;
+caseList=Case_list ':' statements=Statement_list;
 
 //case_list = case_list_element {"," case_list_element};
 Case_list:
-caseList+=Case_list_element (',' caseList+=Case_list_element)*;
+caseListElement+=Case_list_element (',' caseListElement+=Case_list_element)*;
 
 //case_list_element = subrange | signed_integer | enumerated_value;
 Case_list_element:
-(numCase=Signed_Integer ('..' numericCaseEnd+=Signed_Integer)?) | (enumCase=IdentifierEnumeratedCase);
+(numCaseStart=Signed_Integer ('..' numericCaseEnd+=Signed_Integer)?) | (enumCase=IdentifierEnumeratedCase);
 
 
 /* Derived typename */
 
 //variable = direct_variable | symbolic_variable;
 Variable:
-Direct_variable | Variable_any_symbolic;
+variable=(Direct_variable | Variable_any_symbolic);
 
 //location_prefix = "I" | "Q" | "M";
 //size_prefix = NIL | "X" | "B" | "W" | "D" | "L";
@@ -245,10 +245,10 @@ Direct_variable_prefix Integer ('.' Integer)?;
 // symbolic_variable = variable_name | multi_element_variable;
 // Variable_any_symbolic parses Multi-element variables and variable_name
 Variable_any_symbolic:
-Variable_basic ('.' Variable_basic)*;
+variable=Variable_basic ('.' structureMember=Variable_basic)*;
 
 Variable_basic:
-Identifier (Subscript_list)?;
+variable=Identifier (subscript=Subscript_list)?;
 
 //variable_name = identifier;
 Variable_name returns string:
