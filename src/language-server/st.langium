@@ -43,9 +43,6 @@ Real_type_name returns number:
 Real_literal_or_signed_int returns number:
 (Real_type_name '#')? Signed_Integer ('.' Integer (Exponent)?)?;
 
-Exponent returns number:
-Exponent_prefix ('+'|'-')? Integer;
-
 /* Boolean literals */
 Boolean_literal returns boolean:
 // should be ((BOOL '#')? ( 1 | 0)) | 'TRUE' | 'FALSE'
@@ -181,7 +178,7 @@ Statement_list:
 statements=Statement ';' (Statement ';')*;
 
 Statement:
-Function_invoke_or_assign_statement | Action_call_statement ;
+Selection_statement | Function_invoke_or_assign_statement | Action_call_statement ;
 
 Action_call_statement:
 action=Identifier;
@@ -206,6 +203,31 @@ Invoke_subrule:
 
 Param_assignment:
 (ParamName=Variable_name ':=')? ParamValue=Expression;
+
+/* Selection statements */
+//selection_statement = if_statement | case_statement;
+Selection_statement:
+Case_statement;
+
+//if_statement = "IF" expression "THEN" statement_list {"ELSIF" expression "THEN" statement_list} ["ELSE" statement_list] "END_IF";
+
+
+//case_statement = "CASE" expression "OF" case_element {case_element} ["ELSE" statement_list] "END_CASE";
+Case_statement:
+'CASE' Expression 'OF' Case_element (Case_element)* ('ELSE' Statement_list)? 'END_CASE';
+
+//case_element = case_list ":" statement_list;
+Case_element:
+Case_list ':' statements=Statement_list;
+
+//case_list = case_list_element {"," case_list_element};
+Case_list:
+caseList+=Case_list_element (',' caseList+=Case_list_element)*;
+
+//case_list_element = subrange | signed_integer | enumerated_value;
+Case_list_element:
+(numCase=Signed_Integer ('..' numericCaseEnd+=Signed_Integer)?) | (enumCase=Identifier);
+
 
 /* Derived typename */
 
@@ -236,13 +258,14 @@ Subscript_list:
 '[' Subscript (',' Subscript)* ']';
 
 //subscript = expression;
-Subscript:
+Subscript infers Expression:
 Expression;
 
 
 
 // numeric tokens
-terminal Exponent_prefix : /[Ee]/;
+terminal fragment Exponent_prefix : /[Ee]/;
+terminal Exponent: Exponent_prefix ('+'|'-')? Integer;
 terminal Binary_integer: /\b2#(0|1)(0|1|(_))*\b/;
 terminal Hex_integer: /\b16#([0-9aAbBcCdDeEfF])([0-9aAbBcCdDeEfF]|(_))*\b/;
 terminal Octal_integer: /\b8#([0-7])([0-7]|(_))*\b/;
