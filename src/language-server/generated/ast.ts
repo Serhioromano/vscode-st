@@ -7,19 +7,9 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import { AstNode, AstReflection, ReferenceInfo, isAstNode, TypeMetaData } from 'langium';
 
-export type Assignment_subrule = Expression;
-
-export const Assignment_subrule = 'Assignment_subrule';
-
-export function isAssignment_subrule(item: unknown): item is Assignment_subrule {
-    return reflection.isInstance(item, Assignment_subrule);
-}
-
 export type Bit_string_type_name = 'BYTE' | 'DWORD' | 'LWORD' | 'WORD';
 
 export type Boolean_literal = boolean;
-
-export type Character_string = string;
 
 export type Data_type_name = string;
 
@@ -49,25 +39,17 @@ export type Duration = string;
 
 export type Elementary_type_name = string;
 
-export type Exponent = number;
-
 export type Function_name = string;
 
 export type Generic_type_name = 'ANY' | 'ANY_BIT' | 'ANY_DATE' | 'ANY_DERIVED' | 'ANY_ELEMENTARY' | 'ANY_INT' | 'ANY_MAGNITUDE' | 'ANY_NUM' | 'ANY_REAL' | 'ANY_STRING';
 
 export type Hours = string;
 
+export type Character_string = string;
+
 export type Integer_type_name = number;
 
 export type Interval = string;
-
-export type Invoke_subrule = Param_assignment;
-
-export const Invoke_subrule = 'Invoke_subrule';
-
-export function isInvoke_subrule(item: unknown): item is Invoke_subrule {
-    return reflection.isInstance(item, Invoke_subrule);
-}
 
 export type Milliseconds = string;
 
@@ -95,7 +77,7 @@ export type Signed_Integer = number;
 
 export type Signed_integer_type_name = 'DINT' | 'INT' | 'LINT' | 'SINT';
 
-export type Statement = Action_call_statement | Function_invoke_or_assign_statement;
+export type Statement = Action_call_statement | Function_invoke_or_assign_statement | Iteration_statement | Selection_statement;
 
 export const Statement = 'Statement';
 
@@ -103,15 +85,7 @@ export function isStatement(item: unknown): item is Statement {
     return reflection.isInstance(item, Statement);
 }
 
-export type Subscript = Expression;
-
-export const Subscript = 'Subscript';
-
-export function isSubscript(item: unknown): item is Subscript {
-    return reflection.isInstance(item, Subscript);
-}
-
-export type Subscript_list = Subscript;
+export type Subscript_list = Expression;
 
 export const Subscript_list = 'Subscript_list';
 
@@ -127,37 +101,13 @@ export type Unsigned_Integer = number;
 
 export type Unsigned_integer_type_name = 'UDINT' | 'UINT' | 'ULINT' | 'USINT';
 
-export type Variable = Direct_variable | Variable_any_symbolic;
-
-export const Variable = 'Variable';
-
-export function isVariable(item: unknown): item is Variable {
-    return reflection.isInstance(item, Variable);
-}
-
-export type Variable_any_symbolic = Variable_basic;
-
-export const Variable_any_symbolic = 'Variable_any_symbolic';
-
-export function isVariable_any_symbolic(item: unknown): item is Variable_any_symbolic {
-    return reflection.isInstance(item, Variable_any_symbolic);
-}
-
-export type Variable_basic = Subscript_list;
-
-export const Variable_basic = 'Variable_basic';
-
-export function isVariable_basic(item: unknown): item is Variable_basic {
-    return reflection.isInstance(item, Variable_basic);
-}
-
 export type Variable_name = string;
 
 export type Year = string;
 
 export interface Action_call_statement extends AstNode {
     readonly $container: Statement_list;
-    action: string
+    actionName: string
 }
 
 export const Action_call_statement = 'Action_call_statement';
@@ -167,6 +117,7 @@ export function isAction_call_statement(item: unknown): item is Action_call_stat
 }
 
 export interface Assignment_statement extends AstNode {
+    expression: Expression
     statement: Variable
 }
 
@@ -176,8 +127,19 @@ export function isAssignment_statement(item: unknown): item is Assignment_statem
     return reflection.isInstance(item, Assignment_statement);
 }
 
+export interface Assignment_subrule extends AstNode {
+    readonly $container: Function_invoke_or_assign;
+    expression: Expression
+}
+
+export const Assignment_subrule = 'Assignment_subrule';
+
+export function isAssignment_subrule(item: unknown): item is Assignment_subrule {
+    return reflection.isInstance(item, Assignment_subrule);
+}
+
 export interface BinaryExpression extends Expression {
-    readonly $container: Assignment_statement | BinaryExpression | Function_invoke_or_assign | Param_assignment;
+    readonly $container: Assignment_statement | Assignment_subrule | BinaryExpression | Case_statement | Expression | For_list | If_statement | Param_assignment | Repeat_statement | Variable_basic | While_statement;
     left: Expression
     operator: '&' | '*' | '**' | '+' | '-' | '/' | '<' | '<=' | '<>' | '=' | '>' | '>=' | 'AND' | 'MOD' | 'NOT' | 'OR' | 'XOR'
     right: Expression
@@ -189,9 +151,58 @@ export function isBinaryExpression(item: unknown): item is BinaryExpression {
     return reflection.isInstance(item, BinaryExpression);
 }
 
+export interface Case_element extends AstNode {
+    readonly $container: Case_statement;
+    caseList: Case_list
+    statements: Statement_list
+}
+
+export const Case_element = 'Case_element';
+
+export function isCase_element(item: unknown): item is Case_element {
+    return reflection.isInstance(item, Case_element);
+}
+
+export interface Case_list extends AstNode {
+    readonly $container: Case_element;
+    caseListElement: Array<Case_list_element>
+}
+
+export const Case_list = 'Case_list';
+
+export function isCase_list(item: unknown): item is Case_list {
+    return reflection.isInstance(item, Case_list);
+}
+
+export interface Case_list_element extends AstNode {
+    readonly $container: Case_list;
+    enumCase?: string
+    numCaseStart?: Signed_Integer
+    numericCaseEnd: Array<Signed_Integer>
+}
+
+export const Case_list_element = 'Case_list_element';
+
+export function isCase_list_element(item: unknown): item is Case_list_element {
+    return reflection.isInstance(item, Case_list_element);
+}
+
+export interface Case_statement extends AstNode {
+    readonly $container: Selection_statement;
+    caseElements: Array<Case_element>
+    caseExpression: Expression
+    elseStatements?: Statement_list
+}
+
+export const Case_statement = 'Case_statement';
+
+export function isCase_statement(item: unknown): item is Case_statement {
+    return reflection.isInstance(item, Case_statement);
+}
+
 export interface Constant extends AstNode {
     readonly $container: Expression;
-    constant: Prefixed_integer_literal
+    constant: Boolean_literal | Character_string | Nonprefix_integer_literal | Prefixed_bit_string_literal | Prefixed_integer_literal | Real_literal_or_signed_int | Time_literal
 }
 
 export const Constant = 'Constant';
@@ -211,16 +222,44 @@ export function isDocument(item: unknown): item is Document {
 }
 
 export interface Expression extends AstNode {
-    readonly $container: Assignment_statement | BinaryExpression | Function_invoke_or_assign | Param_assignment;
+    readonly $container: Assignment_statement | Assignment_subrule | BinaryExpression | Case_statement | Expression | For_list | If_statement | Param_assignment | Repeat_statement | Variable_basic | While_statement;
+    Expression?: Expression
     name?: Function_name
-    params: Array<Invoke_subrule>
+    params?: Invoke_subrule
     value?: Constant
+    variable?: Variable
 }
 
 export const Expression = 'Expression';
 
 export function isExpression(item: unknown): item is Expression {
     return reflection.isInstance(item, Expression);
+}
+
+export interface For_list extends AstNode {
+    readonly $container: For_statement;
+    byExpr?: Expression
+    forExpr: Expression
+    toExpr: Expression
+}
+
+export const For_list = 'For_list';
+
+export function isFor_list(item: unknown): item is For_list {
+    return reflection.isInstance(item, For_list);
+}
+
+export interface For_statement extends AstNode {
+    readonly $container: Iteration_statement;
+    controlVariable: string
+    forList: For_list
+    statementList: Statement_list
+}
+
+export const For_statement = 'For_statement';
+
+export function isFor_statement(item: unknown): item is For_statement {
+    return reflection.isInstance(item, For_statement);
 }
 
 export interface Function_invoke_or_assign extends AstNode {
@@ -247,8 +286,45 @@ export function isFunction_invoke_or_assign_statement(item: unknown): item is Fu
     return reflection.isInstance(item, Function_invoke_or_assign_statement);
 }
 
-export interface Param_assignment extends AstNode {
+export interface If_statement extends AstNode {
+    readonly $container: Selection_statement;
+    elseStatement?: Statement_list
+    elsifConditions: Array<Expression>
+    elsifStatements?: Statement_list
+    ifCondition: Expression
+    ifStatement: Statement_list
+}
+
+export const If_statement = 'If_statement';
+
+export function isIf_statement(item: unknown): item is If_statement {
+    return reflection.isInstance(item, If_statement);
+}
+
+export interface Invoke_subrule extends AstNode {
     readonly $container: Expression | Function_invoke_or_assign;
+    parameters: Array<Param_assignment>
+}
+
+export const Invoke_subrule = 'Invoke_subrule';
+
+export function isInvoke_subrule(item: unknown): item is Invoke_subrule {
+    return reflection.isInstance(item, Invoke_subrule);
+}
+
+export interface Iteration_statement extends AstNode {
+    readonly $container: Statement_list;
+    statement: 'EXIT' | For_statement | Repeat_statement | While_statement
+}
+
+export const Iteration_statement = 'Iteration_statement';
+
+export function isIteration_statement(item: unknown): item is Iteration_statement {
+    return reflection.isInstance(item, Iteration_statement);
+}
+
+export interface Param_assignment extends AstNode {
+    readonly $container: Invoke_subrule;
     ParamName?: Variable_name
     ParamValue: Expression
 }
@@ -269,9 +345,33 @@ export function isProgram(item: unknown): item is Program {
     return reflection.isInstance(item, Program);
 }
 
+export interface Repeat_statement extends AstNode {
+    readonly $container: Iteration_statement;
+    statementList: Statement_list
+    untilExpr: Expression
+}
+
+export const Repeat_statement = 'Repeat_statement';
+
+export function isRepeat_statement(item: unknown): item is Repeat_statement {
+    return reflection.isInstance(item, Repeat_statement);
+}
+
+export interface Selection_statement extends AstNode {
+    readonly $container: Statement_list;
+    case?: Case_statement
+    if?: If_statement
+}
+
+export const Selection_statement = 'Selection_statement';
+
+export function isSelection_statement(item: unknown): item is Selection_statement {
+    return reflection.isInstance(item, Selection_statement);
+}
+
 export interface Statement_list extends AstNode {
-    readonly $container: Document;
-    statements: Statement
+    readonly $container: Case_element | Case_statement | Document | For_statement | If_statement | Repeat_statement | While_statement;
+    statements: Array<Statement>
 }
 
 export const Statement_list = 'Statement_list';
@@ -280,12 +380,59 @@ export function isStatement_list(item: unknown): item is Statement_list {
     return reflection.isInstance(item, Statement_list);
 }
 
-export type StAstType = 'Action_call_statement' | 'Assignment_statement' | 'Assignment_subrule' | 'BinaryExpression' | 'Constant' | 'Document' | 'Expression' | 'Function_invoke_or_assign' | 'Function_invoke_or_assign_statement' | 'Invoke_subrule' | 'Param_assignment' | 'Program' | 'Statement' | 'Statement_list' | 'Subscript' | 'Subscript_list' | 'Variable' | 'Variable_any_symbolic' | 'Variable_basic';
+export interface Variable extends AstNode {
+    readonly $container: Assignment_statement | Expression | Function_invoke_or_assign;
+    variable: Direct_variable | Variable_any_symbolic
+}
+
+export const Variable = 'Variable';
+
+export function isVariable(item: unknown): item is Variable {
+    return reflection.isInstance(item, Variable);
+}
+
+export interface Variable_any_symbolic extends AstNode {
+    readonly $container: Variable;
+    structureMember?: Variable_basic
+    variable: Variable_basic
+}
+
+export const Variable_any_symbolic = 'Variable_any_symbolic';
+
+export function isVariable_any_symbolic(item: unknown): item is Variable_any_symbolic {
+    return reflection.isInstance(item, Variable_any_symbolic);
+}
+
+export interface Variable_basic extends AstNode {
+    readonly $container: Variable_any_symbolic;
+    subscript?: Subscript_list
+    variable: string
+}
+
+export const Variable_basic = 'Variable_basic';
+
+export function isVariable_basic(item: unknown): item is Variable_basic {
+    return reflection.isInstance(item, Variable_basic);
+}
+
+export interface While_statement extends AstNode {
+    readonly $container: Iteration_statement;
+    statementList: Statement_list
+    whileExpr: Expression
+}
+
+export const While_statement = 'While_statement';
+
+export function isWhile_statement(item: unknown): item is While_statement {
+    return reflection.isInstance(item, While_statement);
+}
+
+export type StAstType = 'Action_call_statement' | 'Assignment_statement' | 'Assignment_subrule' | 'BinaryExpression' | 'Case_element' | 'Case_list' | 'Case_list_element' | 'Case_statement' | 'Constant' | 'Document' | 'Expression' | 'For_list' | 'For_statement' | 'Function_invoke_or_assign' | 'Function_invoke_or_assign_statement' | 'If_statement' | 'Invoke_subrule' | 'Iteration_statement' | 'Param_assignment' | 'Program' | 'Repeat_statement' | 'Selection_statement' | 'Statement' | 'Statement_list' | 'Subscript_list' | 'Variable' | 'Variable_any_symbolic' | 'Variable_basic' | 'While_statement';
 
 export class StAstReflection implements AstReflection {
 
     getAllTypes(): string[] {
-        return ['Action_call_statement', 'Assignment_statement', 'Assignment_subrule', 'BinaryExpression', 'Constant', 'Document', 'Expression', 'Function_invoke_or_assign', 'Function_invoke_or_assign_statement', 'Invoke_subrule', 'Param_assignment', 'Program', 'Statement', 'Statement_list', 'Subscript', 'Subscript_list', 'Variable', 'Variable_any_symbolic', 'Variable_basic'];
+        return ['Action_call_statement', 'Assignment_statement', 'Assignment_subrule', 'BinaryExpression', 'Case_element', 'Case_list', 'Case_list_element', 'Case_statement', 'Constant', 'Document', 'Expression', 'For_list', 'For_statement', 'Function_invoke_or_assign', 'Function_invoke_or_assign_statement', 'If_statement', 'Invoke_subrule', 'Iteration_statement', 'Param_assignment', 'Program', 'Repeat_statement', 'Selection_statement', 'Statement', 'Statement_list', 'Subscript_list', 'Variable', 'Variable_any_symbolic', 'Variable_basic', 'While_statement'];
     }
 
     isInstance(node: unknown, type: string): boolean {
@@ -298,30 +445,16 @@ export class StAstReflection implements AstReflection {
         }
         switch (subtype) {
             case Action_call_statement:
-            case Function_invoke_or_assign_statement: {
+            case Function_invoke_or_assign_statement:
+            case Iteration_statement:
+            case Selection_statement: {
                 return this.isSubtype(Statement, supertype);
             }
-            case BinaryExpression:
-            case Variable: {
+            case BinaryExpression: {
                 return this.isSubtype(Expression, supertype);
             }
             case Expression: {
-                return this.isSubtype(Assignment_subrule, supertype) || this.isSubtype(Subscript, supertype);
-            }
-            case Param_assignment: {
-                return this.isSubtype(Invoke_subrule, supertype);
-            }
-            case Subscript: {
                 return this.isSubtype(Subscript_list, supertype);
-            }
-            case Subscript_list: {
-                return this.isSubtype(Variable_basic, supertype);
-            }
-            case Variable_any_symbolic: {
-                return this.isSubtype(Variable, supertype);
-            }
-            case Variable_basic: {
-                return this.isSubtype(Variable_any_symbolic, supertype);
             }
             default: {
                 return false;
@@ -340,11 +473,27 @@ export class StAstReflection implements AstReflection {
 
     getTypeMetaData(type: string): TypeMetaData {
         switch (type) {
-            case 'BinaryExpression': {
+            case 'Case_list': {
                 return {
-                    name: 'BinaryExpression',
+                    name: 'Case_list',
                     mandatory: [
-                        { name: 'params', type: 'array' }
+                        { name: 'caseListElement', type: 'array' }
+                    ]
+                };
+            }
+            case 'Case_list_element': {
+                return {
+                    name: 'Case_list_element',
+                    mandatory: [
+                        { name: 'numericCaseEnd', type: 'array' }
+                    ]
+                };
+            }
+            case 'Case_statement': {
+                return {
+                    name: 'Case_statement',
+                    mandatory: [
+                        { name: 'caseElements', type: 'array' }
                     ]
                 };
             }
@@ -356,19 +505,35 @@ export class StAstReflection implements AstReflection {
                     ]
                 };
             }
-            case 'Expression': {
-                return {
-                    name: 'Expression',
-                    mandatory: [
-                        { name: 'params', type: 'array' }
-                    ]
-                };
-            }
             case 'Function_invoke_or_assign': {
                 return {
                     name: 'Function_invoke_or_assign',
                     mandatory: [
                         { name: 'params', type: 'array' }
+                    ]
+                };
+            }
+            case 'If_statement': {
+                return {
+                    name: 'If_statement',
+                    mandatory: [
+                        { name: 'elsifConditions', type: 'array' }
+                    ]
+                };
+            }
+            case 'Invoke_subrule': {
+                return {
+                    name: 'Invoke_subrule',
+                    mandatory: [
+                        { name: 'parameters', type: 'array' }
+                    ]
+                };
+            }
+            case 'Statement_list': {
+                return {
+                    name: 'Statement_list',
+                    mandatory: [
+                        { name: 'statements', type: 'array' }
                     ]
                 };
             }

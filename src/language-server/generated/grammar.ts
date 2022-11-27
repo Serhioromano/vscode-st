@@ -72,63 +72,63 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
       "$type": "ParserRule",
       "name": "Constant",
       "definition": {
-        "$type": "Alternatives",
-        "elements": [
-          {
-            "$type": "Assignment",
-            "feature": "constant",
-            "operator": "=",
-            "terminal": {
+        "$type": "Assignment",
+        "feature": "constant",
+        "operator": "=",
+        "terminal": {
+          "$type": "Alternatives",
+          "elements": [
+            {
               "$type": "RuleCall",
               "rule": {
                 "$refText": "Prefixed_integer_literal"
               },
               "arguments": []
+            },
+            {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Prefixed_bit_string_literal"
+              },
+              "arguments": []
+            },
+            {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Real_literal_or_signed_int"
+              },
+              "arguments": []
+            },
+            {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Nonprefix_integer_literal"
+              },
+              "arguments": []
+            },
+            {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Boolean_literal"
+              },
+              "arguments": []
+            },
+            {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Character_string"
+              },
+              "arguments": []
+            },
+            {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Time_literal"
+              },
+              "arguments": []
             }
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$refText": "Prefixed_bit_string_literal"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$refText": "Real_literal_or_signed_int"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$refText": "Nonprefix_integer_literal"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$refText": "Boolean_literal"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$refText": "Character_string"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$refText": "Time_literal"
-            },
-            "arguments": []
-          }
-        ]
+          ]
+        }
       },
       "definesHiddenTokens": false,
       "entry": false,
@@ -564,50 +564,6 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
               }
             ],
             "cardinality": "?"
-          }
-        ]
-      },
-      "definesHiddenTokens": false,
-      "entry": false,
-      "fragment": false,
-      "hiddenTokens": [],
-      "parameters": [],
-      "wildcard": false
-    },
-    {
-      "$type": "ParserRule",
-      "name": "Exponent",
-      "dataType": "number",
-      "definition": {
-        "$type": "Group",
-        "elements": [
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$refText": "Exponent_prefix"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "Alternatives",
-            "elements": [
-              {
-                "$type": "Keyword",
-                "value": "+"
-              },
-              {
-                "$type": "Keyword",
-                "value": "-"
-              }
-            ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$refText": "Integer"
-            },
-            "arguments": []
           }
         ]
       },
@@ -2211,11 +2167,16 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
                 "value": "("
               },
               {
-                "$type": "RuleCall",
-                "rule": {
-                  "$refText": "Expression"
-                },
-                "arguments": []
+                "$type": "Assignment",
+                "feature": "Expression",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$refText": "Expression"
+                  },
+                  "arguments": []
+                }
               },
               {
                 "$type": "Keyword",
@@ -2241,7 +2202,7 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
               {
                 "$type": "Assignment",
                 "feature": "params",
-                "operator": "+=",
+                "operator": "=",
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
@@ -2253,11 +2214,16 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
             ]
           },
           {
-            "$type": "RuleCall",
-            "rule": {
-              "$refText": "Variable"
-            },
-            "arguments": []
+            "$type": "Assignment",
+            "feature": "variable",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Variable"
+              },
+              "arguments": []
+            }
           }
         ]
       },
@@ -2277,7 +2243,7 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
           {
             "$type": "Assignment",
             "feature": "statements",
-            "operator": "=",
+            "operator": "+=",
             "terminal": {
               "$type": "RuleCall",
               "rule": {
@@ -2287,24 +2253,16 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
             }
           },
           {
-            "$type": "Keyword",
-            "value": ";"
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "RuleCall",
-                "rule": {
-                  "$refText": "Statement"
-                },
-                "arguments": []
+            "$type": "Assignment",
+            "feature": "statements",
+            "operator": "+=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Statement"
               },
-              {
-                "$type": "Keyword",
-                "value": ";"
-              }
-            ],
+              "arguments": []
+            },
             "cardinality": "*"
           }
         ]
@@ -2320,23 +2278,47 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
       "$type": "ParserRule",
       "name": "Statement",
       "definition": {
-        "$type": "Alternatives",
+        "$type": "Group",
         "elements": [
           {
-            "$type": "RuleCall",
-            "rule": {
-              "$refText": "Function_invoke_or_assign_statement"
-            },
-            "arguments": []
+            "$type": "Alternatives",
+            "elements": [
+              {
+                "$type": "RuleCall",
+                "rule": {
+                  "$refText": "Selection_statement"
+                },
+                "arguments": []
+              },
+              {
+                "$type": "RuleCall",
+                "rule": {
+                  "$refText": "Function_invoke_or_assign_statement"
+                },
+                "arguments": []
+              },
+              {
+                "$type": "RuleCall",
+                "rule": {
+                  "$refText": "Action_call_statement"
+                },
+                "arguments": []
+              },
+              {
+                "$type": "RuleCall",
+                "rule": {
+                  "$refText": "Iteration_statement"
+                },
+                "arguments": []
+              }
+            ]
           },
           {
-            "$type": "RuleCall",
-            "rule": {
-              "$refText": "Action_call_statement"
-            },
-            "arguments": []
+            "$type": "Keyword",
+            "value": ";"
           }
-        ]
+        ],
+        "cardinality": "?"
       },
       "definesHiddenTokens": false,
       "entry": false,
@@ -2350,7 +2332,7 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
       "name": "Action_call_statement",
       "definition": {
         "$type": "Assignment",
-        "feature": "action",
+        "feature": "actionName",
         "operator": "=",
         "terminal": {
           "$type": "RuleCall",
@@ -2495,11 +2477,16 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
             "value": ":="
           },
           {
-            "$type": "RuleCall",
-            "rule": {
-              "$refText": "Expression"
-            },
-            "arguments": []
+            "$type": "Assignment",
+            "feature": "expression",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Expression"
+              },
+              "arguments": []
+            }
           },
           {
             "$type": "Keyword",
@@ -2525,11 +2512,16 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
             "value": ":="
           },
           {
-            "$type": "RuleCall",
-            "rule": {
-              "$refText": "Expression"
-            },
-            "arguments": []
+            "$type": "Assignment",
+            "feature": "expression",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Expression"
+              },
+              "arguments": []
+            }
           }
         ]
       },
@@ -2554,11 +2546,16 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
             "$type": "Group",
             "elements": [
               {
-                "$type": "RuleCall",
-                "rule": {
-                  "$refText": "Param_assignment"
-                },
-                "arguments": []
+                "$type": "Assignment",
+                "feature": "parameters",
+                "operator": "+=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$refText": "Param_assignment"
+                  },
+                  "arguments": []
+                }
               },
               {
                 "$type": "Group",
@@ -2568,11 +2565,16 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
                     "value": ","
                   },
                   {
-                    "$type": "RuleCall",
-                    "rule": {
-                      "$refText": "Param_assignment"
-                    },
-                    "arguments": []
+                    "$type": "Assignment",
+                    "feature": "parameters",
+                    "operator": "+=",
+                    "terminal": {
+                      "$type": "RuleCall",
+                      "rule": {
+                        "$refText": "Param_assignment"
+                      },
+                      "arguments": []
+                    }
                   }
                 ],
                 "cardinality": "*"
@@ -2644,25 +2646,703 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
     },
     {
       "$type": "ParserRule",
-      "name": "Variable",
+      "name": "Selection_statement",
       "definition": {
         "$type": "Alternatives",
         "elements": [
           {
-            "$type": "RuleCall",
-            "rule": {
-              "$refText": "Direct_variable"
-            },
-            "arguments": []
+            "$type": "Assignment",
+            "feature": "if",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "If_statement"
+              },
+              "arguments": []
+            }
           },
           {
-            "$type": "RuleCall",
-            "rule": {
-              "$refText": "Variable_any_symbolic"
-            },
-            "arguments": []
+            "$type": "Assignment",
+            "feature": "case",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Case_statement"
+              },
+              "arguments": []
+            }
           }
         ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "If_statement",
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "IF"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "ifCondition",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Expression"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "THEN"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "ifStatement",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Statement_list"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Keyword",
+                "value": "ELSIF"
+              },
+              {
+                "$type": "Assignment",
+                "feature": "elsifConditions",
+                "operator": "+=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$refText": "Expression"
+                  },
+                  "arguments": []
+                }
+              },
+              {
+                "$type": "Keyword",
+                "value": "THEN"
+              },
+              {
+                "$type": "Assignment",
+                "feature": "elsifStatements",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$refText": "Statement_list"
+                  },
+                  "arguments": []
+                }
+              }
+            ],
+            "cardinality": "*"
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Keyword",
+                "value": "ELSE"
+              },
+              {
+                "$type": "Assignment",
+                "feature": "elseStatement",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$refText": "Statement_list"
+                  },
+                  "arguments": []
+                }
+              }
+            ],
+            "cardinality": "?"
+          },
+          {
+            "$type": "Keyword",
+            "value": "END_IF"
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "Case_statement",
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "CASE"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "caseExpression",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Expression"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "OF"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "caseElements",
+            "operator": "+=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Case_element"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Assignment",
+            "feature": "caseElements",
+            "operator": "+=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Case_element"
+              },
+              "arguments": []
+            },
+            "cardinality": "*"
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Keyword",
+                "value": "ELSE"
+              },
+              {
+                "$type": "Assignment",
+                "feature": "elseStatements",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$refText": "Statement_list"
+                  },
+                  "arguments": []
+                }
+              }
+            ],
+            "cardinality": "?"
+          },
+          {
+            "$type": "Keyword",
+            "value": "END_CASE"
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "Case_element",
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Assignment",
+            "feature": "caseList",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Case_list"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": ":"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "statements",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Statement_list"
+              },
+              "arguments": []
+            }
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "Case_list",
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Assignment",
+            "feature": "caseListElement",
+            "operator": "+=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Case_list_element"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Keyword",
+                "value": ","
+              },
+              {
+                "$type": "Assignment",
+                "feature": "caseListElement",
+                "operator": "+=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$refText": "Case_list_element"
+                  },
+                  "arguments": []
+                }
+              }
+            ],
+            "cardinality": "*"
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "Case_list_element",
+      "definition": {
+        "$type": "Alternatives",
+        "elements": [
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Assignment",
+                "feature": "numCaseStart",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$refText": "Signed_Integer"
+                  },
+                  "arguments": []
+                }
+              },
+              {
+                "$type": "Group",
+                "elements": [
+                  {
+                    "$type": "Keyword",
+                    "value": ".."
+                  },
+                  {
+                    "$type": "Assignment",
+                    "feature": "numericCaseEnd",
+                    "operator": "+=",
+                    "terminal": {
+                      "$type": "RuleCall",
+                      "rule": {
+                        "$refText": "Signed_Integer"
+                      },
+                      "arguments": []
+                    }
+                  }
+                ],
+                "cardinality": "?"
+              }
+            ]
+          },
+          {
+            "$type": "Assignment",
+            "feature": "enumCase",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "IdentifierEnumeratedCase"
+              },
+              "arguments": []
+            }
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "Iteration_statement",
+      "definition": {
+        "$type": "Assignment",
+        "feature": "statement",
+        "operator": "=",
+        "terminal": {
+          "$type": "Alternatives",
+          "elements": [
+            {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "For_statement"
+              },
+              "arguments": []
+            },
+            {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "While_statement"
+              },
+              "arguments": []
+            },
+            {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Repeat_statement"
+              },
+              "arguments": []
+            },
+            {
+              "$type": "Keyword",
+              "value": "EXIT"
+            }
+          ]
+        }
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "For_statement",
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "FOR"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "controlVariable",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Identifier"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": ":="
+          },
+          {
+            "$type": "Assignment",
+            "feature": "forList",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "For_list"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "DO"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "statementList",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Statement_list"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "END_FOR"
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "For_list",
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Assignment",
+            "feature": "forExpr",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Expression"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "TO"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "toExpr",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Expression"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Keyword",
+                "value": "BY"
+              },
+              {
+                "$type": "Assignment",
+                "feature": "byExpr",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$refText": "Expression"
+                  },
+                  "arguments": []
+                }
+              }
+            ],
+            "cardinality": "?"
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "While_statement",
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "WHILE"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "whileExpr",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Expression"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "DO"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "statementList",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Statement_list"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "END_WHILE"
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "Repeat_statement",
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "REPEAT"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "statementList",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Statement_list"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "UNTIL"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "untilExpr",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Expression"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "END_REPEAT"
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "Variable",
+      "definition": {
+        "$type": "Assignment",
+        "feature": "variable",
+        "operator": "=",
+        "terminal": {
+          "$type": "Alternatives",
+          "elements": [
+            {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Direct_variable"
+              },
+              "arguments": []
+            },
+            {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Variable_any_symbolic"
+              },
+              "arguments": []
+            }
+          ]
+        }
       },
       "definesHiddenTokens": false,
       "entry": false,
@@ -2725,11 +3405,16 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
         "$type": "Group",
         "elements": [
           {
-            "$type": "RuleCall",
-            "rule": {
-              "$refText": "Variable_basic"
-            },
-            "arguments": []
+            "$type": "Assignment",
+            "feature": "variable",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Variable_basic"
+              },
+              "arguments": []
+            }
           },
           {
             "$type": "Group",
@@ -2739,11 +3424,16 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
                 "value": "."
               },
               {
-                "$type": "RuleCall",
-                "rule": {
-                  "$refText": "Variable_basic"
-                },
-                "arguments": []
+                "$type": "Assignment",
+                "feature": "structureMember",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$refText": "Variable_basic"
+                  },
+                  "arguments": []
+                }
               }
             ],
             "cardinality": "*"
@@ -2764,18 +3454,28 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
         "$type": "Group",
         "elements": [
           {
-            "$type": "RuleCall",
-            "rule": {
-              "$refText": "Identifier"
-            },
-            "arguments": []
+            "$type": "Assignment",
+            "feature": "variable",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Identifier"
+              },
+              "arguments": []
+            }
           },
           {
-            "$type": "RuleCall",
-            "rule": {
-              "$refText": "Subscript_list"
+            "$type": "Assignment",
+            "feature": "subscript",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Subscript_list"
+              },
+              "arguments": []
             },
-            "arguments": [],
             "cardinality": "?"
           }
         ]
@@ -2855,6 +3555,10 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
     {
       "$type": "ParserRule",
       "name": "Subscript",
+      "inferredType": {
+        "$type": "InferredType",
+        "name": "Expression"
+      },
       "definition": {
         "$type": "RuleCall",
         "rule": {
@@ -2871,10 +3575,53 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
     },
     {
       "$type": "TerminalRule",
+      "fragment": true,
       "name": "Exponent_prefix",
       "definition": {
         "$type": "RegexToken",
         "regex": "[Ee]"
+      },
+      "hidden": false
+    },
+    {
+      "$type": "TerminalRule",
+      "name": "Exponent",
+      "definition": {
+        "$type": "TerminalGroup",
+        "elements": [
+          {
+            "$type": "TerminalRuleCall",
+            "rule": {
+              "$refText": "Exponent_prefix"
+            }
+          },
+          {
+            "$type": "TerminalAlternatives",
+            "elements": [
+              {
+                "$type": "CharacterRange",
+                "left": {
+                  "$type": "Keyword",
+                  "value": "+"
+                }
+              },
+              {
+                "$type": "CharacterRange",
+                "left": {
+                  "$type": "Keyword",
+                  "value": "-"
+                }
+              }
+            ],
+            "cardinality": "?"
+          },
+          {
+            "$type": "TerminalRuleCall",
+            "rule": {
+              "$refText": "Integer"
+            }
+          }
+        ]
       },
       "fragment": false,
       "hidden": false
@@ -3294,6 +4041,90 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
     },
     {
       "$type": "TerminalRule",
+      "name": "IdentifierEnumeratedCase",
+      "definition": {
+        "$type": "TerminalGroup",
+        "elements": [
+          {
+            "$type": "TerminalAlternatives",
+            "elements": [
+              {
+                "$type": "TerminalGroup",
+                "elements": [
+                  {
+                    "$type": "TerminalRuleCall",
+                    "rule": {
+                      "$refText": "Underscore"
+                    }
+                  },
+                  {
+                    "$type": "TerminalAlternatives",
+                    "elements": [
+                      {
+                        "$type": "TerminalRuleCall",
+                        "rule": {
+                          "$refText": "Digits"
+                        }
+                      },
+                      {
+                        "$type": "TerminalRuleCall",
+                        "rule": {
+                          "$refText": "Letters"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "$type": "TerminalRuleCall",
+                "rule": {
+                  "$refText": "Letters"
+                }
+              }
+            ]
+          },
+          {
+            "$type": "TerminalGroup",
+            "elements": [
+              {
+                "$type": "TerminalRuleCall",
+                "rule": {
+                  "$refText": "Underscore"
+                },
+                "cardinality": "?"
+              },
+              {
+                "$type": "TerminalAlternatives",
+                "elements": [
+                  {
+                    "$type": "TerminalRuleCall",
+                    "rule": {
+                      "$refText": "Digits"
+                    }
+                  },
+                  {
+                    "$type": "TerminalRuleCall",
+                    "rule": {
+                      "$refText": "Letters"
+                    }
+                  }
+                ]
+              }
+            ],
+            "cardinality": "*"
+          },
+          {
+            "$type": "RegexToken",
+            "regex": "(?=(,\\\\s*([_A-Za-z]\\\\w*|([+\\\\-]?[0-9][0-9_]*\\\\s*(\\\\.\\\\.\\\\s*[+\\\\-]?[0-9][0-9_]*)?))\\\\s*)*\\\\:\\\\s+)"
+          }
+        ]
+      },
+      "fragment": false,
+      "hidden": false
+    },
+    {
+      "$type": "TerminalRule",
       "name": "Identifier",
       "definition": {
         "$type": "TerminalGroup",
@@ -3389,6 +4220,16 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
       "definition": {
         "$type": "RegexToken",
         "regex": "\\\\/\\\\*[\\\\s\\\\S]*?\\\\*\\\\/"
+      },
+      "fragment": false
+    },
+    {
+      "$type": "TerminalRule",
+      "hidden": true,
+      "name": "ML_COMMENT_ST",
+      "definition": {
+        "$type": "RegexToken",
+        "regex": "\\\\(\\\\*[\\\\s\\\\S]*?\\\\*\\\\)"
       },
       "fragment": false
     },
