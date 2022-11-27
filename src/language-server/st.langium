@@ -226,7 +226,7 @@ caseList+=Case_list_element (',' caseList+=Case_list_element)*;
 
 //case_list_element = subrange | signed_integer | enumerated_value;
 Case_list_element:
-(numCase=Signed_Integer ('..' numericCaseEnd+=Signed_Integer)?) | (enumCase=Identifier);
+(numCase=Signed_Integer ('..' numericCaseEnd+=Signed_Integer)?) | (enumCase=IdentifierEnumeratedCase);
 
 
 /* Derived typename */
@@ -272,8 +272,6 @@ terminal Octal_integer: /\b8#([0-7])([0-7]|(_))*\b/;
 // string tokens
 terminal Single_byte_character_string: /(')(\\.|[^'])*(')/;
 terminal Double_byte_character_string: /(")(\\.|[^"])*(")/;
-// hack - only match if its followed by a letter D/H/M/S/MS in a time expression
-
 // time tokens
 terminal TMilliseconds: (Underscore)? Fixed_point /[mM][sS]/;
 terminal TMinutes: (Underscore)? Fixed_point /[mM]/;
@@ -290,6 +288,10 @@ terminal fragment Location_prefix: ('I' | 'Q' | 'M');
 terminal fragment Size_prefix: ('X' | 'B' | 'W' | 'D' | 'L');
 terminal Direct_variable_prefix: '%' Location_prefix Size_prefix;
 terminal Integer: Digits ((Underscore)? Digits)*;
+// hack - IdentifierEnumeratedCase uses positive lookahead for "," and ":"
+terminal IdentifierEnumeratedCase: ((Underscore (Digits | Letters))| Letters) ((Underscore)? (Digits | Letters))*
+/(?=(,\s*([_A-Za-z]\w*|([+\-]?[0-9][0-9_]*\s*(\.\.\s*[+\-]?[0-9][0-9_]*)?))\s*)*\:\s+)/;
+
 terminal Identifier: ((Underscore (Digits | Letters))| Letters) ((Underscore)? (Digits | Letters))*;
 
 // hidden
