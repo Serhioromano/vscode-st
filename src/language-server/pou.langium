@@ -46,14 +46,20 @@ FunctionBlock:
 ;
 
 DataType:
-    'TYPE' name=ID  dada_types=DataTypes 'END_TYPE'
+    'TYPE' name=ID  (types_alias=DataTypesAlias | types_union=DataTypesUnion | types_enum=DataTypesEnum | types_struct=DataTypesStruct ) 'END_TYPE'
 ;
 
-DataTypes:
-    ':' variable_type=VariableType ';' | // Alias
-    '(' enum+=Enum (',' enum+=Enum)* ')' | // Enumeration
-    ':' 'UNION' (declarations+=Declarations)* 'END_UNION' | // Union
-    ('EXTENDS' extends=[DataType:ID])? ':' 'STRUCT' (declarations+=Declarations)* 'END_STRUCT' // Structure
+DataTypesAlias:
+    ':' variable_type=VariableType ';'
+;
+DataTypesUnion:
+    ':' 'UNION' (declarations+=Declarations)* 'END_UNION'
+;
+DataTypesEnum:
+    '(' enum+=Enum (',' enum+=Enum)* ')'
+;
+DataTypesStruct:
+    ('EXTENDS' extends=[DataType:ID])? ':' 'STRUCT' (declarations+=Declarations)* 'END_STRUCT'
 ;
 
 Enum:
