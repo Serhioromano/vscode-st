@@ -1,5 +1,5 @@
 import { ValidationAcceptor, ValidationChecks, ValidationRegistry } from 'langium';
-import { StAstType, Program, VarGlobal, Scopes } from './generated/ast';
+import { StAstType, Program, Declarations } from './generated/ast';
 import type { StServices } from './st-module';
 
 /**
@@ -11,8 +11,7 @@ export class StValidationRegistry extends ValidationRegistry {
         const validator = services.validation.StValidator;
         const checks: ValidationChecks<StAstType> = {
             Program: validator.checkPersonStartsWithCapital,
-            VarGlobal: validator.checkDeclarationConstants,
-            Scopes: validator.checkDeclarationConstants
+            Declarations: validator.checkDeclarationConstants
         };
         this.register(checks, validator);
     }
@@ -34,12 +33,12 @@ export class StValidator {
     //         accept('error', `You may use not more that a single object modifier 'CONSTANT', 'RETAIN' or 'PERSISTENT'`, { node: Modifier });
     //     }
     // }
-    
-    checkDeclarationConstants(VarGlobal: VarGlobal | Scopes, accept: ValidationAcceptor): void {
-        if (VarGlobal.dec_constant) {
+
+    checkDeclarationConstants(Declarations: Declarations, accept: ValidationAcceptor): void {
+        if (Declarations.dec_constant) {
             ['CONSTANT', 'RETAIN', 'PERSISTENT'].forEach(el => {
-                if (VarGlobal.dec_constant.filter(e => e === el).length > 1) {
-                    accept('error', `Keyword ${el} is doubled`, { node: VarGlobal, property: 'dec_constant' });
+                if (Declarations.dec_constant.filter(e => e === el).length > 1) {
+                    accept('error', `Keyword ${el} is doubled`, { node: Declarations, property: 'dec_constant' });
                 }
             });
         }

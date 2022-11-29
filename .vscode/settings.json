@@ -9,4 +9,7 @@
         "latex",
         "plaintext"
     ],
+    "terminal.integrated.autoReplies": {
+        "Do you want to delete the files? [yes]/no:": "no\r",
+    },
 }

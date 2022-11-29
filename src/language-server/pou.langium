@@ -1,69 +1,100 @@
 grammar StructuredText
 
+import "./grammar-snippets/statemens";
+
 entry Document:
     (stPou+=POU);
 
 POU:
-    (namespace+=Namespace | program+=Program | function+=Function |
+    (namespace+=Namespace | program+=Program | function+=Function | itface+=Interface |
     function_block+=FunctionBlock | datatype+=DataType | varglobal+=VarGlobal)*
 ;
 
 Namespace:
     'NAMESPACE' name=ID
-    ( program+=Program | function+=Function | function_block+=FunctionBlock | datatype+=DataType | var_global+=VarGlobal)*
+    ( program+=Program | function+=Function | function_block+=FunctionBlock |
+    datatype+=DataType | itface+=Interface | var_global+=VarGlobal)*
     'END_NAMESPACE'
 ;
 
 Program:
-    'PROGRAM' (modifier=Modifier)? name=ID
-    (scopes+=Scopes)*
+    'PROGRAM' name=ID
+    (scopes+=VarInput | scopes+=VarOutput | scopes+=VarInOut | scopes+=VarTemp | scopes+=VarLocal | scopes+=VarExternal)*
+    (methods+=Methods)*
     // (statements+=Statements)*
     'END_PROGRAM'
 ;
 
+Interface:
+    'INTERFACE' name=ID ('EXTENDS' extender=[Interface:ID])?
+    (methods+=Methods)*
+    // (statements+=Statements)*
+    'END_INTERFACE'
+;
+
 Function:
-    'FUNCTION' (modifier=Modifier)? name=ID ':' variable_type=VariableType
-    (scopes+=Scopes)*
+    'FUNCTION' name=ID ':' variable_type=VariableType
+    (scopes+=VarInput | scopes+=VarOutput | scopes+=VarInOut | scopes+=VarLocal | scopes+=VarStat)*
     // (statements+=Statements)*
     'END_FUNCTION'
 ;
 
 FunctionBlock:
-    'FUNCTION_BLOCK' (modifier=Modifier)? name=ID
-    (scopes+=Scopes)*
+    'FUNCTION_BLOCK' ('FINAL' | 'PUBLIC' | 'EXTERNAL')? name=ID
+    ('EXTENDS' extender=[FunctionBlock:ID])? ('IMPLEMENTS' implementer=[Interface:ID])?
+    (scopes+=VarInput | scopes+=VarOutput | scopes+=VarInOut | scopes+=VarTemp | scopes+=VarLocal | scopes+=VarStat)*
+    (methods+=Methods)*
     // (statements+=Statements)*
     'END_FUNCTION_BLOCK'
 ;
 
 DataType:
-    'TYPE' (modifier=Modifier)? name=ID (scopes+=Scopes)* 'END_TYPE'
+    'TYPE' name=ID  dada_types=DataTypes 'END_TYPE'
 ;
 
-Scopes:
-    'VAR' ('_' ('INPUT'|'OUTPUT'|'IN_OUT'|'EXTERNAL'|'TEMP')?)? (dec_constant+=DeclarationConstant)*
-    (declarations+=Declarations)*
-    'END_VAR'
+DataTypes:
+    ':' variable_type=VariableType ';' | // Alias
+    '(' enum+=Enum (',' enum+=Enum)* ')' | // Enumeration
+    ':' 'UNION' (declarations+=Declarations)* 'END_UNION' | // Union
+    ('EXTENDS' extends=[DataType:ID])? ':' 'STRUCT' (declarations+=Declarations)* 'END_STRUCT' // Structure
 ;
 
-VarGlobal:
-    'VAR_GLOBAL' (dec_constant+=DeclarationConstant)*
-    (declarations+=Declarations)*
-    'END_VAR'
+Enum:
+    variable_name=ID (':=' DIGIT)?
 ;
+
+VarGlobal: 'VAR_GLOBAL' (declarations+=Declarations)* 'END_VAR';
+VarInput: 'VAR_INPUT' (declarations+=Declarations)* 'END_VAR';
+VarOutput: 'VAR_OUTPUT' (declarations+=Declarations)* 'END_VAR';
+VarInOut: 'VAR_IN_OUT' (declarations+=Declarations)* 'END_VAR';
+VarTemp: 'VAR_TEMP' (declarations+=Declarations)* 'END_VAR';
+VarExternal: 'VAR_EXTERNAL' (declarations+=Declarations)* 'END_VAR';
+VarLocal: 'VAR' (declarations+=Declarations)* 'END_VAR';
+VarStat: 'VAR_STAT' (declarations+=Declarations)* 'END_VAR';
 
 DeclarationConstant returns string:
     'CONSTANT' | 'RETAIN' | 'PERSISTENT'
 ;
 
-Modifier returns string:
-    'PRIVATE' | 'PUBLIC' | 'PROTECTED'
-;
-
 Declarations:
-    variable_name=ID ('AT' address=Address)? ':' variable_type=VariableType ';'
+    (dec_constant+=DeclarationConstant)*
+    variable_name=ID ('AT' address=ADDRESS)? ':' variable_type=VariableType ';'
 ;
 
-type DeclarationTypes = Function | FunctionBlock;
+Methods:
+    'METHOD' (modifier=MethodModifier)? name=ID ':' variable_type=VariableType
+    (scopes+=VarInput | scopes+=VarOutput | scopes+=VarInOut | scopes+=VarLocal | scopes+=VarStat)*
+    // (statements+=Statements)*
+    'END_METHOD'
+;
+
+MethodModifier returns string:
+    'PRIVATE' | 'PUBLIC' | 'PROTECTED' | 'INTERNAL'
+;
+
+
+type DeclarationTypes = Function | FunctionBlock | DataType;
+type ExtendTypes = FunctionBlock | Program;
 
 VariableType:
     ANY_ELEMENTARY | declaration_type=[DeclarationTypes:ID]
@@ -78,7 +109,7 @@ hidden terminal SL_COMMENT: /\/\/[^\n\r]*/;
 
 
 terminal DIGIT: /[0-9_]+/;
-terminal Address: '%'  ('I' | 'Q' | 'M')  ('X'? | 'B' | 'W' | 'D' | 'L') DIGIT ('.' DIGIT)*;
+terminal ADDRESS: '%'  ('I' | 'Q' | 'M')  ('X'? | 'B' | 'W' | 'D' | 'L') DIGIT ('.' DIGIT)*;
 
 // IEC-61131-3 Data Types
 terminal ANY_UNSIGNED: 'U' ('S'|'D'|'L')? 'INT';
@@ -92,4 +123,4 @@ terminal ANY_DATE: 'DATE_AND_TIME' | 'L'? 'DT' | 'DATE' | 'L'? 'TOD' | 'L'? 'TIM
 terminal ANY_ELEMENTARY: ANY_MAGNITUDE | ANY_BIT | ANY_CHAR | ANY_DATE;
 
 
-terminal ID: /[a-zA-Z_]{1}[a-zA-Z0-9_]*/;
+terminal ID: /\_?[a-zA-Z]{1}[a-zA-Z0-9_]*/;
