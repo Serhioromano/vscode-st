@@ -1,6 +1,6 @@
 {
     "cSpell.language": "ru,en",
-    "workbench.colorTheme": "Default Dark+",
+    "workbench.colorTheme": "An Old Hope Classic",
     "spellright.language": [
         "en"
     ],
@@ -9,4 +9,7 @@
         "latex",
         "plaintext"
     ],
+    "terminal.integrated.autoReplies": {
+        "Do you want to delete the files? [yes]/no:": "no\r",
+    },
 }

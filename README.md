@@ -7,7 +7,7 @@ Most complete Structured Text language support. Features includes:
 - Syntax highlights in \*.st, \*.iecst files
 - Syntax highlights in \*.md (Markdown) files in `iecst` code block
 - Syntax highlights in \*.xml files in `<Declaration>` and `<ST>` code block
-- Snippets (enter `st ` to see list of all snippets)
+- Snippets (enter `st` to see list of all snippets)
 - Outline view
 - Breadcrumbs code navigation
 - Go to Symbol in File
@@ -99,7 +99,7 @@ Utilize VS Code Formatter API. Use general formatting command short keys. It cap
 - enhance - better snippets titles
 - add - support for UNION syntax
 - add - Highlight ST inside some XML files key.
-- change - enter `st ` to see list of all snippets.
+- change - enter `st` to see list of all snippets.
 - add - Highlight ST in Markdown files when use `iecst` key.
 - add - new icon :))
 - add - new formatting architecture that utilize VS Code formatting API.
@@ -107,7 +107,7 @@ Utilize VS Code Formatter API. Use general formatting command short keys. It cap
 ### 1.7
 
 - add - syntax highlights keyword `__TRY`, `__CATCH`, `__FINALY`, `__NEW`, `__DELETE`, `S=`, `R=`
-- add - snippets fo `__TRY`, `__CATCH`, `__FINALY`, `__NEW`, `__DELETE`
+- add - snippets for `__TRY`, `__CATCH`, `__FINALY`, `__NEW`, `__DELETE`
 
 Thanks to @nikvoronin
 

@@ -4,6 +4,7 @@ import {
 } from 'langium';
 import { StructuredTextGeneratedModule, StGeneratedSharedModule } from './generated/module';
 import { StValidationRegistry, StValidator } from './st-validator';
+import { StDocumentSymbolProvider } from './st-symbol-provider';
 
 /**
  * Declaration of custom services - add your own service classes here.
@@ -29,6 +30,9 @@ export const StModule: Module<StServices, PartialLangiumServices & StAddedServic
     validation: {
         ValidationRegistry: (services) => new StValidationRegistry(services),
         StValidator: () => new StValidator()
+    },
+    lsp:{
+        DocumentSymbolProvider: (services) => new StDocumentSymbolProvider(services)
     }
 };
 
