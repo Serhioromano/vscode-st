@@ -7,201 +7,45 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import { AstNode, AstReflection, ReferenceInfo, isAstNode, TypeMetaData } from 'langium';
 
-export type Assignment_subrule = Expression;
+export type DeclarationConstant = 'CONSTANT' | 'PERSISTENT' | 'RETAIN';
 
-export const Assignment_subrule = 'Assignment_subrule';
+export type DeclarationTypes = Function | FunctionBlock;
 
-export function isAssignment_subrule(item: unknown): item is Assignment_subrule {
-    return reflection.isInstance(item, Assignment_subrule);
+export const DeclarationTypes = 'DeclarationTypes';
+
+export function isDeclarationTypes(item: unknown): item is DeclarationTypes {
+    return reflection.isInstance(item, DeclarationTypes);
 }
 
-export type Bit_string_type_name = 'BYTE' | 'DWORD' | 'LWORD' | 'WORD';
+export type VariableType = string;
 
-export type Boolean_literal = boolean;
-
-export type Character_string = string;
-
-export type Data_type_name = string;
-
-export type Date_and_time = string;
-
-export type Date_literal = string;
-
-export type Date_type = string;
-
-export type Date_type_name = 'DATE' | 'DATE_AND_TIME' | 'DT' | 'TIME_OF_DAY' | 'TOD';
-
-export type Day = string;
-
-export type Day_hour = string;
-
-export type Day_minute = string;
-
-export type Day_second = string;
-
-export type Days = string;
-
-export type Daytime = string;
-
-export type Direct_variable = string;
-
-export type Duration = string;
-
-export type Elementary_type_name = string;
-
-export type Exponent = number;
-
-export type Function_name = string;
-
-export type Generic_type_name = 'ANY' | 'ANY_BIT' | 'ANY_DATE' | 'ANY_DERIVED' | 'ANY_ELEMENTARY' | 'ANY_INT' | 'ANY_MAGNITUDE' | 'ANY_NUM' | 'ANY_REAL' | 'ANY_STRING';
-
-export type Hours = string;
-
-export type Integer_type_name = number;
-
-export type Interval = string;
-
-export type Invoke_subrule = Param_assignment;
-
-export const Invoke_subrule = 'Invoke_subrule';
-
-export function isInvoke_subrule(item: unknown): item is Invoke_subrule {
-    return reflection.isInstance(item, Invoke_subrule);
+export interface DataType extends AstNode {
+    readonly $container: Namespace | POU;
+    name: string
+    scopes: Array<Scopes>
 }
 
-export type Milliseconds = string;
+export const DataType = 'DataType';
 
-export type Minutes = string;
-
-export type Month = string;
-
-export type Non_generic_type_name = string;
-
-export type Nonprefix_integer_literal = number;
-
-export type Numeric_type_name = string;
-
-export type Prefixed_bit_string_literal = number;
-
-export type Prefixed_integer_literal = number;
-
-export type Real_literal_or_signed_int = number;
-
-export type Real_type_name = 'LREAL' | 'REAL';
-
-export type Seconds = string;
-
-export type Signed_Integer = number;
-
-export type Signed_integer_type_name = 'DINT' | 'INT' | 'LINT' | 'SINT';
-
-export type Statement = Action_call_statement | Function_invoke_or_assign_statement;
-
-export const Statement = 'Statement';
-
-export function isStatement(item: unknown): item is Statement {
-    return reflection.isInstance(item, Statement);
+export function isDataType(item: unknown): item is DataType {
+    return reflection.isInstance(item, DataType);
 }
 
-export type Subscript = Expression;
-
-export const Subscript = 'Subscript';
-
-export function isSubscript(item: unknown): item is Subscript {
-    return reflection.isInstance(item, Subscript);
+export interface Declarations extends AstNode {
+    readonly $container: Scopes | VarGlobal;
+    address?: string
+    variable_name: string
+    variable_type: VariableType
 }
 
-export type Subscript_list = Subscript;
+export const Declarations = 'Declarations';
 
-export const Subscript_list = 'Subscript_list';
-
-export function isSubscript_list(item: unknown): item is Subscript_list {
-    return reflection.isInstance(item, Subscript_list);
-}
-
-export type Time_literal = string;
-
-export type Time_of_day = string;
-
-export type Unsigned_Integer = number;
-
-export type Unsigned_integer_type_name = 'UDINT' | 'UINT' | 'ULINT' | 'USINT';
-
-export type Variable = Direct_variable | Variable_any_symbolic;
-
-export const Variable = 'Variable';
-
-export function isVariable(item: unknown): item is Variable {
-    return reflection.isInstance(item, Variable);
-}
-
-export type Variable_any_symbolic = Variable_basic;
-
-export const Variable_any_symbolic = 'Variable_any_symbolic';
-
-export function isVariable_any_symbolic(item: unknown): item is Variable_any_symbolic {
-    return reflection.isInstance(item, Variable_any_symbolic);
-}
-
-export type Variable_basic = Subscript_list;
-
-export const Variable_basic = 'Variable_basic';
-
-export function isVariable_basic(item: unknown): item is Variable_basic {
-    return reflection.isInstance(item, Variable_basic);
-}
-
-export type Variable_name = string;
-
-export type Year = string;
-
-export interface Action_call_statement extends AstNode {
-    readonly $container: Statement_list;
-    action: string
-}
-
-export const Action_call_statement = 'Action_call_statement';
-
-export function isAction_call_statement(item: unknown): item is Action_call_statement {
-    return reflection.isInstance(item, Action_call_statement);
-}
-
-export interface Assignment_statement extends AstNode {
-    statement: Variable
-}
-
-export const Assignment_statement = 'Assignment_statement';
-
-export function isAssignment_statement(item: unknown): item is Assignment_statement {
-    return reflection.isInstance(item, Assignment_statement);
-}
-
-export interface BinaryExpression extends Expression {
-    readonly $container: Assignment_statement | BinaryExpression | Function_invoke_or_assign | Param_assignment;
-    left: Expression
-    operator: '&' | '*' | '**' | '+' | '-' | '/' | '<' | '<=' | '<>' | '=' | '>' | '>=' | 'AND' | 'MOD' | 'NOT' | 'OR' | 'XOR'
-    right: Expression
-}
-
-export const BinaryExpression = 'BinaryExpression';
-
-export function isBinaryExpression(item: unknown): item is BinaryExpression {
-    return reflection.isInstance(item, BinaryExpression);
-}
-
-export interface Constant extends AstNode {
-    readonly $container: Expression;
-    constant: Prefixed_integer_literal
-}
-
-export const Constant = 'Constant';
-
-export function isConstant(item: unknown): item is Constant {
-    return reflection.isInstance(item, Constant);
+export function isDeclarations(item: unknown): item is Declarations {
+    return reflection.isInstance(item, Declarations);
 }
 
 export interface Document extends AstNode {
-    stStatements: Array<Statement_list>
+    stPou: Array<POU>
 }
 
 export const Document = 'Document';
@@ -210,57 +54,66 @@ export function isDocument(item: unknown): item is Document {
     return reflection.isInstance(item, Document);
 }
 
-export interface Expression extends AstNode {
-    readonly $container: Assignment_statement | BinaryExpression | Function_invoke_or_assign | Param_assignment;
-    name?: Function_name
-    params: Array<Invoke_subrule>
-    value?: Constant
+export interface Function extends AstNode {
+    readonly $container: Namespace | POU;
+    name: string
+    scopes: Array<Scopes>
 }
 
-export const Expression = 'Expression';
+export const Function = 'Function';
 
-export function isExpression(item: unknown): item is Expression {
-    return reflection.isInstance(item, Expression);
+export function isFunction(item: unknown): item is Function {
+    return reflection.isInstance(item, Function);
 }
 
-export interface Function_invoke_or_assign extends AstNode {
-    readonly $container: Function_invoke_or_assign_statement;
-    assign?: Assignment_subrule
-    id: Variable
-    params: Array<Invoke_subrule>
+export interface FunctionBlock extends AstNode {
+    readonly $container: Namespace | POU;
+    name: string
+    scopes: Array<Scopes>
 }
 
-export const Function_invoke_or_assign = 'Function_invoke_or_assign';
+export const FunctionBlock = 'FunctionBlock';
 
-export function isFunction_invoke_or_assign(item: unknown): item is Function_invoke_or_assign {
-    return reflection.isInstance(item, Function_invoke_or_assign);
+export function isFunctionBlock(item: unknown): item is FunctionBlock {
+    return reflection.isInstance(item, FunctionBlock);
 }
 
-export interface Function_invoke_or_assign_statement extends AstNode {
-    readonly $container: Statement_list;
-    statement: 'RETURN' | Function_invoke_or_assign
+export interface Namespace extends AstNode {
+    readonly $container: POU;
+    datatype: Array<DataType>
+    function: Array<Function>
+    function_block: Array<FunctionBlock>
+    name: string
+    program: Array<Program>
+    var_global: Array<VarGlobal>
 }
 
-export const Function_invoke_or_assign_statement = 'Function_invoke_or_assign_statement';
+export const Namespace = 'Namespace';
 
-export function isFunction_invoke_or_assign_statement(item: unknown): item is Function_invoke_or_assign_statement {
-    return reflection.isInstance(item, Function_invoke_or_assign_statement);
+export function isNamespace(item: unknown): item is Namespace {
+    return reflection.isInstance(item, Namespace);
 }
 
-export interface Param_assignment extends AstNode {
-    readonly $container: Expression | Function_invoke_or_assign;
-    ParamName?: Variable_name
-    ParamValue: Expression
+export interface POU extends AstNode {
+    readonly $container: Document;
+    datatype: Array<DataType>
+    function: Array<Function>
+    function_block: Array<FunctionBlock>
+    namespace: Array<Namespace>
+    program: Array<Program>
+    varglobal: Array<VarGlobal>
 }
 
-export const Param_assignment = 'Param_assignment';
+export const POU = 'POU';
 
-export function isParam_assignment(item: unknown): item is Param_assignment {
-    return reflection.isInstance(item, Param_assignment);
+export function isPOU(item: unknown): item is POU {
+    return reflection.isInstance(item, POU);
 }
 
 export interface Program extends AstNode {
+    readonly $container: Namespace | POU;
     name: string
+    scopes: Array<Scopes>
 }
 
 export const Program = 'Program';
@@ -269,23 +122,36 @@ export function isProgram(item: unknown): item is Program {
     return reflection.isInstance(item, Program);
 }
 
-export interface Statement_list extends AstNode {
-    readonly $container: Document;
-    statements: Statement
+export interface Scopes extends AstNode {
+    readonly $container: DataType | Function | FunctionBlock | Program;
+    dec_constant: Array<DeclarationConstant>
+    declarations: Array<Declarations>
 }
 
-export const Statement_list = 'Statement_list';
+export const Scopes = 'Scopes';
 
-export function isStatement_list(item: unknown): item is Statement_list {
-    return reflection.isInstance(item, Statement_list);
+export function isScopes(item: unknown): item is Scopes {
+    return reflection.isInstance(item, Scopes);
 }
 
-export type StAstType = 'Action_call_statement' | 'Assignment_statement' | 'Assignment_subrule' | 'BinaryExpression' | 'Constant' | 'Document' | 'Expression' | 'Function_invoke_or_assign' | 'Function_invoke_or_assign_statement' | 'Invoke_subrule' | 'Param_assignment' | 'Program' | 'Statement' | 'Statement_list' | 'Subscript' | 'Subscript_list' | 'Variable' | 'Variable_any_symbolic' | 'Variable_basic';
+export interface VarGlobal extends AstNode {
+    readonly $container: Namespace | POU;
+    dec_constant: Array<DeclarationConstant>
+    declarations: Array<Declarations>
+}
+
+export const VarGlobal = 'VarGlobal';
+
+export function isVarGlobal(item: unknown): item is VarGlobal {
+    return reflection.isInstance(item, VarGlobal);
+}
+
+export type StAstType = 'DataType' | 'DeclarationTypes' | 'Declarations' | 'Document' | 'Function' | 'FunctionBlock' | 'Namespace' | 'POU' | 'Program' | 'Scopes' | 'VarGlobal';
 
 export class StAstReflection implements AstReflection {
 
     getAllTypes(): string[] {
-        return ['Action_call_statement', 'Assignment_statement', 'Assignment_subrule', 'BinaryExpression', 'Constant', 'Document', 'Expression', 'Function_invoke_or_assign', 'Function_invoke_or_assign_statement', 'Invoke_subrule', 'Param_assignment', 'Program', 'Statement', 'Statement_list', 'Subscript', 'Subscript_list', 'Variable', 'Variable_any_symbolic', 'Variable_basic'];
+        return ['DataType', 'DeclarationTypes', 'Declarations', 'Document', 'Function', 'FunctionBlock', 'Namespace', 'POU', 'Program', 'Scopes', 'VarGlobal'];
     }
 
     isInstance(node: unknown, type: string): boolean {
@@ -297,31 +163,9 @@ export class StAstReflection implements AstReflection {
             return true;
         }
         switch (subtype) {
-            case Action_call_statement:
-            case Function_invoke_or_assign_statement: {
-                return this.isSubtype(Statement, supertype);
-            }
-            case BinaryExpression:
-            case Variable: {
-                return this.isSubtype(Expression, supertype);
-            }
-            case Expression: {
-                return this.isSubtype(Assignment_subrule, supertype) || this.isSubtype(Subscript, supertype);
-            }
-            case Param_assignment: {
-                return this.isSubtype(Invoke_subrule, supertype);
-            }
-            case Subscript: {
-                return this.isSubtype(Subscript_list, supertype);
-            }
-            case Subscript_list: {
-                return this.isSubtype(Variable_basic, supertype);
-            }
-            case Variable_any_symbolic: {
-                return this.isSubtype(Variable, supertype);
-            }
-            case Variable_basic: {
-                return this.isSubtype(Variable_any_symbolic, supertype);
+            case Function:
+            case FunctionBlock: {
+                return this.isSubtype(DeclarationTypes, supertype);
             }
             default: {
                 return false;
@@ -340,11 +184,11 @@ export class StAstReflection implements AstReflection {
 
     getTypeMetaData(type: string): TypeMetaData {
         switch (type) {
-            case 'BinaryExpression': {
+            case 'DataType': {
                 return {
-                    name: 'BinaryExpression',
+                    name: 'DataType',
                     mandatory: [
-                        { name: 'params', type: 'array' }
+                        { name: 'scopes', type: 'array' }
                     ]
                 };
             }
@@ -352,23 +196,74 @@ export class StAstReflection implements AstReflection {
                 return {
                     name: 'Document',
                     mandatory: [
-                        { name: 'stStatements', type: 'array' }
+                        { name: 'stPou', type: 'array' }
                     ]
                 };
             }
-            case 'Expression': {
+            case 'Function': {
                 return {
-                    name: 'Expression',
+                    name: 'Function',
                     mandatory: [
-                        { name: 'params', type: 'array' }
+                        { name: 'scopes', type: 'array' }
                     ]
                 };
             }
-            case 'Function_invoke_or_assign': {
+            case 'FunctionBlock': {
                 return {
-                    name: 'Function_invoke_or_assign',
+                    name: 'FunctionBlock',
                     mandatory: [
-                        { name: 'params', type: 'array' }
+                        { name: 'scopes', type: 'array' }
+                    ]
+                };
+            }
+            case 'Namespace': {
+                return {
+                    name: 'Namespace',
+                    mandatory: [
+                        { name: 'datatype', type: 'array' },
+                        { name: 'function', type: 'array' },
+                        { name: 'function_block', type: 'array' },
+                        { name: 'program', type: 'array' },
+                        { name: 'var_global', type: 'array' }
+                    ]
+                };
+            }
+            case 'POU': {
+                return {
+                    name: 'POU',
+                    mandatory: [
+                        { name: 'datatype', type: 'array' },
+                        { name: 'function', type: 'array' },
+                        { name: 'function_block', type: 'array' },
+                        { name: 'namespace', type: 'array' },
+                        { name: 'program', type: 'array' },
+                        { name: 'varglobal', type: 'array' }
+                    ]
+                };
+            }
+            case 'Program': {
+                return {
+                    name: 'Program',
+                    mandatory: [
+                        { name: 'scopes', type: 'array' }
+                    ]
+                };
+            }
+            case 'Scopes': {
+                return {
+                    name: 'Scopes',
+                    mandatory: [
+                        { name: 'dec_constant', type: 'array' },
+                        { name: 'declarations', type: 'array' }
+                    ]
+                };
+            }
+            case 'VarGlobal': {
+                return {
+                    name: 'VarGlobal',
+                    mandatory: [
+                        { name: 'dec_constant', type: 'array' },
+                        { name: 'declarations', type: 'array' }
                     ]
                 };
             }
