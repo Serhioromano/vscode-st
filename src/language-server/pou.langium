@@ -94,7 +94,6 @@ MethodModifier returns string:
 
 
 type DeclarationTypes = Function | FunctionBlock | DataType;
-type ExtendTypes = FunctionBlock | Program;
 
 VariableType:
     ANY_ELEMENTARY | declaration_type=[DeclarationTypes:ID]
