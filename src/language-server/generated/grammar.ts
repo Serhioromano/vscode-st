@@ -234,6 +234,19 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
           },
           {
             "$type": "Assignment",
+            "feature": "modifier",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Modifier"
+              },
+              "arguments": []
+            },
+            "cardinality": "?"
+          },
+          {
+            "$type": "Assignment",
             "feature": "name",
             "operator": "=",
             "terminal": {
@@ -282,12 +295,41 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
           },
           {
             "$type": "Assignment",
+            "feature": "modifier",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Modifier"
+              },
+              "arguments": []
+            },
+            "cardinality": "?"
+          },
+          {
+            "$type": "Assignment",
             "feature": "name",
             "operator": "=",
             "terminal": {
               "$type": "RuleCall",
               "rule": {
                 "$refText": "ID"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": ":"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "variable_type",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "VariableType"
               },
               "arguments": []
             }
@@ -327,6 +369,19 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
           {
             "$type": "Keyword",
             "value": "FUNCTION_BLOCK"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "modifier",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Modifier"
+              },
+              "arguments": []
+            },
+            "cardinality": "?"
           },
           {
             "$type": "Assignment",
@@ -375,6 +430,19 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
           {
             "$type": "Keyword",
             "value": "TYPE"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "modifier",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$refText": "Modifier"
+              },
+              "arguments": []
+            },
+            "cardinality": "?"
           },
           {
             "$type": "Assignment",
@@ -537,7 +605,7 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
           },
           {
             "$type": "Keyword",
-            "value": "END_VAR_GLOBAL"
+            "value": "END_VAR"
           }
         ]
       },
@@ -566,6 +634,34 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
           {
             "$type": "Keyword",
             "value": "PERSISTENT"
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "Modifier",
+      "dataType": "string",
+      "definition": {
+        "$type": "Alternatives",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "PRIVATE"
+          },
+          {
+            "$type": "Keyword",
+            "value": "PUBLIC"
+          },
+          {
+            "$type": "Keyword",
+            "value": "PROTECTED"
           }
         ]
       },
@@ -648,20 +744,34 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
     {
       "$type": "ParserRule",
       "name": "VariableType",
-      "dataType": "string",
       "definition": {
         "$type": "Alternatives",
         "elements": [
           {
-            "$type": "Keyword",
-            "value": "BOOL"
-          },
-          {
             "$type": "RuleCall",
             "rule": {
-              "$refText": "ANY_NUM"
+              "$refText": "ANY_ELEMENTARY"
             },
             "arguments": []
+          },
+          {
+            "$type": "Assignment",
+            "feature": "declaration_type",
+            "operator": "=",
+            "terminal": {
+              "$type": "CrossReference",
+              "type": {
+                "$refText": "DeclarationTypes"
+              },
+              "terminal": {
+                "$type": "RuleCall",
+                "rule": {
+                  "$refText": "ID"
+                },
+                "arguments": []
+              },
+              "deprecatedSyntax": false
+            }
           }
         ]
       },
@@ -671,6 +781,46 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
       "hiddenTokens": [],
       "parameters": [],
       "wildcard": false
+    },
+    {
+      "$type": "TerminalRule",
+      "hidden": true,
+      "name": "WS",
+      "definition": {
+        "$type": "RegexToken",
+        "regex": "\\\\s+"
+      },
+      "fragment": false
+    },
+    {
+      "$type": "TerminalRule",
+      "hidden": true,
+      "name": "ML_COMMENT",
+      "definition": {
+        "$type": "RegexToken",
+        "regex": "\\\\/\\\\*[\\\\s\\\\S]*?\\\\*\\\\/"
+      },
+      "fragment": false
+    },
+    {
+      "$type": "TerminalRule",
+      "hidden": true,
+      "name": "ML_COMMENT_ST",
+      "definition": {
+        "$type": "RegexToken",
+        "regex": "\\\\(\\\\*[\\\\s\\\\S]*?\\\\*\\\\)"
+      },
+      "fragment": false
+    },
+    {
+      "$type": "TerminalRule",
+      "hidden": true,
+      "name": "SL_COMMENT",
+      "definition": {
+        "$type": "RegexToken",
+        "regex": "\\\\/\\\\/[^\\\\n\\\\r]*"
+      },
+      "fragment": false
     },
     {
       "$type": "TerminalRule",
@@ -814,7 +964,7 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
     },
     {
       "$type": "TerminalRule",
-      "name": "ANY_INT",
+      "name": "ANY_UNSIGNED",
       "definition": {
         "$type": "TerminalGroup",
         "elements": [
@@ -823,9 +973,58 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
             "left": {
               "$type": "Keyword",
               "value": "U"
-            },
+            }
+          },
+          {
+            "$type": "TerminalAlternatives",
+            "elements": [
+              {
+                "$type": "TerminalAlternatives",
+                "elements": [
+                  {
+                    "$type": "CharacterRange",
+                    "left": {
+                      "$type": "Keyword",
+                      "value": "S"
+                    }
+                  },
+                  {
+                    "$type": "CharacterRange",
+                    "left": {
+                      "$type": "Keyword",
+                      "value": "D"
+                    }
+                  }
+                ]
+              },
+              {
+                "$type": "CharacterRange",
+                "left": {
+                  "$type": "Keyword",
+                  "value": "L"
+                }
+              }
+            ],
             "cardinality": "?"
           },
+          {
+            "$type": "CharacterRange",
+            "left": {
+              "$type": "Keyword",
+              "value": "INT"
+            }
+          }
+        ]
+      },
+      "fragment": false,
+      "hidden": false
+    },
+    {
+      "$type": "TerminalRule",
+      "name": "ANY_SIGNED",
+      "definition": {
+        "$type": "TerminalGroup",
+        "elements": [
           {
             "$type": "TerminalAlternatives",
             "elements": [
@@ -898,20 +1097,326 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
     },
     {
       "$type": "TerminalRule",
-      "name": "ANY_NUM",
+      "name": "ANY_DURATION",
+      "definition": {
+        "$type": "TerminalGroup",
+        "elements": [
+          {
+            "$type": "CharacterRange",
+            "left": {
+              "$type": "Keyword",
+              "value": "L"
+            },
+            "cardinality": "?"
+          },
+          {
+            "$type": "CharacterRange",
+            "left": {
+              "$type": "Keyword",
+              "value": "TIME"
+            }
+          }
+        ]
+      },
+      "fragment": false,
+      "hidden": false
+    },
+    {
+      "$type": "TerminalRule",
+      "name": "ANY_MAGNITUDE",
       "definition": {
         "$type": "TerminalAlternatives",
         "elements": [
           {
-            "$type": "TerminalRuleCall",
-            "rule": {
-              "$refText": "ANY_INT"
-            }
+            "$type": "TerminalAlternatives",
+            "elements": [
+              {
+                "$type": "TerminalAlternatives",
+                "elements": [
+                  {
+                    "$type": "TerminalRuleCall",
+                    "rule": {
+                      "$refText": "ANY_UNSIGNED"
+                    }
+                  },
+                  {
+                    "$type": "TerminalRuleCall",
+                    "rule": {
+                      "$refText": "ANY_SIGNED"
+                    }
+                  }
+                ]
+              },
+              {
+                "$type": "TerminalRuleCall",
+                "rule": {
+                  "$refText": "ANY_REAL"
+                }
+              }
+            ]
           },
           {
             "$type": "TerminalRuleCall",
             "rule": {
-              "$refText": "ANY_REAL"
+              "$refText": "ANY_DURATION"
+            }
+          }
+        ]
+      },
+      "fragment": false,
+      "hidden": false
+    },
+    {
+      "$type": "TerminalRule",
+      "name": "ANY_BIT",
+      "definition": {
+        "$type": "TerminalAlternatives",
+        "elements": [
+          {
+            "$type": "TerminalAlternatives",
+            "elements": [
+              {
+                "$type": "CharacterRange",
+                "left": {
+                  "$type": "Keyword",
+                  "value": "BOOL"
+                }
+              },
+              {
+                "$type": "CharacterRange",
+                "left": {
+                  "$type": "Keyword",
+                  "value": "BYTE"
+                }
+              }
+            ]
+          },
+          {
+            "$type": "TerminalGroup",
+            "elements": [
+              {
+                "$type": "TerminalAlternatives",
+                "elements": [
+                  {
+                    "$type": "CharacterRange",
+                    "left": {
+                      "$type": "Keyword",
+                      "value": "D"
+                    }
+                  },
+                  {
+                    "$type": "CharacterRange",
+                    "left": {
+                      "$type": "Keyword",
+                      "value": "L"
+                    }
+                  }
+                ],
+                "cardinality": "?"
+              },
+              {
+                "$type": "CharacterRange",
+                "left": {
+                  "$type": "Keyword",
+                  "value": "WORD"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "fragment": false,
+      "hidden": false
+    },
+    {
+      "$type": "TerminalRule",
+      "name": "ANY_CHAR",
+      "definition": {
+        "$type": "TerminalAlternatives",
+        "elements": [
+          {
+            "$type": "TerminalGroup",
+            "elements": [
+              {
+                "$type": "CharacterRange",
+                "left": {
+                  "$type": "Keyword",
+                  "value": "W"
+                },
+                "cardinality": "?"
+              },
+              {
+                "$type": "CharacterRange",
+                "left": {
+                  "$type": "Keyword",
+                  "value": "CHAR"
+                }
+              }
+            ]
+          },
+          {
+            "$type": "TerminalGroup",
+            "elements": [
+              {
+                "$type": "CharacterRange",
+                "left": {
+                  "$type": "Keyword",
+                  "value": "W"
+                },
+                "cardinality": "?"
+              },
+              {
+                "$type": "CharacterRange",
+                "left": {
+                  "$type": "Keyword",
+                  "value": "STRING"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "fragment": false,
+      "hidden": false
+    },
+    {
+      "$type": "TerminalRule",
+      "name": "ANY_DATE",
+      "definition": {
+        "$type": "TerminalAlternatives",
+        "elements": [
+          {
+            "$type": "TerminalAlternatives",
+            "elements": [
+              {
+                "$type": "TerminalAlternatives",
+                "elements": [
+                  {
+                    "$type": "TerminalAlternatives",
+                    "elements": [
+                      {
+                        "$type": "CharacterRange",
+                        "left": {
+                          "$type": "Keyword",
+                          "value": "DATE_AND_TIME"
+                        }
+                      },
+                      {
+                        "$type": "TerminalGroup",
+                        "elements": [
+                          {
+                            "$type": "CharacterRange",
+                            "left": {
+                              "$type": "Keyword",
+                              "value": "L"
+                            },
+                            "cardinality": "?"
+                          },
+                          {
+                            "$type": "CharacterRange",
+                            "left": {
+                              "$type": "Keyword",
+                              "value": "DT"
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "$type": "CharacterRange",
+                    "left": {
+                      "$type": "Keyword",
+                      "value": "DATE"
+                    }
+                  }
+                ]
+              },
+              {
+                "$type": "TerminalGroup",
+                "elements": [
+                  {
+                    "$type": "CharacterRange",
+                    "left": {
+                      "$type": "Keyword",
+                      "value": "L"
+                    },
+                    "cardinality": "?"
+                  },
+                  {
+                    "$type": "CharacterRange",
+                    "left": {
+                      "$type": "Keyword",
+                      "value": "TOD"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "$type": "TerminalGroup",
+            "elements": [
+              {
+                "$type": "CharacterRange",
+                "left": {
+                  "$type": "Keyword",
+                  "value": "L"
+                },
+                "cardinality": "?"
+              },
+              {
+                "$type": "CharacterRange",
+                "left": {
+                  "$type": "Keyword",
+                  "value": "TIME_OF_DAY"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "fragment": false,
+      "hidden": false
+    },
+    {
+      "$type": "TerminalRule",
+      "name": "ANY_ELEMENTARY",
+      "definition": {
+        "$type": "TerminalAlternatives",
+        "elements": [
+          {
+            "$type": "TerminalAlternatives",
+            "elements": [
+              {
+                "$type": "TerminalAlternatives",
+                "elements": [
+                  {
+                    "$type": "TerminalRuleCall",
+                    "rule": {
+                      "$refText": "ANY_MAGNITUDE"
+                    }
+                  },
+                  {
+                    "$type": "TerminalRuleCall",
+                    "rule": {
+                      "$refText": "ANY_BIT"
+                    }
+                  }
+                ]
+              },
+              {
+                "$type": "TerminalRuleCall",
+                "rule": {
+                  "$refText": "ANY_CHAR"
+                }
+              }
+            ]
+          },
+          {
+            "$type": "TerminalRuleCall",
+            "rule": {
+              "$refText": "ANY_DATE"
             }
           }
         ]
@@ -928,46 +1433,6 @@ export const StructuredTextGrammar = (): Grammar => loadedStructuredTextGrammar 
       },
       "fragment": false,
       "hidden": false
-    },
-    {
-      "$type": "TerminalRule",
-      "hidden": true,
-      "name": "WS",
-      "definition": {
-        "$type": "RegexToken",
-        "regex": "\\\\s+"
-      },
-      "fragment": false
-    },
-    {
-      "$type": "TerminalRule",
-      "hidden": true,
-      "name": "ML_COMMENT",
-      "definition": {
-        "$type": "RegexToken",
-        "regex": "\\\\/\\\\*[\\\\s\\\\S]*?\\\\*\\\\/"
-      },
-      "fragment": false
-    },
-    {
-      "$type": "TerminalRule",
-      "hidden": true,
-      "name": "ML_COMMENT_ST",
-      "definition": {
-        "$type": "RegexToken",
-        "regex": "\\\\(\\\\*[\\\\s\\\\S]*?\\\\*\\\\)"
-      },
-      "fragment": false
-    },
-    {
-      "$type": "TerminalRule",
-      "hidden": true,
-      "name": "SL_COMMENT",
-      "definition": {
-        "$type": "RegexToken",
-        "regex": "\\\\/\\\\/[^\\\\n\\\\r]*"
-      },
-      "fragment": false
     }
   ],
   "types": [

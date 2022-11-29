@@ -22,11 +22,23 @@ export class StValidationRegistry extends ValidationRegistry {
  * Implementation of custom validations.
  */
 export class StValidator {
-
+    // checkModifierConstants(Modifier: Modifier, accept: ValidationAcceptor): void {
+    //     type ObjectKey = keyof typeof Modifier;
+    //     let count = 0;
+    //     ['CONSTANT', 'RETAIN', 'PERSISTENT'].forEach((el: string) => {
+    //         if (Modifier[<ObjectKey>el]) {
+    //             count++;
+    //         }
+    //     });
+    //     if (count > 1) {
+    //         accept('error', `You may use not more that a single object modifier 'CONSTANT', 'RETAIN' or 'PERSISTENT'`, { node: Modifier });
+    //     }
+    // }
+    
     checkDeclarationConstants(VarGlobal: VarGlobal | Scopes, accept: ValidationAcceptor): void {
-        if(VarGlobal.dec_constant) {
+        if (VarGlobal.dec_constant) {
             ['CONSTANT', 'RETAIN', 'PERSISTENT'].forEach(el => {
-                if(VarGlobal.dec_constant.filter(e => e === el).length > 1) {
+                if (VarGlobal.dec_constant.filter(e => e === el).length > 1) {
                     accept('error', `Keyword ${el} is doubled`, { node: VarGlobal, property: 'dec_constant' });
                 }
             });

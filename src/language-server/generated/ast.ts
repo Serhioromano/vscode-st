@@ -5,7 +5,7 @@
 
 /* eslint-disable @typescript-eslint/array-type */
 /* eslint-disable @typescript-eslint/no-empty-interface */
-import { AstNode, AstReflection, ReferenceInfo, isAstNode, TypeMetaData } from 'langium';
+import { AstNode, AstReflection, Reference, ReferenceInfo, isAstNode, TypeMetaData } from 'langium';
 
 export type DeclarationConstant = 'CONSTANT' | 'PERSISTENT' | 'RETAIN';
 
@@ -17,10 +17,11 @@ export function isDeclarationTypes(item: unknown): item is DeclarationTypes {
     return reflection.isInstance(item, DeclarationTypes);
 }
 
-export type VariableType = string;
+export type Modifier = 'PRIVATE' | 'PROTECTED' | 'PUBLIC';
 
 export interface DataType extends AstNode {
     readonly $container: Namespace | POU;
+    modifier?: Modifier
     name: string
     scopes: Array<Scopes>
 }
@@ -56,8 +57,10 @@ export function isDocument(item: unknown): item is Document {
 
 export interface Function extends AstNode {
     readonly $container: Namespace | POU;
+    modifier?: Modifier
     name: string
     scopes: Array<Scopes>
+    variable_type: VariableType
 }
 
 export const Function = 'Function';
@@ -68,6 +71,7 @@ export function isFunction(item: unknown): item is Function {
 
 export interface FunctionBlock extends AstNode {
     readonly $container: Namespace | POU;
+    modifier?: Modifier
     name: string
     scopes: Array<Scopes>
 }
@@ -112,6 +116,7 @@ export function isPOU(item: unknown): item is POU {
 
 export interface Program extends AstNode {
     readonly $container: Namespace | POU;
+    modifier?: Modifier
     name: string
     scopes: Array<Scopes>
 }
@@ -146,12 +151,23 @@ export function isVarGlobal(item: unknown): item is VarGlobal {
     return reflection.isInstance(item, VarGlobal);
 }
 
-export type StAstType = 'DataType' | 'DeclarationTypes' | 'Declarations' | 'Document' | 'Function' | 'FunctionBlock' | 'Namespace' | 'POU' | 'Program' | 'Scopes' | 'VarGlobal';
+export interface VariableType extends AstNode {
+    readonly $container: Declarations | Function;
+    declaration_type?: Reference<DeclarationTypes>
+}
+
+export const VariableType = 'VariableType';
+
+export function isVariableType(item: unknown): item is VariableType {
+    return reflection.isInstance(item, VariableType);
+}
+
+export type StAstType = 'DataType' | 'DeclarationTypes' | 'Declarations' | 'Document' | 'Function' | 'FunctionBlock' | 'Namespace' | 'POU' | 'Program' | 'Scopes' | 'VarGlobal' | 'VariableType';
 
 export class StAstReflection implements AstReflection {
 
     getAllTypes(): string[] {
-        return ['DataType', 'DeclarationTypes', 'Declarations', 'Document', 'Function', 'FunctionBlock', 'Namespace', 'POU', 'Program', 'Scopes', 'VarGlobal'];
+        return ['DataType', 'DeclarationTypes', 'Declarations', 'Document', 'Function', 'FunctionBlock', 'Namespace', 'POU', 'Program', 'Scopes', 'VarGlobal', 'VariableType'];
     }
 
     isInstance(node: unknown, type: string): boolean {
@@ -176,6 +192,9 @@ export class StAstReflection implements AstReflection {
     getReferenceType(refInfo: ReferenceInfo): string {
         const referenceId = `${refInfo.container.$type}:${refInfo.property}`;
         switch (referenceId) {
+            case 'VariableType:declaration_type': {
+                return DeclarationTypes;
+            }
             default: {
                 throw new Error(`${referenceId} is not a valid reference id.`);
             }
