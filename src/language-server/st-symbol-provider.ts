@@ -4,7 +4,6 @@ import { CancellationToken, DocumentSymbol, DocumentSymbolParams, SymbolKind } f
 
 export class StDocumentSymbolProvider extends DefaultDocumentSymbolProvider {
 
-    protected readonly nameProvider: NameProvider;
     protected kinds = {
         'Namespace': SymbolKind.Namespace,
         'Function': SymbolKind.Function,
@@ -16,9 +15,9 @@ export class StDocumentSymbolProvider extends DefaultDocumentSymbolProvider {
         'VarOutput': SymbolKind.Class
     };
 
+
     constructor(services: LangiumServices) {
         super(services);
-        this.nameProvider = services.references.NameProvider;
     }
 
     getSymbols(document: LangiumDocument): MaybePromise<DocumentSymbol[]> {
@@ -26,14 +25,13 @@ export class StDocumentSymbolProvider extends DefaultDocumentSymbolProvider {
     }
 
     protected getSymbol(document: LangiumDocument, astNode: AstNode): DocumentSymbol[] {
-
-        const node = astNode.$cstNode;
-
+        type ObjectKey = keyof typeof this.kinds;        const node = astNode.$cstNode;
+        const type = <ObjectKey>astNode.$type;
         const nameNode = this.nameProvider.getNameNode(astNode);
         if (nameNode && node) {
             const name = this.nameProvider.getName(astNode);
             return [{
-                kind: SymbolKind.Interface,
+                kind: (this.kinds[type] === undefined ? SymbolKind.Namespace : this.kinds[type]),
                 name: name ?? nameNode.text,
                 range: node.range,
                 selectionRange: nameNode.range,
