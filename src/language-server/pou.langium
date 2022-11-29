@@ -2,10 +2,7 @@ grammar StructuredText
 
 import "./grammar-snippets/statemens";
 
-entry Document:
-    (stPou+=POU);
-
-POU:
+entry POU:
     (namespace+=Namespace | program+=Program | function+=Function | itface+=Interface |
     function_block+=FunctionBlock | datatype+=DataType | varglobal+=VarGlobal)*
 ;
