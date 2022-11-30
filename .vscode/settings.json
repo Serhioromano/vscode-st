@@ -1,15 +1,40 @@
 {
     "cSpell.language": "ru,en",
     "workbench.colorTheme": "An Old Hope Classic",
-    "spellright.language": [
-        "en"
-    ],
-    "spellright.documentTypes": [
-        "markdown",
-        "latex",
-        "plaintext"
-    ],
     "terminal.integrated.autoReplies": {
         "Do you want to delete the files? [yes]/no:": "no\r",
     },
+    "files.autoSave": "afterDelay",
+    "spellright.documentTypes": [
+        "markdown",
+        "latex",
+        "json",
+        "langium",
+        "plaintext"
+    ],
+    "spellright.language": [
+        "en"
+    ],
+    "spellright.configurationScope": "user",
+    "spellright.notificationClass": "warning",
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#7e1b4b",
+        "activityBar.background": "#7e1b4b",
+        "activityBar.foreground": "#e7e7e7",
+        "activityBar.inactiveForeground": "#e7e7e799",
+        "activityBarBadge.background": "#4e831c",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "commandCenter.border": "#e7e7e799",
+        "sash.hoverBorder": "#7e1b4b",
+        "statusBar.background": "#541232",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#7e1b4b",
+        "statusBarItem.remoteBackground": "#541232",
+        "statusBarItem.remoteForeground": "#e7e7e7",
+        "titleBar.activeBackground": "#541232",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#54123299",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "peacock.remoteColor": "#541232",
 }
