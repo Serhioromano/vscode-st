@@ -131,16 +131,16 @@ Thanks to @nikvoronin
 - add - TODO or TODO: in comments attract an attention
 - add - Highlights for action modifiers `myAction(DS, T#3s);` where DS will be highlighted.
 - add - Highlights for names of parameters of function block.
--
+
 ### 1.4.0
 
 I've learned few things about syntax highlights. Big refactoring. I added some missing keywords, changed some coloring scopes and improved coloring in general.
 
 ### 1.3.0
 
-- add - TYPE creation snippets (enumerations ans structure) and enhance it's syntax highlights
+- add - TYPE creation snippets (enumerations and structure) and enhance it's syntax highlights
 - enhance - Select type out of suggestion list when inset variable in declaration area from snippet
-- enhance - Utilise [October 2018](https://code.visualstudio.com/updates/v1_28#_project-level-snippets) feature for multiple prefixes in snippets and add multiple prefixes to some snippets.
+- enhance - Utilize [October 2018](https://code.visualstudio.com/updates/v1_28#_project-level-snippets) feature for multiple prefixes in snippets and add multiple prefixes to some snippets.
 - fix - syntax highlights for function_block
 - fix - Auto close comments `/*`. `(*`.
 - enhance - revision of highlights much better now.

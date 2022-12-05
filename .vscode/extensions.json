@@ -1,9 +1,13 @@
 {
     // See http://go.microsoft.com/fwlink/?LinkId=827846
-	// for the documentation about the extensions.json format
+	// for the documentatin about the extensions.json formt
 	"recommendations": [
         "hediet.vscode-drawio",
-        "Serhioromano.vscode-st"
+        "ms-vscode-remote.remote-wsl",
+        "emmanuelbeziat.vscode-great-icons",
+        "dustinsanders.an-old-hope-theme-vscode",
+        "langium.langium-vscode",
+        "johnpapa.vscode-peacock",
+        "ban.spellright"
     ]
-
 }

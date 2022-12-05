@@ -20,13 +20,17 @@ jobs:
       with:
         node-version: '16'
         cache: 'npm'
+
     - name: Install NPM Packages
       run: |
         npm -v
         npm ci
         npm install -g vsce ovsx semver
+        npm run langium:generate
+
     - name: Package
       run: vsce package
+
     - name: Publish
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
