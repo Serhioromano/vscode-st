@@ -7,7 +7,7 @@ Program:
     'PROGRAM' name=Identifier 'END_PROGRAM';
 
 Constant:
-    constant= Prefixed_integer_literal | Prefixed_bit_string_literal | Real_literal_or_signed_int | Nonprefix_integer_literal | Boolean_literal | Character_string | Time_literal;
+    constant= (Prefixed_integer_literal | Prefixed_bit_string_literal | Real_literal_or_signed_int | Nonprefix_integer_literal | Boolean_literal | Character_string | Time_literal);
 
 /* Numeric constants declarations */
 Signed_Integer returns number:
@@ -42,9 +42,6 @@ Real_type_name returns number:
 
 Real_literal_or_signed_int returns number:
 (Real_type_name '#')? Signed_Integer ('.' Integer (Exponent)?)?;
-
-Exponent returns number:
-Exponent_prefix ('+'|'-')? Integer;
 
 /* Boolean literals */
 Boolean_literal returns boolean:
@@ -172,19 +169,19 @@ Unary_expression infers Expression:
 // primary_expression = constant | enumerated_value | variable | "(" expression ")" | function_name "(" param_assignment {"," param_assignment} ")";
 Primary_Expression infers Expression:
 value =  Constant
-| '(' Expression ')'
-| (name=Function_name params+=Invoke_subrule)
-| Variable;
+| '(' Expression=Expression ')'
+| (name=Function_name params=Invoke_subrule)
+| variable=Variable;
 
 /* ST statements */
 Statement_list:
-statements=Statement ';' (Statement ';')*;
+statements+=Statement (statements+=Statement)*;
 
 Statement:
-Function_invoke_or_assign_statement | Action_call_statement ;
+((Selection_statement | Function_invoke_or_assign_statement | Action_call_statement | Iteration_statement) ';' )? ;
 
 Action_call_statement:
-action=Identifier;
+actionName=Identifier;
 
 Function_name returns string:
 Identifier;
@@ -196,22 +193,64 @@ Function_invoke_or_assign:
 id=Variable (assign=Assignment_subrule | params+=Invoke_subrule);
 
 Assignment_statement:
-statement=Variable ':=' Expression ';';
+statement=Variable ':=' expression=Expression ';';
 
 Assignment_subrule:
-':=' Expression;
+':=' expression=Expression;
 
 Invoke_subrule:
-'(' (Param_assignment (',' Param_assignment)*)?  ')';
+'(' (parameters+=Param_assignment (',' parameters+=Param_assignment)*)?  ')';
 
 Param_assignment:
 (ParamName=Variable_name ':=')? ParamValue=Expression;
+
+/* Selection statements */
+//selection_statement = if_statement | case_statement;
+Selection_statement:
+if=If_statement| case=Case_statement;
+
+//if_statement = "IF" expression "THEN" statement_list {"ELSIF" expression "THEN" statement_list} ["ELSE" statement_list] "END_IF";
+If_statement:
+'IF' ifCondition=Expression 'THEN' ifStatement=Statement_list ('ELSIF' elsifConditions+=Expression 'THEN' elsifStatements=Statement_list)* ('ELSE' elseStatement=Statement_list)? 'END_IF';
+
+//case_statement = "CASE" expression "OF" case_element {case_element} ["ELSE" statement_list] "END_CASE";
+Case_statement:
+'CASE' caseExpression=Expression 'OF' caseElements+=Case_element (caseElements+=Case_element)* ('ELSE' elseStatements=Statement_list)? 'END_CASE';
+
+//case_element = case_list ":" statement_list;
+Case_element:
+caseList=Case_list ':' statements=Statement_list;
+
+//case_list = case_list_element {"," case_list_element};
+Case_list:
+caseListElement+=Case_list_element (',' caseListElement+=Case_list_element)*;
+
+//case_list_element = subrange | signed_integer | enumerated_value;
+Case_list_element:
+(numCaseStart=Signed_Integer ('..' numericCaseEnd+=Signed_Integer)?) | (enumCase=IdentifierEnumeratedCase);
+
+/* Iteration statements */
+Iteration_statement:
+statement=(For_statement | While_statement | Repeat_statement | 'EXIT');
+
+For_statement:
+'FOR' controlVariable=Identifier ':=' forList=For_list 'DO' statementList=Statement_list 'END_FOR';
+
+For_list:
+forExpr=Expression 'TO' toExpr=Expression ('BY' byExpr=Expression)?;
+
+While_statement:
+'WHILE' whileExpr=Expression 'DO' statementList=Statement_list 'END_WHILE';
+
+Repeat_statement:
+'REPEAT' statementList=Statement_list 'UNTIL' untilExpr=Expression 'END_REPEAT';
+
 
 /* Derived typename */
 
 //variable = direct_variable | symbolic_variable;
 Variable:
-Direct_variable | Variable_any_symbolic;
+variable=(Direct_variable | Variable_any_symbolic);
 
 //location_prefix = "I" | "Q" | "M";
 //size_prefix = NIL | "X" | "B" | "W" | "D" | "L";
@@ -222,10 +261,10 @@ Direct_variable_prefix Integer ('.' Integer)?;
 // symbolic_variable = variable_name | multi_element_variable;
 // Variable_any_symbolic parses Multi-element variables and variable_name
 Variable_any_symbolic:
-Variable_basic ('.' Variable_basic)*;
+variable=Variable_basic ('.' structureMember=Variable_basic)*;
 
 Variable_basic:
-Identifier (Subscript_list)?;
+variable=Identifier (subscript=Subscript_list)?;
 
 //variable_name = identifier;
 Variable_name returns string:
@@ -236,21 +275,20 @@ Subscript_list:
 '[' Subscript (',' Subscript)* ']';
 
 //subscript = expression;
-Subscript:
+Subscript infers Expression:
 Expression;
 
 
 
 // numeric tokens
-terminal Exponent_prefix : /[Ee]/;
+terminal fragment Exponent_prefix : /[Ee]/;
+terminal Exponent: Exponent_prefix ('+'|'-')? Integer;
 terminal Binary_integer: /\b2#(0|1)(0|1|(_))*\b/;
 terminal Hex_integer: /\b16#([0-9aAbBcCdDeEfF])([0-9aAbBcCdDeEfF]|(_))*\b/;
 terminal Octal_integer: /\b8#([0-7])([0-7]|(_))*\b/;
 // string tokens
 terminal Single_byte_character_string: /(')(\\.|[^'])*(')/;
 terminal Double_byte_character_string: /(")(\\.|[^"])*(")/;
-// hack - only match if its followed by a letter D/H/M/S/MS in a time expression
-
 // time tokens
 terminal TMilliseconds: (Underscore)? Fixed_point /[mM][sS]/;
 terminal TMinutes: (Underscore)? Fixed_point /[mM]/;
@@ -267,6 +305,10 @@ terminal fragment Location_prefix: ('I' | 'Q' | 'M');
 terminal fragment Size_prefix: ('X' | 'B' | 'W' | 'D' | 'L');
 terminal Direct_variable_prefix: '%' Location_prefix Size_prefix;
 terminal Integer: Digits ((Underscore)? Digits)*;
+// hack - IdentifierEnumeratedCase uses positive lookahead for "," and ":"
+terminal IdentifierEnumeratedCase: ((Underscore (Digits | Letters))| Letters) ((Underscore)? (Digits | Letters))*
+/(?=(,\s*([_A-Za-z]\w*|([+\-]?[0-9][0-9_]*\s*(\.\.\s*[+\-]?[0-9][0-9_]*)?))\s*)*\:\s+)/;
+
 terminal Identifier: ((Underscore (Digits | Letters))| Letters) ((Underscore)? (Digits | Letters))*;
 
 // hidden
