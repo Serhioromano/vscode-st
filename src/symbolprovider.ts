@@ -14,7 +14,7 @@ export class STDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
         The search must consume wholly the parts above, so 'as few as possible but as many as needed' quantifier (*?) must be used along with:
         other text      : [\s\S]
 
-        And all patterns must be allowed to match the end of the document in place of the proper ending mark, but the whole pattern cannot match at 
+        And all patterns must be allowed to match the end of the document in place of the proper ending mark, but the whole pattern cannot match at
         the end of the document alone (probably a JavaScript / Chromium / V8 bug, empty match repeats indefinitely):
         base regex: /(?!$)(?:\/\/.*(?=\r?\n|$)|(["'])(?:(?!\1)(?:\$\1|[\s\S]))*(?:\1|$)|\(\*[\s\S]*?(?:\*\)|$)|\/\*[\s\S]*?(?:\*\/|$)|[\s\S])*?/
 
@@ -23,9 +23,9 @@ export class STDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
         Pattern for identifiers: (case insensitive): \b[A-Z_](?:[A-Z0-9]|(?<!_)_)*\b
 
         INTERFACE - all can be nested
-        TYPE, VAR - only recurses STRUCT and UNION
-        PROGRAM, FUNCTION, FUNCTION_BLOCK recurses VAR, METHOD, ACTION
-        METHOD, ACTION recurses only VAR
+        TYPE, VAR - only resources STRUCT and UNION
+        PROGRAM, FUNCTION, FUNCTION_BLOCK resources VAR, METHOD, ACTION
+        METHOD, ACTION resources only VAR
 
         STRUCT, UNION only available in TYPE and VAR
         All others are available when not nested.
@@ -34,6 +34,7 @@ export class STDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
     // a lookup for resolving the generically handled POU blocks in to Symbols
     private static PouBlocksList: TPouBlockDesc[] = [
         { PouBlock: "PROGRAM", SymType: vscode.SymbolKind.Module, Desc: "Program" },
+        { PouBlock: "CLASS", SymType: vscode.SymbolKind.Class, Desc: "Class" },
         { PouBlock: "FUNCTION", SymType: vscode.SymbolKind.Function, Desc: "Function" },
         { PouBlock: "FUNCTION_BLOCK", SymType: vscode.SymbolKind.Class, Desc: "Function block" },
         { PouBlock: "INTERFACE", SymType: vscode.SymbolKind.Interface, Desc: "Interface" },
