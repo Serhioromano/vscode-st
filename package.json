@@ -2,7 +2,7 @@
     "name": "vscode-st",
     "displayName": "Structured Text language Support",
     "description": "Supports for syntax highlights, snippets for IEC 61131-3 Structured Text",
-    "version": "1.12.22",
+    "version": "1.12.23",
     "publisher": "Serhioromano",
     "sponsor": {
         "url": "https://www.paypal.com/donate/?hosted_button_id=UTU4EMPLLLX54"
@@ -21,8 +21,8 @@
         "vars": "env | grep npm_package_",
         "test": "node ./out/test/runTest.js"
     },
-    "_main": "./out/extension.js",
-    "main": "./out/main.js",
+    "main": "./out/extension.js",
+    "_main": "./out/main.js",
     "repository": {
         "type": "git",
         "url": "https://github.com/Serhioromano/vscode-st"
@@ -103,7 +103,7 @@
                     ".TcPOU",
                     ".iecstl"
                 ],
-                
+
                 "configuration": "./language-configuration.json"
             }
         ],

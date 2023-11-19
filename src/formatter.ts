@@ -76,6 +76,11 @@ export class STFormatterProvider implements vscode.DocumentFormattingEditProvide
     }
 
     spaces(text: string): string {
+        // Delete all double spaces
+        while(text.match(/(?<!^| )  /gm)!== null) {
+            text = text.replace(/(?<!^| )  /gm, " ");
+        }
+
         // Delete space between func name and (
         // ABS ( to ABS(
         let regEx = new RegExp(`\\b(?:${this.functions.join('|')})\\b\\s+\\(`, "ig");
@@ -107,7 +112,7 @@ export class STFormatterProvider implements vscode.DocumentFormattingEditProvide
 
         regEx = new RegExp(`(?<! |\\t)(${addSpace.csb.join('|')})`, "ig");
         text = text.replace(regEx, (match, sign) => " " + sign);
-        regEx = new RegExp(`(${addSpace.csb.join('|')})(?! |\\t)`, "ig");
+        regEx = new RegExp(`(${addSpace.csa.join('|')})(?! |\\t)`, "ig");
         text = text.replace(regEx, (match, sign) => sign + " ");
 
         regEx = new RegExp(`${this.skipString.join('|')}|(?<! |\\t)(${addSpace.ss.join('|')}|${addSpace.sb.join('|')})`, "ig");
@@ -117,6 +122,13 @@ export class STFormatterProvider implements vscode.DocumentFormattingEditProvide
 
         // Delete all spaces at the end of the lines
         text = text.split("\n").map(el => el.trimEnd()).join("\n");
+
+        // regEx = new RegExp(`[\s]+:(?!=)`, "ig");
+        text = text.replace(/[\s]+:(?!=)/g, ":");
+        // regEx = new RegExp(`;[\s]+\n$`, "ig");
+        text = text.replace(/;[\s]+\n$/g, ";\n");
+
+
 
         return text;
     }
