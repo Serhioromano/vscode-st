@@ -175,7 +175,21 @@
 			"\t$0",
 			"END_CLASS"
 		],
-		"description": "Define NAMESPACE"
+		"description": "Define CLASS"
+	},
+	"PROPERTY ... END_PROPERTY": {
+		"prefix": "st property ",
+		"body": [
+			"PROPERTY ${1:Name} : ${2:Type} ",
+			"\tGET : ${2:Type} ",
+			"\t\t$0",
+			"\tEND_GET",
+			"\tSET",
+			"\t\t$0",
+			"\tEND_SET",
+			"END_PROPERTY"
+		],
+		"description": "Define Property"
 	},
 	"FUNCTION ... END_FUNCTION": {
 		"prefix": "st function ",

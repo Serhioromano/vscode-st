@@ -39,6 +39,7 @@ export class STDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
         { PouBlock: "FUNCTION_BLOCK", SymType: vscode.SymbolKind.Class, Desc: "Function block" },
         { PouBlock: "INTERFACE", SymType: vscode.SymbolKind.Interface, Desc: "Interface" },
         { PouBlock: "METHOD", SymType: vscode.SymbolKind.Method, Desc: "Method" },
+        { PouBlock: "PROPERTY", SymType: vscode.SymbolKind.Property, Desc: "Property" },
         { PouBlock: "ACTION", SymType: vscode.SymbolKind.Event, Desc: "Action" },
     ]
 

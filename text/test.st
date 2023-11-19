@@ -64,12 +64,18 @@ PROGRAM PLC_PRG
 
     fbTON1(IN := xStart, PT => tDuration);
 
-    IF xStart <> TRUE THEN
+    IF xStart <> FALSE THEN
     rValue := easeLinear(fbTON1.ET, rFrom, rTo, tDuration);
     END_IF;
     (a = b) AND c > 10;
     c := (b / 3) * 12**;
     a := CONCAT(a, ':= **'); // a := b
+    (* Description *)
+    METHOD GetThat : BOOL
+        VAR_INPUT
+            xStart: BOOL; (* Comment *)
+        END_VAR
+    END_METHOD
 END_PROGRAM
 
 NAMESPACE SOmething
