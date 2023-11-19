@@ -1,5 +1,5 @@
 {
-	"cSpell.language": "ru,en",
+    "cSpell.language": "ru,en",
     "workbench.colorTheme": "Default Dark+",
     "spellright.language": [
         "en"
@@ -8,5 +8,5 @@
         "markdown",
         "latex",
         "plaintext"
-    ]
+    ],
 }

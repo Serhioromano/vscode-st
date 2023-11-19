@@ -2,7 +2,7 @@
     "name": "vscode-st",
     "displayName": "Structured Text language Support",
     "description": "Supports for syntax highlights, snippets for IEC 61131-3 Structured Text",
-    "version": "1.12.14",
+    "version": "1.12.16",
     "publisher": "Serhioromano",
     "sponsor": {
         "url": "https://www.paypal.com/donate/?hosted_button_id=UTU4EMPLLLX54"
@@ -64,9 +64,11 @@
         "@typescript-eslint/eslint-plugin": "^5.9.1",
         "@typescript-eslint/parser": "^5.9.1",
         "@vscode/test-electron": "^2.0.3",
+        "chevrotain": "^10.4.2",
         "esbuild": "^0.14.10",
         "eslint": "^8.6.0",
         "glob": "^7.2.0",
+        "langium-cli": "^0.5.0",
         "mocha": "^9.1.3",
         "typescript": "^4.6.3",
         "vsce": "^2.6.4"
@@ -137,5 +139,10 @@
                 "path": "./snippets/st.snippets.json"
             }
         ]
+    },
+    "dependencies": {
+        "langium": "^0.5.0",
+        "vscode-languageclient": "^8.0.2",
+        "vscode-languageserver": "^8.0.2"
     }
 }
