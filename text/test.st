@@ -1,8 +1,8 @@
 
-GVL.Alarms[E_Alarms.Pump1Contator].init(e := TC_EVENTS.Alarms.Pump1Contator, c := TRUE, d := T#1S);
-GVL.Alarms[E_Alarms.Pump2Contator].init(e := TC_EVENTS.Alarms.Pump2Contator, c := TRUE, d := T#1S);
-GVL.Alarms[E_Alarms.Pump2Contator].init(e := TC_EVENTS.Alarms.Pump3Contator, c := TRUE, d := T#1S);
-GVL.Alarms[E_Alarms.Pump2Contator].init(e := TC_EVENTS.Alarms.Pump4Contator, c := TRUE, d := T#1S);
+GVL.Alarms[E_Alarms.Pump1Contator].init(e := TC_EVENTS.Alarms.Pump1Contator, c := TRUE, d := T#1s);
+GVL.Alarms[E_Alarms.Pump2Contator].init(e := TC_EVENTS.Alarms.Pump2Contator, c := TRUE, d := T#1s);
+GVL.Alarms[E_Alarms.Pump2Contator].init(e := TC_EVENTS.Alarms.Pump3Contator, c := TRUE, d := T#1s);
+GVL.Alarms[E_Alarms.Pump2Contator].init(e := TC_EVENTS.Alarms.Pump4Contator, c := TRUE, d := T#1s);
 GVL.Alarms[E_Alarms.CBPump1].init      (e := TC_EVENTS.Alarms.CBPump1, c := TRUE);
 GVL.Alarms[E_Alarms.CBPump2].init      (e := TC_EVENTS.Alarms.CBPump2, c := TRUE);
 GVL.Alarms[E_Alarms.CBPump3].init      (e := TC_EVENTS.Alarms.CBPump3, c := TRUE);
@@ -33,25 +33,25 @@ GVL.Alarms[E_Alarms.StrongWind].init (e := TC_EVENTS.Alarms.StrongWind, c := TRU
 GVL.Alarms[E_Alarms.RcMain].init     (e := TC_EVENTS.Alarms.RcMain, c := FALSE);
 GVL.Alarms[E_Alarms.CBDrain].init    (e := TC_EVENTS.Alarms.CBDrain, c := FALSE);
 
-GVL.Alarms[E_Alarms.ContcatorLight].init      (e := TC_EVENTS.Alarms.ContcatorLight, c := FALSE, d := T#1S);
-GVL.Alarms[E_Alarms.ContcatorFilterPump].init (e := TC_EVENTS.Alarms.ContcatorFilterPump, c := FALSE, d := T#1S);
-GVL.Alarms[E_Alarms.ContcatorUV].init         (e := TC_EVENTS.Alarms.ContcatorUV, c := FALSE, d := T#1S);
-GVL.Alarms[E_Alarms.ContcatorDisinfect].init  (e := TC_EVENTS.Alarms.ContcatorDisinfect, c := FALSE, d := T#1S);
-GVL.Alarms[E_Alarms.ContcatorCoagulant].init  (e := TC_EVENTS.Alarms.ContcatorCoagulant, c := FALSE, d := T#1S);
-GVL.Alarms[E_Alarms.NoPressure].init          (e := TC_EVENTS.Alarms.NoPressure, c := FALSE, d := T#5S);
-GVL.Alarms[E_Alarms.FilterPressure].init      (e := TC_EVENTS.Alarms.FilterPressure, c := FALSE, d := T#5M);
-GVL.Alarms[E_Alarms.LevelAlarm].init          (e := TC_EVENTS.Alarms.LevelAlarm, c := FALSE, d := T#10S);
-GVL.Alarms[E_Alarms.FlowSwitch].init          (e := TC_EVENTS.Alarms.FlowSwitch, c := TRUE, d := T#10S);
-GVL.Alarms[E_Alarms.DrainLevel].init          (e := TC_EVENTS.Alarms.DrainLevel, c := FALSE, d := T#10S);
+GVL.Alarms[E_Alarms.ContcatorLight].init      (e := TC_EVENTS.Alarms.ContcatorLight, c := FALSE, d := T#1s);
+GVL.Alarms[E_Alarms.ContcatorFilterPump].init (e := TC_EVENTS.Alarms.ContcatorFilterPump, c := FALSE, d := T#1s);
+GVL.Alarms[E_Alarms.ContcatorUV].init         (e := TC_EVENTS.Alarms.ContcatorUV, c := FALSE, d := T#1s);
+GVL.Alarms[E_Alarms.ContcatorDisinfect].init  (e := TC_EVENTS.Alarms.ContcatorDisinfect, c := FALSE, d := T#1s);
+GVL.Alarms[E_Alarms.ContcatorCoagulant].init  (e := TC_EVENTS.Alarms.ContcatorCoagulant, c := FALSE, d := T#1s);
+GVL.Alarms[E_Alarms.NoPressure].init          (e := TC_EVENTS.Alarms.NoPressure, c := FALSE, d := T#5s);
+GVL.Alarms[E_Alarms.FilterPressure].init      (e := TC_EVENTS.Alarms.FilterPressure, c := FALSE, d := T#5m);
+GVL.Alarms[E_Alarms.LevelAlarm].init          (e := TC_EVENTS.Alarms.LevelAlarm, c := FALSE, d := T#10s);
+GVL.Alarms[E_Alarms.FlowSwitch].init          (e := TC_EVENTS.Alarms.FlowSwitch, c := TRUE, d := T#10s);
+GVL.Alarms[E_Alarms.DrainLevel].init          (e := TC_EVENTS.Alarms.DrainLevel, c := FALSE, d := T#10s);
 
 GVL.Alarms[E_Alarms.DisinfectAlarm].init      (e := TC_EVENTS.Alarms.DisinfectAlarm, c := FALSE);
 GVL.Alarms[E_Alarms.CoagulantAlarm].init      (e := TC_EVENTS.Alarms.CoagulantAlarm, c := FALSE);
 GVL.Alarms[E_Alarms.DrainPumpPower].init      (e := TC_EVENTS.Alarms.DrainPumpPower, c := FALSE);
-GVL.Alarms[E_Alarms.PressureTooLow].init      (e := TC_EVENTS.Alarms.PressureTooLow, c := FALSE, d := T#1M);
-GVL.Alarms[E_Alarms.PumpPress1].init          (e := TC_EVENTS.Alarms.PumpPress1, c := TRUE, d := T#1M);
-GVL.Alarms[E_Alarms.PumpPress2].init          (e := TC_EVENTS.Alarms.PumpPress2, c := TRUE, d := T#1M);
-GVL.Alarms[E_Alarms.PumpPress3].init          (e := TC_EVENTS.Alarms.PumpPress3, c := TRUE, d := T#1M);
-GVL.Alarms[E_Alarms.PumpPress4].init          (e := TC_EVENTS.Alarms.PumpPress4, c := TRUE, d := T#1M);
+GVL.Alarms[E_Alarms.PressureTooLow].init      (e := TC_EVENTS.Alarms.PressureTooLow, c := FALSE, d := T#1m);
+GVL.Alarms[E_Alarms.PumpPress1].init          (e := TC_EVENTS.Alarms.PumpPress1, c := TRUE, d := T#1m);
+GVL.Alarms[E_Alarms.PumpPress2].init          (e := TC_EVENTS.Alarms.PumpPress2, c := TRUE, d := T#1m);
+GVL.Alarms[E_Alarms.PumpPress3].init          (e := TC_EVENTS.Alarms.PumpPress3, c := TRUE, d := T#1m);
+GVL.Alarms[E_Alarms.PumpPress4].init          (e := TC_EVENTS.Alarms.PumpPress4, c := TRUE, d := T#1m);
 
 
 { attribute 'something' }
@@ -62,7 +62,7 @@ PROGRAM PLC_PRG
         rValue : REAL; /* Конечное значение */
     END_VAR
 
-    fbTON1(IN:=xStart, PT=>tDuration);
+    fbTON1(IN := xStart, PT => tDuration);
 
     IF xStart <> TRUE THEN
     rValue := easeLinear(fbTON1.ET, rFrom, rTo, tDuration);
