@@ -168,6 +168,15 @@
 		],
 		"description": "Define NAMESPACE"
 	},
+	"CLASS ... END_CLASS": {
+		"prefix": "st class ",
+		"body": [
+			"CLASS ${1:Name}",
+			"\t$0",
+			"END_CLASS"
+		],
+		"description": "Define NAMESPACE"
+	},
 	"FUNCTION ... END_FUNCTION": {
 		"prefix": "st function ",
 		"body": [
@@ -185,6 +194,16 @@
 			"END_FUNCTION_BLOCK"
 		],
 		"description": "Define FUNCTION_BLOCK"
+	},
+	"METHOD ... END_METHOD": {
+		"prefix": "st Method",
+		"body": [
+			"(* ${1:Description} *)",
+			"METHOD ${2:Name} : ${3:ReturnType}",
+			"\t$0",
+			"END_METHOD"
+		],
+		"description": "Define METHOD"
 	},
 	"IMPLEMENTATION ... END_IMPLEMENTATION": {
 		"prefix": "st implement",
