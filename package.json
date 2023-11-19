@@ -21,8 +21,8 @@
         "vars": "env | grep npm_package_",
         "test": "node ./out/test/runTest.js"
     },
-    "_main": "./out/extension.js",
-    "main": "./out/main.js",
+    "main": "./out/extension.js",
+    "_main": "./out/main.js",
     "repository": {
         "type": "git",
         "url": "https://github.com/Serhioromano/vscode-st"
@@ -103,7 +103,7 @@
                     ".TcPOU",
                     ".iecstl"
                 ],
-                
+
                 "configuration": "./language-configuration.json"
             }
         ],

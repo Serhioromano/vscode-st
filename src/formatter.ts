@@ -77,7 +77,9 @@ export class STFormatterProvider implements vscode.DocumentFormattingEditProvide
 
     spaces(text: string): string {
         // Delete all double spaces
-        text = text.replace(/\s+/g, " ");
+        while(text.match(/(?<!^| )  /gm)!== null) {
+            text = text.replace(/(?<!^| )  /gm, " ");
+        }
 
         // Delete space between func name and (
         // ABS ( to ABS(
