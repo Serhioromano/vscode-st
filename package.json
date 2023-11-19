@@ -103,6 +103,7 @@
                     ".TcPOU",
                     ".iecstl"
                 ],
+                
                 "configuration": "./language-configuration.json"
             }
         ],

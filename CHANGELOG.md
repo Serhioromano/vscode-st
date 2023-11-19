@@ -2,6 +2,12 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+## [1.12.22] - 2022-10-18
+
+- add `PROPERTY` with SET and GET and snippet
+- add `METHOD` snippet
+- add - `CLASS ... END_CLASS` keywords and snippet
+
 ## [1.12.14] - 2022-10-18
 
 - fix - highlight of names with `_TO_` in it

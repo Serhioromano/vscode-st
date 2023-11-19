@@ -49,7 +49,7 @@ export class STFormatterProvider implements vscode.DocumentFormattingEditProvide
             'function_block', 'struct', 'configuration', 'tcp', 'resource',
             'channel', 'library', 'folder', 'binaries', 'includes', 'sources',
             'action', 'step', 'initial_step', 'transition', 'type', 'namespace',
-            'implementation', 'interface', 'property', 'method', 'union', 'class'
+            'implementation', 'interface', 'property', 'get', 'set', 'method', 'union', 'class'
         ];
 
         // Do not format this strings
