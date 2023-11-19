@@ -1,4 +1,9 @@
-[![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT) ![workflow](https://github.com/Serhioromano/vscode-st/actions/workflows/publish.yml/badge.svg) [![Version](https://vsmarketplacebadge.apphb.com/version-short/serhioromano.vscode-st.svg)](https://marketplace.visualstudio.com/items?itemName=serhioromano.vscode-st) [![Installs](https://vsmarketplacebadge.apphb.com/installs-short/serhioromano.vscode-st.svg)](https://marketplace.visualstudio.com/items?itemName=serhioromano.vscode-st) [![Ratings](https://vsmarketplacebadge.apphb.com/rating-short/serhioromano.vscode-st.svg)](https://marketplace.visualstudio.com/items?itemName=serhioromano.vscode-st)
+![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)
+![workflow](https://github.com/Serhioromano/vscode-st/actions/workflows/publish.yml/badge.svg)
+![Version](https://vsmarketplacebadges.dev/version-short/Serhioromano.vscode-st.svg)
+![Installs](https://vsmarketplacebadges.dev/installs-short/Serhioromano.vscode-st.svg)
+![Ratings](https://vsmarketplacebadges.dev/rating-short/Serhioromano.vscode-st.svg)
+
 
 # Structured Text (IEC 61131-3)
 
@@ -48,8 +53,10 @@ Utilize VS Code Formatter API. Use general formatting command short keys. It cap
 
 ## Release Notes
 
-### 1.12.12
+### 1.12.18
 
+- add `METHOD` snippet
+- add - `CLASS ... END_CLASS` keywords and snippet
 - fix - Extra spaces was added after tab or in front of the comment.
 - enhance - highlight Siemens SCL
 - add - `(END_?)CONST`, `(END_?)ORGANIZATION_BLOCK`, `(END_?)DATA_BLOCK`, `(END_?)LABEL`, `BEGIN`, `COUNTER`, `VOID`, `NIL` and `GOTO` keywords
