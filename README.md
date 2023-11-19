@@ -46,8 +46,9 @@ Utilize VS Code Formatter API. Use general formatting command short keys. It cap
 
 ## Release Notes
 
-### 1.12.22
+### 1.12.23
 
+- add spaces formatting
 - add `PROPERTY` with SET and GET and snippet
 - add `METHOD` snippet
 - add - `CLASS ... END_CLASS` keywords and snippet
