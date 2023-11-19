@@ -48,8 +48,10 @@ Utilize VS Code Formatter API. Use general formatting command short keys. It cap
 
 ## Release Notes
 
-### 1.12.12
+### 1.12.18
 
+- add `METHOD` snippet
+- add - `CLASS ... END_CLASS` keywords and snippet
 - fix - Extra spaces was added after tab or in front of the comment.
 - enhance - highlight Siemens SCL
 - add - `(END_?)CONST`, `(END_?)ORGANIZATION_BLOCK`, `(END_?)DATA_BLOCK`, `(END_?)LABEL`, `BEGIN`, `COUNTER`, `VOID`, `NIL` and `GOTO` keywords
