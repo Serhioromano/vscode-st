@@ -1,10 +1,3 @@
-![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)
-![workflow](https://github.com/Serhioromano/vscode-st/actions/workflows/publish.yml/badge.svg)
-![Version](https://vsmarketplacebadges.dev/version-short/Serhioromano.vscode-st.svg)
-![Installs](https://vsmarketplacebadges.dev/installs-short/Serhioromano.vscode-st.svg)
-![Ratings](https://vsmarketplacebadges.dev/rating-short/Serhioromano.vscode-st.svg)
-
-
 # Structured Text (IEC 61131-3)
 
 Most complete Structured Text language support. Features includes:
