@@ -7,8 +7,9 @@ import { STFormatterProvider } from './formatter';
 
 export function activate(context: vscode.ExtensionContext) {
 
-    vscode.languages.registerDocumentFormattingEditProvider('st', new STFormatterProvider());
-    
+    vscode.languages.registerDocumentFormattingEditProvider('st',
+    new STFormatterProvider());
+
     context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(
         { language: "st" }, new STDocumentSymbolProvider()
     ));
