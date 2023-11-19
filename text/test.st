@@ -73,7 +73,7 @@ PROGRAM PLC_PRG
     (* Description *)
     METHOD GetThat : BOOL
         VAR_INPUT
-            xStart: BOOL; (* Comment *)
+            xStart : BOOL; (* Comment *)
         END_VAR
     END_METHOD
 END_PROGRAM
