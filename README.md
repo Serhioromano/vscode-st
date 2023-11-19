@@ -1,4 +1,9 @@
-[![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT) ![workflow](https://github.com/Serhioromano/vscode-st/actions/workflows/publish.yml/badge.svg) [![Version](https://vsmarketplacebadge.apphb.com/version-short/serhioromano.vscode-st.svg)](https://marketplace.visualstudio.com/items?itemName=serhioromano.vscode-st) [![Installs](https://vsmarketplacebadge.apphb.com/installs-short/serhioromano.vscode-st.svg)](https://marketplace.visualstudio.com/items?itemName=serhioromano.vscode-st) [![Ratings](https://vsmarketplacebadge.apphb.com/rating-short/serhioromano.vscode-st.svg)](https://marketplace.visualstudio.com/items?itemName=serhioromano.vscode-st)
+![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)
+![workflow](https://github.com/Serhioromano/vscode-st/actions/workflows/publish.yml/badge.svg)
+![Version](https://vsmarketplacebadges.dev/version-short/Serhioromano.vscode-st.svg)
+![Installs](https://vsmarketplacebadges.dev/installs-short/Serhioromano.vscode-st.svg)
+![Ratings](https://vsmarketplacebadges.dev/rating-short/Serhioromano.vscode-st.svg)
+
 
 # Structured Text (IEC 61131-3)
 
