@@ -2,7 +2,7 @@
     "name": "vscode-st",
     "displayName": "Structured Text language Support",
     "description": "Supports for syntax highlights, snippets for IEC 61131-3 Structured Text",
-    "version": "1.12.24",
+    "version": "1.12.25",
     "publisher": "Serhioromano",
     "sponsor": {
         "url": "https://www.paypal.com/donate/?hosted_button_id=UTU4EMPLLLX54"
