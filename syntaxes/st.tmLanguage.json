@@ -286,6 +286,34 @@
 					]
 				},
 				{
+					"comment": "Rule for GET SET PROPERTIES",
+					"begin": "\\b(?:PROPERTY)\\b",
+					"beginCaptures": {
+						"0": {
+							"name": "storage.type.class.st"
+						}
+					},
+					"end": "\\b(?:END_PROPERTY)\\b",
+					"endCaptures": {
+						"0": {
+							"name": "storage.type.class.st"
+						}
+					},
+					"patterns": [
+						{
+							"match": "\\b(END_)?(GET|SET)\\b",
+							"captures": {
+								"0": {
+									"name": "entity.name.type.st"
+								}
+							}
+						},
+						{
+							"include": "$self"
+						}
+					]
+				},
+				{
 					"include": "#controls"
 				},
 				{
@@ -294,7 +322,7 @@
 				},
 				{
 					"name": "storage.type.class.st",
-					"match": "\\b(END_)?(PROGRAM|CLASS|CONFIGURATION|TCP|RESOURCE|CHANNEL|LIBRARY|FOLDER|BINARIES|INCLUDES|SOURCES|ACTION|STEP|INITIAL_STEP|TRANSITION|TYPE|FUNCTION|FUNCTION_BLOCK|NAMESPACE|IMPLEMENTATION|INTERFACE|PROPERTY|GET|SET|METHOD|CONST|ORGANIZATION_BLOCK|DATA_BLOCK|LABEL)\\b"
+					"match": "\\b(END_)?(PROGRAM|CLASS|CONFIGURATION|TCP|RESOURCE|CHANNEL|LIBRARY|FOLDER|BINARIES|INCLUDES|SOURCES|ACTION|STEP|INITIAL_STEP|TRANSITION|TYPE|FUNCTION|FUNCTION_BLOCK|NAMESPACE|IMPLEMENTATION|INTERFACE|METHOD|CONST|ORGANIZATION_BLOCK|DATA_BLOCK|LABEL)\\b"
 				},
 				{
 					"name": "storage.type.class.st",
