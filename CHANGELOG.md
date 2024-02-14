@@ -2,7 +2,7 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
-## [1.12.22] - 2022-10-18
+## [1.12.25] - 2022-10-18
 
 - add `PROPERTY` with SET and GET and snippet
 - add `METHOD` snippet

@@ -181,7 +181,7 @@
 		"prefix": "st property ",
 		"body": [
 			"PROPERTY ${1:Name} : ${2:Type} ",
-			"\tGET : ${2:Type} ",
+			"\tGET",
 			"\t\t$0",
 			"\tEND_GET",
 			"\tSET",
