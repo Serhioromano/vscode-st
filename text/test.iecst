@@ -148,6 +148,7 @@ CASE iStep OF
 		BMOV(setFunc = H6, D0Z5, 1, D0Z7);
 		BMOV(setFunc = H10, D0Z5, setNum, D0Z7);
 
+        K1X0Z2
 		(* Work with registeres *)
 		ADPRW(
 			xProcess AND mb_Timeout = 0,
