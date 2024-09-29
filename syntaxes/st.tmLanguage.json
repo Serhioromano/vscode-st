@@ -401,22 +401,28 @@
 				},
 				{
 					"name": "variable.other.constant",
-					"match": "\\b(?:S)[0-9]{1-3}\\b"
+                    "comment": "GXW2 devices",
+					"match": "\\b(?:S)[0-9]{1,3}\\b"
 				},
 				{
 					"name": "variable.other.constant",
                     "comment": "GXW2 devices",
-					"match": "\\b(?:TC|TS|TN|D)[0-9]{1-4}(?:(?:Z|V)[0-9]{1})?\\b"
+					"match": "\\b(?:TC|TS|TN)[0-9]{1,3}(?:(?:Z|V)[0-9]{1})?\\b"
+				},
+				{
+					"name": "variable.other.constant",
+                    "comment": "GXW2 devices",
+					"match": "\\b(?:D)[0-9]{1,4}(?:(?:Z|V)[0-9]{1})?\\b"
 				},
 				{
                     "name": "variable.other.constant",
                     "comment": "GXW2 devices",
-					"match": "\\b(?:R)[0-9]{1-5}(?:(?:Z|V)[0-9]{1})?\\b"
+					"match": "\\b(?:R)[0-9]{1,5}(?:(?:Z|V)[0-9]{1})?\\b"
 				},
 				{
                     "name": "variable.other.constant",
                     "comment": "GXW2 devices",
-					"match": "\\b(?:(?:K)[1-4]{1})?(?:M|Y|X)[0-9]+(?:(?:Z|V)[0-9]{1})?\\b"
+					"match": "\\b(?:(?:K)[1-4]{1})?(?:M|Y|X)[0-9]{1,4}(?:(?:Z|V)[0-9]{1})?\\b"
 				},
 				{
 					"name": "variable.other.constant",
