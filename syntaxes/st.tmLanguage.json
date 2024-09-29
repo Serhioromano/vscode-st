@@ -379,6 +379,10 @@
 				},
 				{
 					"name": "variable.other.constant",
+					"match": "\\b(TC|TS|TN|D|R|M|Y|X)[0-9]+\\b"
+				},
+				{
+					"name": "variable.other.constant",
 					"match": "\\b[A-Za-z]{1,6}#[a-zA-Z0-9\\_]+\\b"
 				},
 				{

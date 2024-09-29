@@ -6,7 +6,7 @@ GVL.Alarms[E_Alarms.Pump2Contator].init(e := TC_EVENTS.Alarms.Pump4Contator, c :
 GVL.Alarms[E_Alarms.CBPump1].init (e := TC_EVENTS.Alarms.CBPump1, c := TRUE);
 GVL.Alarms[E_Alarms.CBPump2].init (e := TC_EVENTS.Alarms.CBPump2, c := TRUE);
 GVL.Alarms[E_Alarms.CBPump3].init (e := TC_EVENTS.Alarms.CBPump3, c := TRUE);
-GVL.Alarms[E_Alarms.CBPump4].init (e := TC_EVENTS.Alarms.CBPump4, c := TRUE);
+GVL.Alarms[E_Alarms.CBPump4].init (e := TC_EVENTS.Alarms.CBPump4, c := INT#100);
 GVL.Alarms[E_Alarms.VFD1Alarm].init (e := TC_EVENTS.Alarms.VFD1Alarm, c := TRUE);
 GVL.Alarms[E_Alarms.VFD2Alarm].init (e := TC_EVENTS.Alarms.VFD2Alarm, c := TRUE);
 GVL.Alarms[E_Alarms.VFD3Alarm].init (e := TC_EVENTS.Alarms.VFD3Alarm, c := TRUE);
