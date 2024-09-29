@@ -1,7 +1,15 @@
 { attribute 'something' }
 FUNCTION
    VAR
-       Variable : BOOL; (* Comment *) 
+       Variable : BOOL; (* Comment *)
    END_VAR
    Variable := TRUE;
+    PROPERTY Name : Type
+        GET
+
+        END_GET
+        SET
+
+        END_SET
+    END_PROPERTY
 END_FUNCTION
