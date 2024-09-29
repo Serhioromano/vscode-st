@@ -24,6 +24,33 @@ export class STFormatterProvider implements vscode.DocumentFormattingEditProvide
             'replace', 'right', 'rtc', 'mid', 'sema', 'round', 'floor', 'ceil',
             'unpack', 'ref', '__new', '__delete',
 
+            // GXW2 inscructions
+            'addp', 'dadd', 'daddp', 'subp', 'dsub', 'dsubp', 'mulp', 'dmul', 'dmulp', 'divp',
+            'ddiv', 'ddivp', 'inc', 'incp', 'dinc', 'dincp', 'dec', 'decp', 'ddec', 'ddecp',
+            'wand', 'wandp', 'dand', 'dandp', 'wor', 'worp', 'dor', 'dorp', 'wxor', 'wxorp',
+            'dxor', 'dxorp', 'neg', 'negp', 'dneg', 'dnegp', 'decmp', 'decmpp', 'dezcp',
+            'dezcpp', 'demov', 'demovp', 'destr', 'destrp', 'deval', 'devalp', 'debcd', 'debcdp',
+            'debin', 'debinp', 'deadd', 'deaddp', 'desub', 'desubp', 'demul', 'demulp', 'dediv',
+            'dedivp', 'dexp', 'dexpp', 'dloge', 'dlogep', 'dlog10', 'dlog10p', 'desqr', 'desqrp',
+            'deneg', 'denegp', 'int', 'intp', 'dint', 'dintp', 'dsin', 'dsinp', 'dcos', 'dcosp',
+            'dtan', 'dtanp', 'dasin', 'dasinp', 'dacos', 'dacosp', 'datan', 'datanp', 'drad',
+            'dradp', 'ddeg', 'ddegp', 'limitation', 'limit', 'limitp', 'dlimit', 'dlimitp', 'band',
+            'bandp', 'dband', 'dbandp', 'zone', 'zonep', 'dzone', 'dzonep', 'scl', 'sclp', 'dscl',
+            'dsclp', 'dabin', 'dabinp', 'ddabin', 'ddabinp', 'binda', 'bin', 'bindap', 'dbinda',
+            'dbindap', 'scl2', 'scl2p', 'dscl2', 'dscl2p', 'dszr', 'dvit', 'ddvit', 'dtbl', 'dabs',
+            'zrn', 'dzrn', 'plsv', 'dplsv', 'drvi', 'ddrvi', 'drva', 'ddrva', 'wsum', 'wsump',
+            'dwsum', 'dwsump', 'wtob', 'wtobp', 'btow', 'btowp', 'uni', 'unip', 'dis', 'disp',
+            'swap', 'swapp', 'dswap', 'dswapp', 'sort2', 'dsort2', 'ror', 'rorp', 'dror', 'drorp',
+            'rol', 'rolp', 'drol', 'drolp', 'rcr', 'rcrp', 'drcr', 'drcrp', 'rcl', 'rclp', 'drcl',
+            'drclp', 'sftr', 'sftrp', 'sftl', 'sftlp', 'wsfr', 'wsfrp', 'wsfl', 'wsflp', 'sfwr',
+            'sfwrp', 'sfrd', 'sfrdp', 'refp', 'reff', 'reffp', 'mtr', 'dhscs', 'dhscs_i', 'dhscr',
+            'dhsz', 'spd', 'dspd', 'plsy', 'dplsy', 'pwm', 'plsr', 'dplsr', 'ist', 'ser', 'serp',
+            'dser', 'dserp', 'absd', 'dabsd', 'incd', 'ttmr', 'stmr', 'alt', 'altp', 'ramp',
+            'rotc', 'sort', 'cmp', 'cmpp', 'dcmp', 'dcmpp', 'zcp', 'zcpp', 'dzcp', 'dzcpp',
+            'mov', 'movp', 'dmov', 'dmovp', 'smov', 'smovp', 'cml', 'cmlp', 'dcml', 'dcmlp',
+            'bmov', 'bmovp', 'fmov', 'fmovp', 'dfmov', 'dfmovp', 'xch', 'xchp', 'dxch', 'dxchp',
+            'bcd', 'bcdp', 'dbcd', 'dbcdp', 'bin', 'binp', 'dbin', 'dbinp',
+
             '[A-Za-z_]*(_TO_)[A-Za-z_]*', '(?:TO_|FROM_|TRUNC_)[A-Za-z_]*'
         ];
 

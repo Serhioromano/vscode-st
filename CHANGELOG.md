@@ -2,6 +2,11 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+## [1.12.29] - 2024-09-29
+
+- add GX Works Devices syntax support
+- add GX Works instructions syntax highlights
+
 ## [1.12.25] - 2022-10-18
 
 - add `PROPERTY` with SET and GET and snippet
