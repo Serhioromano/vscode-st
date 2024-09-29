@@ -46,6 +46,11 @@ Utilize VS Code Formatter API. Use general formatting command short keys. It cap
 
 ## Release Notes
 
+### 1.12.29
+
+- add GX Works Devices syntax support
+- add GX Works instructions syntax highlights
+
 ### 1.12.25
 
 - add spaces formatting
