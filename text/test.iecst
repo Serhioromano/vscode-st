@@ -34,7 +34,7 @@ CASE iStep OF
 				);
 			END_IF;
 		END_FOR;
-		lastIndex := - 1;
+		lastIndex := -1;
 		iCount := 0;
 		xAlloWrite := FALSE;
 		iStep := 20;
@@ -148,7 +148,6 @@ CASE iStep OF
 		BMOV(setFunc = H6, D0Z5, 1, D0Z7);
 		BMOV(setFunc = H10, D0Z5, setNum, D0Z7);
 
-        K1X0Z2
 		(* Work with registeres *)
 		ADPRW(
 			xProcess AND mb_Timeout = 0,
@@ -264,9 +263,7 @@ CASE iStep OF
 
 		(* First ADPRW call is a reset *)
 		xProcess := TRUE;
-
 END_CASE;
-
 
 (* If switch to next channel mpve index *)
 IF xNextChannel THEN
@@ -281,7 +278,7 @@ IF xNextChannel THEN
 		END_IF;
 	END_IF;
 	(* If we change channel, we went though all registers in channel *)
-	lastIndex := - 1;
+	lastIndex := -1;
 	(* If we are in channel 0 we whent through all channels at least once and can start writing *)
 	SET((iCount = 0), xAlloWrite);
 END_IF;
