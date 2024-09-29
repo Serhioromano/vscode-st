@@ -15,10 +15,10 @@ jobs:
       with:
         ref: ${{ github.event.push.ref }}
 
-    - name: Use Node.js 16
+    - name: Use Node.js 20
       uses: actions/setup-node@v2
       with:
-        node-version: '16'
+        node-version: '20'
         cache: 'npm'
     - name: Install NPM Packages
       run: |
