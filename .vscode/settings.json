@@ -10,4 +10,5 @@
         "plaintext"
     ],
     "i18n-ally.localesPaths": [],
+    "gitflow.replaceSymbol": "-",
 }
