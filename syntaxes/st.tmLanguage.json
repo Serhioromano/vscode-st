@@ -407,7 +407,7 @@
 				{
 					"name": "variable.other.constant",
                     "comment": "GXW2 devices",
-					"match": "\\b(?:TC|TS|TN)[0-9]{1,3}(?:(?:Z|V)[0-9]{1})?\\b"
+					"match": "\\b(?:TC|TS|TN|CC|CN|CS)[0-9]{1,3}(?:(?:Z|V)[0-9]{1})?\\b"
 				},
 				{
 					"name": "variable.other.constant",
