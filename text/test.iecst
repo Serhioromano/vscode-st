@@ -1,4 +1,452 @@
-DO_Stupen1 := xTermostat;
-fbTON1(IN := xTermostat, PT := T#5m);
-fbTOF1(IN := fbTON1.Q, PT := T#5m);
-DO_Stupen2 := fbTOF1.Q;
+INCLUDE rtcu.inc
+// Uncomment math.inc to add math library support.
+INCLUDE math.inc
+INCLUDE pressens.inc
+INCLUDE utils.inc
+
+#DEFINE PHONE_ADMIN_1 "01234567"
+#DEFINE PHONE_ADMIN_2 "24567890"
+
+
+// Structs
+STRUCT_BLOCK SbMqtt
+   h: INT;
+   rc: INT;
+   ccnt: SINT := 0;
+   dcnt: SINT := 0;
+   scnt: SINT := 0;
+   status: BOOL;
+   isFallback: BOOL := FALSE;
+END_STRUCT_BLOCK;
+
+STRUCT_BLOCK SbLog
+   fd: FILE;
+   lineCt: INT;
+   readPos: DINT := 0;
+END_STRUCT_BLOCK;
+
+// Input variables that can be configured via the configuration dialog (These are global)
+VAR_INPUT
+    Ain1: INT; | Analog input pressure readings 4 - 20mA
+    Switch1: BOOL;
+    Switch2: BOOL;
+    Switch3: BOOL;
+END_VAR;
+
+// Output variables that can be configured via the configuration dialog (These are global)
+VAR_OUTPUT
+    LED: BOOL; | LED that shows the PROGRAM scan
+    Aout4: INT;
+END_VAR;
+
+// These are the global variables of the program
+VAR
+   psns: PressureSensor;
+   logsb: SbLog;
+   clock: clockGet;
+   CFG: ARRAY[1..16] OF STRING;
+   call: gsmIncomingCall; // Receives incoming Voice call
+   sms: gsmIncomingSMS; // Receives incoming SMS messages
+   stack: ARRAY [1..50] OF STRING;
+   stacki: INT := 1;
+   PJS: ParseJSON;
+   keys: ARRAY[1..K_SIZE] OF STRING := KN_CID, KN_MQ_HOST, KN_MQ_HOST_FB, KN_MQ_USER, KN_MQ_PORT, KN_SEND_INTERVAL, KN_INACT_INTERVAL;
+   mqbuf: ARRAY[1..1024] OF SINT;
+   mq: SbMqtt;
+   rxd: mqttReceive;
+   netInfo: netGetInformation;
+   iface: SINT := 1; // 1 - Mobile data, 2 - LAN
+   tim3: TON;
+   inactivityTime: DINT;
+END_VAR;
+
+
+
+FUNCTION ProcessConfig;
+VAR
+   status: BOOL;
+   rc: INT;
+END_VAR;
+   status := LoadConfig();
+   IF status THEN
+      Flog(msg := "Configuration loaded successfully");
+   ELSE
+      Flog(msg := "Not able to load configuration. Using default values.");
+      status := WriteConfig();
+      IF status THEN
+         Flog(msg := "Configuration written successfully");
+      ELSE
+         Flog(msg := "Not able to write configuration.");
+      END_IF;
+   END_IF;
+END_FUNCTION;
+
+
+FUNCTION GetJsonValue: STRING;
+VAR_INPUT
+   key: STRING;
+END_VAR
+VAR
+   i: INT;
+END_VAR;
+   DebugMsg(message := "Getting JSON value for key: " + key);
+   FOR i := 1 TO PJS.size DO
+      DebugMsg(message := "JSON Key: " + PJS.keys[i] + ", Value: " + PJS.values[i]);
+      IF PJS.keys[i] = key THEN
+         GetJsonValue := PJS.values[i];
+         RETURN;
+      END_IF;
+   END_FOR;
+   GetJsonValue := "";
+END_FUNCTION
+
+FUNCTION GetMethod: STRING;
+   GetMethod := GetJsonValue(key := "method");
+END_FUNCTION
+
+FUNCTION ProcessIncomingJson;
+VAR_INPUT
+   str: STRING;
+   topic: STRING;
+END_VAR;
+VAR
+   i, offset, rof: INT;
+   keyIdx, l: INT;
+   cfgProcessed: BOOL := FALSE;
+   METHOD, ofs, s: STRING;
+   status: BOOL;
+   reqId: STRING := "";
+END_VAR;
+   DebugMsg(message := "Processing topic: " + topic + ", JSON: " + str);
+// Processing topic: v1/devices/me/rpc/request/13, JSON: {"method":"getTelemetry","params":null}
+   l := strLen(str := topic);
+   IF l > 26 THEN
+      tim3(trig := OFF, pt := inactivityTime);
+      tim3(trig := ON);
+      reqId := strRight(str := topic, length := l - 26);
+      DebugMsg(message := "Request ID: " + reqId);
+      SendData(msg := dintToStr(v := boardTimeSinceReset()), topic := "v1/devices/me/rpc/response/" + reqId);
+   END_IF;
+
+   PJS(json := str, parentKey := "");
+   IF PJS.size > 0 THEN
+      METHOD := GetJsonValue(key := "method");
+      DebugMsg(message := "Method: " + METHOD);
+      IF METHOD = "setConfig" THEN
+         Flog(msg := "Setting configuration");
+         cfgProcessed := FALSE;
+         FOR i := 1 TO PJS.size DO
+            keyIdx := GetCfgIdx(str := PJS.keys[i], pref := "params.");
+            IF keyIdx > 0 THEN
+               CFG[keyIdx] := PJS.values[i];
+               cfgProcessed := TRUE;
+            END_IF;
+         END_FOR;
+         IF cfgProcessed THEN
+            Flog(msg := "Configuration processed");
+            WriteConfig();
+         ELSE
+            Flog(msg := "Configuration not processed");
+         END_IF;
+      ELSIF METHOD = "getConfig" THEN
+         Flog(msg := "Getting configuration");
+         SendConfig();
+      ELSIF METHOD = "reset" THEN
+         Flog(msg := "Resetting device");
+         boardReset();
+      ELSIF METHOD = "getTelemetry" THEN
+         Flog(msg := "Getting Telemetry");
+         s := GetTelemetryJson();
+         SendData(msg := s, topic := "v1/devices/me/telemetry");
+      ELSE
+         Flog(msg := "Unknown method");
+      END_IF;
+   END_IF;
+END_FUNCTION;
+
+FUNCTION GetTelemetryJson: STRING;
+   psns();
+   GetTelemetryJson := "{" +
+      "sns_val:" + intToStr(v := psns.rawValue) + "," +
+      "sns_current:" + floatToStr(v := psns.current) + "," +
+      "pressure:" + floatToStr(v := psns.pressure) + "," +
+      "levelcm:" + floatToStr(v := psns.levelcm) + "," +
+      "levelm:" + floatToStr(v := psns.levelm) + "," +
+      "board_temp:" + intToStr(v := boardTemperature()) + "," +
+      "board_supply:" + intToStr(v := boardSupplyType()) + "," +
+      "board_volt:" + intToStr(v := boardSupplyVoltage()) +
+      "}";
+END_FUNCTION
+
+FUNCTION MqttResubscribe;
+VAR
+   rc: INT;
+END_VAR;
+
+   // unsubscribe to the topic
+   rc := mqttUnsubscribe(handle := mq.h, topic := "v1/devices/me/rpc/request/+");
+   DebugFmt(message := "MQTT unsubscribe rc=\1", v1 := rc);
+   // Sleep(delay:=100);
+   // subscribe to the topic
+   rc := mqttSubscribe(handle := mq.h, qos := 2, topic := "v1/devices/me/rpc/request/+");
+   IF rc = 0 THEN
+      rxd(data := ADDR(mqbuf), maxsize := SIZEOF(mqbuf));
+   END_IF;
+   DebugFmt(message := "MQTT subscribe rc=\1", v1 := rc);
+END_FUNCTION;
+
+FUNCTION MqttDisconnect;
+  mqttClose(handle := mq.h);
+  mq.status := FALSE;
+END_FUNCTION;
+
+
+FUNCTION MqttConnect;
+VAR
+   mqHost: STRING;
+   mqPort: INT;
+   rc: INT;
+END_VAR;
+
+   IF mq.ccnt > 3 THEN
+      mq.ccnt := 0;
+      mq.isFallback := NOT mq.isFallback;
+   END_IF;
+   IF mq.isFallback THEN
+      mqHost := CFG[K_MQ_HOST_FB];
+   ELSE
+      mqHost := CFG[K_MQ_HOST];
+   END_IF;
+
+   mqPort := strToInt(str := CFG[K_MQ_PORT]);
+   IF mqPort = 0 THEN
+      mqPort := 1883;
+   END_IF;
+   mq.h := mqttOpen(ip := mqHost, port := mqPort, clientid := CFG[K_CID_NAME], username := CFG[K_MQ_USER]);
+   Flog(msg := "MQTT open=" + intToStr(v := mq.h) + " for Host=" + mqHost + ", Port=" + intToStr(v := mqPort) + ", Username=" + CFG[K_MQ_USER]);
+
+   IF NOT mqttConnected(handle := mq.h) THEN
+      mq.rc := mqttStatus(handle := mq.h);
+      Flog(msg := "MQTT connection failed, status=" + intToStr(v := mq.rc) + ", conncnt=" + intToStr(v := mq.ccnt));
+      mq.status := FALSE;
+      mq.ccnt := mq.ccnt + 1;
+      mqttClose(handle := mq.h);
+   ELSE
+      mq.status := TRUE;
+      mq.ccnt := 0;
+      mq.dcnt := 0;
+      MqttResubscribe();
+   END_IF;
+END_FUNCTION;
+
+FUNCTION SendData: BOOL;
+VAR_INPUT
+   msg: STRING;
+   topic: STRING;
+END_VAR;
+VAR
+   rc: INT;
+END_VAR;
+
+   IF mq.status THEN
+      strToMemory(dst := ADDR(mqbuf), str := msg, len := strLen(str := msg));
+      rc := mqttPublish(
+                  handle := mq.h,
+                  topic := topic,
+                  qos := 1,
+                  retained := FALSE,
+                  data := ADDR(mqbuf),
+                  size := strLen(str := msg)
+                  );
+      IF rc = 0 THEN
+         Flog(msg := "MqttPublished=" + msg);
+         SendData := TRUE;
+      ELSE
+         DebugFmt(message := "MqttPublished=\1, msg=" + msg, v1 := rc);
+         SendData := FALSE;
+         mq.dcnt := mq.dcnt + 1;
+         IF mq.dcnt > 3 THEN
+            mq.dcnt := 0;
+            mqttClose(handle := mq.h);
+            mq.status := FALSE;
+         END_IF;
+      END_IF;
+   ELSE
+      MqttConnect();
+      SendData := FALSE;
+   END_IF;
+END_FUNCTION;
+
+
+FUNCTION SendConfig;
+VAR
+   s1: STRING;
+   i: INT;
+   status: BOOL;
+END_VAR;
+
+   s1 := "{$""+keys[1]+"$":$""+CFG[1]+"$"";
+   FOR i := 2 TO K_SIZE DO
+      s1 := strConcat(str1 := s1, str2 := ",$""+keys[i]+"$":$""+CFG[i]+"$"");
+   END_FOR;
+   s1 := s1 + "}";
+   status := SendData(msg := s1, topic := "v1/devices/me/attributes");
+   IF status THEN
+      Flog(msg := "Config sent successfully");
+   ELSE
+      Flog(msg := "Config not sent");
+   END_IF;
+END_FUNCTION;
+
+PROGRAM main;
+// These are the local variables of the program block
+VAR
+   rc: INT;
+   TIME: DINT;
+   clock: clockGet;
+   tim1, tim2: TON;
+   floatStr: STRING;
+   status: BOOL;
+   s1: STRING;
+   i: INT;
+   keyIdx: INT;
+   cfgProcessed: BOOL;
+   sendPtTime: DINT;
+   mqjson: STRING;
+END_VAR;
+
+// The next code will only be executed once after the program starts
+   DebugMsg(message := CID_NAME + ": Program initialization");
+// Sleep(delay:=30000);
+   InitializeMedia();
+   Flog(msg := CID_NAME + ": Program started");
+   psns();
+   pmSetSpeed(speed := 0);
+   pmPowerFail(bat := TRUE); // Set unit behavior when external power is lost.
+   boardDCOut2(enable := ON);
+   ProcessConfig();
+
+   gsmPowerLP(power := TRUE);
+
+   rc := gprsOpen(); // Open the GPRS connetion
+   DebugFmt(message := "gprsOpen()=\1", v1 := rc);
+   WHILE NOT gprsConnected() DO // Wait for connection to the Internet
+      Flog(msg := "Waiting for GPRS connection");
+      Sleep(delay := 3000);
+   END_WHILE;
+
+   TIME := gsmNetworkTime(); // Set current time
+   IF TIME > 0 THEN
+      clockSet(linsec := (TIME + 7200));
+   END_IF;
+   clock();
+   DebugFmt(message := "Current Date: \1-\2-\3", v1 := clock.Day, v2 := clock.Month, v3 := clock.Year);
+   DebugFmt(message := "Current Time: \1:\2:\3", v1 := clock.Hour, v2 := clock.Minute, v3 := clock.Second);
+   tim1(trig := OFF, pt := 5000);
+
+   sendPtTime := strToDint(str := CFG[K_SEND_INTERVAL]); // Convert the string to integer (sendPtTime is the time interval for sending data to the server
+   sendPtTime := sendPtTime * 1000; // Convert seconds to milliseconds
+   IF sendPtTime = 0 THEN
+      sendPtTime := 600000; // Default value
+   END_IF;
+
+   DebugFmt(message := "sendPtTime=\4", v4 := sendPtTime);
+
+   tim2(trig := OFF, pt := sendPtTime);
+
+   inactivityTime := strToDint(str := CFG[K_INACT_INTERVAL]); // Convert the string to integer (sendPtTime is the time interval for sending data to the server
+   inactivityTime := inactivityTime * 1000; // Convert seconds to milliseconds
+   IF inactivityTime = 0 THEN
+      inactivityTime := 1800 * 1000; // Default value
+   END_IF;
+
+   DebugFmt(message := "inactivityTime=\4", v4 := inactivityTime);
+
+   tim3(trig := OFF, pt := inactivityTime);
+
+   tim1(trig := ON);
+   tim2(trig := ON);
+   tim3(trig := ON);
+
+   boardWatchdog(timeout := 900); // Set the watchdog timer to 15 minutes
+   boardSetFaultReset(delay := 30); // Set the delay for the board to reset after a fault
+
+   MqttConnect();
+
+   // SendConfig();
+BEGIN
+// Code from this point until END will be executed repeatedly
+
+
+   // if the call is received from the specified numbers, the RTCU unit will be reset
+   call();
+   IF call.status > 0 THEN
+      Flog(msg := strConcat(str1 := "Call received from: ", str2 := call.phonenumber));
+      IF strFind(str1 := call.phonenumber, str2 := PHONE_ADMIN_1) <> 0 OR strFind(str1 := call.phonenumber, str2 := PHONE_ADMIN_2) <> 0 THEN
+         Flog(msg := "BOARD RESET CALL!");
+         boardReset(); // Resets the RTCU Unit
+      END_IF;
+   END_IF;
+
+   sms();
+   IF sms.status > 0 THEN
+      Flog(msg := strConcat(str1 := "Message received from: ", str2 := sms.phonenumber));
+      Flog(msg := strConcat(str1 := "Message is: ", str2 := sms.message));
+      IF strFind(str1 := sms.phonenumber, str2 := PHONE_ADMIN_1) <> 0 OR strFind(str1 := sms.phonenumber, str2 := PHONE_ADMIN_2) <> 0 THEN
+         IF strFind(str1 := sms.message, str2 := "RESET") = 1 THEN
+            Flog(msg := "BOARD RESET SMS!");
+            boardReset(); // Resets the RTCU Unit
+         END_IF;
+         ProcessIncomingJson(str := sms.message);
+      END_IF;
+   END_IF;
+
+   tim1();
+   tim2();
+   tim3();
+   IF tim1.q THEN // read the current value of the pressure sensor
+      tim1(trig := OFF);
+      LED := NOT LED;
+      psns();
+      tim1(trig := ON);
+   END_IF;
+   IF tim2.q THEN // send the current value of the pressure sensor to the server
+      tim2(trig := OFF);
+      mqjson := GetTelemetryJson();
+      status := SendData(msg := mqjson, topic := "v1/devices/me/telemetry");
+      IF status THEN
+         Flog(msg := "Data sent successfully");
+      ELSE
+         Flog(msg := "Data not sent");
+      END_IF;
+      tim2(trig := ON);
+   END_IF;
+   IF tim3.q THEN // check the inactivity time
+      tim3(trig := OFF);
+      mq.scnt := mq.scnt + 1;
+      DebugFmt(message := "scnt=\1", v1 := mq.scnt);
+      IF mq.scnt > 5 THEN
+         Flog(msg := "Inactivity retries exceeded limit. Resetting the board.");
+         boardReset(); // Resets the RTCU Unit
+      ELSE
+         MqttDisconnect();
+         MqttConnect();
+         Flog(msg := "Inactivity time reached. Resetting mqtt connection.");
+      END_IF;
+      tim3(trig := ON);
+   END_IF;
+   rc := mqttWaitEvent(timeout := 1);
+   IF rc > 0 THEN
+      rxd();
+      mq.scnt := 0;
+      Flog(msg := "MQTT received data: " + strFromMemory(src := ADDR(mqbuf), len := rxd.size));
+      ProcessIncomingJson(str := strFromMemory(src := ADDR(mqbuf), len := rxd.size), topic := rxd.topic);
+   ELSIF rc < 0 THEN // no connection, try to resubscribe
+      Flog(msg := "MQTT RX error: " + intToStr(v := rc));
+      MqttResubscribe();
+   END_IF;
+
+   boardWatchdog(); // Reset the watchdog timer
+END;
+
+END_PROGRAM;
