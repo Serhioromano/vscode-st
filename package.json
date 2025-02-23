@@ -66,7 +66,7 @@
         "@typescript-eslint/parser": "^5.9.1",
         "@vscode/test-electron": "^2.0.3",
         "chevrotain": "^10.4.2",
-        "esbuild": "^0.14.10",
+        "esbuild": "^0.25.0",
         "eslint": "^8.6.0",
         "glob": "^7.2.0",
         "langium-cli": "^0.5.0",
