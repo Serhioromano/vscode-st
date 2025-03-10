@@ -101,10 +101,13 @@
 			"start": "^\\s*//#region",
 			"end": "^\\s*//#endregion"
 		}
-	}
+	},
+    "wordPattern": "(-?\\d*\\.\\d\\w*)|([^\\`\\~\\!\\@\\#\\%\\^\\&\\*\\(\\)\\-\\=\\+\\[\\{\\]\\}\\\\\\|\\;\\:\\'\\\"\\,\\.\\<\\>\\/\\?\\s]+)"
 	// "indentationRules": {
-	// 	"increaseIndentPattern": "({(?!.+}).*|\\(|\\[|(IF|ELSE|FOR|WHILE|CASE|THEN|ELSIF|DO|BY|OF|REPEAT|).*)\\s*(/[\\(*].*)?$",
-	// 	"decreaseIndentPattern": "^((.*\\*\\/)?|(.*\\*\\)?)\\s*((\\})|(\\)+[;,])|(\\][;,])|\\b(else)|\\b((END_(IF|FOR|WHILE|CASE|REPEAT));))"
+	// 	"increaseIndentPattern": "/^.*(THEN|DO|OF|VAR)$/",
+	// 	"decreaseIndentPattern": "/^(END_IF;)$/"
+	// 	// "increaseIndentPattern": "({(?!.+}).*|\\(|\\[|(IF|ELSE|FOR|WHILE|CASE|THEN|ELSIF|DO|BY|OF|REPEAT|).*)\\s*(/[\\(*].*)?$",
+	// 	// "decreaseIndentPattern": "^((.*\\*\\/)?|(.*\\*\\)?)\\s*((\\})|(\\)+[;,])|(\\][;,])|\\b(else)|\\b((END_(IF|FOR|WHILE|CASE|REPEAT));))"
 	// }
 
 	//"enhancedBrackets":[
