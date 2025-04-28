@@ -2,6 +2,10 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+## [1.12.30] - 2025-04-28
+
+- add SEL RTAC (real time automation controller) exports its ST files as xml with the ST code in Implementaiton or Interface tags. This PR simply adds those two tags.
+
 ## [1.12.29] - 2024-09-29
 
 - add GX Works Devices syntax support

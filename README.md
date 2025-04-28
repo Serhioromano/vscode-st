@@ -46,8 +46,9 @@ Utilize VS Code Formatter API. Use general formatting command short keys. It cap
 
 ## Release Notes
 
-### 1.12.29
+### 1.12.30
 
+- add SEL RTAC (real time automation controller) exports its ST files as xml with the ST code in Implementaiton or Interface tags. This PR simply adds those two tags.
 - add GX Works Devices syntax support
 - add GX Works instructions syntax highlights
 
