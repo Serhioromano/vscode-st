@@ -8,7 +8,7 @@
     ],
     "repository": {
         "xml-code-block": {
-            "begin": "(<)(Declaration|ST)(>)\\s*",
+            "begin": "(<)(Declaration|ST|Implementation|Interface)(>)\\s*",
             "end": "\\s*(<\\/)(\\2)(>)$",
             "beginCaptures": {
                 "1": {
