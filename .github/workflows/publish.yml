@@ -11,12 +11,12 @@ jobs:
 
     steps:
     - name: Checkout Tag
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         ref: ${{ github.event.push.ref }}
 
     - name: Use Node.js 20
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v4
       with:
         node-version: '20'
         cache: 'npm'
