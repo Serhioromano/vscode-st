@@ -46,6 +46,20 @@ Utilize VS Code Formatter API. Use general formatting command short keys. It cap
 
 ## Release Notes
 
+### 1.12.37
+
+- add - last redaction `USTRING`, `UCHAR` types
+- add - last redaction `PROPERTY` syntax
+
+  ```iecst
+  PROPERTY_GET PUBLIC nFoo : INT
+    nFoo := _nFoo;
+  END_PROPERTY
+  PROPERTY_SET PUBLIC nFoo : INT
+    _nFoo := nFoo;
+  END_PROPERTY
+  ```
+
 ### 1.12.30
 
 - add SEL RTAC (real time automation controller) exports its ST files as xml with the ST code in Implementaiton or Interface tags. This PR simply adds those two tags.
