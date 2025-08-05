@@ -305,7 +305,7 @@
                 },
                 {
                     "comment": "Rule for GET SET PROPERTIES",
-                    "begin": "\\b(?:PROPERTY)\\b",
+                    "begin": "\\b(?:PROPERTY|PROPERTY_GET|PROPERTY_SET)\\b",
                     "beginCaptures": {
                         "0": {
                             "name": "storage.type.class.st"
@@ -369,7 +369,7 @@
                 },
                 {
                     "name": "support.type.primitives.st",
-                    "match": "\\b(ANY_)?(DERIVED|ELEMENTARY|MAGNITUDE|NUM|REAL|INT|UNSIGNED|SIGNED|DURATION|BIT|CHARS|STRING|CHAR|DATE)\\b"
+                    "match": "\\b(ANY_)?(DERIVED|ELEMENTARY|MAGNITUDE|NUM|REAL|INT|UNSIGNED|SIGNED|DURATION|BIT|CHARS|STRING|CHAR|USTRING|UCHAR|DATE)\\b"
                 },
                 {
                     "match": "\\b(EXTENDS|IMPLEMENTS)\\b",

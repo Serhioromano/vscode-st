@@ -2,6 +2,20 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+## [1.12.37] - 2025-08-05
+
+- add - last redaction `USTRING`, `UCHAR` types
+- add - last redaction `PROPERTY` syntax
+
+  ```iecst
+  PROPERTY_GET PUBLIC nFoo : INT
+    nFoo := _nFoo;
+  END_PROPERTY
+  PROPERTY_SET PUBLIC nFoo : INT
+    _nFoo := nFoo;
+  END_PROPERTY
+  ```
+
 ## [1.12.30] - 2025-04-28
 
 - add SEL RTAC (real time automation controller) exports its ST files as xml with the ST code in Implementaiton or Interface tags. This PR simply adds those two tags.
