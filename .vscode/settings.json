@@ -17,6 +17,7 @@
     ],
     "spellright.configurationScope": "user",
     "spellright.notificationClass": "warning",
+    "peacock.remoteColor": "#541232",
     "workbench.colorCustomizations": {
         "activityBar.activeBackground": "#7e1b4b",
         "activityBar.background": "#7e1b4b",
@@ -36,5 +37,4 @@
         "titleBar.inactiveBackground": "#54123299",
         "titleBar.inactiveForeground": "#e7e7e799"
     },
-    "peacock.remoteColor": "#541232",
 }

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type="text/xsl" href="stat.xsl" ?>
+<rtmp>
+    <nginx_version>1.24.0</nginx_version>
+    <nginx_rtmp_version>1.2.2-r1</nginx_rtmp_version>
+    <compiler>gcc 12.2.0 (Debian 12.2.0-14) </compiler>
+    <pid>334</pid>
+    <uptime>1819</uptime>
+    <naccepted>15</naccepted>
+    <bw_in>4154240</bw_in>
+    <bytes_in>706225690</bytes_in>
+    <bw_out>336</bw_out>
+    <bytes_out>20746729</bytes_out>
+    <server>
+        <application>
+            <name>live</name>
+            <live>
+                <stream>
+                    <name>pve</name>
+                    <time>13159</time>
+                    <bw_in>4548432</bw_in>
+                    <bytes_in>6833219</bytes_in>
+                    <bw_out>0</bw_out>
+                    <bytes_out>0</bytes_out>
+                    <bw_audio>141936</bw_audio>
+                    <bw_video>4406488</bw_video>
+                    <bw_data>0</bw_data>
+                    <client>
+                        <id>24</id>
+                        <address>192.168.1.21</address>
+                        <port>60386</port>
+                        <time>13267</time>
+                        <flashver>FMLE/3.0 (compatible; FMSc/1.0)</flashver>
+                        <swfurl>rtmp://192.168.1.112/live</swfurl>
+                        <bytes_in>6842592</bytes_in>
+                        <bytes_out>425</bytes_out>
+                        <dropped>0</dropped>
+                        <avsync>17</avsync>
+                        <timestamp>13269</timestamp>
+                        <publishing/>
+                        <active/>
+                    </client>
+                    <meta>
+                        <video>
+                            <width>1280</width>
+                            <height>720</height>
+                            <frame_rate>30.000</frame_rate>
+                            <data_rate>3779</data_rate>
+                            <keyframe_frequency>2</keyframe_frequency>
+                            <codec>H264</codec>
+                            <profile>High</profile>
+                            <compat>0</compat>
+                            <level>4.1</level>
+                        </video>
+                        <audio>
+                            <codec>AAC</codec>
+                            <profile>LC</profile>
+                            <channels>2</channels>
+                            <sample_rate>44100</sample_rate>
+                            <data_rate>125</data_rate>
+                        </audio>
+                    </meta>
+                    <nclients>1</nclients>
+                    <publishing/>
+                    <active/>
+                </stream>
+                <nclients>1</nclients>
+            </live>
+        </application>
+    </server>
+</rtmp>
