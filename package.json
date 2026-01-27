@@ -65,7 +65,7 @@
         "@typescript-eslint/eslint-plugin": "^5.9.1",
         "@typescript-eslint/parser": "^5.9.1",
         "@vscode/test-electron": "^2.0.3",
-        "chevrotain": "^10.4.2",
+        "chevrotain": "^11.1.0",
         "esbuild": "^0.25.0",
         "eslint": "^8.6.0",
         "glob": "^7.2.0",
