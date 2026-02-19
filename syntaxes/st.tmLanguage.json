@@ -148,19 +148,19 @@
             "patterns": [
                 {
                     "name": "keyword.control.conditional.st",
-                    "match": "\\b(?:END_)?(?:IF|CASE|OF|ELSE|ELSIF|THEN|__TRY|__CATCH|__FINALLY|__ENDTRY)\\b"
+                    "match": "(?i)\\b(?:END_)?(?:IF|CASE|OF|ELSE|ELSIF|THEN|__TRY|__CATCH|__FINALLY|__ENDTRY)\\b"
                 },
                 {
                     "name": "keyword.control.loop.st",
-                    "match": "\\b(?:END_)?(?:WHILE|FOR|REPEAT|DO|TO|BY)\\b"
+                    "match": "(?i)\\b(?:END_)?(?:WHILE|FOR|REPEAT|DO|TO|BY)\\b"
                 },
                 {
                     "name": "keyword.control.flow.st",
-                    "match": "\\b(?:RETURN|EXIT|CONTINUE|GOTO|JMP|BEGIN|COUNTER|GOTO)\\b"
+                    "match": "(?i)\\b(?:RETURN|EXIT|CONTINUE|GOTO|JMP|BEGIN|COUNTER|GOTO)\\b"
                 },
                 {
                     "name": "keyword.control.st",
-                    "match": "\\b(END_)?(TASK|WITH|USING|USES|FROM|UNTIL)\\b"
+                    "match": "(?i)\\b(END_)?(TASK|WITH|USING|USES|FROM|UNTIL)\\b"
                 }
             ]
         },
