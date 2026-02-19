@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+  <GVL Name="GVL_Global" Id="{...some-guid-id...}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+    bSystemReady    : BOOL;          // Example boolean variable
+    nMachineState   : INT := 1;      // Example integer with initial value
+    fPressureSet    : REAL := 10.5;   // Example real number
+    sStatusMessage  : STRING(80);    // Example string
+END_VAR
+]]></Declaration>
+  </GVL>
+</TcPlcObject>

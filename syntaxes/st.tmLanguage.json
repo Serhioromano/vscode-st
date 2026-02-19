@@ -520,7 +520,6 @@
                             }
                         },
                         {
-                            "name": "comment.block.st",
                             "begin": "(?<=:=\\s*)'",
                             "beginCaptures": {
                                 "0": {
