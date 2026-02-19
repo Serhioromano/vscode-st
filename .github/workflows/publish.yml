@@ -3,7 +3,7 @@ name: Publish
 on:
   push:
     tags:
-      - v1.*
+      - 1.*
 jobs:
   publish:
     name: Publish VS Code Extension
