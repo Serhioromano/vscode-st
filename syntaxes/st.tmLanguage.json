@@ -496,16 +496,75 @@
                     },
                     "patterns": [
                         {
-                            "match": "(attribute|text|info|warning) *('[^']+')(?: *(:=)? * ('[^']+')?)?",
+                            "match": "(IF|ELSE|END_IF|NOT)",
+                            "captures": {
+                                "1": {
+                                    "name": "keyword.control.conditional.st"
+                                }
+                            }
+                        },
+                        {
+                            "match": "(defined)",
+                            "captures": {
+                                "1": {
+                                    "name": "entity.name.tag.st"
+                                }
+                            }
+                        },
+                        {
+                            "match": "(\\()([^\\)]+)(\\))(?=})",
+                            "captures": {
+                                "2": {
+                                    "name": "string.quoted.single.st"
+                                }
+                            }
+                        },
+                        {
+                            "name": "comment.block.st",
+                            "begin": "(?<=:=\\s*)'",
+                            "beginCaptures": {
+                                "0": {
+                                    "name": "entity.name.tag.st"
+                                }
+                            },
+                            "end": "'",
+                            "endCaptures": {
+                                "0": {
+                                    "name": "entity.name.tag.st"
+                                }
+                            },
+                            "patterns": [
+                                {
+                                    "match": "\\.([a-zA-Z]+)\\s*(:=)\\s*([^;']*)\\s*(;)?",
+                                    "name": "entity.name.tag",
+                                    "captures": {
+                                        "1": {
+                                            "name": "variable.parameter.st"
+                                        },
+                                        "2": {
+                                            "name": "keyword.operator.assignment.st"
+                                        },
+                                        "3": {
+                                            "name": "string.quoted.single.st"
+                                        },
+                                        "4": {
+                                            "name": "punctuation.terminator.statement.st"
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "match": "(attribute|text|info|warning)\\s+('[^']+')\\s*(:=)?\\s*('[^']*')?",
                             "captures": {
                                 "1": {
                                     "name": "variable.parameter.st"
                                 },
+                                "2": {
+                                    "name": "entity.name.tag"
+                                },
                                 "3": {
                                     "name": "keyword.operator.assignment.st"
-                                },
-                                "2": {
-                                    "name": "string.quoted.single.st"
                                 },
                                 "4": {
                                     "name": "string.quoted.single.st"
@@ -557,7 +616,7 @@
                         {
                             "include": "#comment_st"
                         },
-						{
+                        {
                             "match": "(@[a-zA-Z_]*)\\s*(:=)\\s+([\"\\']{1}[^\"\\']*[\"\\']{1})",
                             "captures": {
                                 "1": {

@@ -2,6 +2,12 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+## [1.13.0] - 2026-02-19
+
+- add - highlight for Bekhoff conditional pragmas
+- add - low case highlight for keywords like IF, CASE, ...
+
+
 ## [1.12.37] - 2025-08-05
 
 - add - last redaction `USTRING`, `UCHAR` types

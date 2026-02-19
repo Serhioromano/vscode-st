@@ -1,14 +1,38 @@
+{attribute 'TcLinkTo' := ''}
+{IF NOT defined (iTest)}
+{attribute 'TcLinkTo' := '
+.AoeNetId := TIIB[CAM_CAN (EL6751)]^InfoData^AoeNetId;
+.Error := TIID^Device 2 (EL6751)^Inputs^Error;
+.CanState := TIID^Device 2 (EL6751)^Inputs^CanState;
+.RxErrorCount := TIID^Device 2 (EL6751)^Inputs^RxErrorCounter;
+.TxErrorCount := TIID^Device 2 (EL6751)^Inputs^TxErrorCounter;
+.DiagFlag := TIID^Device 2 (EL6751)^Inputs^DiagFlag'}
+{END_IF}
+CAN_CAM: CanBusStatus := (CanBusName:= 'Camera');
+{IF NOT defined (iTest)}
+    {attribute 'TcLinkTo' := '
+    .AoeNetId := TIIB[AUX_CAN (EL6751)]^InfoData^AoeNetId;
+    .Error := TIID^Device 3 (EL6751)^Inputs^Error;
+    .CanState := TIID^Device 3 (EL6751)^Inputs^CanState;
+    .RxErrorCount := TIID^Device 3 (EL6751)^Inputs^RxErrorCounter;
+    .TxErrorCount := TIID^Device 3 (EL6751)^Inputs^TxErrorCounter;
+    .DiagFlag := TIID^Device 3 (EL6751)^Inputs^DiagFlag'
+    }
+{END_IF}
+CAN_AUX: CanBusStatus := (CanBusName:= 'AUX');
+
+
 IF NOT Q THEN
 	iSum := 0;
 	iTotal := 0;
 	FOR iCount := 0 TO 7 BY 1 DO
-		Z4 := AM_D_START + AM_BLOCK_BUZZER + iCount;
+		Z4 := AM_D_START + AM_BLOCK_BUZZER + iCount + "dfdf";
 		Z5 := AM_D_START + AM_BLOCK_ALARM + iCount;
-	
+
 		SUM(TRUE, (D0Z4 AND D0Z5), iSum);
 		iTotal := iTotal + iSum;
 	END_FOR;
-	
+
 	AC := iTotal;
 END_IF;
 
