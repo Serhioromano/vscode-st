@@ -19,7 +19,8 @@
         "pretest": "npm run compile && npm run lint",
         "lint": "eslint src --ext ts",
         "vars": "env | grep npm_package_",
-        "test": "node ./out/test/runTest.js"
+        "test": "node ./out/test/runTest.js",
+        "token": "https://serhioromano.visualstudio.com/_usersSettings/tokens"
     },
     "main": "./out/extension.js",
     "_main": "./out/main.js",
