@@ -2,8 +2,9 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
-## [1.13.0] - 2026-02-19
+## [1.13.1] - 2026-02-19
 
+- add - `.TcGVL` extension
 - add - highlight for Bekhoff conditional pragmas
 - add - low case highlight for keywords like IF, CASE, ...
 

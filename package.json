@@ -104,6 +104,7 @@
                     ".iecst",
                     ".TcDUT",
                     ".TcPOU",
+                    ".TcGVL",
                     ".iecstl"
                 ],
                 "configuration": "./language-configuration.json"

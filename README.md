@@ -46,6 +46,12 @@ Utilize VS Code Formatter API. Use general formatting command short keys. It cap
 
 ## Release Notes
 
+### 1.13.1
+
+- add - `.TcGVL` extension
+- add - highlight for Bekhoff conditional pragmas
+- add - low case highlight for keywords like IF, CASE, ...
+
 ### 1.12.37
 
 - add - last redaction `USTRING`, `UCHAR` types
