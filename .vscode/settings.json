@@ -11,4 +11,7 @@
     ],
     "i18n-ally.localesPaths": [],
     "gitflow.replaceSymbol": "-",
+    "github-actions.workflows.pinned.workflows": [
+        ".github/workflows/publish.yml"
+    ],
 }
