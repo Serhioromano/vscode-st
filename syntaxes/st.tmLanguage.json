@@ -156,7 +156,7 @@
                 },
                 {
                     "name": "keyword.control.flow.st",
-                    "match": "\\b(?:RETURN|EXIT|CONTINUE|GOTO|JMP|BEGIN|COUNTER|GOTO)\\b"
+                    "match": "\\b(?:RETURN|EXIT|CONTINUE|GOTO|JMP|BEGIN|COUNTER)\\b"
                 },
                 {
                     "name": "keyword.control.st",
