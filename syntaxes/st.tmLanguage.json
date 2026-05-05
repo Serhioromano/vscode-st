@@ -512,6 +512,20 @@
                             }
                         },
                         {
+                            "match": "region\\s+('|\")([^'\"]+)('|\")",
+                            "captures": {
+                                "1": {
+                                    "name": "string.quoted.single.st"
+                                },
+                                "2": {
+                                    "name": "string.quoted.single.st"
+                                },
+                                "3": {
+                                    "name": "string.quoted.single.st"
+                                }
+                            }
+                        },
+                        {
                             "match": "(\\()([^\\)]+)(\\))(?=})",
                             "captures": {
                                 "2": {
@@ -554,7 +568,18 @@
                             ]
                         },
                         {
-                            "match": "(attribute|text|info|warning)\\s+('[^']+')\\s*(:=)?\\s*('[^']*')?",
+                            "match": "(attribute|text|info|warning)\\s+('[^']+'|\"[^\"]+\")\\s*(?=})",
+                            "captures": {
+                                "1": {
+                                    "name": "variable.parameter.st"
+                                },
+                                "2": {
+                                    "name": "entity.name.tag"
+                                }
+                            }
+                        },
+                        {
+                            "match": "(attribute)\\s+('[^']+'|\"[^\"]+\")\\s*(:=)?\\s*('[^']*')?",
                             "captures": {
                                 "1": {
                                     "name": "variable.parameter.st"
