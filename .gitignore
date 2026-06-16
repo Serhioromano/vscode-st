@@ -6,4 +6,5 @@ npm-debug.log
 .pi/review-requests/
 .pi/review-results/
 .pi/tmp/
+.pi/.vscode-ready
 
