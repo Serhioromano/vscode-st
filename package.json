@@ -20,7 +20,8 @@
         "lint": "eslint src --ext ts",
         "vars": "env | grep npm_package_",
         "test": "node ./out/test/runTest.js",
-        "token": "https://serhioromano.visualstudio.com/_usersSettings/tokens"
+        "token": "https://serhioromano.visualstudio.com/_usersSettings/tokens",
+        "kill": "kill $(pgrep -f \"cli.js.*rpc\") && kill $(pgrep -x pi)"
     },
     "main": "./out/extension.js",
     "_main": "./out/main.js",
