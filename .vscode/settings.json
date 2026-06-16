@@ -15,5 +15,6 @@
         ".github/workflows/publish.yml"
     ],
     "pi.chat.toolVisibility": "verbose",
-    "pi.chat.interruptionBehavior": "abort"
+    "pi.chat.interruptionBehavior": "abort",
+    "pi.dev.extensionPath": "/home/sergey/www/pi-vscode-sr/src/index.ts"
 }
