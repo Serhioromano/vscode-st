@@ -1,3 +1,6 @@
 strictModeWhiteList:
   - ^npm run(\s+--?[a-zA-Z][\w-]*)*\s+compile\b
   - ^npm run(\s+--?[a-zA-Z][\w-]*)*\s+lint\b
+  - ^git branch\b
+  - ^mkdir\b
+  - ^wc\b
