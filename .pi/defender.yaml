@@ -11,3 +11,7 @@ strictModeWhiteList:
   - ^git diff\b
   - ^git stash\b
   - ^git status\b
+  - ^npx tsc\b
+  - ^grep\b
+  - ^npx eslint\b
+  - ^tree\b
