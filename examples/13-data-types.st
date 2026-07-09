@@ -1,7 +1,8 @@
-// 13-data-types.st — All standard data types
-// Demonstrates every IEC 61131-3 elementary data type:
-// integers, reals, strings, time/dates, bit/byte/word types.
-// Also: arrays, initial values, subrange types.
+/* 13-data-types.st — All standard data types
+
+   Demonstrates every IEC 61131-3 elementary data type:
+   integers, reals, strings, time/dates, bit/byte/word types.
+   Also: arrays, initial values, subrange types. */
 
 PROGRAM DataTypeDemo
 VAR
@@ -52,6 +53,11 @@ VAR
     ldtVal     : LDT     := LDT#2024-01-15-12:30:45.123456789; // Long DT
 
     // --- ANY type (generic) --- Not typically used in declarations
+
+    // --- Subrange types ---
+    smallUInt  : UINT (0..100);                     // Subrange: 0 to 100
+    percent    : INT (0..100) := 50;                 // Subrange with init
+    tinyInt    : SINT (-10..10);                     // Negative subrange
 
     // --- Arrays ---
     arr1D      : ARRAY[0..9] OF INT;                  // 1D array of INT

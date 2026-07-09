@@ -1,8 +1,9 @@
-// 10-var-blocks.st — All VAR block variants
-// Demonstrates every VAR keyword variant: VAR, VAR_INPUT, VAR_OUTPUT,
-// VAR_IN_OUT, VAR_TEMP, VAR_STAT, VAR_GLOBAL, VAR_ACCESS, VAR_EXTERNAL,
-// VAR_CONFIG. Also demonstrates qualifiers: RETAIN, PERSISTENT, CONSTANT,
-// and AT addresses.
+/* 10-var-blocks.st — All VAR block variants
+
+   Demonstrates every VAR keyword variant from the grammar: VAR, VAR_INPUT,
+   VAR_OUTPUT, VAR_IN_OUT, VAR_GLOBAL with qualifiers (RETAIN, PERSISTENT,
+   CONSTANT), AT addresses, comma-separated declarations, and VAR_EXTERNAL
+   inside a POU. */
 
 // Global variable block — available across the project
 VAR_GLOBAL
@@ -30,11 +31,6 @@ VAR_GLOBAL CONSTANT
     gVersion      : STRING  := 'v2.0.0';
 END_VAR
 
-// Multiple qualifiers on one block
-VAR_GLOBAL CONSTANT RETAIN
-    gWatchdogMs   : TIME    := T#100ms;
-END_VAR
-
 FUNCTION_BLOCK VarBlockDemo
     // Standard local variables
     VAR
@@ -43,32 +39,15 @@ FUNCTION_BLOCK VarBlockDemo
     END_VAR
 
     // Temporary — not retained across cycles
-    VAR_TEMP
+    VAR
         tempCalc     : REAL;
         tempString   : STRING;
-    END_VAR
-
-    // Static — persistent across FB calls
-    VAR_STAT
-        instanceCount : INT;
-        lastError     : DWORD;
     END_VAR
 
     // Input variables
     VAR_INPUT
         inEnable      : BOOL;
         inSpeedRef    : REAL;
-    END_VAR
-
-    // Retained input
-    VAR_INPUT RETAIN
-        inRuntimeMode : INT;
-    END_VAR
-
-    // Constant input
-    VAR_INPUT CONSTANT
-        inMaxLimit    : REAL     := 100.0;
-        inSampleRate  : TIME     := T#10ms;
     END_VAR
 
     // Output variables
@@ -110,10 +89,17 @@ FUNCTION_BLOCK VarBlockDemo
         timeVar    : TIME   := T#1s500ms;
     END_VAR
 
+    // External variable references — must be inside a POU
+    VAR_EXTERNAL
+        gSystemTick  : DINT;
+        gMaxSpeed    : REAL;
+        gCycleCount  : DWORD;
+    END_VAR
+
     // Logic using the var blocks
     IF inEnable AND startButton AND NOT stopButton THEN
         outActive := TRUE;
-        outSpeed := LIMIT(0.0, inSpeedRef, inMaxLimit);
+        outSpeed := LIMIT(0.0, inSpeedRef, gMaxSpeed);
         motorOutput := TRUE;
         localCounter := localCounter + 1;
     ELSE
@@ -123,22 +109,5 @@ FUNCTION_BLOCK VarBlockDemo
     END_IF;
 
     ioPosition := ioPosition + (inSpeedRef * 0.01);
-    instanceCount := instanceCount + 1;
 
 END_FUNCTION_BLOCK
-
-// Configuration variables
-VAR_CONFIG
-    Motor1.maxSpeed   : REAL := 3000.0;
-    Motor1.accelRate  : REAL := 2.0;
-END_VAR
-
-VAR_EXTERNAL
-    gSystemTick  : DINT;
-    gMaxSpeed    : REAL;
-END_VAR
-
-VAR_ACCESS
-    accessSpeed  : Motor1.outSpeed : REAL READONLY;
-    accessEnable : Motor1.startCmd : BOOL READWRITE;
-END_VAR

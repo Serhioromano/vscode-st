@@ -1,5 +1,6 @@
-// 15-multi-file/motor_fb.st — Function block that references
-// external globals and types from other files.
+/* 15-multi-file/motor_fb.st — Function block referencing
+   external globals and types from other files. Uses CASE
+   for state-machine logic. */
 
 FUNCTION_BLOCK MotorController
 VAR_INPUT
@@ -25,25 +26,37 @@ IF gEmergencyStop THEN
     RETURN;
 END_IF;
 
-IF startCmd AND NOT stopCmd THEN
-    config.state := MotorState.Starting;
-    running := TRUE;
-    IF actualSpeed < speedRef THEN
-        actualSpeed := actualSpeed + config.accelRate * 0.01;
-        IF actualSpeed > config.maxSpeed THEN
-            actualSpeed := config.maxSpeed;
+// State machine using CASE
+CASE config.state OF
+    MotorState.Stopped:
+        IF startCmd AND NOT stopCmd THEN
+            config.state := MotorState.Starting;
+            running := TRUE;
         END_IF;
-    ELSE
-        config.state := MotorState.Running;
-    END_IF;
-ELSE
-    IF actualSpeed > 0.0 THEN
+
+    MotorState.Starting:
+        actualSpeed := actualSpeed + config.accelRate * 0.01;
+        IF actualSpeed >= speedRef THEN
+            actualSpeed := speedRef;
+            config.state := MotorState.Running;
+        END_IF;
+
+    MotorState.Running:
+        IF stopCmd THEN
+            config.state := MotorState.Stopping;
+        END_IF;
+
+    MotorState.Stopping:
         actualSpeed := actualSpeed - config.decelRate * 0.01;
-        config.state := MotorState.Stopping;
-    ELSE
-        config.state := MotorState.Stopped;
+        IF actualSpeed <= 0.0 THEN
+            actualSpeed := 0.0;
+            config.state := MotorState.Stopped;
+            running := FALSE;
+        END_IF;
+
+    MotorState.Error:
         running := FALSE;
-    END_IF;
-END_IF;
+        actualSpeed := 0.0;
+END_CASE;
 
 END_FUNCTION_BLOCK

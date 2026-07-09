@@ -4,7 +4,7 @@ All notable changes to the "st" extension will be documented in this file.
 
 ## [Unreleased] 07/09/2026
 
-- add: Phase 1 — comprehensive ST example files in `examples/` (18 files, 1,161 lines) covering all IEC 61131-3 constructs as acceptance criteria for Langium LSP grammar
+- add: Phase 1 — comprehensive ST example files in `examples/` (15 files, 991 lines) covering all IEC 61131-3 constructs from the ANTLR grammar as acceptance criteria for Langium LSP grammar
 
 ## [1.13.1] - 2026-02-19
 

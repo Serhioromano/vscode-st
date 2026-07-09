@@ -1,5 +1,5 @@
-// 15-multi-file/globals.st — Shared global declarations
-// These GVLs are referenced by other files in this multi-file example.
+/* 15-multi-file/globals.st — Shared global declarations
+   These GVLs are referenced by other files in this multi-file example. */
 
 VAR_GLOBAL
     gSystemTick     : DINT;

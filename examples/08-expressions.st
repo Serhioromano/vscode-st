@@ -1,8 +1,9 @@
-// 08-expressions.st — All operators, function calls, IEC addresses
-// Demonstrates the full expression syntax of IEC 61131-3 ST.
-// Arithmetic: + - * / MOD, comparison: = <> < > <= >=,
-// logical: AND OR XOR NOT, function calls, parenthesized expressions,
-// IEC hardware addresses (%IX0.0, %QW5, etc.), and type conversions.
+/* 08-expressions.st — All operators, function calls, IEC addresses
+
+   Demonstrates the full expression syntax of IEC 61131-3 ST.
+   Arithmetic: + - * / MOD, comparison: = <> < > <= >=,
+   logical: AND OR XOR NOT, function calls, parenthesized expressions,
+   IEC hardware addresses (%IX0.0, %QW5, etc.), and type conversions. */
 
 PROGRAM ExpressionDemo
 VAR
@@ -71,8 +72,8 @@ x := REAL#3.14;
 x := (a + b) * (y - z);
 flag1 := (a > b) AND ((c < 10) XOR (flag2));
 
-// --- Multi-assignment (some platforms) ---
-// a := b := c := 0;
+// --- Multi-assignment (chained) ---
+a := b := c := 0;
 
 // --- IEC address expressions ---
 // Direct I/O addressing — IEC 61131-3 hardware addresses

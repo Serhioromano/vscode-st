@@ -1,6 +1,7 @@
-// 09-control-flow.st — All control flow constructs
-// Demonstrates IF/ELSIF/ELSE, CASE, FOR (with BY), WHILE, REPEAT,
-// EXIT, CONTINUE, and RETURN.
+/* 09-control-flow.st — All control flow constructs
+
+   Demonstrates IF/ELSIF/ELSE, CASE, FOR (with BY), WHILE, REPEAT,
+   EXIT, CONTINUE, and RETURN. */
 
 PROGRAM ControlFlowDemo
 VAR
@@ -135,7 +136,19 @@ REPEAT
 UNTIL FALSE
 END_REPEAT;
 
-// --- RETURN (inside FUNCTION context simulated here) ---
+// --- Standalone EXIT as loop-break body ---
+i := 0;
+WHILE TRUE DO
+    EXIT;
+END_WHILE;
+
+// Standalone CONTINUE as loop-break body
+i := 0;
+FOR i := 1 TO 1 DO
+    CONTINUE;
+END_FOR;
+
+// --- RETURN (inside FUNCTION context) ---
 // In a FUNCTION, RETURN exits with the function's current return value.
 
 END_PROGRAM

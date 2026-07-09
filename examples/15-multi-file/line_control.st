@@ -1,5 +1,6 @@
-// 15-multi-file/line_control.st — Main PROGRAM referencing
-// globals, types, and FBs from other files in the multi-file project.
+/* 15-multi-file/line_control.st — Main PROGRAM
+   References globals, types, and FBs from other files
+   in the multi-file project. */
 
 PROGRAM LineControl
 VAR

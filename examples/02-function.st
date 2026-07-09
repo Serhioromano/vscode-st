@@ -1,6 +1,7 @@
-// 02-function.st — FUNCTION with return type
-// Demonstrates FUNCTION declaration with VAR_INPUT, local VAR, return value,
-// and function body with expressions.
+/* 02-function.st — FUNCTION with return type
+
+   Demonstrates FUNCTION declaration with VAR_INPUT, local VAR, return value,
+   RETURN statement (early exit), and function body with expressions. */
 
 FUNCTION AddValues : INT
 VAR_INPUT

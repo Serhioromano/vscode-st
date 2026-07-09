@@ -1,6 +1,7 @@
-// 04-namespace.st — NAMESPACE
-// Demonstrates NAMESPACE containing multiple POU definitions.
-// Namespaces group related POUs and provide name scoping.
+/* 04-namespace.st — NAMESPACE
+
+   Demonstrates NAMESPACE containing multiple POU definitions.
+   Namespaces group related POUs and provide name scoping. */
 
 NAMESPACE MotorControl
 

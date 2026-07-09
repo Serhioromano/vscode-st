@@ -1,5 +1,7 @@
-// 05-types.st — TYPE declarations
-// Demonstrates TYPE with STRUCT, ENUM, UNION, and alias (ARRAY, subrange-style).
+/* 05-types.st — TYPE declarations
+
+   Demonstrates TYPE with STRUCT, ENUM, UNION, alias (ARRAY),
+   and subrange-style type restrictions. */
 
 // Alias — simple type renaming
 TYPE SpeedType : REAL; END_TYPE

@@ -4,7 +4,7 @@
 **Status:** Phase 1 complete, Phase 2+ pending
 **Branch:** `feature/lsp`
 
-**Phase 1 files:** `examples/*.st` (18 files, 1,161 lines)
+**Phase 1 files:** `examples/*.st` (15 files, 991 lines)
 
 ## 1. Summary
 

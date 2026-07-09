@@ -1,7 +1,8 @@
-// 14-try-catch.st — Exception handling
-// Demonstrates __TRY, __CATCH, __FINALLY, __ENDTRY blocks.
-// These are vendor-specific extensions (primarily Beckhoff/Codesys)
-// for structured exception handling.
+/* 14-try-catch.st — Exception handling
+
+   Demonstrates __TRY, __CATCH, __FINALLY, __ENDTRY blocks.
+   These are vendor-specific extensions (primarily Beckhoff/Codesys)
+   for structured exception handling. */
 
 FUNCTION TryCatchDemo : INT
 VAR_INPUT
