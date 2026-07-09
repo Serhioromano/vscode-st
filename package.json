@@ -21,7 +21,9 @@
         "vars": "env | grep npm_package_",
         "test": "node ./out/test/runTest.js",
         "token": "https://serhioromano.visualstudio.com/_usersSettings/tokens",
-        "kill": "kill $(pgrep -f \"cli.js.*rpc\") && kill $(pgrep -x pi)"
+        "kill": "kill $(pgrep -f \"cli.js.*rpc\") && kill $(pgrep -x pi)",
+        "langium:generate": "langium generate",
+        "langium:watch": "langium generate --watch"
     },
     "main": "./out/extension.js",
     "_main": "./out/main.js",

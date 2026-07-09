@@ -6,3 +6,8 @@ strictModeWhiteList:
   - ^wc\b
   - ^do\b
   - ^done\b
+  - ^npx langium\b
+  - ^head\b
+  - ^git diff\b
+  - ^git stash\b
+  - ^git status\b

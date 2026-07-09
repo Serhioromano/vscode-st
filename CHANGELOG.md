@@ -4,6 +4,10 @@ All notable changes to the "st" extension will be documented in this file.
 
 ## [Unreleased] 07/09/2026
 
+- add: Phase 2 — IEC 61131-3 Langium grammar (`src/lsp/st.langium`) translated from ANTLR4 `ST.g4` with `caseInsensitive: true`, covering all POU types (PROGRAM, FUNCTION, FUNCTION_BLOCK, NAMESPACE), TYPE declarations (STRUCT, ENUM, UNION, ALIAS), VAR blocks (all 9 variants with RETAIN/PERSISTENT/CONSTANT qualifiers and AT addresses), statements (IF/ELSIF/ELSE, CASE, FOR/BY, WHILE, REPEAT, EXIT, CONTINUE, RETURN), expressions with full operator precedence (OR, XOR, AND, comparison, addition, multiplication, unary), CLASS/INTERFACE/METHOD/PROPERTY (OOP extensions), ACTION, __TRY/__CATCH/__FINALLY/__ENDTRY, typed literals (INT#5, REAL#3.14), time literals (T#5s), IEC addresses (%IX0.0), array types, chained assignments, and function calls with named/output params
+- add: `langium-config.json` for Langium CLI with caseInsensitive enabled and all 10 file extensions
+- add: `langium:generate` and `langium:watch` npm scripts
+- add: generated AST types and parser in `src/lsp/generated/` (62 interface types, 6,649 lines)
 - add: Phase 1 — comprehensive ST example files in `examples/` (15 files, 991 lines) covering all IEC 61131-3 constructs from the ANTLR grammar as acceptance criteria for Langium LSP grammar
 
 ## [1.13.1] - 2026-02-19

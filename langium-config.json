@@ -1,0 +1,10 @@
+{
+    "projectName": "VscodeSt",
+    "languages": [{
+        "id": "st",
+        "grammar": "src/lsp/st.langium",
+        "fileExtensions": [".st", ".iecst", ".scl", ".exp", ".vpl", ".iecplc", ".TcDUT", ".TcPOU", ".TcGVL", ".iecstl"],
+        "caseInsensitive": true
+    }],
+    "out": "src/lsp/generated"
+}
