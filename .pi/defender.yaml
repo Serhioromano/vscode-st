@@ -4,3 +4,5 @@ strictModeWhiteList:
   - ^git branch\b
   - ^mkdir\b
   - ^wc\b
+  - ^do\b
+  - ^done\b

@@ -1,8 +1,10 @@
 # Plan: LSP Implementation with Langium
 
 **Date:** 2026-07-09
-**Status:** Draft
+**Status:** Phase 1 complete, Phase 2+ pending
 **Branch:** `feature/lsp`
+
+**Phase 1 files:** `examples/*.st` (18 files, 1,161 lines)
 
 ## 1. Summary
 
