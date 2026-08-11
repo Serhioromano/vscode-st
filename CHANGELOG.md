@@ -2,6 +2,10 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+## [Unreleased] 08/11/2026
+
+- fix: bump `brace-expansion` to patched versions (1.1.18, 2.1.4, 5.0.9) — resolves Dependabot alerts #68, #90, #92 (DoS via unbounded arrays / ReDoS)
+
 ## [1.13.1] - 2026-02-19
 
 - add - `.TcGVL` extension
