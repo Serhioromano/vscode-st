@@ -16,7 +16,7 @@ VAR
     dblEscape   : STRING := "He said ""yes""";          // Escaped double quote
     dollars     : STRING := 'Cost: $100.00';            // Dollar sign in string
     path        : WSTRING := "C:\Path\To\File";         // Double-quoted WSTRING
-    dollarPath  : STRING := '$C:\Path$';                // Dollar signs in string
+    dollarPath  : STRING := '$$C:\Path$$';                // Dollar signs in string
     concatStr   : STRING;
     numeric     : INT    := 42;
 END_VAR

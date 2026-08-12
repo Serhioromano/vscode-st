@@ -1,3 +1,5 @@
+defaultMode: off
+
 strictModeWhiteList:
   - ^npm run(\s+--?[a-zA-Z][\w-]*)*\s+compile\b
   - ^npm run(\s+--?[a-zA-Z][\w-]*)*\s+lint\b
@@ -15,3 +17,4 @@ strictModeWhiteList:
   - ^grep\b
   - ^npx eslint\b
   - ^tree\b
+

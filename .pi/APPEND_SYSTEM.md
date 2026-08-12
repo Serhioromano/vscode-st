@@ -57,7 +57,7 @@ Whenever user-facing text is added or changed:
 After every change, output a short commit-message summary to the user.
 
 - Describe what changed and why — one to three lines.
-- Format it as a ready-to-use commit message.
+- Format it as a ready-to-use commit in plain text not in ```.
 - Display it prominently so the user can copy-paste.
 - Never commit changes — the user commits manually.
 
