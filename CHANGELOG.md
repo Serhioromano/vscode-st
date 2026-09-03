@@ -2,6 +2,10 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
+## [Unreleased] 09/03/2026
+
+- fix: restore `@types/vscode` to `^1.36.0` to match `engines.vscode` and resolve the `vsce package` version-mismatch error
+
 ## [1.13.3] 08/11/2026
 
 - fix: bump `brace-expansion` to patched versions (1.1.18, 2.1.4, 5.0.9) — resolves Dependabot alerts #68, #90, #92 (DoS via unbounded arrays / ReDoS)
