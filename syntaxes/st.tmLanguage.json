@@ -442,7 +442,7 @@
             "patterns": [
                 {
                     "name": "meta.expression.st",
-                    "begin": "[^a-zA-Z_0-9]+\\((?!\\*)",
+                    "begin": "(?:(?!\\(\\*)[^a-zA-Z_0-9])+\\((?!\\*)",
                     "beginCaptures": {
                         "0": {
                             "name": "punctuation.parenthesis.begin.st"
@@ -666,7 +666,7 @@
                     "patterns": [
                         {
                             "include": "#todo"
-                        },
+    },
                         {
                             "include": "#fix"
                         },
