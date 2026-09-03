@@ -1,6 +1,6 @@
 {
     "cSpell.language": "ru,en",
-    "workbench.colorTheme": "Dark+",
+    "workbench.colorTheme": "Visual Studio Dark",
     "spellright.language": [
         "en"
     ],
@@ -14,4 +14,7 @@
     "github-actions.workflows.pinned.workflows": [
         ".github/workflows/publish.yml"
     ],
+    "pi.chat.toolVisibility": "verbose",
+    "pi.chat.interruptionBehavior": "abort",
+    "pi.dev.extensionPath": "/home/sergey/www/pi-vscode-sr/src/index.ts"
 }

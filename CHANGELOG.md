@@ -2,9 +2,10 @@
 
 All notable changes to the "st" extension will be documented in this file.
 
-## [Unreleased] 08/11/2026
+## [1.13.3] 08/11/2026
 
 - fix: bump `brace-expansion` to patched versions (1.1.18, 2.1.4, 5.0.9) — resolves Dependabot alerts #68, #90, #92 (DoS via unbounded arrays / ReDoS)
+- fix: `(* ... *)` comments were not highlighted when a `(` immediately followed the opener (e.g. `(* () this is a comment *)`)
 
 ## [1.13.1] - 2026-02-19
 

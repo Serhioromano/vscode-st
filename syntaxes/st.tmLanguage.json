@@ -442,7 +442,7 @@
             "patterns": [
                 {
                     "name": "meta.expression.st",
-                    "begin": "[^a-zA-Z_0-9]+\\((?!\\*)",
+                    "begin": "(?:(?!\\(\\*)[^a-zA-Z_0-9])+\\((?!\\*)",
                     "beginCaptures": {
                         "0": {
                             "name": "punctuation.parenthesis.begin.st"
@@ -512,6 +512,20 @@
                             }
                         },
                         {
+                            "match": "region\\s+('|\")([^'\"]+)('|\")",
+                            "captures": {
+                                "1": {
+                                    "name": "string.quoted.single.st"
+                                },
+                                "2": {
+                                    "name": "string.quoted.single.st"
+                                },
+                                "3": {
+                                    "name": "string.quoted.single.st"
+                                }
+                            }
+                        },
+                        {
                             "match": "(\\()([^\\)]+)(\\))(?=})",
                             "captures": {
                                 "2": {
@@ -554,7 +568,18 @@
                             ]
                         },
                         {
-                            "match": "(attribute|text|info|warning)\\s+('[^']+')\\s*(:=)?\\s*('[^']*')?",
+                            "match": "(attribute|text|info|warning)\\s+('[^']+'|\"[^\"]+\")\\s*(?=})",
+                            "captures": {
+                                "1": {
+                                    "name": "variable.parameter.st"
+                                },
+                                "2": {
+                                    "name": "entity.name.tag"
+                                }
+                            }
+                        },
+                        {
+                            "match": "(attribute)\\s+('[^']+'|\"[^\"]+\")\\s*(:=)?\\s*('[^']*')?",
                             "captures": {
                                 "1": {
                                     "name": "variable.parameter.st"
@@ -594,6 +619,9 @@
                     "patterns": [
                         {
                             "include": "#todo"
+                        },
+                        {
+                            "include": "#fix"
                         },
                         {
                             "name": "constant.character.escape.st",
@@ -638,6 +666,9 @@
                     "patterns": [
                         {
                             "include": "#todo"
+    },
+                        {
+                            "include": "#fix"
                         },
                         {
                             "include": "#comment_g"
