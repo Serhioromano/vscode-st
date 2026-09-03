@@ -621,6 +621,9 @@
                             "include": "#todo"
                         },
                         {
+                            "include": "#fix"
+                        },
+                        {
                             "name": "constant.character.escape.st",
                             "match": "\\\\."
                         }
@@ -663,6 +666,9 @@
                     "patterns": [
                         {
                             "include": "#todo"
+                        },
+                        {
+                            "include": "#fix"
                         },
                         {
                             "include": "#comment_g"
