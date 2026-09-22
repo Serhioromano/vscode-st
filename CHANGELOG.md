@@ -4,6 +4,7 @@ All notable changes to the "st" extension will be documented in this file.
 
 ## [Unreleased] 08/11/2026
 
+- add: language server [st-lsp](https://github.com/kropochev/st-lsp) — completions, hover, go to definition, workspace symbols, and diagnostics (addresses Serhioromano/vscode-st#4, #72, #3, #41)
 - fix: bump `brace-expansion` to patched versions (1.1.18, 2.1.4, 5.0.9) — resolves Dependabot alerts #68, #90, #92 (DoS via unbounded arrays / ReDoS)
 
 ## [1.13.1] - 2026-02-19
