@@ -9,6 +9,8 @@ Most complete Structured Text language support. Features includes:
 - Outline view
 - Breadcrumbs code navigation
 - Go to Symbol in File
+- Completions, hover, and go to definition
+- Diagnostics
 - Formatting (*beta)
 - Commands
 
@@ -26,9 +28,19 @@ Also highlight in Markdown files
 
 Fast growing snippets library. All cycles, conditions and declarations.
 
+## Language server
+
+Completions, hover, go to definition, workspace symbols, and diagnostics come from [st-lsp](https://github.com/kropochev/st-lsp). On first use the extension downloads the matching [GitHub release](https://github.com/kropochev/st-lsp/releases) and caches it. Set `st.languageServer.path`, or the `ST_LSP` environment variable, to run a local binary instead.
+
+The server reports undeclared names, duplicate declarations, unknown types, type mismatches, non-BOOL conditions, and unclosed `IF` / `VAR` / POU blocks. Analysis is heuristic, so dialect-specific code can produce false positives.
+
+TwinCAT `.TcDUT`, `.TcPOU`, and `.TcGVL` files stay on the built-in outline and formatter. The language server does not parse those XML documents.
+
 ## Formatter (work in progress)
 
 Utilize VS Code Formatter API. Use general formatting command short keys. It capitalize all known keywords like `TRUE`, `FALSE`, `IF`, `BOOL`, ... It also add spaces.
+
+Set `st.languageServer.formatting` to format `.st` sources with st-lsp instead.
 
 ## Note
 
@@ -37,12 +49,6 @@ Utilize VS Code Formatter API. Use general formatting command short keys. It cap
   - [highlight.js](https://github.com/highlightjs/highlightjs-structured-text)
   - [prism.js](https://github.com/PrismJS/prism)
 - This extension project is a part of my 320 pages "Learn Structured Text IEC 61131-3" book which I published in [Russian 2020](https://www.youtube.com/watch?v=c0bjUFzSHxs). (translation is on the way)
-
-## Roadmap
-
-- LSP (Language Server Protocol)
-- Suggestions
-- Lints
 
 ## Release Notes
 
